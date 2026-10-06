@@ -452,14 +452,16 @@
         import { getFirestore, collection, getDocs, getDoc, doc, setDoc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         
+        // --- ضع مفاتيح مشروعك الجديد هنا لاحقاً ---
         const firebaseConfig = {
-            apiKey: "AIzaSyA6iPiGcx_PK7J7xwF7NGlUmCjeIpBbO4Y",
-            authDomain: "vet-bank.firebaseapp.com",
-            projectId: "vet-bank",
-            storageBucket: "vet-bank.firebasestorage.app",
-            messagingSenderId: "190618109307",
-            appId: "1:190618109307:web:f09f9d13851ff068fba9de"
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_AUTH_DOMAIN_HERE",
+            projectId: "YOUR_PROJECT_ID_HERE",
+            storageBucket: "YOUR_STORAGE_BUCKET_HERE",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
+            appId: "YOUR_APP_ID_HERE"
         };
+        // ------------------------------------------
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -539,7 +541,7 @@
                     return true;
                 } catch (e) {
                     console.error("Initial load error:", e);
-                    $("status-badge").textContent = "خطأ في الاتصال";
+                    $("status-badge").textContent = "خطأ في الاتصال بقاعدة البيانات";
                     $("status-badge").classList.replace("bg-blue-50", "bg-red-50");
                     $("status-badge").classList.replace("text-blue-600", "text-red-600");
                     return false;
@@ -735,7 +737,7 @@
                 // Group by type
                 const grouped = { lecture: [], summary: [], exam: [], other: [] };
                 resources.forEach(r => {
-                    if(grouped[r.type]) grouped[r.type].push(r);
+                    if(grouped[r.resourceType]) grouped[r.resourceType].push(r);
                     else grouped.other.push(r);
                 });
 
@@ -983,4 +985,127 @@
             const data = { text: $("announcement-text").value.trim(), active: true };
             const res = await DB.saveDoc("acad_announcements", state.editingAnnId, data);
             btn.disabled = false; btn.textContent = "نشر الإعلان";
-            if(res.ok)
+            if(res.ok) {
+                showToast("تم الحفظ بنجاح");
+                window.resetAnnForm();
+                await DB.loadInitialData();
+                renderExtras(); renderAdminAnnList();
+            } else showToast("خطأ", "error");
+        });
+
+        function renderAdminAnnList() {
+            $("admin-announcements-list").innerHTML = state.announcements.map(a => `
+                <div class="flex items-center justify-between p-4 rounded-2xl border border-gray-100 bg-gray-50 group">
+                    <div class="flex-1"><p class="font-bold text-gray-800 leading-relaxed">${esc(a.text)}</p></div>
+                    <div class="flex gap-2 mr-4">
+                        <button onclick="window.editAnn('${a.id}')" class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                        <button onclick="window.confirmDelete('acad_announcements', '${a.id}')" class="p-2 bg-red-100 text-red-600 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        window.editAnn = (id) => {
+            const a = state.announcements.find(x => x.id === id);
+            if(!a) return;
+            state.editingAnnId = id;
+            $("announcement-text").value = a.text;
+            $("cancel-ann-edit").classList.remove("hidden");
+            document.querySelector('#add-announcement-form button[type="submit"]').textContent = "تحديث الإعلان";
+        };
+
+        // Admin: Links
+        $("add-link-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = e.submitter; btn.disabled = true; btn.textContent = "جاري الحفظ...";
+            const data = { name: $("link-name").value.trim(), url: $("link-url").value.trim() };
+            const res = await DB.saveDoc("acad_links", state.editingLinkId, data);
+            btn.disabled = false; btn.textContent = "إضافة الرابط";
+            if(res.ok) {
+                showToast("تم الحفظ بنجاح");
+                window.resetLinkForm();
+                await DB.loadInitialData();
+                renderExtras(); renderAdminLinkList();
+            } else showToast("خطأ", "error");
+        });
+
+        function renderAdminLinkList() {
+            $("admin-links-list").innerHTML = state.links.map(l => `
+                <div class="flex items-center justify-between p-4 rounded-2xl border border-gray-100 bg-gray-50 group">
+                    <div class="overflow-hidden">
+                        <h4 class="font-bold text-gray-900">${esc(l.name)}</h4>
+                        <p class="text-xs text-gray-500 mt-1 truncate" dir="ltr">${esc(l.url)}</p>
+                    </div>
+                    <div class="flex gap-2 shrink-0">
+                        <button onclick="window.editLink('${l.id}')" class="p-2 bg-blue-100 text-blue-600 rounded-lg"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                        <button onclick="window.confirmDelete('acad_links', '${l.id}')" class="p-2 bg-red-100 text-red-600 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        window.editLink = (id) => {
+            const l = state.links.find(x => x.id === id);
+            if(!l) return;
+            state.editingLinkId = id;
+            $("link-name").value = l.name;
+            $("link-url").value = l.url;
+            $("cancel-link-edit").classList.remove("hidden");
+            document.querySelector('#add-link-form button[type="submit"]').textContent = "تحديث الرابط";
+        };
+
+        // General Delete Flow
+        window.confirmDelete = (coll, id) => {
+            state.pendingDelete = { coll, id };
+            let msg = "هل أنت متأكد من الحذف؟";
+            if(coll === 'acad_courses') msg = "هل أنت متأكد من حذف المادة؟ (سيتم حذفها، ولكن ملفاتها ستبقى في قاعدة البيانات بدون مادة مرتبط بها، يفضل مسح ملفاتها أولاً).";
+            $("delete-message").textContent = msg;
+            $("delete-modal").classList.remove("hidden");
+        };
+
+        window.closeDeleteModal = () => {
+            $("delete-modal").classList.add("hidden");
+            state.pendingDelete = null;
+        };
+
+        $("confirm-delete-btn").addEventListener("click", async () => {
+            if(!state.pendingDelete) return;
+            const btn = $("confirm-delete-btn"); btn.disabled = true; btn.textContent = "جاري الحذف...";
+            
+            const res = await DB.deleteDoc(state.pendingDelete.coll, state.pendingDelete.id);
+            btn.disabled = false; btn.textContent = "نعم، احذف";
+            window.closeDeleteModal();
+
+            if(res.ok) {
+                showToast("تم الحذف بنجاح");
+                if(state.pendingDelete.coll === 'acad_resources') {
+                    adminAllResourcesCache = adminAllResourcesCache.filter(r => r.id !== state.pendingDelete.id);
+                    renderAdminResList();
+                } else {
+                    await DB.loadInitialData();
+                    if(state.pendingDelete.coll === 'acad_courses') { updateAdminCourseSelects(); renderAdminCoursesList(); renderCourses(); }
+                    if(state.pendingDelete.coll === 'acad_announcements') { renderAdminAnnList(); renderExtras(); }
+                    if(state.pendingDelete.coll === 'acad_links') { renderAdminLinkList(); renderExtras(); }
+                }
+            } else {
+                showToast("فشل الحذف", "error");
+            }
+        });
+
+        // 8. Bootstrap Application
+        async function boot() {
+            lucide.createIcons();
+            const loaded = await DB.loadInitialData();
+            if(loaded) {
+                initFilters();
+                renderCourses();
+                renderExtras();
+            }
+        }
+
+        boot();
+    </script>
+</body>
+</html>
