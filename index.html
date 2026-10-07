@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0d1b33" />
-    <title>بوابة طلبة الطب البيطري | جامعة العلوم والتكنولوجيا الأردنية</title>
+    <title>المنصة الأكاديمية | لجنة الطب والجراحة البيطرية</title>
     <meta
       name="description"
       content="البوابة الأكاديمية لطلبة الطب البيطري في جامعة العلوم والتكنولوجيا الأردنية"
@@ -120,6 +120,60 @@
       .navlinks a:hover {
         color: var(--purple);
       }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        padding-block: 10px;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 220px;
+        box-shadow: 0 10px 25px rgba(13, 27, 51, 0.08);
+        z-index: 50;
+        border-radius: 12px;
+        top: 100%;
+        right: 0;
+        border: 1px solid var(--line);
+        overflow: hidden;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+        animation: dialog-in 0.2s ease-out;
+      }
+      .dropdown-content a {
+        color: var(--navy);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        border-bottom: 1px solid #f0f2f5;
+        transition: background 0.2s;
+      }
+      .dropdown-content a:last-child {
+        border-bottom: none;
+      }
+      .dropdown-content a:hover {
+        background-color: var(--paper);
+        color: var(--purple);
+      }
+      .nav-btn {
+        border: none;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0;
+        cursor: pointer;
+      }
+      .nav-btn:hover {
+        color: var(--purple);
+      }
       .nav-actions {
         display: flex;
         align-items: center;
@@ -194,10 +248,7 @@
         position: relative;
         z-index: 2;
         padding-block: 68px 74px;
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        align-items: center;
-        gap: 44px;
+        max-width: 700px;
       }
       .eyebrow {
         display: flex;
@@ -266,52 +317,6 @@
         background: #ffffff18;
         padding: 7px 9px;
         border-radius: 8px;
-      }
-      .hero-seal {
-        width: min(300px, 100%);
-        aspect-ratio: 1;
-        border: 1px solid #ffffff34;
-        border-radius: 50%;
-        justify-self: center;
-        display: grid;
-        place-items: center;
-        position: relative;
-        box-shadow:
-          0 0 0 14px #ffffff08,
-          0 0 0 34px #ffffff05;
-      }
-      .hero-seal:before,
-      .hero-seal:after {
-        content: "";
-        position: absolute;
-        border: 1px solid #ffffff21;
-        border-radius: 50%;
-      }
-      .hero-seal:before {
-        inset: 23px;
-      }
-      .hero-seal:after {
-        inset: -21px;
-        border-style: dashed;
-      }
-      .seal-core {
-        text-align: center;
-        color: #e5ebf5;
-      }
-      .seal-core i {
-        display: block;
-        margin: 0 auto 11px;
-        color: var(--gold);
-      }
-      .seal-core strong {
-        display: block;
-        font-size: 19px;
-      }
-      .seal-core small {
-        font-family: Manrope, sans-serif;
-        letter-spacing: 0.22em;
-        font-size: 9px;
-        color: #b5c3d9;
       }
       .notice-strip {
         position: relative;
@@ -607,6 +612,7 @@
       .course-section {
         background: #f0f3f7;
         border-block: 1px solid #e5e9f0;
+        padding-bottom: 72px;
       }
       .course-shell {
         display: grid;
@@ -926,34 +932,6 @@
       .config-banner a {
         text-decoration: underline;
       }
-      .links-section {
-        padding: 57px 0 67px;
-      }
-      .links-grid {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-      .quick-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 15px;
-        border: 1px solid var(--line);
-        background: white;
-        border-radius: 12px;
-        color: #516079;
-        font-size: 11px;
-        transition: 0.2s;
-      }
-      .quick-link:hover {
-        border-color: #a4acd9;
-        color: var(--purple);
-        transform: translateY(-2px);
-      }
-      .quick-link i {
-        color: var(--purple);
-      }
       footer {
         background: #0b1526;
         color: #d6dae5;
@@ -1185,11 +1163,7 @@
           gap: 14px;
         }
         .hero-inner {
-          grid-template-columns: 1fr 0.48fr;
-          gap: 20px;
-        }
-        .hero-seal {
-          width: 210px;
+          display: block;
         }
         .course-shell {
           grid-template-columns: 190px 1fr;
@@ -1236,11 +1210,8 @@
           min-height: 440px;
         }
         .hero-inner {
-          grid-template-columns: 1fr;
+          display: block;
           padding-block: 56px 64px;
-        }
-        .hero-seal {
-          display: none;
         }
         .hero h1 {
           font-size: 37px;
@@ -1323,14 +1294,6 @@
         }
         .notice-date {
           display: none;
-        }
-        .links-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-        }
-        .quick-link {
-          padding: 10px;
-          font-size: 10px;
         }
         .footer-row {
           flex-direction: column;
@@ -1524,14 +1487,20 @@
         >
           <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="brand-logo" />
           <span class="brand-name"
-            >جامعة العلوم والتكنولوجيا الأردنية<small
-              >كلية الطب البيطري · بوابة الطلبة</small
+            >المنصة الأكاديمية - VetCommitto<small
+              >لجنة الطب والجراحة البيطرية</small
             ></span
           >
         </a>
         <nav class="navlinks" aria-label="التنقل الرئيسي">
-          <a href="#courses">المساقات</a><a href="#toolkit">أدوات الدراسة</a
-          ><a href="#links">روابط مهمة</a>
+          <div class="dropdown">
+            <button class="nav-btn">الروابط المهمة <i data-lucide="chevron-down" width="14"></i></button>
+            <div class="dropdown-content" id="navDropdownLinks">
+              <!-- الروابط يتم جلبها هنا -->
+            </div>
+          </div>
+          <a href="#courses">المساقات</a>
+          <a href="#toolkit">أدوات الدراسة</a>
         </nav>
         <div class="nav-actions">
           <span class="demo-badge" id="demoBadge" hidden
@@ -1574,13 +1543,6 @@
                 data-testid="input-course-search"
               /><span class="search-hint">ابحث الآن</span></label
             >
-          </div>
-          <div class="hero-seal" aria-hidden="true">
-            <div class="seal-core">
-              <i data-lucide="stethoscope" width="32" height="32"></i
-              ><strong>الطب البيطري</strong
-              ><small>JUST · VETERINARY MEDICINE</small>
-            </div>
           </div>
         </div>
       </section>
@@ -1804,22 +1766,6 @@
               ثم فعّل Email/Password وأنشئ قاعدة Firestore. أدوات الدراسة تعمل
               محلياً دون Firebase.</span
             >
-          </div>
-        </div>
-      </section>
-      <section class="links-section" id="links">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <div class="section-kicker">بوابتك إلى الجامعة</div>
-              <h2 class="section-title">روابط مهمة</h2>
-              <p class="section-desc">روابط رسمية مضافة من إدارة البوابة.</p>
-            </div>
-          </div>
-          <div class="links-grid" id="quickLinks" data-testid="quick-links">
-            <div class="empty-state" style="padding: 10px 0">
-              جارٍ تحميل الروابط الرسمية…
-            </div>
           </div>
         </div>
       </section>
@@ -2067,8 +2013,8 @@
         <div class="footer-brand">
           <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="footer-logo" />
           <span
-            >جامعة العلوم والتكنولوجيا الأردنية<br /><span class="footer-copy"
-              >كلية الطب البيطري</span
+            >المنصة الأكاديمية - VetCommitto<br /><span class="footer-copy"
+              >لجنة الطب والجراحة البيطرية</span
             ></span
           >
         </div>
@@ -2321,7 +2267,6 @@
             UI.toast(DB.errorMessage(error), "error");
             UI.renderCoursesError(error);
             UI.renderAnnouncementError();
-            UI.renderLinksError();
           }
         },
         renderConfiguredEmpty(error) {
@@ -2856,26 +2801,23 @@
           );
         },
         renderLinks() {
-          const target = this.el("quickLinks");
+          const target = this.el("navDropdownLinks");
+          if (!target) return;
           if (!App.firebaseReady && !App.demoMode) {
-            target.innerHTML = `<div class="empty-state" style="padding:10px 0">ستظهر الروابط الرسمية بعد تهيئة Firebase.</div>`;
+            target.innerHTML = `<div style="padding: 12px 16px; color: #8a93a3; font-size: 11px;">ستظهر الروابط بعد تهيئة Firebase.</div>`;
             return;
           }
           if (!App.links.length) {
-            target.innerHTML = `<div class="empty-state" style="padding:10px 0">لا توجد روابط رسمية مضافة حالياً.</div>`;
+            target.innerHTML = `<div style="padding: 12px 16px; color: #8a93a3; font-size: 11px;">لا توجد روابط مضافة.</div>`;
             return;
           }
           target.innerHTML = App.links
             .map(
               (link) =>
-                `<a class="quick-link" href="${this.safeUrl(link.url || "")}" target="_blank" rel="noopener noreferrer" data-testid="link-quick-${this.esc(link.id)}"><i data-lucide="${this.esc(link.icon || "external-link")}" width="16"></i>${this.esc(link.title || link.name || "رابط رسمي")}<i data-lucide="arrow-up-left" width="13"></i></a>`,
+                `<a href="${this.safeUrl(link.url || "")}" target="_blank" rel="noopener noreferrer" data-testid="link-quick-${this.esc(link.id)}"><i data-lucide="${this.esc(link.icon || "external-link")}" width="14"></i>${this.esc(link.title || link.name || "رابط رسمي")}</a>`,
             )
             .join("");
           this.icons();
-        },
-        renderLinksError() {
-          this.el("quickLinks").innerHTML =
-            `<div class="error-state" style="padding:10px 0">تعذر تحميل الروابط. حاول تحديث الصفحة.</div>`;
         },
         formatDate(date) {
           if (!date) return "";
@@ -3486,7 +3428,9 @@
           }
         },
         renderLinks() {
-          UI.el("adminLinksList").innerHTML = App.links.length
+          const target = this.el("adminLinksList");
+          if (!target) return;
+          target.innerHTML = App.links.length
             ? App.links
                 .map(
                   (item) =>
