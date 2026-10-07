@@ -25,7 +25,6 @@
       a { color: inherit; text-decoration: none; }
       .latin { font-family: Manrope, sans-serif; }
       
-      /* Wrap - الهوامش الأساسية (تم تغيير الاسم لحل تعارض مكتبات خارجية إن وجدت) */
       .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
       
       .topbar { height: 74px; background: #fbfbfd; border-bottom: 1px solid #e8eaf1; display: flex; align-items: center; position: relative; z-index: 10; }
@@ -116,6 +115,23 @@
       .todo-list input { accent-color: var(--purple); width: 16px; height: 16px; }
       .todo-delete { margin-inline-start: auto; border: 0; background: none; color: #a0a6b4; padding: 4px; border-radius: 6px; transition: 0.2s;}
       .todo-delete:hover { background: #fee2e2; color: #ef4444; }
+
+      /* =========================================
+         قسم إنجازات الفريق الأكاديمي (العدادات)
+         ========================================= */
+      .achieve-section { background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%); padding: 72px 0; position: relative; overflow: hidden; margin-top: -1px; }
+      .achieve-section::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(209, 170, 92, 0.08), transparent 40%); pointer-events: none;}
+      .achieve-head { text-align: center; margin-bottom: 44px; position: relative; z-index: 2;}
+      .achieve-head .section-kicker { color: var(--gold); }
+      .achieve-head .section-title { color: #fff; margin-bottom: 8px;}
+      .achieve-head .section-desc { color: #b3c5e8; font-size: 14px;}
+      .achieve-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; position: relative; z-index: 2;}
+      .achieve-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 30px 20px; text-align: center; transition: 0.3s; backdrop-filter: blur(10px);}
+      .achieve-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.06); border-color: rgba(209, 170, 92, 0.3);}
+      .achieve-icon { width: 54px; height: 54px; background: rgba(209, 170, 92, 0.1); color: var(--gold); border-radius: 14px; display: grid; place-items: center; margin: 0 auto 18px; }
+      .achieve-num { font: 800 38px Manrope, sans-serif; color: #fff; margin-bottom: 5px; direction: ltr; display: flex; justify-content: center; align-items: baseline; gap: 2px;}
+      .achieve-num span:last-child { font-size: 22px; color: var(--gold); }
+      .achieve-text { font-size: 13px; color: #d1d9e6; line-height: 1.6; font-weight: 500;}
       
       .course-section { background: #f0f3f7; border-block: 1px solid #e5e9f0; padding-bottom: 80px; }
       .course-shell { display: grid; grid-template-columns: 240px 1fr; gap: 40px; }
@@ -136,7 +152,6 @@
       .semester-pill:hover { border-color: #bbc7d9; }
       .semester-pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
       
-      /* الشبكة متجاوبة تلقائياً */
       .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
       .course-card { border: 1px solid #dfe3ed; border-radius: 16px; background: #fff; text-align: right; padding: 20px; min-height: 140px; transition: 0.25s; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer;}
       .course-card:hover { transform: translateY(-4px); border-color: #a8bcd9; box-shadow: 0 16px 32px rgba(30,63,112,0.08); }
@@ -195,12 +210,11 @@
         .category-btn.active { border-color: var(--purple); background: var(--purple); color: #fff;}
         .category-btn.active small { background: rgba(255,255,255,0.2); color: #fff; }
         .tools-grid { grid-template-columns: 1fr 1fr; }
+        .achieve-grid { grid-template-columns: repeat(3, 1fr); gap: 16px;}
       }
       
       @media (max-width: 620px) {
-        /* الهوامش الجانبية 20px */
         .wrap { width: calc(100% - 40px); } 
-        
         .topbar { height: 68px; padding-inline: 0; }
         .brand-logo { width: 40px; height: 40px; }
         .navlinks { display: none; }
@@ -213,20 +227,28 @@
         .searchbox { height: 56px; padding-inline: 16px; border-radius: 14px; }
         .search-hint { display: none; }
         
-        /* بادينج البطاقات الأدنى 18-20px */
         .notice-box { padding: 20px; border-radius: 16px; align-items: center;}
         .notice-icon { width: 36px; height: 36px; border-radius: 10px; }
         .notice-icon i { width: 16px; height: 16px; }
         
         .section { padding: 50px 0; }
-        
-        /* مسافات الأقسام الأدنى 14px */
         .section-head { flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 24px;}
         .section-title { font-size: 22px; }
         
         .tools-grid { grid-template-columns: 1fr; gap: 16px; }
         .tool-card { padding: 20px; }
         
+        .achieve-section { padding: 50px 0; }
+        .achieve-head { margin-bottom: 30px; }
+        .achieve-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .achieve-card { padding: 20px 14px; border-radius: 16px; }
+        .achieve-card:nth-child(5) { grid-column: 1 / -1; max-width: 260px; margin: 0 auto; width: 100%;}
+        .achieve-icon { width: 44px; height: 44px; margin-bottom: 14px; }
+        .achieve-icon i { width: 22px; height: 22px; }
+        .achieve-num { font-size: 28px; }
+        .achieve-num span:last-child { font-size: 18px; }
+        .achieve-text { font-size: 11px; }
+
         .semester-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 15px;}
         .semester-row::-webkit-scrollbar { display: none; }
         
@@ -244,7 +266,6 @@
         
         .footer-row { flex-direction: column; align-items: center; text-align: center; gap: 16px; }
         
-        /* إجبار الخطوط على ألا تقل عن 12px في الموبايل */
         .brand-name small, .search-hint, .notice-date, .section-kicker, .mini-link, .tool-heading small, 
         .primary-btn, .ghost-btn, .timer-mode, .todo-list li, .category-btn small, .semester-pill, 
         .course-code, .course-card p, .course-open, .dialog-head p, .resource-meta small, .tiny-btn, 
@@ -380,6 +401,44 @@
           </div>
         </div>
       </section>
+
+      <!-- قسم الإنجازات الجديد -->
+      <section class="achieve-section" id="achievements-section">
+        <div class="wrap">
+          <div class="achieve-head">
+            <div class="section-kicker">فخر الإنجاز</div>
+            <h2 class="section-title">إنجازات الفريق الأكاديمي</h2>
+            <p class="section-desc">أرقام تعكس التزامنا بتقديم الأفضل وتسهيل مسيرتكم الجامعية</p>
+          </div>
+          <div class="achieve-grid">
+            <article class="achieve-card">
+              <div class="achieve-icon"><i data-lucide="youtube" width="26"></i></div>
+              <div class="achieve-num"><span class="achieve-num-val" data-target="270">0</span><span>.1k+</span></div>
+              <div class="achieve-text">مشاهدة على قناة اليوتيوب</div>
+            </article>
+            <article class="achieve-card">
+              <div class="achieve-icon"><i data-lucide="file-text" width="26"></i></div>
+              <div class="achieve-num"><span class="achieve-num-val" data-target="513">0</span><span>+</span></div>
+              <div class="achieve-text">تلخيص للمواد الدراسية</div>
+            </article>
+            <article class="achieve-card">
+              <div class="achieve-icon"><i data-lucide="mic" width="26"></i></div>
+              <div class="achieve-num"><span class="achieve-num-val" data-target="740">0</span><span>+</span></div>
+              <div class="achieve-text">ريكورد وتسجيل للفصل الحالي</div>
+            </article>
+            <article class="achieve-card">
+              <div class="achieve-icon"><i data-lucide="layers" width="26"></i></div>
+              <div class="achieve-num"><span class="achieve-num-val" data-target="168">0</span><span>+</span></div>
+              <div class="achieve-text">ملف أسئلة سنوات ومواد حرة</div>
+            </article>
+            <article class="achieve-card">
+              <div class="achieve-icon"><i data-lucide="file-question" width="26"></i></div>
+              <div class="achieve-num"><span class="achieve-num-val" data-target="90">0</span><span>+</span></div>
+              <div class="achieve-text">ملف أسئلة تدريبية</div>
+            </article>
+          </div>
+        </div>
+      </section>
       
       <section class="section course-section" id="courses">
         <div class="wrap">
@@ -443,6 +502,10 @@
         messagingSenderId: "373611992706",
         appId: "1:373611992706:web:5de16778bb9d9544d0069b",
         measurementId: "G-4DXQ3B29YR"
+      };
+
+      const DEMO_DATA = {
+        courses: [], resources: [], announcements: [], links: []
       };
 
       const App = {
@@ -519,6 +582,37 @@
             m.addEventListener("click", (e) => { if (e.target === m) this.closeModal(m.id); });
             m.addEventListener("keydown", (e) => { if (e.key === "Escape") this.closeModal(m.id); });
           });
+          
+          this.setupCounters();
+        },
+        setupCounters() {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.achieve-num-val');
+                counters.forEach(counter => {
+                  const target = +counter.dataset.target;
+                  const duration = 2000;
+                  const increment = target / (duration / 16);
+                  let current = 0;
+                  const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                      counter.textContent = Math.ceil(current);
+                      requestAnimationFrame(updateCounter);
+                    } else {
+                      counter.textContent = target;
+                    }
+                  };
+                  updateCounter();
+                });
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.2 });
+
+          const sec = this.el('achievements-section');
+          if (sec) observer.observe(sec);
         },
         renderCategories() {
           const cats = [
