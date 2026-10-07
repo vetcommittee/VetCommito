@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <meta name="theme-color" content="#0d1b33" />
     <title>المنصة الأكاديمية | لجنة الطب والجراحة البيطرية</title>
     <meta
@@ -36,38 +36,25 @@
         --teal: #b8d7d2;
         --gold: #d1aa5c;
       }
-      * {
-        box-sizing: border-box;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
         background: var(--paper);
         color: var(--ink);
         font-family: "IBM Plex Sans Arabic", sans-serif;
       }
-      button,
-      input,
-      select,
-      textarea {
-        font: inherit;
+      button, input, select, textarea { font: inherit; }
+      button { cursor: pointer; }
+      a { color: inherit; text-decoration: none; }
+      .latin { font-family: Manrope, sans-serif; }
+      
+      /* تحسين مسافات الحاوية الرئيسية */
+      .container { 
+        width: min(1160px, 100% - 40px); 
+        margin-inline: auto; 
       }
-      button {
-        cursor: pointer;
-      }
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      .latin {
-        font-family: Manrope, sans-serif;
-      }
-      .container {
-        width: min(1160px, calc(100% - 44px));
-        margin-inline: auto;
-      }
+      
       .topbar {
         height: 74px;
         background: #fbfbfd;
@@ -77,1100 +64,284 @@
         position: relative;
         z-index: 10;
       }
-      .navrow {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-      }
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 13px;
-        min-width: max-content;
-      }
+      .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .brand { display: flex; align-items: center; gap: 13px; min-width: max-content; }
       .brand-logo {
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid var(--gold);
-        box-shadow: 0 3px 10px rgba(13, 27, 51, 0.15);
-        background: var(--navy);
+        width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
+        border: 2px solid var(--gold); box-shadow: 0 3px 10px rgba(13, 27, 51, 0.15); background: var(--navy);
       }
-      .brand-name {
-        font-size: 14px;
-        line-height: 1.45;
-        font-weight: 700;
-        color: var(--navy);
-      }
-      .brand-name small {
-        display: block;
-        color: #7b8294;
-        font-size: 10px;
-        font-weight: 500;
-      }
-      .navlinks {
-        display: flex;
-        align-items: center;
-        gap: 28px;
-        color: #606a82;
-        font-size: 13px;
-      }
-      .navlinks a:hover {
-        color: var(--purple);
-      }
-      .dropdown {
-        position: relative;
-        display: inline-block;
-        padding-block: 10px;
-      }
+      .brand-name { font-size: 14px; line-height: 1.45; font-weight: 700; color: var(--navy); }
+      .brand-name small { display: block; color: #7b8294; font-size: 10px; font-weight: 500; }
+      .navlinks { display: flex; align-items: center; gap: 28px; color: #606a82; font-size: 13px; }
+      .navlinks a:hover { color: var(--purple); }
+      .dropdown { position: relative; display: inline-block; padding-block: 10px; }
       .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #fff;
-        min-width: 220px;
-        box-shadow: 0 10px 25px rgba(13, 27, 51, 0.08);
-        z-index: 50;
-        border-radius: 12px;
-        top: 100%;
-        right: 0;
-        border: 1px solid var(--line);
-        overflow: hidden;
+        display: none; position: absolute; background-color: #fff; min-width: 220px;
+        box-shadow: 0 10px 25px rgba(13, 27, 51, 0.08); z-index: 50; border-radius: 12px;
+        top: 100%; right: 0; border: 1px solid var(--line); overflow: hidden;
       }
-      .dropdown:hover .dropdown-content {
-        display: block;
-        animation: dialog-in 0.2s ease-out;
-      }
+      .dropdown:hover .dropdown-content { display: block; animation: dialog-in 0.2s ease-out; }
       .dropdown-content a {
-        color: var(--navy);
-        padding: 12px 16px;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 12px;
-        border-bottom: 1px solid #f0f2f5;
-        transition: background 0.2s;
+        color: var(--navy); padding: 12px 16px; text-decoration: none; display: flex;
+        align-items: center; gap: 10px; font-size: 12px; border-bottom: 1px solid #f0f2f5; transition: background 0.2s;
       }
-      .dropdown-content a:last-child {
-        border-bottom: none;
-      }
-      .dropdown-content a:hover {
-        background-color: var(--paper);
-        color: var(--purple);
-      }
-      .nav-btn {
-        border: none;
-        background: transparent;
-        color: inherit;
-        font: inherit;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding: 0;
-        cursor: pointer;
-      }
-      .nav-btn:hover {
-        color: var(--purple);
-      }
-      .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+      .dropdown-content a:last-child { border-bottom: none; }
+      .dropdown-content a:hover { background-color: var(--paper); color: var(--purple); }
+      .nav-btn { border: none; background: transparent; color: inherit; font: inherit; display: flex; align-items: center; gap: 5px; padding: 0; cursor: pointer; }
+      .nav-btn:hover { color: var(--purple); }
+      .nav-actions { display: flex; align-items: center; gap: 10px; }
       .subtle-btn {
-        border: 1px solid var(--line);
-        background: #fff;
-        color: var(--navy);
-        padding: 10px 14px;
-        border-radius: 11px;
-        font-size: 12px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
+        border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 10px 14px;
+        border-radius: 11px; font-size: 12px; display: inline-flex; align-items: center; gap: 8px;
       }
-      .subtle-btn:hover {
-        border-color: #bbc7d9;
-        background: #f5f7fa;
-      }
-      .iconbtn {
-        width: 39px;
-        height: 39px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        color: var(--navy);
-        background: #fff;
-        display: grid;
-        place-items: center;
-      }
-      .hero {
-        position: relative;
-        min-height: 496px;
-        overflow: hidden;
-        background: var(--navy);
-        color: white;
-        display: flex;
-        align-items: center;
-      }
-      .hero-video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.85;
-        transform: translateZ(0);
-      }
+      .subtle-btn:hover { border-color: #bbc7d9; background: #f5f7fa; }
+      .hero { position: relative; min-height: 496px; overflow: hidden; background: var(--navy); color: white; display: flex; align-items: center; }
+      .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transform: translateZ(0); }
       .hero:before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          90deg,
-          rgba(13, 27, 51, 0.88) 0%,
-          rgba(21, 44, 80, 0.75) 48%,
-          rgba(30, 63, 112, 0.6) 100%
-        );
-        z-index: 1;
+        content: ""; position: absolute; inset: 0; z-index: 1;
+        background: linear-gradient(90deg, rgba(13, 27, 51, 0.88) 0%, rgba(21, 44, 80, 0.75) 48%, rgba(30, 63, 112, 0.6) 100%);
       }
       .hero:after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(ellipse at 9% 16%, rgba(209, 170, 92, 0.15), transparent 45%),
-          linear-gradient(0deg, rgba(13, 27, 51, 0.9), transparent 50%);
-        z-index: 1;
-        pointer-events: none;
+        content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+        background: radial-gradient(ellipse at 9% 16%, rgba(209, 170, 92, 0.15), transparent 45%), linear-gradient(0deg, rgba(13, 27, 51, 0.9), transparent 50%);
       }
-      .hero-inner {
-        position: relative;
-        z-index: 2;
-        padding-block: 68px 74px;
-        max-width: 700px;
-      }
-      .eyebrow {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 12px;
-        letter-spacing: 0.03em;
-        color: #c9d6eb;
-        margin-bottom: 20px;
-      }
-      .eyebrow:before {
-        content: "";
-        width: 29px;
-        height: 1px;
-        background: var(--gold);
-      }
-      .hero h1 {
-        font-size: clamp(35px, 5vw, 58px);
-        line-height: 1.32;
-        letter-spacing: -0.035em;
-        margin: 0 0 14px;
-        font-weight: 700;
-        max-width: 670px;
-      }
-      .hero h1 span {
-        color: #b3c5e8;
-      }
-      .hero-copy {
-        font-size: 15px;
-        line-height: 1.95;
-        color: #d1d9e6;
-        max-width: 510px;
-        margin: 0 0 27px;
-      }
-      .searchbox {
-        height: 61px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 7px 19px;
-        border: 1px solid #ffffff3b;
-        border-radius: 15px;
-        background: #ffffff17;
-        backdrop-filter: blur(14px);
-        max-width: 585px;
-      }
-      .searchbox i {
-        color: #d0daeb;
-        flex: none;
-      }
-      .searchbox input {
-        border: 0;
-        outline: 0;
-        background: transparent;
-        color: #fff;
-        width: 100%;
-        font-size: 14px;
-      }
-      .searchbox input::placeholder {
-        color: #c5cedb;
-      }
-      .search-hint {
-        font-size: 11px;
-        color: #d1dae8;
-        white-space: nowrap;
-        background: #ffffff18;
-        padding: 7px 9px;
-        border-radius: 8px;
-      }
-      .notice-strip {
-        position: relative;
-        z-index: 3;
-        margin-top: -25px;
-      }
-      .notice-box {
-        background: #fff;
-        border: 1px solid #e5e6ef;
-        border-radius: 15px;
-        padding: 16px 20px;
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        box-shadow: 0 12px 34px #0d1b330b;
-        min-height: 69px;
-      }
-      .notice-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 11px;
-        display: grid;
-        place-items: center;
-        background: #eff3f7;
-        color: var(--purple);
-        flex: none;
-      }
-      .notice-content {
-        flex: 1;
-        display: flex;
-        align-items: baseline;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-      .notice-content b {
-        font-size: 13px;
-        color: var(--navy);
-      }
-      .notice-content p {
-        font-size: 12px;
-        color: var(--slate);
-        margin: 0;
-      }
-      .notice-date {
-        font-family: Manrope, sans-serif;
-        font-size: 10px;
-        color: #929bad;
-        white-space: nowrap;
-      }
-      .section {
-        padding: 72px 0;
-      }
-      .section-head {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 22px;
-        margin-bottom: 26px;
-      }
-      .section-kicker {
-        font-family: Manrope, sans-serif;
-        font-size: 10px;
-        letter-spacing: 0.16em;
-        color: var(--purple);
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-bottom: 7px;
-      }
-      .section-title {
-        margin: 0;
-        font-size: 26px;
-        color: var(--navy);
-        line-height: 1.45;
-      }
-      .section-desc {
-        margin: 5px 0 0;
-        color: #788294;
-        font-size: 13px;
-      }
-      .mini-link {
-        font-size: 12px;
-        color: var(--purple);
-        display: flex;
-        align-items: center;
+      .hero-inner { position: relative; z-index: 2; padding-block: 68px 74px; max-width: 700px; width: 100%; }
+      .eyebrow { display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: 0.03em; color: #c9d6eb; margin-bottom: 20px; }
+      .eyebrow:before { content: ""; width: 29px; height: 1px; background: var(--gold); }
+      .hero h1 { font-size: clamp(32px, 6vw, 58px); line-height: 1.35; letter-spacing: -0.035em; margin: 0 0 14px; font-weight: 700; max-width: 670px; }
+      .hero h1 span { color: #b3c5e8; }
+      .hero-copy { font-size: 15px; line-height: 1.8; color: #d1d9e6; max-width: 510px; margin: 0 0 27px; }
+      
+      .searchbox { height: 61px; display: flex; align-items: center; gap: 14px; padding: 7px 19px; border: 1px solid #ffffff3b; border-radius: 15px; background: #ffffff17; backdrop-filter: blur(14px); max-width: 585px; width: 100%; }
+      .searchbox i { color: #d0daeb; flex: none; }
+      .searchbox input { border: 0; outline: 0; background: transparent; color: #fff; width: 100%; font-size: 14px; }
+      .searchbox input::placeholder { color: #c5cedb; }
+      .search-hint { font-size: 11px; color: #d1dae8; white-space: nowrap; background: #ffffff18; padding: 7px 9px; border-radius: 8px; }
+      
+      .notice-strip { position: relative; z-index: 3; margin-top: -25px; }
+      .notice-box { background: #fff; border: 1px solid #e5e6ef; border-radius: 15px; padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px; box-shadow: 0 12px 34px #0d1b330b; min-height: 69px; }
+      .notice-icon { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; background: #eff3f7; color: var(--purple); flex: none; }
+      .notice-content { flex: 1; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+      .notice-content b { font-size: 13px; color: var(--navy); }
+      .notice-content p { font-size: 12px; color: var(--slate); margin: 0; }
+      .notice-date { font-family: Manrope, sans-serif; font-size: 10px; color: #929bad; white-space: nowrap; }
+      
+      .section { padding: 60px 0; }
+      .section-head { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-bottom: 26px; }
+      .section-kicker { font-family: Manrope, sans-serif; font-size: 10px; letter-spacing: 0.16em; color: var(--purple); font-weight: 700; text-transform: uppercase; margin-bottom: 7px; }
+      .section-title { margin: 0; font-size: 24px; color: var(--navy); line-height: 1.4; }
+      .section-desc { margin: 5px 0 0; color: #788294; font-size: 13px; }
+      .mini-link { font-size: 12px; color: var(--purple); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+      
+      .tools-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 17px; }
+      .tool-card { border: 1px solid var(--line); border-radius: 17px; background: #fff; padding: 21px; min-height: 235px; position: relative; overflow: hidden; }
+      .tool-card:after { content: ""; position: absolute; inset: auto -15px -50px auto; width: 145px; height: 145px; border-radius: 50%; background: #eff3f7; pointer-events: none; }
+      .tool-head { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
+      .tool-heading { display: flex; align-items: center; gap: 11px; }
+      .tool-ico { width: 39px; height: 39px; border-radius: 12px; background: #eff3f7; color: var(--purple); display: grid; place-items: center; }
+      .tool-heading strong { display: block; color: var(--navy); font-size: 14px; }
+      .tool-heading small { font-size: 10px; color: #8893a4; }
+      .tool-card-body { position: relative; z-index: 1; margin-top: 21px; }
+      
+      .field, .select, .textarea { width: 100%; border: 1px solid #e0e5ed; background: #f8f9fc; padding: 10px 11px; border-radius: 9px; outline: none; color: var(--ink); font-size: 12px; }
+      .field:focus, .select:focus, .textarea:focus { border-color: #8baccf; box-shadow: 0 0 0 3px #1e3f701b; }
+      
+      .tool-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; gap: 8px; }
+      .tool-result { font: 700 16px Manrope, sans-serif; color: var(--purple); }
+      .primary-btn { border: 0; background: var(--purple); color: #fff; padding: 10px 15px; border-radius: 10px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.18s, background 0.18s; }
+      .primary-btn:hover { background: #152c50; transform: translateY(-1px); }
+      .ghost-btn { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 12px; border-radius: 10px; font-size: 11px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+      
+      .timer { display: flex; align-items: center; justify-content: center; gap: 18px; }
+      .timer-ring { width: 112px; height: 112px; border: 5px solid #eff3f7; border-right-color: var(--purple); border-radius: 50%; display: grid; place-items: center; }
+      .timer-readout { font: 700 25px Manrope, sans-serif; color: var(--navy); direction: ltr; }
+      .timer-controls { display: flex; flex-direction: column; gap: 8px; }
+      .timer-mode { font-size: 10px; color: var(--slate); margin-bottom: 6px; }
+      .timer-controls .primary-btn { padding: 8px 11px; }
+      
+      .todo-form { display: flex; gap: 7px; }
+      .todo-form .field { flex: 1; }
+      .todo-list { list-style: none; padding: 0; margin: 13px 0 0; max-height: 112px; overflow: auto; }
+      .todo-list li { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #f0f2f5; font-size: 11px; color: #586078; }
+      .todo-list li.done span { text-decoration: line-through; color: #a0a7b4; }
+      .todo-list input { accent-color: var(--purple); }
+      .todo-delete { margin-inline-start: auto; border: 0; background: none; color: #a0a6b4; padding: 3px; }
+      
+      .course-section { background: #f0f3f7; border-block: 1px solid #e5e9f0; padding-bottom: 72px; }
+      .course-shell { display: grid; grid-template-columns: 235px 1fr; gap: 34px; }
+      .course-aside { padding: 18px 20px 18px 0; border-left: 1px solid #dfe3eb; }
+      .course-aside h3 { font-size: 13px; color: var(--navy); margin: 0 0 15px; }
+      
+      /* تحسين التمرير الأفقي للأزرار */
+      .category-list, .semester-row { 
+        display: flex; 
         gap: 8px;
-        white-space: nowrap;
-      }
-      .tools-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 17px;
-      }
-      .tool-card {
-        border: 1px solid var(--line);
-        border-radius: 17px;
-        background: #fff;
-        padding: 21px;
-        min-height: 235px;
-        position: relative;
-        overflow: hidden;
-      }
-      .tool-card:after {
-        content: "";
-        position: absolute;
-        inset: auto -15px -50px auto;
-        width: 145px;
-        height: 145px;
-        border-radius: 50%;
-        background: #eff3f7;
-        pointer-events: none;
-      }
-      .tool-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        z-index: 1;
-      }
-      .tool-heading {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-      }
-      .tool-ico {
-        width: 39px;
-        height: 39px;
-        border-radius: 12px;
-        background: #eff3f7;
-        color: var(--purple);
-        display: grid;
-        place-items: center;
-      }
-      .tool-heading strong {
-        display: block;
-        color: var(--navy);
-        font-size: 14px;
-      }
-      .tool-heading small {
-        font-size: 10px;
-        color: #8893a4;
-      }
-      .tool-card-body {
-        position: relative;
-        z-index: 1;
-        margin-top: 21px;
-      }
-      .gpa-fields {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
-      }
-      .field-label {
-        font-size: 10px;
-        color: #727d92;
-        display: block;
-        margin-bottom: 6px;
-      }
-      .field,
-      .select,
-      .textarea {
-        width: 100%;
-        border: 1px solid #e0e5ed;
-        background: #f8f9fc;
-        padding: 10px 11px;
-        border-radius: 9px;
-        outline: none;
-        color: var(--ink);
-        font-size: 12px;
-      }
-      .field:focus,
-      .select:focus,
-      .textarea:focus {
-        border-color: #8baccf;
-        box-shadow: 0 0 0 3px #1e3f701b;
-      }
-      .tool-foot {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 12px;
-        gap: 8px;
-      }
-      .tool-result {
-        font:
-          700 16px Manrope,
-          sans-serif;
-        color: var(--purple);
-      }
-      .primary-btn {
-        border: 0;
-        background: var(--purple);
-        color: #fff;
-        padding: 10px 15px;
-        border-radius: 10px;
-        font-size: 11px;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        transition:
-          transform 0.18s,
-          background 0.18s;
-      }
-      .primary-btn:hover {
-        background: #152c50;
-        transform: translateY(-1px);
-      }
-      .ghost-btn {
-        border: 1px solid var(--line);
-        background: #fff;
-        color: var(--navy);
-        padding: 9px 12px;
-        border-radius: 10px;
-        font-size: 11px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-      }
-      .timer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 18px;
-      }
-      .timer-ring {
-        width: 112px;
-        height: 112px;
-        border: 5px solid #eff3f7;
-        border-right-color: var(--purple);
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-      }
-      .timer-readout {
-        font:
-          700 25px Manrope,
-          sans-serif;
-        color: var(--navy);
-        direction: ltr;
-      }
-      .timer-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .timer-mode {
-        font-size: 10px;
-        color: var(--slate);
-        margin-bottom: 6px;
-      }
-      .timer-controls .primary-btn {
-        padding: 8px 11px;
-      }
-      .todo-form {
-        display: flex;
-        gap: 7px;
-      }
-      .todo-form .field {
-        flex: 1;
-      }
-      .todo-list {
-        list-style: none;
-        padding: 0;
-        margin: 13px 0 0;
-        max-height: 112px;
-        overflow: auto;
-      }
-      .todo-list li {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 7px 0;
-        border-bottom: 1px solid #f0f2f5;
-        font-size: 11px;
-        color: #586078;
-      }
-      .todo-list li.done span {
-        text-decoration: line-through;
-        color: #a0a7b4;
-      }
-      .todo-list input {
-        accent-color: var(--purple);
-      }
-      .todo-delete {
-        margin-inline-start: auto;
-        border: 0;
-        background: none;
-        color: #a0a6b4;
-        padding: 3px;
-      }
-      .course-section {
-        background: #f0f3f7;
-        border-block: 1px solid #e5e9f0;
-        padding-bottom: 72px;
-      }
-      .course-shell {
-        display: grid;
-        grid-template-columns: 235px 1fr;
-        gap: 34px;
-      }
-      .course-aside {
-        padding: 18px 20px 18px 0;
-        border-left: 1px solid #dfe3eb;
-      }
-      .course-aside h3 {
-        font-size: 13px;
-        color: var(--navy);
-        margin: 0 0 15px;
-      }
-      .category-list {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-      }
-      .category-btn {
-        border: 0;
-        text-align: right;
-        background: transparent;
-        color: #647089;
-        padding: 11px 12px;
-        border-radius: 10px;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .category-btn.active,
-      .category-btn:hover {
-        background: #fff;
-        color: var(--purple);
-        box-shadow: 0 5px 20px #0d1b3309;
-      }
-      .category-btn small {
-        font:
-          10px Manrope,
-          sans-serif;
-        color: #949daf;
-      }
-      .semester-row {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 23px;
-        flex-wrap: wrap;
-      }
-      .semester-pill {
-        border: 1px solid #dfe3eb;
-        border-radius: 999px;
-        background: #fff;
-        padding: 9px 14px;
-        color: #707c91;
-        font-size: 11px;
-      }
-      .semester-pill.active {
-        background: var(--navy);
-        color: #fff;
-        border-color: var(--navy);
-      }
-      .course-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 13px;
-      }
-      .course-card {
-        border: 1px solid #dfe3ed;
-        border-radius: 14px;
-        background: #fff;
-        text-align: right;
-        padding: 16px;
-        min-height: 132px;
-        transition:
-          transform 0.2s,
-          border-color 0.2s,
-          box-shadow 0.2s;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .course-card:hover {
-        transform: translateY(-3px);
-        border-color: #a8bcd9;
-        box-shadow: 0 13px 30px #1e3f7010;
-      }
-      .course-card-top {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        align-items: flex-start;
-      }
-      .course-code {
-        font:
-          700 10px Manrope,
-          sans-serif;
-        color: var(--purple);
-        background: #f2f5fa;
-        padding: 5px 7px;
-        border-radius: 6px;
-        direction: ltr;
-      }
-      .course-card h3 {
-        font-size: 13px;
-        line-height: 1.6;
-        color: var(--navy);
-        margin: 10px 0 3px;
-      }
-      .course-card p {
-        font-size: 10px;
-        color: #9098a8;
-        margin: 0;
-      }
-      .course-open {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        color: #8890b0;
-        font-size: 10px;
-        margin-top: 13px;
-      }
-      .resource-modal {
-        position: fixed;
-        inset: 0;
-        background: #0d1b3385;
-        backdrop-filter: blur(5px);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        z-index: 50;
-      }
-      .resource-modal.open {
-        display: flex;
-      }
-      .dialog {
-        width: min(720px, 100%);
-        max-height: min(82vh, 760px);
-        overflow: auto;
-        background: #fff;
-        border-radius: 19px;
-        box-shadow: 0 26px 80px #0d1b3338;
-        animation: dialog-in 0.2s ease-out;
-      }
-      @keyframes dialog-in {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .dialog-head {
-        padding: 21px 23px;
-        border-bottom: 1px solid #ebedf3;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 15px;
-      }
-      .dialog-head h2 {
-        font-size: 19px;
-        color: var(--navy);
-        margin: 0;
-      }
-      .dialog-head p {
-        font-size: 11px;
-        color: #8a93a3;
-        margin: 4px 0 0;
-      }
-      .close-btn {
-        width: 34px;
-        height: 34px;
-        border: 1px solid var(--line);
-        background: white;
-        border-radius: 10px;
-        color: #647087;
-        display: grid;
-        place-items: center;
-        flex: none;
-      }
-      .dialog-body {
-        padding: 20px 23px 24px;
-      }
-      .resource-group {
-        margin-bottom: 20px;
-      }
-      .resource-group h3 {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--navy);
-        font-size: 13px;
-        margin: 0 0 10px;
-      }
-      .resource-group h3 span {
-        font:
-          10px Manrope,
-          sans-serif;
-        color: #929bad;
-      }
-      .resource-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px;
-        border: 1px solid #ebedf3;
-        border-radius: 11px;
-        margin-top: 7px;
-      }
-      .resource-symbol {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
-        background: #eff3f7;
-        color: var(--purple);
-        display: grid;
-        place-items: center;
-        flex: none;
-      }
-      .resource-meta {
-        min-width: 0;
-        flex: 1;
-      }
-      .resource-meta b {
-        font-size: 12px;
-        color: #2a3551;
-        display: block;
-      }
-      .resource-meta small {
-        color: #949bac;
-        font-size: 10px;
-      }
-      .resource-actions {
-        display: flex;
-        gap: 6px;
-      }
-      .tiny-btn {
-        border: 1px solid #e5e9ef;
-        background: #fff;
-        color: #627087;
-        border-radius: 8px;
-        padding: 7px 9px;
-        font-size: 10px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .tiny-btn:hover {
-        color: var(--purple);
-        border-color: #aebce3;
-      }
-      .loading-state,
-      .empty-state,
-      .error-state {
-        padding: 32px 12px;
-        text-align: center;
-        color: #808b9d;
-        font-size: 12px;
-      }
-      .loader {
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        border: 2px solid #e3e6f0;
-        border-top-color: var(--purple);
-        animation: spin 0.8s linear infinite;
-        margin: 0 auto 12px;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .empty-mark {
-        width: 49px;
-        height: 49px;
-        border-radius: 15px;
-        background: #eff1f9;
-        color: var(--purple);
-        display: grid;
-        place-items: center;
-        margin: 0 auto 12px;
-      }
-      footer {
-        background: #0b1526;
-        color: #d6dae5;
-        padding: 29px 0;
-      }
-      .footer-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        font-size: 10px;
-      }
-      .footer-brand {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-      }
-      .footer-logo {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 1px solid #ffffff30;
-      }
-      .footer-copy {
-        color: #a2aac0;
-      }
-      .toast-region {
-        position: fixed;
-        z-index: 100;
-        bottom: 22px;
-        left: 22px;
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-      }
-      .toast {
-        background: #152343;
-        color: white;
-        border: 1px solid #ffffff20;
-        border-radius: 12px;
-        padding: 12px 15px;
-        box-shadow: 0 12px 36px #0d1b3330;
-        max-width: min(380px, calc(100vw - 44px));
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        animation: dialog-in 0.18s;
-      }
-      .toast.success i {
-        color: #b8d7d2;
-      }
-      .toast.error i {
-        color: #f0b3b3;
-      }
+        scrollbar-width: none; /* إخفاء شريط التمرير في فايرفوكس */
+      }
+      .category-list::-webkit-scrollbar, .semester-row::-webkit-scrollbar { 
+        display: none; /* إخفاء شريط التمرير في كروم وسفاري */
+      }
+      
+      .category-list { flex-direction: column; gap: 5px; }
+      .category-btn { border: 0; text-align: right; background: transparent; color: #647089; padding: 11px 12px; border-radius: 10px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; }
+      .category-btn.active, .category-btn:hover { background: #fff; color: var(--purple); box-shadow: 0 5px 20px #0d1b3309; }
+      .category-btn small { font: 10px Manrope, sans-serif; color: #949daf; }
+      
+      .semester-row { margin-bottom: 23px; flex-wrap: wrap; }
+      .semester-pill { border: 1px solid #dfe3eb; border-radius: 999px; background: #fff; padding: 9px 14px; color: #707c91; font-size: 11px; white-space: nowrap; }
+      .semester-pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+      
+      .course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
+      .course-card { border: 1px solid #dfe3ed; border-radius: 14px; background: #fff; text-align: right; padding: 18px; min-height: 132px; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+      .course-card:hover { transform: translateY(-3px); border-color: #a8bcd9; box-shadow: 0 13px 30px #1e3f7010; }
+      .course-card-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+      .course-code { font: 700 10px Manrope, sans-serif; color: var(--purple); background: #f2f5fa; padding: 5px 7px; border-radius: 6px; direction: ltr; }
+      .course-card h3 { font-size: 14px; line-height: 1.5; color: var(--navy); margin: 12px 0 4px; }
+      .course-card p { font-size: 11px; color: #9098a8; margin: 0; }
+      .course-open { display: flex; align-items: center; gap: 6px; color: #8890b0; font-size: 11px; margin-top: 15px; }
+      
+      .resource-modal { position: fixed; inset: 0; background: #0d1b3385; backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+      .resource-modal.open { display: flex; }
+      .dialog { width: min(720px, 100%); max-height: min(85vh, 760px); overflow: auto; background: #fff; border-radius: 19px; box-shadow: 0 26px 80px #0d1b3338; animation: dialog-in 0.2s ease-out; }
+      @keyframes dialog-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+      .dialog-head { padding: 21px 23px; border-bottom: 1px solid #ebedf3; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top: 0; background: #fff; z-index: 10; }
+      .dialog-head h2 { font-size: 18px; color: var(--navy); margin: 0; line-height: 1.3; }
+      .dialog-head p { font-size: 11px; color: #8a93a3; margin: 4px 0 0; }
+      .close-btn { width: 34px; height: 34px; border: 1px solid var(--line); background: white; border-radius: 10px; color: #647087; display: grid; place-items: center; flex: none; }
+      .dialog-body { padding: 20px 23px 24px; }
+      
+      .resource-group { margin-bottom: 20px; }
+      .resource-group h3 { display: flex; align-items: center; gap: 8px; color: var(--navy); font-size: 13px; margin: 0 0 10px; }
+      .resource-group h3 span { font: 10px Manrope, sans-serif; color: #929bad; }
+      .resource-item { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #ebedf3; border-radius: 11px; margin-top: 7px; }
+      .resource-symbol { width: 34px; height: 34px; border-radius: 9px; background: #eff3f7; color: var(--purple); display: grid; place-items: center; flex: none; }
+      .resource-meta { min-width: 0; flex: 1; }
+      .resource-meta b { font-size: 12px; color: #2a3551; display: block; word-break: break-word;}
+      .resource-meta small { color: #949bac; font-size: 10px; }
+      .resource-actions { display: flex; gap: 6px; }
+      .tiny-btn { border: 1px solid #e5e9ef; background: #fff; color: #627087; border-radius: 8px; padding: 7px 9px; font-size: 10px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+      .tiny-btn:hover { color: var(--purple); border-color: #aebce3; }
+      
+      .loading-state, .empty-state, .error-state { padding: 32px 12px; text-align: center; color: #808b9d; font-size: 12px; }
+      .loader { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #e3e6f0; border-top-color: var(--purple); animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .empty-mark { width: 49px; height: 49px; border-radius: 15px; background: #eff1f9; color: var(--purple); display: grid; place-items: center; margin: 0 auto 12px; }
+      
+      footer { background: #0b1526; color: #d6dae5; padding: 29px 0; }
+      .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 10px; }
+      .footer-brand { display: flex; align-items: center; gap: 11px; }
+      .footer-logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid #ffffff30; }
+      .footer-copy { color: #a2aac0; }
+      
+      .toast-region { position: fixed; z-index: 100; bottom: 22px; left: 22px; right: 22px; display: flex; flex-direction: column; gap: 9px; align-items: flex-end; pointer-events: none;}
+      .toast { background: #152343; color: white; border: 1px solid #ffffff20; border-radius: 12px; padding: 12px 15px; box-shadow: 0 12px 36px #0d1b3330; font-size: 12px; display: inline-flex; align-items: center; gap: 9px; animation: dialog-in 0.18s; pointer-events: auto;}
+      .toast.success i { color: #b8d7d2; }
+      .toast.error i { color: #f0b3b3; }
+      
+      /* --- تعديلات الشاشات المتوسطة والصغيرة (الموبايل) --- */
       @media (max-width: 850px) {
-        .navlinks {
-          gap: 14px;
-        }
-        .hero-inner {
-          display: block;
-        }
-        .course-shell {
-          grid-template-columns: 190px 1fr;
-          gap: 22px;
-        }
-        .course-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .tools-grid {
-          grid-template-columns: 1fr 1fr;
-        }
+        .navlinks { gap: 14px; }
+        .course-shell { grid-template-columns: 190px 1fr; gap: 22px; }
+        .course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .tools-grid { grid-template-columns: 1fr 1fr; }
       }
+      
       @media (max-width: 620px) {
-        .container {
-          width: min(100% - 30px, 1160px);
+        .container { width: calc(100% - 32px); } /* هوامش مريحة للموبايل */
+        .topbar { height: 65px; padding-inline: 0; }
+        .brand-logo { width: 38px; height: 38px; }
+        .brand-name { font-size: 12px; }
+        .navlinks { display: none; }
+        .subtle-btn { padding: 9px 10px; font-size: 10px; }
+        .nav-actions { gap: 6px; }
+        
+        .hero { min-height: 400px; }
+        .hero-inner { padding-block: 45px 55px; }
+        .hero h1 { font-size: 28px; }
+        .hero-copy { font-size: 13px; line-height: 1.6; margin-bottom: 20px;}
+        
+        .searchbox { height: 54px; padding-inline: 15px; border-radius: 12px; }
+        .searchbox input { font-size: 13px; }
+        .search-hint { display: none; }
+        
+        .section { padding: 45px 0; }
+        .section-head { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 20px;}
+        .section-title { font-size: 20px; }
+        .section-desc { font-size: 12px; }
+        
+        .tools-grid { grid-template-columns: 1fr; gap: 15px; }
+        .tool-card { min-height: auto; padding: 18px; }
+        
+        .course-shell { display: flex; flex-direction: column; gap: 15px; }
+        .course-aside { border: 0; padding: 0; }
+        .course-aside h3 { margin-bottom: 10px; font-size: 12px; }
+        
+        /* تحويل القوائم الجانبية لتمرير أفقي مريح في الموبايل */
+        .category-list, .semester-row { 
+          flex-direction: row; 
+          overflow-x: auto; 
+          padding-bottom: 8px; 
+          margin-bottom: 5px;
+          -webkit-overflow-scrolling: touch; /* تمرير ناعم في الآيفون */
         }
-        .topbar {
-          height: 65px;
+        .category-btn { 
+          white-space: nowrap; flex: none; background: #fff; 
+          border: 1px solid #e2e6ed; padding: 8px 14px; 
+          border-radius: 20px; /* أزرار دائرية مريحة للموبايل */
         }
-        .brand-logo {
-          width: 38px;
-          height: 38px;
-        }
-        .brand-name {
-          font-size: 12px;
-        }
-        .navlinks {
-          display: none;
-        }
-        .subtle-btn {
-          padding: 9px 10px;
-          font-size: 10px;
-        }
-        .nav-actions {
-          gap: 6px;
-        }
-        .hero {
-          min-height: 440px;
-        }
-        .hero-inner {
-          display: block;
-          padding-block: 56px 64px;
-        }
-        .hero h1 {
-          font-size: 37px;
-        }
-        .hero-copy {
-          font-size: 13px;
-        }
-        .searchbox {
-          height: 56px;
-          padding-inline: 13px;
-        }
-        .section {
-          padding: 55px 0;
-        }
-        .section-head {
-          align-items: flex-start;
-        }
-        .section-title {
-          font-size: 22px;
-        }
-        .tools-grid {
-          grid-template-columns: 1fr;
-        }
-        .course-shell {
-          display: block;
-        }
-        .course-aside {
-          border: 0;
-          padding: 0 0 17px;
-        }
-        .category-list {
-          flex-direction: row;
-          overflow-x: auto;
-          padding-bottom: 5px;
-        }
-        .category-btn {
-          white-space: nowrap;
-          flex: none;
-          background: #fff;
-          border: 1px solid #e2e6ed;
-          padding: 9px 12px;
-        }
-        .course-grid {
-          grid-template-columns: 1fr 1fr;
-          gap: 9px;
-        }
-        .course-card {
-          padding: 12px;
-          min-height: 128px;
-        }
-        .notice-box {
-          padding: 13px;
-        }
-        .footer-row {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .dialog-head,
-        .dialog-body {
-          padding-inline: 17px;
-        }
+        .category-btn.active { border-color: var(--purple); background: var(--purple); color: white;}
+        .category-btn.active small { color: rgba(255,255,255,0.7); }
+        .semester-row { margin-bottom: 15px; }
+        
+        /* إجبار المساقات على عمود واحد لراحة العين */
+        .course-grid { grid-template-columns: 1fr; gap: 12px; }
+        .course-card { padding: 15px; min-height: auto; }
+        .course-card h3 { font-size: 13px; margin-block: 8px 4px; }
+        
+        .notice-box { padding: 14px; align-items: center; border-radius: 12px;}
+        .notice-icon { width: 30px; height: 30px; border-radius: 8px; }
+        .notice-icon i { width: 16px; height: 16px; }
+        .notice-content b { font-size: 12px; }
+        .notice-content p { font-size: 11px; margin-top: 2px; }
+        .notice-date { display: none; }
+        
+        .footer-row { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
+        .footer-brand { flex-direction: column; gap: 8px; }
+        
+        .dialog { width: 100%; max-height: 90vh; border-radius: 20px 20px 0 0; position: absolute; bottom: 0; animation: slide-up 0.3s ease-out;}
+        @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .dialog-head { padding: 18px 20px; }
+        .dialog-body { padding: 15px 20px 30px; }
+        .resource-item { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px;}
+        .resource-meta { display: flex; align-items: center; gap: 10px; }
+        .resource-actions { justify-content: flex-end; }
+        .tiny-btn { padding: 8px 12px; font-size: 11px; justify-content: center;}
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *:before, *:after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
       }
     </style>
     <style>
-      .gpa-editor {
-        margin-top: 16px;
-      }
-      .gpa-entry {
-        display: grid;
-        grid-template-columns: minmax(90px, 1.25fr) minmax(58px, 0.7fr) minmax(
-            68px,
-            0.8fr
-          ) 30px;
-        gap: 7px;
-        align-items: end;
-        margin-bottom: 8px;
-      }
-      .gpa-entry .field {
-        padding: 8px 9px;
-      }
-      .gpa-entry .field-label {
-        white-space: nowrap;
-      }
-      .gpa-remove {
-        width: 30px;
-        height: 35px;
-        border: 1px solid #e5e9ef;
-        border-radius: 9px;
-        background: #fff;
-        color: #9a6370;
-        display: grid;
-        place-items: center;
-      }
-      .gpa-tools {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        margin-top: 10px;
-      }
-      .gpa-tools .ghost-btn {
-        padding: 8px 10px;
-      }
-      .gpa-total,
-      .gpa-empty {
-        font-size: 10px;
-        color: #8991a1;
-      }
-      .gpa-empty {
-        padding: 8px 0;
-      }
-      .demo-badge {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        border: 1px solid #e6d7b0;
-        background: #fbf6e7;
-        color: #795b23;
-        padding: 7px 10px;
-        border-radius: 999px;
-        font-size: 10px;
-        font-weight: 700;
-        white-space: nowrap;
-      }
-      .demo-badge[hidden] {
-        display: none;
-      }
-      .timer-ring {
-        border: 0;
-        background: conic-gradient(
-          from -90deg,
-          var(--purple) 0 var(--timer-progress, 0%),
-          #edf0f5 var(--timer-progress, 0%) 100%
-        );
-        position: relative;
-        isolation: isolate;
-      }
-      .timer-ring:before {
-        content: "";
-        position: absolute;
-        inset: 5px;
-        border-radius: 50%;
-        background: #fff;
-        z-index: 0;
-      }
-      .timer-readout {
-        position: relative;
-        z-index: 1;
-      }
-      @media (max-width: 620px) {
-        .demo-badge {
-          display: none;
-        }
-      }
-      @media (max-width: 440px) {
-        .gpa-entry {
-          grid-template-columns: minmax(85px, 1.1fr) minmax(
-              52px,
-              0.65fr
-            ) minmax(60px, 0.75fr) 28px;
-          gap: 5px;
-        }
-        .gpa-entry .field {
-          padding-inline: 7px;
-          font-size: 11px;
-        }
+      /* تنسيقات حاسبة المعدل والمؤقت */
+      .gpa-editor { margin-top: 16px; }
+      .gpa-entry { display: grid; grid-template-columns: minmax(90px, 1.25fr) minmax(58px, 0.7fr) minmax(68px, 0.8fr) 30px; gap: 7px; align-items: end; margin-bottom: 8px; }
+      .gpa-entry .field { padding: 8px 9px; }
+      .gpa-entry .field-label { white-space: nowrap; }
+      .gpa-remove { width: 30px; height: 35px; border: 1px solid #e5e9ef; border-radius: 9px; background: #fff; color: #9a6370; display: grid; place-items: center; }
+      .gpa-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
+      .gpa-tools .ghost-btn { padding: 8px 10px; }
+      .gpa-total, .gpa-empty { font-size: 10px; color: #8991a1; }
+      .gpa-empty { padding: 8px 0; }
+      .demo-badge { display: flex; align-items: center; gap: 6px; border: 1px solid #e6d7b0; background: #fbf6e7; color: #795b23; padding: 7px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+      .demo-badge[hidden] { display: none; }
+      .timer-ring { border: 0; background: conic-gradient(from -90deg, var(--purple) 0 var(--timer-progress, 0%), #edf0f5 var(--timer-progress, 0%) 100%); position: relative; isolation: isolate; }
+      .timer-ring:before { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: #fff; z-index: 0; }
+      .timer-readout { position: relative; z-index: 1; }
+      
+      @media (max-width: 620px) { 
+        .demo-badge { display: none; } 
+        .gpa-entry { grid-template-columns: 1fr 60px 60px 30px; gap: 5px; } 
+        .gpa-entry .field { padding-inline: 7px; font-size: 11px; } 
       }
     </style>
   </head>
@@ -1178,22 +349,12 @@
     <header class="topbar">
       <div class="container navrow">
         <a href="#" class="brand" aria-label="العودة إلى الرئيسية">
-          <img
-            src="logo.jpeg"
-            alt="شعار لجنة الطب البيطري"
-            class="brand-logo"
-          />
-          <span class="brand-name"
-            >المنصة الأكاديمية - VetCommitto<small
-              >لجنة الطب والجراحة البيطرية</small
-            ></span
-          >
+          <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="brand-logo" />
+          <span class="brand-name">المنصة الأكاديمية - VetCommitto<small>لجنة الطب والجراحة البيطرية</small></span>
         </a>
         <nav class="navlinks" aria-label="التنقل الرئيسي">
           <div class="dropdown">
-            <button class="nav-btn">
-              الروابط المهمة <i data-lucide="chevron-down" width="14"></i>
-            </button>
+            <button class="nav-btn">الروابط المهمة <i data-lucide="chevron-down" width="14"></i></button>
             <div class="dropdown-content" id="navDropdownLinks">
               <!-- سيتم جلب الروابط من فايربيس هنا -->
             </div>
@@ -1201,62 +362,33 @@
           <a href="#courses">المساقات</a>
           <a href="#toolkit">أدوات الدراسة</a>
         </nav>
-        <!-- تمت إزالة زر بوابة الإدارة من هنا نهائياً للطلاب -->
         <div class="nav-actions">
-          <span class="demo-badge" id="demoBadge" hidden
-            ><i data-lucide="flask-conical" width="13"></i
-            >معاينة تجريبية</span
-          >
+          <span class="demo-badge" id="demoBadge" hidden><i data-lucide="flask-conical" width="13"></i>معاينة تجريبية</span>
         </div>
       </div>
     </header>
     <main class="student-view">
       <section class="hero">
-        <video
-          id="heroVideo"
-          class="hero-video"
-          autoplay
-          muted
-          loop
-          playsinline
-          webkit-playsinline
-          preload="auto"
-          disablepictureinpicture
-          aria-hidden="true"
-          poster="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1800"
-        >
+        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture aria-hidden="true" poster="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1800">
           <source src="hero.mp4" type="video/mp4" />
         </video>
         <div class="container hero-inner">
           <div>
-            <div class="eyebrow">
-              كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية
-            </div>
-            <h1>
-              معرفةٌ أقرب،<br /><span>ورعايةٌ تبدأ من هنا.</span>
-            </h1>
-            <p class="hero-copy">
-              مساحتك الأكاديمية للعثور على مواد المساقات، متابعة الإعلانات
-              الرسمية، وتنظيم رحلة تعلّمك في الطب البيطري.
-            </p>
+            <div class="eyebrow">كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</div>
+            <h1>معرفةٌ أقرب،<br /><span>ورعايةٌ تبدأ من هنا.</span></h1>
+            <p class="hero-copy">مساحتك الأكاديمية للعثور على مواد المساقات، متابعة الإعلانات الرسمية، وتنظيم رحلة تعلّمك في الطب البيطري.</p>
             <label class="searchbox" for="courseSearch">
               <i data-lucide="search" width="19"></i>
-              <input
-                id="courseSearch"
-                type="search"
-                placeholder="ابحث عن مساق أو رمز المساق..."
-                autocomplete="off"
-              />
+              <input id="courseSearch" type="search" placeholder="ابحث عن مساق أو رمز المساق..." autocomplete="off" />
               <span class="search-hint">ابحث الآن</span>
             </label>
           </div>
         </div>
       </section>
+      
       <div class="container notice-strip">
         <article class="notice-box">
-          <span class="notice-icon"
-            ><i data-lucide="megaphone" width="18"></i
-          ></span>
+          <span class="notice-icon"><i data-lucide="megaphone" width="18"></i></span>
           <div class="notice-content" id="announcementContent">
             <b>الإعلانات الأكاديمية</b>
             <p>جارٍ التحقق من آخر الإعلانات الرسمية…</p>
@@ -1264,6 +396,7 @@
           <span class="notice-date" id="announcementDate"></span>
         </article>
       </div>
+      
       <section class="section" id="toolkit">
         <div class="container">
           <div class="section-head">
@@ -1272,98 +405,56 @@
               <h2 class="section-title">أدوات تساعدك على التقدّم</h2>
               <p class="section-desc">أدواتك محفوظة على هذا الجهاز فقط.</p>
             </div>
-            <span class="mini-link"
-              ><i data-lucide="shield-check" width="16"></i>خصوصية محلية</span
-            >
+            <span class="mini-link"><i data-lucide="shield-check" width="16"></i>خصوصية محلية</span>
           </div>
           <div class="tools-grid">
             <article class="tool-card">
               <div class="tool-head">
                 <div class="tool-heading">
-                  <span class="tool-ico"
-                    ><i
-                      data-lucide="chart-no-axes-column-increasing"
-                      width="19"
-                    ></i
-                  ></span>
-                  <div>
-                    <strong>حاسبة المعدل</strong
-                    ><small>أدخل ساعات كل مساق ونقاطه</small>
-                  </div>
+                  <span class="tool-ico"><i data-lucide="chart-no-axes-column-increasing" width="19"></i></span>
+                  <div><strong>حاسبة المعدل</strong><small>أدخل ساعات كل مساق ونقاطه</small></div>
                 </div>
               </div>
               <div class="tool-card-body">
                 <div class="gpa-editor" id="gpaRows"></div>
                 <div class="gpa-tools">
-                  <button class="ghost-btn" id="addGpaCourse" type="button">
-                    <i data-lucide="plus" width="14"></i>إضافة مساق
-                  </button>
+                  <button class="ghost-btn" id="addGpaCourse" type="button"><i data-lucide="plus" width="14"></i>إضافة مساق</button>
                   <span class="gpa-total" id="gpaTotalHours">0 ساعة</span>
                 </div>
                 <div class="tool-foot">
-                  <span class="tool-result" id="gpaResult">أضف مساقاً</span
-                  ><span class="gpa-total">المعدل الفصلي</span>
+                  <span class="tool-result" id="gpaResult">أضف مساقاً</span><span class="gpa-total">المعدل الفصلي</span>
                 </div>
               </div>
             </article>
             <article class="tool-card">
               <div class="tool-head">
                 <div class="tool-heading">
-                  <span class="tool-ico"
-                    ><i data-lucide="timer" width="19"></i
-                  ></span>
-                  <div>
-                    <strong>مؤقّت التركيز</strong
-                    ><small>جلسات بومودورو للدراسة</small>
-                  </div>
+                  <span class="tool-ico"><i data-lucide="timer" width="19"></i></span>
+                  <div><strong>مؤقّت التركيز</strong><small>جلسات بومودورو للدراسة</small></div>
                 </div>
               </div>
               <div class="tool-card-body timer">
-                <div
-                  class="timer-ring"
-                  id="timerRing"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                  aria-valuenow="0"
-                >
+                <div class="timer-ring" id="timerRing" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                   <span class="timer-readout" id="timerReadout">25:00</span>
                 </div>
                 <div class="timer-controls">
-                  <div class="timer-mode" id="timerMode">
-                    جلسة تركيز · 25 دقيقة
-                  </div>
-                  <button class="primary-btn" id="timerToggle">
-                    <i data-lucide="play" width="13"></i>ابدأ
-                  </button>
-                  <button class="ghost-btn" id="timerReset">
-                    <i data-lucide="rotate-ccw" width="13"></i>إعادة ضبط
-                  </button>
+                  <div class="timer-mode" id="timerMode">جلسة تركيز · 25 دقيقة</div>
+                  <button class="primary-btn" id="timerToggle"><i data-lucide="play" width="13"></i>ابدأ</button>
+                  <button class="ghost-btn" id="timerReset"><i data-lucide="rotate-ccw" width="13"></i>إعادة ضبط</button>
                 </div>
               </div>
             </article>
             <article class="tool-card">
               <div class="tool-head">
                 <div class="tool-heading">
-                  <span class="tool-ico"
-                    ><i data-lucide="list-checks" width="19"></i
-                  ></span>
-                  <div>
-                    <strong>قائمة مهامي</strong
-                    ><small>خطوة صغيرة كل يوم</small>
-                  </div>
+                  <span class="tool-ico"><i data-lucide="list-checks" width="19"></i></span>
+                  <div><strong>قائمة مهامي</strong><small>خطوة صغيرة كل يوم</small></div>
                 </div>
               </div>
               <div class="tool-card-body">
                 <form class="todo-form" id="todoForm">
-                  <input
-                    id="todoInput"
-                    class="field"
-                    maxlength="100"
-                    placeholder="أضف مهمة دراسية..."
-                  />
-                  <button class="primary-btn" type="submit">
-                    <i data-lucide="plus" width="16"></i>
-                  </button>
+                  <input id="todoInput" class="field" maxlength="100" placeholder="أضف مهمة دراسية..." />
+                  <button class="primary-btn" type="submit"><i data-lucide="plus" width="16"></i></button>
                 </form>
                 <ul class="todo-list" id="todoList"></ul>
               </div>
@@ -1371,6 +462,7 @@
           </div>
         </div>
       </section>
+      
       <section class="section course-section" id="courses">
         <div class="container">
           <div class="section-head">
@@ -1394,6 +486,7 @@
         </div>
       </section>
     </main>
+    
     <div class="resource-modal" id="resourceModal">
       <section class="dialog">
         <header class="dialog-head">
@@ -1401,45 +494,29 @@
             <h2 id="resourceTitle">مواد المساق</h2>
             <p id="resourceSubtitle"></p>
           </div>
-          <button class="close-btn" data-close="resourceModal">
-            <i data-lucide="x" width="17"></i>
-          </button>
+          <button class="close-btn" data-close="resourceModal"><i data-lucide="x" width="17"></i></button>
         </header>
         <div class="dialog-body" id="resourceBody"></div>
       </section>
     </div>
+    
     <div class="toast-region" id="toastRegion"></div>
+    
     <footer>
       <div class="container footer-row">
         <div class="footer-brand">
-          <img
-            src="logo.jpeg"
-            alt="شعار لجنة الطب البيطري"
-            class="footer-logo"
-          />
-          <span
-            >المنصة الأكاديمية - VetCommitto<br /><span class="footer-copy"
-              >لجنة الطب والجراحة البيطرية</span
-            ></span
-          >
+          <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="footer-logo" />
+          <span>المنصة الأكاديمية - VetCommitto<br /><span class="footer-copy">لجنة الطب والجراحة البيطرية</span></span>
         </div>
-        <span class="footer-copy"
-          >بوابة أكاديمية للطلبة · المعلومات الرسمية من إدارة الكلية</span
-        >
+        <span class="footer-copy">بوابة أكاديمية للطلبة · المعلومات الرسمية من إدارة الكلية</span>
         <span class="footer-copy latin">JUST · JORDAN</span>
       </div>
     </footer>
+
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        getDocs,
-        query,
-        where,
-      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-      // مفاتيح Firebase الحقيقية الخاصة بك
       const firebaseConfig = {
         apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
         authDomain: "vetcommitto.firebaseapp.com",
@@ -1451,618 +528,235 @@
       };
 
       const DEMO_DATA = {
-        courses: [
-          {
-            id: "demo-1",
-            name: "مبادئ التشريح",
-            code: "VET 101",
-            category: "year-1",
-            year: "1",
-            semester: "1",
-          },
-          {
-            id: "demo-2",
-            name: "علم وظائف الأعضاء",
-            code: "VET 202",
-            category: "year-2",
-            year: "2",
-            semester: "2",
-          },
-        ],
-        resources: [
-          {
-            id: "res-1",
-            courseId: "demo-1",
-            type: "lecture",
-            title: "المحاضرة الأولى",
-            url: "https://www.just.edu.jo",
-          },
-        ],
-        announcements: [
-          {
-            title: "مرحباً بكم",
-            message:
-              "هذه معاينة للواجهة. ستظهر الإعلانات بعد ربط قاعدة البيانات.",
-            createdAt: new Date(),
-          },
-        ],
-        links: [
-          {
-            id: "link-1",
-            title: "موقع الجامعة",
-            url: "https://www.just.edu.jo/",
-            icon: "landmark",
-          },
-        ],
+        courses: [], resources: [], announcements: [], links: []
       };
 
       const App = {
-        firebaseReady: false,
-        demoMode: false,
-        app: null,
-        db: null,
-        courses: [],
-        announcements: [],
-        links: [],
-        demoResources: [],
-        activeCategory: "year-1",
-        semester: "all",
-        search: "",
+        firebaseReady: false, demoMode: false, app: null, db: null,
+        courses: [], announcements: [], links: [], demoResources: [],
+        activeCategory: "year-1", semester: "all", search: "",
         async init() {
-          UI.bind();
-          UI.renderCategories();
-          UI.renderSemesters();
-          UI.renderTools();
-          UI.icons();
-          if (!DB.isConfigured()) {
-            this.startDemo();
-            return;
-          }
+          UI.bind(); UI.renderCategories(); UI.renderSemesters(); UI.renderTools(); UI.icons();
+          if (!DB.isConfigured()) { this.startDemo(); return; }
           try {
-            this.app = initializeApp(firebaseConfig);
-            this.db = getFirestore(this.app);
-            this.firebaseReady = true;
-            await this.loadInitial();
-          } catch (error) {
-            UI.toast("تعذر الاتصال بـ Firebase", "error");
-            this.startDemo();
-          }
+            this.app = initializeApp(firebaseConfig); this.db = getFirestore(this.app);
+            this.firebaseReady = true; await this.loadInitial();
+          } catch (error) { UI.toast("تعذر الاتصال بـ Firebase", "error"); this.startDemo(); }
         },
         async loadInitial() {
           try {
-            const [courses, announcements, links] = await Promise.all([
-              DB.list("acad_courses"),
-              DB.list("acad_announcements"),
-              DB.list("acad_links"),
-            ]);
-            this.courses = courses;
-            this.announcements = announcements.sort(
-              (a, b) =>
-                (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0),
-            );
+            const [courses, announcements, links] = await Promise.all([ DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links") ]);
+            this.courses = courses; 
+            this.announcements = announcements.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             this.links = links;
-            UI.renderCourses();
-            UI.renderAnnouncement();
-            UI.renderLinks();
-          } catch (error) {
-            UI.toast("تعذر تحميل البيانات.", "error");
-          }
+            UI.renderCourses(); UI.renderAnnouncement(); UI.renderLinks();
+          } catch (error) { UI.toast("تعذر تحميل البيانات.", "error"); }
         },
         startDemo() {
-          this.demoMode = true;
-          this.courses = DEMO_DATA.courses.map((item) => ({ ...item }));
-          this.announcements = DEMO_DATA.announcements.map((item) => ({
-            ...item,
-          }));
-          this.links = DEMO_DATA.links.map((item) => ({ ...item }));
-          this.demoResources = DEMO_DATA.resources.map((item) => ({ ...item }));
-          UI.el("demoBadge").hidden = false;
-          UI.renderCourses();
-          UI.renderAnnouncement();
-          UI.renderLinks();
-          UI.icons();
-        },
+          this.demoMode = true; this.courses = DEMO_DATA.courses.map(item => ({ ...item }));
+          this.announcements = DEMO_DATA.announcements.map(item => ({ ...item })); this.links = DEMO_DATA.links.map(item => ({ ...item }));
+          this.demoResources = DEMO_DATA.resources.map(item => ({ ...item }));
+          UI.el("demoBadge").hidden = false; UI.renderCourses(); UI.renderAnnouncement(); UI.renderLinks(); UI.icons();
+        }
       };
 
       const DB = {
-        isConfigured() {
-          return !Object.values(firebaseConfig).some(
-            (value) => !value || value.includes("YOUR_"),
-          );
-        },
-        async list(name) {
-          if (App.demoMode) {
-            const data = {
-              acad_courses: App.courses,
-              acad_announcements: App.announcements,
-              acad_links: App.links,
-            }[name];
-            return (data || []).map((item) => ({ ...item }));
-          }
+        isConfigured: () => !Object.values(firebaseConfig).some(value => !value || value.includes("YOUR_")),
+        list: async (name) => {
+          if (App.demoMode) return ({ acad_courses: App.courses, acad_announcements: App.announcements, acad_links: App.links }[name] || []).map(item => ({ ...item }));
           if (!App.db) return [];
-          const snap = await getDocs(collection(App.db, name));
-          return snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+          const snap = await getDocs(collection(App.db, name)); return snap.docs.map(item => ({ id: item.id, ...item.data() }));
         },
-        async resources(courseId) {
-          if (App.demoMode)
-            return App.demoResources
-              .filter((item) => item.courseId === courseId)
-              .map((item) => ({ ...item }));
+        resources: async (courseId) => {
+          if (App.demoMode) return App.demoResources.filter(item => item.courseId === courseId).map(item => ({ ...item }));
           if (!App.db || !courseId) return [];
-          const q = query(
-            collection(App.db, "acad_resources"),
-            where("courseId", "==", courseId),
-          );
-          const snap = await getDocs(q);
-          return snap.docs.map((item) => ({ id: item.id, ...item.data() }));
-        },
+          const q = query(collection(App.db, "acad_resources"), where("courseId", "==", courseId));
+          const snap = await getDocs(q); return snap.docs.map(item => ({ id: item.id, ...item.data() }));
+        }
       };
 
       const UI = {
         el: (id) => document.getElementById(id),
-        esc: (val) =>
-          String(val ?? "").replace(
-            /[&<>"']/g,
-            (c) =>
-              ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;",
-              })[c],
-          ),
+        esc: (val) => String(val ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]),
         icons: () => window.lucide && window.lucide.createIcons(),
         toast(message, type = "success") {
-          const t = document.createElement("div");
-          t.className = `toast ${type}`;
+          const t = document.createElement("div"); t.className = `toast ${type}`;
           t.innerHTML = `<i data-lucide="${type === "error" ? "circle-alert" : "circle-check"}" width="17"></i><span>${this.esc(message)}</span>`;
-          this.el("toastRegion").append(t);
-          this.icons();
-          setTimeout(() => t.remove(), 4400);
+          this.el("toastRegion").append(t); this.icons(); setTimeout(() => t.remove(), 4400);
         },
         bind() {
-          this.el("courseSearch").addEventListener("input", (e) => {
-            App.search = e.target.value.trim().toLowerCase();
-            this.renderCourses();
-          });
-          this.el("addGpaCourse").addEventListener("click", () =>
-            this.addGpaCourse(),
-          );
-          this.el("gpaRows").addEventListener("input", () =>
-            this.calculateGpa(),
-          );
+          this.el("courseSearch").addEventListener("input", (e) => { App.search = e.target.value.trim().toLowerCase(); this.renderCourses(); });
+          this.el("addGpaCourse").addEventListener("click", () => this.addGpaCourse());
+          this.el("gpaRows").addEventListener("input", () => this.calculateGpa());
           this.el("gpaRows").addEventListener("click", (e) => {
             const r = e.target.closest("[data-remove-gpa]");
-            if (r) {
-              this.saveGpaCourses(
-                this.getGpaCourses().filter(
-                  (c) => c.id !== r.dataset.removeGpa,
-                ),
-              );
-              this.renderGpaCourses();
-              this.calculateGpa();
-            }
+            if (r) { this.saveGpaCourses(this.getGpaCourses().filter((c) => c.id !== r.dataset.removeGpa)); this.renderGpaCourses(); this.calculateGpa(); }
           });
           this.el("todoForm").addEventListener("submit", (e) => {
-            e.preventDefault();
-            const text = this.el("todoInput").value.trim();
-            if (!text) return;
-            const todos = this.getTodos();
-            todos.push({ id: crypto.randomUUID(), text, done: false });
-            this.saveTodos(todos);
-            this.el("todoInput").value = "";
-            this.renderTodos();
+            e.preventDefault(); const text = this.el("todoInput").value.trim(); if (!text) return;
+            const todos = this.getTodos(); todos.push({ id: crypto.randomUUID(), text, done: false });
+            this.saveTodos(todos); this.el("todoInput").value = ""; this.renderTodos();
           });
-          this.el("timerToggle").addEventListener("click", () =>
-            this.toggleTimer(),
-          );
-          this.el("timerReset").addEventListener("click", () =>
-            this.resetTimer(),
-          );
+          this.el("timerToggle").addEventListener("click", () => this.toggleTimer());
+          this.el("timerReset").addEventListener("click", () => this.resetTimer());
           this.el("categoryList").addEventListener("click", (e) => {
             const b = e.target.closest("[data-category]");
-            if (b) {
-              App.activeCategory = b.dataset.category;
-              App.semester = "all";
-              this.renderCategories();
-              this.renderSemesters();
-              this.renderCourses();
-            }
+            if (b) { App.activeCategory = b.dataset.category; App.semester = "all"; this.renderCategories(); this.renderSemesters(); this.renderCourses(); }
           });
           this.el("semesterRow").addEventListener("click", (e) => {
             const b = e.target.closest("[data-semester]");
-            if (b) {
-              App.semester = b.dataset.semester;
-              this.renderSemesters();
-              this.renderCourses();
-            }
+            if (b) { App.semester = b.dataset.semester; this.renderSemesters(); this.renderCourses(); }
           });
           this.el("courseGrid").addEventListener("click", (e) => {
-            const c = e.target.closest("[data-course-id]");
-            if (c) this.openResources(c.dataset.courseId);
+            const c = e.target.closest("[data-course-id]"); if (c) this.openResources(c.dataset.courseId);
           });
-          document
-            .querySelectorAll("[data-close]")
-            .forEach((b) =>
-              b.addEventListener("click", () =>
-                this.closeModal(b.dataset.close),
-              ),
-            );
+          document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => this.closeModal(b.dataset.close)));
           document.querySelectorAll(".resource-modal").forEach((m) => {
-            m.addEventListener("click", (e) => {
-              if (e.target === m) this.closeModal(m.id);
-            });
-            m.addEventListener("keydown", (e) => {
-              if (e.key === "Escape") this.closeModal(m.id);
-            });
+            m.addEventListener("click", (e) => { if (e.target === m) this.closeModal(m.id); });
+            m.addEventListener("keydown", (e) => { if (e.key === "Escape") this.closeModal(m.id); });
           });
-          document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape")
-              document
-                .querySelectorAll(".resource-modal.open")
-                .forEach((m) => this.closeModal(m.id));
-          });
+          document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.querySelectorAll(".resource-modal.open").forEach((m) => this.closeModal(m.id)); });
         },
         renderCategories() {
           const cats = [
-            { id: "year-1", name: "السنة الأولى" },
-            { id: "year-2", name: "السنة الثانية" },
-            { id: "year-3", name: "السنة الثالثة" },
-            { id: "year-4", name: "السنة الرابعة" },
-            { id: "year-5", name: "السنة الخامسة" },
-            { id: "year-6", name: "السنة السادسة" },
-            { id: "elective", name: "اختياري" },
-            { id: "university", name: "متطلبات جامعة" },
+            { id: "year-1", name: "السنة الأولى" }, { id: "year-2", name: "السنة الثانية" }, { id: "year-3", name: "السنة الثالثة" },
+            { id: "year-4", name: "السنة الرابعة" }, { id: "year-5", name: "السنة الخامسة" }, { id: "year-6", name: "السنة السادسة" },
+            { id: "elective", name: "مواد اختيارية" }, { id: "university", name: "متطلبات جامعة" }
           ];
-          this.el("categoryList").innerHTML = cats
-            .map(
-              (c) =>
-                `<button class="category-btn ${App.activeCategory === c.id ? "active" : ""}" data-category="${c.id}">${c.name}<small>${App.courses.filter((x) => x.category === c.id || x.year === c.id).length}</small></button>`,
-            )
-            .join("");
+          this.el("categoryList").innerHTML = cats.map(c => `<button class="category-btn ${App.activeCategory === c.id ? "active" : ""}" data-category="${c.id}">${c.name}<small>${App.courses.filter((x) => x.category === c.id || x.year == c.id.replace('year-','')).length}</small></button>`).join("");
         },
         renderSemesters() {
-          const all = [
-            { id: "all", label: "كل الفصول" },
-            { id: "1", label: "الفصل الأول" },
-            { id: "2", label: "الفصل الثاني" },
-            { id: "summer", label: "الصيفي" },
-          ];
-          this.el("semesterRow").innerHTML = all
-            .map(
-              (s) =>
-                `<button class="semester-pill ${App.semester === s.id ? "active" : ""}" data-semester="${s.id}">${s.label}</button>`,
-            )
-            .join("");
+          const all = [ { id: "all", label: "كل الفصول" }, { id: "1", label: "الفصل الأول" }, { id: "2", label: "الفصل الثاني" }, { id: "summer", label: "الصيفي" } ];
+          this.el("semesterRow").innerHTML = all.map(s => `<button class="semester-pill ${App.semester === s.id ? "active" : ""}" data-semester="${s.id}">${s.label}</button>`).join("");
         },
         renderCourses() {
-          const filtered = App.courses.filter((c) => {
-            const cat = c.category || (c.year ? `year-${c.year}` : "");
-            const sem = String(c.semester || "");
-            const matchCat =
-              cat === App.activeCategory || c.year === App.activeCategory;
-            const matchSem =
-              App.semester === "all" ||
-              (App.semester === "summer"
-                ? sem.includes("summer") || sem.includes("صيف")
-                : sem === App.semester ||
-                  sem.includes(App.semester === "1" ? "الأول" : "الثاني"));
-            const matchSearch =
-              !App.search ||
-              `${c.name || ""} ${c.title || ""} ${c.code || ""}`
-                .toLowerCase()
-                .includes(App.search);
+          const filtered = App.courses.filter(c => {
+            const cat = c.category || (c.year ? `year-${c.year}` : ""); const sem = String(c.semester || "");
+            const matchCat = cat === App.activeCategory || c.year == App.activeCategory.replace('year-','');
+            const matchSem = App.semester === "all" || (App.semester === "summer" ? sem.includes("summer") || sem.includes("صيف") : sem === App.semester || sem.includes(App.semester === "1" ? "الأول" : "الثاني"));
+            const matchSearch = !App.search || `${c.name || ""} ${c.title || ""} ${c.code || ""}`.toLowerCase().includes(App.search);
             return matchCat && matchSem && matchSearch;
           });
           this.el("courseCount").textContent = `${App.courses.length} مساق`;
-          this.el("categoryList")
-            .querySelectorAll("[data-category]")
-            .forEach((b) => {
-              b.querySelector("small").textContent = App.courses.filter(
-                (c) =>
-                  c.category === b.dataset.category ||
-                  c.year === b.dataset.category,
-              ).length;
-            });
+          this.el("categoryList").querySelectorAll("[data-category]").forEach(b => {
+             b.querySelector("small").textContent = App.courses.filter(c => c.category === b.dataset.category || c.year == b.dataset.category.replace('year-','')).length;
+          });
           if (!filtered.length) {
-            this.el("courseGrid").innerHTML =
-              `<div class="empty-state" style="grid-column:1/-1"><span class="empty-mark"><i data-lucide="book-open" width="20"></i></span><b>لا توجد مساقات</b></div>`;
+            this.el("courseGrid").innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-mark"><i data-lucide="book-open" width="20"></i></span><b>لا توجد مساقات</b></div>`;
           } else {
-            this.el("courseGrid").innerHTML = filtered
-              .map(
-                (c) =>
-                  `<button class="course-card" data-course-id="${this.esc(c.id)}"><span><span class="course-card-top"><span class="course-code">${this.esc(c.code || "")}</span><i data-lucide="arrow-up-left" width="15" style="color:#a8bcd9"></i></span><h3>${this.esc(c.name || c.title || "مساق")}</h3><p>${this.esc(c.year || "")} · ${this.esc(c.semester || "")}</p></span><span class="course-open"><i data-lucide="folder-open" width="13"></i>عرض المواد</span></button>`,
-              )
-              .join("");
+            this.el("courseGrid").innerHTML = filtered.map(c => `<button class="course-card" data-course-id="${this.esc(c.id)}"><span><span class="course-card-top"><span class="course-code">${this.esc(c.code || "")}</span><i data-lucide="arrow-up-left" width="15" style="color:#a8bcd9"></i></span><h3>${this.esc(c.name || c.title || "مساق")}</h3><p>${this.esc(c.year ? `السنة ${c.year}` : "مساق")} · ${this.esc(c.semester === "1" ? "الفصل الأول" : c.semester === "2" ? "الفصل الثاني" : c.semester === "summer" ? "الفصل الصيفي" : c.semester)}</p></span><span class="course-open"><i data-lucide="folder-open" width="13"></i>عرض المواد</span></button>`).join("");
           }
           this.icons();
         },
         async openResources(id) {
-          const c = App.courses.find((x) => x.id === id);
-          if (!c) return;
-          this.el("resourceTitle").textContent = c.name || c.title || "";
-          this.el("resourceSubtitle").textContent = c.code || "";
-          this.el("resourceBody").innerHTML =
-            `<div class="loading-state"><span class="loader"></span>جارٍ التحميل...</div>`;
+          const c = App.courses.find((x) => x.id === id); if (!c) return;
+          this.el("resourceTitle").textContent = c.name || c.title || ""; this.el("resourceSubtitle").textContent = c.code || "";
+          this.el("resourceBody").innerHTML = `<div class="loading-state"><span class="loader"></span>جارٍ التحميل...</div>`;
           this.openModal("resourceModal");
           try {
             const res = await DB.resources(id);
-            const groups = [
-              ["lectures", "محاضرات", "presentation"],
-              ["records", "تسجيلات", "headphones"],
-              ["summaries", "ملخصات", "notebook-tabs"],
-              ["other", "أخرى", "files"],
-            ];
-            if (!res.length) {
-              this.el("resourceBody").innerHTML =
-                `<div class="empty-state">لا توجد مواد</div>`;
-              return;
-            }
-            this.el("resourceBody").innerHTML = groups
-              .map(([key, lbl, ico]) => {
-                const sub = res.filter((r) =>
-                  (r.type || "other").includes(key.substring(0, 3)),
-                ); // Basic matching for demo
+            const groups = [ ["lectures", "محاضرات وسلايدات", "presentation"], ["records", "تسجيلات صوتية", "headphones"], ["summaries", "ملخصات وامتحانات", "notebook-tabs"], ["other", "مواد أخرى", "files"] ];
+            if (!res.length) { this.el("resourceBody").innerHTML = `<div class="empty-state">لا توجد مواد مضافة لهذا المساق بعد.</div>`; return; }
+            this.el("resourceBody").innerHTML = groups.map(([key, lbl, ico]) => {
+                const sub = res.filter((r) => {
+                    const t = (r.type || "other").toLowerCase();
+                    if(key === 'lectures') return t.includes('lec') || t.includes('slide');
+                    if(key === 'records') return t.includes('rec') || t.includes('audio');
+                    if(key === 'summaries') return t.includes('sum') || t.includes('exam');
+                    return t === 'other';
+                });
                 if (!sub.length) return "";
-                return `<section class="resource-group"><h3><i data-lucide="${ico}" width="16"></i>${lbl}</h3>${sub.map((item) => `<article class="resource-item"><span class="resource-symbol"><i data-lucide="${ico}" width="16"></i></span><span class="resource-meta"><b>${this.esc(item.title)}</b></span><span class="resource-actions"><a class="tiny-btn" href="${this.esc(item.url)}" target="_blank"><i data-lucide="external-link" width="13"></i>فتح</a></span></article>`).join("")}</section>`;
-              })
-              .join("");
+                return `<section class="resource-group"><h3><i data-lucide="${ico}" width="16"></i>${lbl}</h3>${sub.map((item) => `<article class="resource-item"><span class="resource-symbol"><i data-lucide="${ico}" width="16"></i></span><div class="resource-meta"><b>${this.esc(item.title)}</b><small>${this.esc(item.url ? "رابط خارجي" : "")}</small></div><div class="resource-actions"><a class="tiny-btn" href="${this.esc(item.url)}" target="_blank"><i data-lucide="external-link" width="13"></i>فتح</a></div></article>`).join("")}</section>`;
+              }).join("");
             this.icons();
-          } catch {
-            this.el("resourceBody").innerHTML =
-              `<div class="error-state">تعذر التحميل</div>`;
-          }
+          } catch { this.el("resourceBody").innerHTML = `<div class="error-state">تعذر التحميل</div>`; }
         },
         renderAnnouncement() {
           const item = App.announcements[0];
-          if (!item) {
-            this.el("announcementContent").innerHTML =
-              "<b>الإعلانات الأكاديمية</b><p>لا توجد إعلانات حالياً.</p>";
-            return;
-          }
-          this.el("announcementContent").innerHTML =
-            `<b>${this.esc(item.title)}</b><p>${this.esc(item.message || item.body || "")}</p>`;
-          try {
-            this.el("announcementDate").textContent = new Intl.DateTimeFormat(
-              "ar-JO",
-              { day: "numeric", month: "short" },
-            ).format(
-              item.createdAt?.toDate ? item.createdAt.toDate() : new Date(),
-            );
-          } catch {}
+          if (!item) { this.el("announcementContent").innerHTML = "<b>الإعلانات الأكاديمية</b><p>لا توجد إعلانات حالياً.</p>"; return; }
+          this.el("announcementContent").innerHTML = `<b>${this.esc(item.title)}</b><p>${this.esc(item.message || item.body || "")}</p>`;
+          try { this.el("announcementDate").textContent = new Intl.DateTimeFormat("ar-JO", { day: "numeric", month: "short" }).format(item.createdAt?.toDate ? item.createdAt.toDate() : new Date()); } catch {}
         },
         renderLinks() {
-          const target = this.el("navDropdownLinks");
-          if (!target) return;
-          if (!App.links.length) {
-            target.innerHTML =
-              `<div style="padding:12px; font-size:11px; color:#8a93a3;">لا توجد روابط مضافة.</div>`;
-            return;
-          }
-          target.innerHTML = App.links
-            .map(
-              (l) =>
-                `<a href="${this.esc(l.url)}" target="_blank"><i data-lucide="${this.esc(l.icon || "external-link")}" width="14"></i>${this.esc(l.title || l.name)}</a>`,
-            )
-            .join("");
+          const target = this.el("navDropdownLinks"); if (!target) return;
+          if (!App.links.length) { target.innerHTML = `<div style="padding:12px; font-size:11px; color:#8a93a3;">لا توجد روابط مضافة.</div>`; return; }
+          target.innerHTML = App.links.map(l => `<a href="${this.esc(l.url)}" target="_blank"><i data-lucide="${this.esc(l.icon || "external-link")}" width="14"></i>${this.esc(l.title || l.name)}</a>`).join("");
           this.icons();
         },
-        openModal(id) {
-          const m = this.el(id);
-          m.classList.add("open");
-          document.body.style.overflow = "hidden";
-        },
-        closeModal(id) {
-          const m = this.el(id);
-          m.classList.remove("open");
-          document.body.style.overflow = "";
-        },
+        openModal(id) { const m = this.el(id); m.classList.add("open"); document.body.style.overflow = "hidden"; },
+        closeModal(id) { const m = this.el(id); m.classList.remove("open"); document.body.style.overflow = ""; },
 
         // --- أدوات الدراسة المحلية ---
-        getGpaCourses() {
-          try {
-            return JSON.parse(
-              localStorage.getItem("just-vet-gpa-courses") || "[]",
-            );
-          } catch {
-            return [];
-          }
-        },
-        saveGpaCourses(items) {
-          localStorage.setItem("just-vet-gpa-courses", JSON.stringify(items));
-        },
+        getGpaCourses() { try { return JSON.parse(localStorage.getItem("just-vet-gpa-courses") || "[]"); } catch { return []; } },
+        saveGpaCourses(items) { localStorage.setItem("just-vet-gpa-courses", JSON.stringify(items)); },
         renderGpaCourses() {
           const courses = this.getGpaCourses();
-          this.el("gpaRows").innerHTML = !courses.length
-            ? '<div class="gpa-empty">أضف مساقات لحساب المعدل.</div>'
-            : courses
-                .map(
-                  (c) => `
+          this.el("gpaRows").innerHTML = !courses.length ? '<div class="gpa-empty">أضف مساقات لحساب المعدل.</div>' : courses.map((c) => `
             <div class="gpa-entry" data-gpa-row="${this.esc(c.id)}">
               <input class="field" type="text" placeholder="اسم المساق" value="${this.esc(c.name)}" data-gpa-field="name">
-              <input class="field" type="number" min="0.5" step="0.5" placeholder="الساعات" value="${this.esc(c.hours)}" data-gpa-field="hours">
-              <input class="field" type="number" min="0" max="4" step="0.01" placeholder="النقاط" value="${this.esc(c.grade)}" data-gpa-field="grade">
+              <input class="field" type="number" min="0.5" step="0.5" placeholder="ساعات" value="${this.esc(c.hours)}" data-gpa-field="hours">
+              <input class="field" type="number" min="0" max="4" step="0.01" placeholder="نقاط" value="${this.esc(c.grade)}" data-gpa-field="grade">
               <button class="gpa-remove" type="button" data-remove-gpa="${this.esc(c.id)}"><i data-lucide="x" width="14"></i></button>
-            </div>`,
-                )
-                .join("");
+            </div>`).join("");
           this.icons();
         },
-        addGpaCourse() {
-          const courses = this.getGpaCourses();
-          courses.push({
-            id: crypto.randomUUID(),
-            name: "",
-            hours: "",
-            grade: "",
-          });
-          this.saveGpaCourses(courses);
-          this.renderGpaCourses();
-          this.calculateGpa();
-        },
+        addGpaCourse() { const courses = this.getGpaCourses(); courses.push({ id: crypto.randomUUID(), name: "", hours: "", grade: "" }); this.saveGpaCourses(courses); this.renderGpaCourses(); this.calculateGpa(); },
         calculateGpa() {
-          const rows = Array.from(
-            this.el("gpaRows").querySelectorAll("[data-gpa-row]"),
-          );
-          const courses = rows.map((r) => ({
-            id: r.dataset.gpaRow,
-            name: r.querySelector("[data-gpa-field='name']").value,
-            hours: r.querySelector("[data-gpa-field='hours']").value,
-            grade: r.querySelector("[data-gpa-field='grade']").value,
-          }));
+          const rows = Array.from(this.el("gpaRows").querySelectorAll("[data-gpa-row]"));
+          const courses = rows.map((r) => ({ id: r.dataset.gpaRow, name: r.querySelector("[data-gpa-field='name']").value, hours: r.querySelector("[data-gpa-field='hours']").value, grade: r.querySelector("[data-gpa-field='grade']").value }));
           this.saveGpaCourses(courses);
-          let totalHrs = 0,
-            totalPts = 0;
-          courses
-            .filter((c) => c.hours && c.grade)
-            .forEach((c) => {
-              const h = Number(c.hours),
-                g = Number(c.grade);
-              if (h > 0 && g >= 0 && g <= 4) {
-                totalHrs += h;
-                totalPts += h * g;
-              }
-            });
+          let totalHrs = 0, totalPts = 0;
+          courses.filter((c) => c.hours && c.grade).forEach((c) => { const h = Number(c.hours), g = Number(c.grade); if (h > 0 && g >= 0 && g <= 4) { totalHrs += h; totalPts += h * g; } });
           this.el("gpaTotalHours").textContent = `${totalHrs} ساعة`;
-          this.el("gpaResult").textContent = totalHrs
-            ? (totalPts / totalHrs).toFixed(2)
-            : "أضف مساقاً";
+          this.el("gpaResult").textContent = totalHrs ? (totalPts / totalHrs).toFixed(2) : "أضف مساقاً";
         },
-        getTodos() {
-          try {
-            return JSON.parse(localStorage.getItem("just-vet-todos") || "[]");
-          } catch {
-            return [];
-          }
-        },
-        saveTodos(items) {
-          localStorage.setItem("just-vet-todos", JSON.stringify(items));
-        },
+        getTodos() { try { return JSON.parse(localStorage.getItem("just-vet-todos") || "[]"); } catch { return []; } },
+        saveTodos(items) { localStorage.setItem("just-vet-todos", JSON.stringify(items)); },
         renderTodos() {
-          this.el("todoList").innerHTML = this.getTodos()
-            .map(
-              (t) =>
-                `<li class="${t.done ? "done" : ""}"><input type="checkbox" data-toggle-todo="${this.esc(t.id)}" ${t.done ? "checked" : ""}><span>${this.esc(t.text)}</span><button class="todo-delete" data-delete-todo="${this.esc(t.id)}"><i data-lucide="x" width="14"></i></button></li>`,
-            )
-            .join("");
-          this.el("todoList")
-            .querySelectorAll("[data-toggle-todo]")
-            .forEach((i) =>
-              i.addEventListener("change", () => {
-                this.saveTodos(
-                  this.getTodos().map((x) =>
-                    x.id === i.dataset.toggleTodo
-                      ? { ...x, done: i.checked }
-                      : x,
-                  ),
-                );
-                this.renderTodos();
-              }),
-            );
-          this.el("todoList")
-            .querySelectorAll("[data-delete-todo]")
-            .forEach((b) =>
-              b.addEventListener("click", () => {
-                this.saveTodos(
-                  this.getTodos().filter((x) => x.id !== b.dataset.deleteTodo),
-                );
-                this.renderTodos();
-              }),
-            );
+          this.el("todoList").innerHTML = this.getTodos().map((t) => `<li class="${t.done ? "done" : ""}"><input type="checkbox" data-toggle-todo="${this.esc(t.id)}" ${t.done ? "checked" : ""}><span>${this.esc(t.text)}</span><button class="todo-delete" data-delete-todo="${this.esc(t.id)}"><i data-lucide="x" width="14"></i></button></li>`).join("");
+          this.el("todoList").querySelectorAll("[data-toggle-todo]").forEach((i) => i.addEventListener("change", () => { this.saveTodos(this.getTodos().map((x) => x.id === i.dataset.toggleTodo ? { ...x, done: i.checked } : x )); this.renderTodos(); }));
+          this.el("todoList").querySelectorAll("[data-delete-todo]").forEach((b) => b.addEventListener("click", () => { this.saveTodos(this.getTodos().filter((x) => x.id !== b.dataset.deleteTodo)); this.renderTodos(); }));
           this.icons();
         },
         renderTools() {
-          this.renderGpaCourses();
-          this.calculateGpa();
-          this.renderTodos();
-          const saved = JSON.parse(
-            localStorage.getItem("just-vet-pomodoro") ||
-              '{"seconds":1500,"break":false}',
-          );
-          this.timer = {
-            seconds: saved.seconds || 1500,
-            running: false,
-            break: saved.break || false,
-            interval: null,
-          };
+          this.renderGpaCourses(); this.calculateGpa(); this.renderTodos();
+          const saved = JSON.parse(localStorage.getItem("just-vet-pomodoro") || '{"seconds":1500,"break":false}');
+          this.timer = { seconds: saved.seconds || 1500, running: false, break: saved.break || false, interval: null };
           this.paintTimer();
         },
         paintTimer() {
           if (!this.timer) return;
-          const m = String(Math.floor(this.timer.seconds / 60)).padStart(
-              2,
-              "0",
-            ),
-            s = String(this.timer.seconds % 60).padStart(2, "0");
+          const m = String(Math.floor(this.timer.seconds / 60)).padStart(2, "0"), s = String(this.timer.seconds % 60).padStart(2, "0");
           this.el("timerReadout").textContent = `${m}:${s}`;
-          this.el("timerMode").textContent = this.timer.break
-            ? "استراحة · 5 دقائق"
-            : "جلسة تركيز · 25 دقيقة";
-          this.el("timerToggle").innerHTML =
-            `<i data-lucide="${this.timer.running ? "pause" : "play"}" width="13"></i>${this.timer.running ? "إيقاف" : "ابدأ"}`;
-          const duration = this.timer.break ? 300 : 1500,
-            progress = Math.round(
-              ((duration - this.timer.seconds) / duration) * 100,
-            );
-          this.el("timerRing").style.setProperty(
-            "--timer-progress",
-            `${progress}%`,
-          );
+          this.el("timerMode").textContent = this.timer.break ? "استراحة · 5 دقائق" : "جلسة تركيز · 25 دقيقة";
+          this.el("timerToggle").innerHTML = `<i data-lucide="${this.timer.running ? "pause" : "play"}" width="13"></i>${this.timer.running ? "إيقاف" : "ابدأ"}`;
+          const duration = this.timer.break ? 300 : 1500, progress = Math.round(((duration - this.timer.seconds) / duration) * 100);
+          this.el("timerRing").style.setProperty("--timer-progress", `${progress}%`);
           this.icons();
         },
         toggleTimer() {
           if (this.timer.running) {
-            clearInterval(this.timer.interval);
-            this.timer.running = false;
-            localStorage.setItem(
-              "just-vet-pomodoro",
-              JSON.stringify({
-                seconds: this.timer.seconds,
-                break: this.timer.break,
-              }),
-            );
+            clearInterval(this.timer.interval); this.timer.running = false;
+            localStorage.setItem("just-vet-pomodoro", JSON.stringify({ seconds: this.timer.seconds, break: this.timer.break }));
           } else {
             this.timer.running = true;
             this.timer.interval = setInterval(() => {
               this.timer.seconds--;
               if (this.timer.seconds <= 0) {
-                clearInterval(this.timer.interval);
-                this.timer.running = false;
-                this.timer.break = !this.timer.break;
-                this.timer.seconds = this.timer.break ? 300 : 1500;
-                this.toast(
-                  this.timer.break
-                    ? "وقت الاستراحة!"
-                    : "انتهت الاستراحة، عد للتركيز.",
-                );
+                clearInterval(this.timer.interval); this.timer.running = false; this.timer.break = !this.timer.break; this.timer.seconds = this.timer.break ? 300 : 1500;
+                this.toast(this.timer.break ? "وقت الاستراحة!" : "انتهت الاستراحة، عد للتركيز.");
               }
-              localStorage.setItem(
-                "just-vet-pomodoro",
-                JSON.stringify({
-                  seconds: this.timer.seconds,
-                  break: this.timer.break,
-                }),
-              );
+              localStorage.setItem("just-vet-pomodoro", JSON.stringify({ seconds: this.timer.seconds, break: this.timer.break }));
               this.paintTimer();
             }, 1000);
           }
           this.paintTimer();
         },
         resetTimer() {
-          clearInterval(this.timer.interval);
-          this.timer.running = false;
-          this.timer.break = false;
-          this.timer.seconds = 1500;
-          localStorage.setItem(
-            "just-vet-pomodoro",
-            JSON.stringify({
-              seconds: this.timer.seconds,
-              break: this.timer.break,
-            }),
-          );
+          clearInterval(this.timer.interval); this.timer.running = false; this.timer.break = false; this.timer.seconds = 1500;
+          localStorage.setItem("just-vet-pomodoro", JSON.stringify({ seconds: this.timer.seconds, break: this.timer.break }));
           this.paintTimer();
-        },
+        }
       };
 
       App.init();
@@ -2071,15 +765,10 @@
       (function () {
         const v = document.getElementById("heroVideo");
         if (!v) return;
-        v.muted = true;
-        v.defaultMuted = true;
-        v.setAttribute("playsinline", "");
-        const tryPlay = () => v.play().catch(() => {});
-        tryPlay();
+        v.muted = true; v.defaultMuted = true; v.setAttribute("playsinline", "");
+        const tryPlay = () => v.play().catch(() => {}); tryPlay();
         v.addEventListener("loadeddata", tryPlay);
-        document.addEventListener("visibilitychange", () => {
-          if (!document.hidden) tryPlay();
-        });
+        document.addEventListener("visibilitychange", () => { if (!document.hidden) tryPlay(); });
         window.addEventListener("touchstart", tryPlay, { once: true });
       })();
     </script>
