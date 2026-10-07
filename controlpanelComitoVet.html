@@ -136,6 +136,7 @@
           <button class="admin-tab" data-tab="resources">المواد الدراسية</button>
           <button class="admin-tab" data-tab="announcements">الإعلانات</button>
           <button class="admin-tab" data-tab="links">الروابط المنسدلة</button>
+          <button class="admin-tab" data-tab="backup">النظام والاستعادة</button>
         </div>
         
         <!-- Courses Panel -->
@@ -191,6 +192,25 @@
             <div id="adminLinksList"></div>
           </div>
         </section>
+
+        <!-- Backup & Restore Panel -->
+        <section class="admin-panel" id="panel-backup">
+          <div class="admin-card">
+            <div class="admin-card-head">
+              <h2>استعادة البيانات من النظام القديم (JSON Backup)</h2>
+            </div>
+            <div class="form-row">
+              <p style="font-size: 12px; color: #606d85; margin-bottom: 12px; line-height: 1.6;">
+                الصق كود الـ JSON الخاص بالنسخة الاحتياطية هنا. سيقوم النظام بدمج المساقات، المواد، الإعلانات، والروابط تلقائياً مع قاعدة بيانات Firebase الحالية <b style="color: var(--purple)">(لن يتم استعادة المستخدمين كما طلبت)</b>.
+              </p>
+              <textarea id="backupJsonInput" class="textarea" style="min-height: 250px; font-family: monospace; direction: ltr;" placeholder='{ "courses": [...], "resources": [...] }'></textarea>
+            </div>
+            <button class="primary-btn" id="restoreDataBtn">
+              <i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات
+            </button>
+          </div>
+        </section>
+
       </div>
     </main>
 
@@ -230,9 +250,9 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-      import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, deleteDoc, doc, setDoc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-      // مفاتيح Firebase الحقيقية الخاصة بك
+      // المفاتيح الحقيقية والمعدلة
       const firebaseConfig = {
         apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
         authDomain: "vetcommitto.firebaseapp.com",
@@ -342,6 +362,86 @@
           this.el("addLinkButton").addEventListener("click", () => this.linkForm());
           this.el("adminLinksList").addEventListener("click", e => this.linkAction(e));
           this.el("formBody").addEventListener("submit", e => { if(e.target.matches("form[data-entity]")) this.submitForm(e); });
+
+          // دالة استعادة JSON 
+          this.el("restoreDataBtn").addEventListener("click", async () => {
+            const val = this.el("backupJsonInput").value;
+            if (!val) return this.toast("الرجاء لصق البيانات أولاً.", "error");
+            try {
+              const parsed = JSON.parse(val);
+              if (!confirm("سيتم دمج البيانات المعطاة مع قاعدة البيانات الحالية. هل أنت متأكد؟")) return;
+              
+              const btn = this.el("restoreDataBtn");
+              btn.disabled = true; btn.textContent = "جاري الاستعادة...";
+              
+              let ops = [];
+              
+              if (parsed.courses) {
+                  parsed.courses.forEach(c => {
+                      const yr = c.category ? c.category.replace(/[^0-9]/g, "") || "1" : "1";
+                      const sem = c.semester ? c.semester.replace("semester-", "") : "1";
+                      ops.push({ col: "acad_courses", id: c.id, data: {
+                          name: c.title || c.name || "",
+                          code: c.code || "",
+                          category: c.category && c.category.toLowerCase().includes("year") ? `year-${yr}` : (c.category || "year-1"),
+                          year: yr,
+                          semester: sem,
+                          credits: c.credits || 0,
+                          updatedAt: serverTimestamp()
+                      }});
+                  });
+              }
+              if (parsed.resources) {
+                  parsed.resources.forEach(r => {
+                      ops.push({ col: "acad_resources", id: r.id, data: {
+                          courseId: r.courseId,
+                          type: r.type || "other",
+                          title: r.title || "مادة دراسية",
+                          url: r.url || "",
+                          updatedAt: serverTimestamp()
+                      }});
+                  });
+              }
+              if (parsed.announcements) {
+                  parsed.announcements.forEach(a => {
+                      ops.push({ col: "acad_announcements", id: a.id || crypto.randomUUID(), data: {
+                          title: a.title || "إعلان أكاديمي",
+                          message: a.text || a.message || "",
+                          createdAt: serverTimestamp()
+                      }});
+                  });
+              }
+              if (parsed.links) {
+                  parsed.links.forEach(l => {
+                      ops.push({ col: "acad_links", id: l.id || crypto.randomUUID(), data: {
+                          title: l.name || l.title || "",
+                          name: l.name || l.title || "",
+                          url: l.url || "",
+                          updatedAt: serverTimestamp()
+                      }});
+                  });
+              }
+              
+              for(let i=0; i<ops.length; i+=450){
+                  const b = writeBatch(App.db);
+                  ops.slice(i, i+450).forEach(op => {
+                      b.set(doc(App.db, op.col, op.id), op.data, { merge: true });
+                  });
+                  await b.commit();
+              }
+              
+              this.toast(`تمت المزامنة بنجاح! (${ops.length} عنصر)`);
+              this.el("backupJsonInput").value = "";
+              App.refresh();
+            } catch(e) {
+              console.error(e);
+              this.toast("صيغة JSON غير صحيحة، يرجى التأكد.", "error");
+            } finally {
+              const btn = this.el("restoreDataBtn");
+              btn.disabled = false; btn.innerHTML = `<i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات`;
+              this.icons();
+            }
+          });
         },
         
         // --- Courses ---
