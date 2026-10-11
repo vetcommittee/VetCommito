@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1b33" />
+    <title>من نحن | المنصة الأكاديمية</title>
+    <meta name="description" content="تعرف على لجنة الطب والجراحة البيطرية وأفرقتها وإنجازاتها في جامعة العلوم والتكنولوجيا الأردنية." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d1b33'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d1aa5c'%3EV%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=Manrope:wght@400;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <style>
+      :root {
+        --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
+        --ink: #1a2233; --slate: #606d85; --paper: #f5f7fa; --line: #e2e6ed;
+        --gold: #d1aa5c; --gold-light: #e8cd96;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow-x: hidden; line-height: 1.6;}
+      a { color: inherit; text-decoration: none; }
+      .latin { font-family: Manrope, sans-serif; }
+      
+      .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+      
+      /* Topbar */
+      .topbar { height: 74px; background: #fbfbfd; border-bottom: 1px solid #e8eaf1; display: flex; align-items: center; position: relative; z-index: 10; }
+      .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .brand { display: flex; align-items: center; gap: 13px; }
+      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); box-shadow: 0 3px 10px rgba(13, 27, 51, 0.15); background: var(--navy); }
+      .brand-name { font-size: 14px; line-height: 1.45; font-weight: 700; color: var(--navy); }
+      .brand-name small { display: block; color: #7b8294; font-size: 10px; font-weight: 500; }
+      .nav-btn-back { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
+      .nav-btn-back:hover { background: #f0f3f7; }
+
+      /* About Hero */
+      .about-hero { background: linear-gradient(145deg, var(--navy) 0%, #081121 100%); color: #fff; padding: 100px 0 80px; position: relative; overflow: hidden; text-align: center;}
+      .about-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(209, 170, 92, 0.1), transparent 60%); pointer-events: none;}
+      .about-hero .kicker { color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; background: rgba(209,170,92,0.1); padding: 6px 16px; border-radius: 20px;}
+      .about-hero h1 { font-size: clamp(34px, 5vw, 48px); margin: 0 0 20px; font-weight: 800; line-height: 1.3;}
+      .about-hero p { font-size: 16px; color: #b3c5e8; max-width: 650px; margin: 0 auto; line-height: 1.8;}
+
+      /* Mission Card */
+      .mission-section { margin-top: -40px; position: relative; z-index: 2; padding-bottom: 60px;}
+      .mission-card { background: #fff; border-radius: 24px; padding: 40px; box-shadow: 0 20px 40px rgba(13,27,51,0.06); border: 1px solid #ebedf3; display: flex; gap: 30px; align-items: center;}
+      .mission-icon { width: 80px; height: 80px; background: #fdfaf3; border: 2px solid #f4e8ce; color: var(--gold); border-radius: 24px; display: grid; place-items: center; flex: none; transform: rotate(-5deg);}
+      .mission-text h2 { font-size: 22px; color: var(--navy); margin: 0 0 10px; font-weight: 800;}
+      .mission-text p { font-size: 14px; color: var(--slate); margin: 0; line-height: 1.8;}
+
+      /* Teams Section */
+      .team-section { padding: 60px 0; border-top: 1px solid #e8eaf1; }
+      .team-row { display: flex; align-items: center; gap: 60px; margin-bottom: 80px;}
+      .team-row:nth-child(even) { flex-direction: row-reverse; }
+      .team-row:last-child { margin-bottom: 0; }
+      .team-content { flex: 1; }
+      .team-kicker { font-size: 12px; color: var(--purple); font-weight: 700; margin-bottom: 8px; display: block;}
+      .team-content h2 { font-size: 28px; color: var(--navy); margin: 0 0 16px; font-weight: 800;}
+      .team-content p { font-size: 15px; color: #516079; margin: 0 0 24px; line-height: 1.8;}
+      
+      .team-visual { flex: 1; position: relative; }
+      
+      /* Smart Counters (Stats Grid) */
+      .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .stats-grid.full { grid-template-columns: repeat(2, 1fr); }
+      .stat-box { background: #fff; border: 1px solid #e8eaf1; padding: 24px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(13,27,51,0.03); transition: 0.3s;}
+      .stat-box:hover { transform: translateY(-5px); border-color: #cbd5e1;}
+      .stat-box.highlight { background: var(--purple); color: #fff; border-color: var(--purple);}
+      .stat-box.highlight .stat-num { color: #fff; }
+      .stat-box.highlight .stat-label { color: #d1d9e6; }
+      
+      .stat-num { font: 800 34px Manrope, sans-serif; color: var(--purple); margin-bottom: 4px; direction: ltr; display: flex; justify-content: center; align-items: baseline; gap: 2px;}
+      .stat-num span:last-child { font-size: 18px; color: var(--gold); }
+      .stat-label { font-size: 12px; color: var(--slate); font-weight: 600;}
+
+      /* Activity Tags */
+      .tags-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;}
+      .team-tag { background: #eff3f7; color: var(--navy); padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #e2e6ed;}
+      .team-tag i { color: var(--purple); }
+
+      /* Social Footer */
+      .social-connect { background: var(--navy); padding: 80px 0; text-align: center; color: #fff; border-top: 4px solid var(--gold);}
+      .social-connect h2 { font-size: 26px; margin: 0 0 12px; font-weight: 800;}
+      .social-connect p { font-size: 14px; color: #b3c5e8; margin: 0 0 40px; }
+      .social-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;}
+      .social-btn { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 16px 24px; border-radius: 16px; color: #fff; font-size: 14px; font-weight: 600; transition: 0.3s;}
+      .social-btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px);}
+      .social-btn.fb:hover { background: #1877F2; border-color: #1877F2;}
+      .social-btn.ig:hover { background: #E4405F; border-color: #E4405F;}
+      .social-btn.tw:hover { background: #000; border-color: #333;}
+
+      @media (max-width: 850px) {
+        .team-row, .team-row:nth-child(even) { flex-direction: column; gap: 40px; text-align: center;}
+        .team-visual { width: 100%; }
+        .tags-wrap { justify-content: center; }
+      }
+
+      @media (max-width: 620px) {
+        .wrap { width: calc(100% - 40px); }
+        .topbar { height: 68px; }
+        .brand-logo { width: 40px; height: 40px; }
+        .brand-name { font-size: 13px; }
+        .nav-btn-back span { display: none; }
+        
+        .about-hero { padding: 70px 0 60px; }
+        .about-hero h1 { font-size: 26px; }
+        .about-hero p { font-size: 14px; }
+        
+        .mission-card { flex-direction: column; text-align: center; padding: 24px; gap: 20px;}
+        .mission-icon { width: 64px; height: 64px; margin: 0 auto;}
+        
+        .team-section { padding: 50px 0; }
+        .team-content h2 { font-size: 22px; }
+        .team-content p { font-size: 14px; }
+        
+        .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+        .stat-box { padding: 20px; }
+        .stat-num { font-size: 30px; }
+        
+        .social-connect { padding: 60px 0; }
+        .social-grid { flex-direction: column; }
+        .social-btn { justify-content: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap navrow">
+        <a href="index.html" class="brand" aria-label="العودة إلى الرئيسية">
+          <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="brand-logo" />
+          <span class="brand-name">المنصة الأكاديمية - VetCommitto<small>لجنة الطب والجراحة البيطرية</small></span>
+        </a>
+        <a href="index.html" class="nav-btn-back">
+          <span>العودة للرئيسية</span> <i data-lucide="arrow-left" width="16"></i>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="about-hero">
+        <div class="wrap">
+          <span class="kicker"><i data-lucide="sparkles" width="16"></i> نبني المجد لنرقى</span>
+          <h1>الفكرة لا تموت،<br />فكيف إذا تحولت لمؤسسة حيّة؟</h1>
+          <p>بدأنا منذ عام 2011 حيث اجتمعت الهِمَم والأفكار مُصانةً بأطياف المحبة. انطلقنا من ثلاثة شباب، لنتوسع ونشمل نخبة من شباب وشابات الكلية، حاملين على عاتِقنا ترك بصمة تبقى منارةً للضياء الأخلاقي والعلمي.</p>
+        </div>
+      </section>
+
+      <div class="wrap">
+        <section class="mission-section">
+          <div class="mission-card">
+            <div class="mission-icon"><i data-lucide="target" width="32"></i></div>
+            <div class="mission-text">
+              <h2>هدفنا ورؤيتنا</h2>
+              <p>نسعى للرُقي بمساعدة الطلبة وإرشادهم بمُختَلفِ مراحِلهم، ولنكونَ لهم يدَ عَونٍ في حلّ مشاكلهم بدءًا بدخولهم للكليّة وانتهاءً بتخرّجهم. نرتقي بهم أكاديميًا، لنُساهِمَ في إعداد طبيب بيطري على قدرٍ عالٍ من العلمِ والمعرفة، ولتستمر لجنتنا شجرة عطاءٍ مثمرة.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="team-section">
+        <div class="wrap">
+          
+          <!-- الفريق الأكاديمي -->
+          <div class="team-row">
+            <div class="team-content">
+              <span class="team-kicker">رمز العطاء وحجر الأساس</span>
+              <h2>الفريق الأكاديمي</h2>
+              <p>المدد الأوّل للطلّاب، والمسؤول عن توفير كافة مصادر المواد الدراسية من تفاريغ، شروحات، فيديوهات، ومراجعات. يهدف الفريق لتذليل العَقبات أمام الطالب وتحسين مستواه الأكاديمي، لنكون خيرَ مُعين لرَفد سوق العمل بأطبّاء متميزين.</p>
+            </div>
+            <div class="team-visual">
+              <div class="stats-grid">
+                <div class="stat-box highlight">
+                  <div class="stat-num"><span class="count" data-to="270.1" data-dec="1">0</span><span>k+</span></div>
+                  <div class="stat-label">مشاهدة على قناة اليوتيوب</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num"><span class="count" data-to="513">0</span><span>+</span></div>
+                  <div class="stat-label">تلخيص وشرح مواد</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num"><span class="count" data-to="740">0</span><span>+</span></div>
+                  <div class="stat-label">ريكورد وتفريغ فصلي</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num"><span class="count" data-to="168">0</span><span>+</span></div>
+                  <div class="stat-label">ملف سنوات ومواد حرة</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- الفريق الإعلامي -->
+          <div class="team-row">
+            <div class="team-content">
+              <span class="team-kicker">صوت اللجنة ونافذتها المشرقة</span>
+              <h2>الفريق الإعلامي</h2>
+              <p>يقوم دوره على صناعة المحتوى المنشور من كتابات وتصاميم وفيديوهات، وإدارة منصاتنا لنكون لكم نافذةً واسعة لنقل المعرفة ومُجريات التخصص وأخباره، فكرًا وخبرًا ووَعيًا، لنتميز بخدمتكم ونرتقي بتميّزكم.</p>
+            </div>
+            <div class="team-visual">
+              <div class="stats-grid">
+                <div class="stat-box highlight">
+                  <div class="stat-num"><span class="count" data-to="18.3" data-dec="1">0</span><span>k+</span></div>
+                  <div class="stat-label">متابع عبر جميع منصاتنا</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num"><span class="count" data-to="8.4" data-dec="1">0</span><span>k+</span></div>
+                  <div class="stat-label">عضو بجروب الفيسبوك</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num"><span class="count" data-to="3.39" data-dec="2">0</span><span>k+</span></div>
+                  <div class="stat-label">متابع على انستغرام</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num"><span class="count" data-to="2.29" data-dec="2">0</span><span>k+</span></div>
+                  <div class="stat-label">مشترك على يوتيوب</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- فريق الإرشاد -->
+          <div class="team-row">
+            <div class="team-content">
+              <span class="team-kicker">بوصلة الطالب المستجد</span>
+              <h2>فريق الإرشاد والتسجيل</h2>
+              <p>أول من يصافحك في بداية رحلتك الجامعية. مهمتنا تبدأ إلكترونياً بتوضيح آلية دفع الرسوم، تسجيل المواد والشعب، وتستمر ميدانياً لندلكم على كليتنا ومرافقها وأهم أركان جامعتنا، لتتخطوا حاجز الشتات وعتبة التسجيل بكل سهولة.</p>
+              <div class="tags-wrap">
+                <span class="team-tag"><i data-lucide="map" width="16"></i> جولات ميدانية</span>
+                <span class="team-tag"><i data-lucide="laptop" width="16"></i> إرشاد إلكتروني</span>
+                <span class="team-tag"><i data-lucide="calendar-check" width="16"></i> مساعدة بالتسجيل</span>
+              </div>
+            </div>
+            <div class="team-visual">
+              <img src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=800" alt="إرشاد الطلاب" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
+            </div>
+          </div>
+
+          <!-- فريق الأنشطة -->
+          <div class="team-row">
+            <div class="team-content">
+              <span class="team-kicker">نبض الحياة الجامعية</span>
+              <h2>فريق الأنشطة</h2>
+              <p>لأن الطالب يحتاج للترويح عن كاهله بعد عناء الدراسة، يتولى فريق الأنشطة تنظيم الفعاليات داخل وخارج الجامعة على مدار السنة. من كرنفالات ومبادرات إلى احتفالات وأفكار إبداعية تخلق بيئة جامعية مفعمة بالحيوية.</p>
+              <div class="tags-wrap">
+                <span class="team-tag"><i data-lucide="trophy" width="16"></i> مسابقات وفعاليات</span>
+                <span class="team-tag"><i data-lucide="users" width="16"></i> أنشطة ميدانية</span>
+                <span class="team-tag"><i data-lucide="bus" width="16"></i> مزارات ورحلات</span>
+              </div>
+            </div>
+            <div class="team-visual">
+              <img src="https://images.pexels.com/photos/1181438/pexels-photo-1181438.jpeg?auto=compress&cs=tinysrgb&w=800" alt="فريق الأنشطة" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
+            </div>
+          </div>
+
+          <!-- فريق التنشئة والتطوير -->
+          <div class="team-row">
+            <div class="team-content">
+              <span class="team-kicker">يا عِبادَ اللّٰهِ فاثبُتوا</span>
+              <h2>فريق التنشئة والتطوير (الدعوي)</h2>
+              <p>رأى النور حديثاً ليتبنى أعمال الخير ونشر القيم الفاضلة. انطلقنا من همّنا في الدعوة لتعاليم ديننا الحنيف، لنكون رفيقاً يعين على الثبات، ونسلط عملنا على ما يزكّي الطالب وصولاً لبيئة طلابية على قدر عالٍ من الوعي.</p>
+              <div class="tags-wrap">
+                <span class="team-tag"><i data-lucide="book-open" width="16"></i> جلسات قراءة وتدبر</span>
+                <span class="team-tag"><i data-lucide="heart-handshake" width="16"></i> حملات خيرية</span>
+                <span class="team-tag"><i data-lucide="message-circle" width="16"></i> منشورات توعوية</span>
+                <span class="team-tag"><i data-lucide="library" width="16"></i> سلاسل تربوية</span>
+              </div>
+            </div>
+            <div class="team-visual">
+              <img src="https://images.pexels.com/photos/8164383/pexels-photo-8164383.jpeg?auto=compress&cs=tinysrgb&w=800" alt="التطوير والتنشئة" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- تواصل معنا / الروابط -->
+    <footer class="social-connect">
+      <div class="wrap">
+        <h2>أينما كنتم، نحن معكم</h2>
+        <p>يسعدنا انضمامكم لعائلتنا على منصات التواصل الاجتماعي ومتابعة كل جديد.</p>
+        <div class="social-grid">
+          <a href="https://www.facebook.com/vet.committee.just/?mibextid=LQQJ4d" target="_blank" class="social-btn fb">
+            <i data-lucide="facebook" width="20"></i> صفحة الفيسبوك
+          </a>
+          <a href="https://instagram.com/vet_committee?igshid=MWI4MTIyMDE=" target="_blank" class="social-btn ig">
+            <i data-lucide="instagram" width="20"></i> صفحتنا على انستغرام
+          </a>
+          <a href="https://twitter.com/committee_j?s=21&t=-ZsNP8veuypUXxrKmeuiKg" target="_blank" class="social-btn tw">
+            <i data-lucide="twitter" width="20"></i> حساب منصة X
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- سكربت العدادات والأيقونات -->
+    <script>
+      lucide.createIcons();
+
+      // سكربت العدادات الذكية الناعمة
+      (function () {
+        const nums = document.querySelectorAll(".count");
+        if (!nums.length) return;
+        
+        const run = (el) => {
+          const to = parseFloat(el.dataset.to) || 0;
+          const dec = parseInt(el.dataset.dec) || 0;
+          const dur = 2000; // سرعة العداد (2 ثانية)
+          const t0 = performance.now();
+          
+          const tick = (t) => {
+            const p = Math.min((t - t0) / dur, 1);
+            const ease = 1 - Math.pow(1 - p, 3); // معادلة التبطيء الناعم
+            el.textContent = (to * ease).toFixed(dec);
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        };
+
+        if (!("IntersectionObserver" in window)) { nums.forEach(run); return; }
+        
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { 
+              if (e.isIntersecting) { 
+                  run(e.target); 
+                  io.unobserve(e.target); 
+              } 
+          });
+        }, { threshold: 0.2 });
+        
+        nums.forEach((n) => io.observe(n));
+      })();
+    </script>
+  </body>
+</html>
