@@ -35,25 +35,38 @@
       .nav-btn-back { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
       .nav-btn-back:hover { background: #f0f3f7; }
 
-      /* About Hero (متوافق تماماً مع جميع الأجهزة) */
-      .about-hero { background: var(--navy); color: #fff; padding: 130px 0 110px; position: relative; overflow: hidden; text-align: center; border-bottom: 5px solid var(--gold);}
+      /* About Hero (الكود الصحيح والمضمون 100% لكل الشاشات) */
+      .about-hero { 
+        background-color: var(--navy); 
+        color: #fff; 
+        padding: 130px 0 110px; 
+        position: relative; 
+        overflow: hidden; 
+        text-align: center; 
+        border-bottom: 5px solid var(--gold);
+      }
       
       .about-hero::before { 
-        content: ""; position: absolute; 
-        top: 0; left: 0; right: 0; bottom: 0; /* بدل inset لحل مشكلة السفاري */
+        content: ""; 
+        position: absolute; 
+        top: 0; left: 0; width: 100%; height: 100%;
         background-image: url('IMG_7193.jpeg'); 
-        background-size: cover; background-position: center 30%; 
-        opacity: 0.35; z-index: 0;
+        background-size: cover; 
+        background-position: center 30%; 
+        opacity: 0.35; 
+        z-index: 1; /* الطبقة الأولى: الصورة */
       }
       
       .about-hero::after {
-        content: ""; position: absolute; 
-        top: 0; left: 0; right: 0; bottom: 0;
+        content: ""; 
+        position: absolute; 
+        top: 0; left: 0; width: 100%; height: 100%;
         background: linear-gradient(0deg, var(--navy) 0%, transparent 80%);
-        z-index: 1;
+        z-index: 2; /* الطبقة الثانية: التدرج اللوني */
       }
       
-      .hero-content-wrap { position: relative; z-index: 2; }
+      .hero-content-wrap { position: relative; z-index: 3; } /* الطبقة الثالثة: النصوص */
+      
       .about-hero .kicker { color: var(--gold); font-size: 14px; font-weight: 800; letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; background: rgba(209,170,92,0.15); padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(209,170,92,0.3);}
       .about-hero h1 { font-size: clamp(60px, 12vw, 130px); margin: 0 0 15px; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: #fff; text-shadow: 0 10px 30px rgba(0,0,0,0.5);}
       .about-hero h1 span { color: var(--gold); }
@@ -99,7 +112,7 @@
 
       /* Social Footer */
       .social-connect { background: var(--navy); padding: 80px 0; text-align: center; color: #fff; border-top: 4px solid var(--gold); position: relative; overflow: hidden;}
-      .social-connect::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top, rgba(209, 170, 92, 0.1), transparent 50%); pointer-events: none; z-index: 0;}
+      .social-connect::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top, rgba(209, 170, 92, 0.1), transparent 50%); pointer-events: none; z-index: 1;}
       .social-connect-inner { position: relative; z-index: 2; }
       .social-connect h2 { font-size: 28px; margin: 0 0 12px; font-weight: 800;}
       .social-connect p { font-size: 15px; color: #b3c5e8; margin: 0 0 40px; }
@@ -358,7 +371,6 @@
       </div>
     </footer>
 
-    <!-- سكربت العدادات والأيقونات -->
     <script>
       lucide.createIcons();
 
