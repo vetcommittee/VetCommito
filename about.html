@@ -35,12 +35,12 @@
       .nav-btn-back { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
       .nav-btn-back:hover { background: #f0f3f7; }
 
-      /* About Hero (المعدلة بالصورة الجديدة) */
+      /* About Hero (تم تعديل الصورة وإزالة الغبش) */
       .about-hero { background: var(--navy); color: #fff; padding: 130px 0 110px; position: relative; overflow: hidden; text-align: center; border-bottom: 5px solid var(--gold);}
       .about-hero::before { 
         content: ""; position: absolute; inset: 0; 
-        background-image: url('IMG_7193.jpeg'); /* الصورة المرفقة للطلاب */
-        background-size: cover; background-position: center 30%; opacity: 0.25; mix-blend-mode: luminosity; filter: blur(2px);
+        background-image: url('IMG_7193.jpeg'); 
+        background-size: cover; background-position: center 30%; opacity: 0.45; mix-blend-mode: overlay;
       }
       .about-hero::after {
         content: ""; position: absolute; inset: 0;
@@ -135,7 +135,7 @@
         .stat-box { padding: 20px 14px; border-radius: 16px;}
         .stat-num { font-size: 28px; margin-bottom: 8px;}
         .stat-label { font-size: 11px; }
-        .stat-box.wide { grid-column: 1 / -1; }
+        .stat-box.wide { grid-column: 1 / -1; } /* الحفاظ على التمدد للموبايل */
         
         .social-connect { padding: 60px 0; }
         .social-grid { flex-direction: column; gap: 14px;}
@@ -238,7 +238,7 @@
             </div>
           </div>
 
-          <!-- فريق الطالبات (القسم الجديد) -->
+          <!-- فريق الطالبات -->
           <div class="team-row">
             <div class="team-content">
               <span class="team-kicker">المَشرِقُ الثاني وعِمادنا المكمّل</span>
@@ -360,6 +360,7 @@
       </div>
     </footer>
 
+    <!-- سكربت العدادات والأيقونات -->
     <script>
       lucide.createIcons();
 
@@ -370,12 +371,12 @@
         const run = (el) => {
           const to = parseFloat(el.dataset.to) || 0;
           const dec = parseInt(el.dataset.dec) || 0;
-          const dur = 2000;
+          const dur = 2000; 
           const t0 = performance.now();
           
           const tick = (t) => {
             const p = Math.min((t - t0) / dur, 1);
-            const ease = 1 - Math.pow(1 - p, 3);
+            const ease = 1 - Math.pow(1 - p, 3); 
             el.textContent = (to * ease).toFixed(dec);
             if (p < 1) requestAnimationFrame(tick);
           };
