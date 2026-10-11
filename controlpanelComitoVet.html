@@ -2,15 +2,11 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0d1b33" />
     <title>لوحة الإدارة | VetCommitto</title>
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d1b33'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d1aa5c'%3EAdmin%3C/text%3E%3C/svg%3E"
-    />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d1b33'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d1aa5c'%3EAdmin%3C/text%3E%3C/svg%3E" />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <style>
       :root {
@@ -19,132 +15,152 @@
         --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
       }
       * { box-sizing: border-box; }
-      body { margin: 0; background: #f4f6fa; color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; }
+      body { margin: 0; background: #f4f7fa; color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow-x: hidden; }
       button, input, select, textarea { font: inherit; }
       button { cursor: pointer; }
       a { color: inherit; text-decoration: none; }
       .latin { font-family: Manrope, sans-serif; }
-      .container { width: min(1000px, calc(100% - 44px)); margin-inline: auto; padding-block: 42px 70px; }
       
-      .topbar { background: #fff; border-bottom: 1px solid var(--line); height: 60px; display: flex; align-items: center; padding-inline: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-      .topbar-brand { font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+      /* الهوامش المريحة والموحدة */
+      .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+      .content-wrap { padding-block: 40px 80px; }
+      
+      .topbar { background: #fff; border-bottom: 1px solid var(--line); height: 70px; display: flex; align-items: center; box-shadow: 0 2px 15px rgba(13,27,51,0.03); position: sticky; top: 0; z-index: 40; }
+      .topbar-brand { font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 10px; font-size: 15px; }
       .topbar-brand i { color: var(--gold); }
       
       .admin-view { display: none; }
-      .admin-view.active { display: block; }
+      .admin-view.active { display: block; animation: dialog-in 0.3s ease-out; }
       
-      .admin-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 27px; }
-      .section-kicker { font-family: Manrope, sans-serif; font-size: 10px; letter-spacing: 0.16em; color: var(--purple); font-weight: 700; text-transform: uppercase; margin-bottom: 7px; }
-      .admin-top h1 { font-size: 25px; color: var(--navy); margin: 0; }
-      .admin-top p { font-size: 12px; color: #7b8597; margin: 4px 0; }
+      .admin-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+      .section-kicker { font-family: Manrope, sans-serif; font-size: 11px; letter-spacing: 0.16em; color: var(--purple); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+      .admin-top h1 { font-size: 26px; color: var(--navy); margin: 0; line-height: 1.4; font-weight: 700;}
+      .admin-top p { font-size: 13px; color: #7b8597; margin: 6px 0 0; }
       
-      .admin-tabs { display: flex; gap: 8px; border-bottom: 1px solid #dfe4ec; margin-bottom: 20px; overflow-x: auto;}
-      .admin-tab { background: none; border: 0; padding: 12px 15px; color: #6e7a8f; font-size: 12px; border-bottom: 2px solid transparent; white-space: nowrap; }
-      .admin-tab.active { color: var(--purple); border-color: var(--purple); font-weight: 600; }
+      .admin-tabs { display: flex; gap: 8px; border-bottom: 1px solid #dfe4ec; margin-bottom: 24px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px;}
+      .admin-tabs::-webkit-scrollbar { display: none; }
+      .admin-tab { background: none; border: 0; padding: 14px 18px; color: #6e7a8f; font-size: 13px; border-bottom: 2px solid transparent; white-space: nowrap; transition: 0.2s; font-weight: 500;}
+      .admin-tab:hover { color: var(--purple); }
+      .admin-tab.active { color: var(--purple); border-color: var(--purple); font-weight: 700; }
       
       .admin-panel { display: none; }
-      .admin-panel.active { display: block; }
+      .admin-panel.active { display: block; animation: dialog-in 0.2s ease-out; }
       
-      .admin-card { background: #fff; border: 1px solid var(--line); border-radius: 15px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(13, 27, 51, 0.03); }
-      .admin-card-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 16px; }
-      .admin-card-head h2 { font-size: 15px; color: var(--navy); margin: 0; font-weight: 700; }
+      .admin-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 26px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(13, 27, 51, 0.02); }
+      .admin-card-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;}
+      .admin-card-head h2 { font-size: 17px; color: var(--navy); margin: 0; font-weight: 700; display: flex; align-items: center; gap: 10px;}
       
-      .admin-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-      .admin-table th { text-align: right; color: #838da0; font-weight: 500; background: #f5f8fb; padding: 10px; border-bottom: 1px solid var(--line); }
-      .admin-table td { padding: 11px 10px; border-bottom: 1px solid #eff1f5; color: #43506a; }
+      .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      .admin-table th { text-align: right; color: #7b8597; font-weight: 600; background: #f5f8fb; padding: 12px 14px; border-bottom: 1px solid var(--line); white-space: nowrap;}
+      .admin-table td { padding: 14px; border-bottom: 1px solid #eff1f5; color: #43506a; vertical-align: middle;}
+      .admin-table tr:hover td { background: #fafbfc; }
       .admin-table tr:last-child td { border: 0; }
-      .table-wrap { overflow-x: auto; }
-      .table-actions { display: flex; gap: 6px; }
+      .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+      .table-actions { display: flex; gap: 8px; }
       
-      .primary-btn { border: 0; background: var(--purple); color: #fff; padding: 10px 15px; border-radius: 10px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-      .primary-btn:hover { background: var(--navy2); }
-      .ghost-btn { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 12px; border-radius: 10px; font-size: 11px; display: inline-flex; align-items: center; gap: 7px; transition: 0.2s; }
-      .ghost-btn:hover { background: var(--paper); }
-      .tiny-btn { border: 1px solid #e5e9ef; background: #fff; color: #627087; border-radius: 8px; padding: 7px 9px; font-size: 10px; display: inline-flex; align-items: center; gap: 5px; }
-      .tiny-btn:hover { color: var(--purple); border-color: #aebce3; }
+      .primary-btn { border: 0; background: var(--purple); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; white-space: nowrap;}
+      .primary-btn:hover { background: var(--navy2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,63,112,0.2); }
+      .primary-btn:disabled { opacity: 0.7; pointer-events: none; }
+      .ghost-btn { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 11px 18px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; white-space: nowrap;}
+      .ghost-btn:hover { background: #f5f7fa; border-color: #bbc7d9;}
+      .tiny-btn { border: 1px solid #e5e9ef; background: #fff; color: #627087; border-radius: 10px; padding: 8px 12px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; transition: 0.2s;}
+      .tiny-btn:hover { color: var(--purple); border-color: #aebce3; background: #f8fafe; }
       
-      .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-      .form-row { margin-bottom: 14px; }
+      .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .form-row { margin-bottom: 18px; }
       .form-row.full { grid-column: 1/-1; }
-      .form-row label { display: block; color: #637087; font-size: 11px; margin-bottom: 6px; font-weight: 600; }
-      .field, .select, .textarea { width: 100%; border: 1px solid #e0e5ed; background: #f8f9fc; padding: 10px 11px; border-radius: 9px; outline: none; color: var(--ink); font-size: 12px; transition: 0.2s; }
-      .field:focus, .select:focus, .textarea:focus { border-color: #8baccf; box-shadow: 0 0 0 3px #1e3f701b; background: #fff; }
-      .textarea { min-height: 90px; resize: vertical; }
+      .form-row label { display: block; color: #516079; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
+      .field, .select, .textarea { width: 100%; border: 1px solid #e0e5ed; background: #f8f9fc; padding: 12px 14px; border-radius: 12px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s; }
+      .field:focus, .select:focus, .textarea:focus { border-color: #8baccf; box-shadow: 0 0 0 3px rgba(30,63,112,0.1); background: #fff; }
+      .textarea { min-height: 100px; resize: vertical; line-height: 1.6;}
       
-      .empty-state { padding: 32px 12px; text-align: center; color: #808b9d; font-size: 12px; background: #fcfcfd; border-radius: 12px; border: 1px dashed var(--line); }
-      .loader { width: 25px; height: 25px; border-radius: 50%; border: 2px solid #e3e6f0; border-top-color: var(--purple); animation: spin 0.8s linear infinite; margin: 0 auto 12px; display: block; }
+      .empty-state { padding: 40px 20px; text-align: center; color: #7b8597; font-size: 13px; background: #fcfcfd; border-radius: 16px; border: 1px dashed #cfd6e4;}
+      .loader { width: 28px; height: 28px; border-radius: 50%; border: 3px solid #e3e6f0; border-top-color: var(--purple); animation: spin 0.8s linear infinite; margin: 0 auto 12px; display: block; }
       @keyframes spin { to { transform: rotate(360deg); } }
       
-      .auth-modal, .form-modal { position: fixed; inset: 0; background: rgba(13, 27, 51, 0.85); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+      .auth-modal, .form-modal { position: fixed; inset: 0; background: rgba(13, 27, 51, 0.7); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
       .auth-modal.open, .form-modal.open { display: flex; }
-      .dialog { width: min(720px, 100%); max-height: min(85vh, 800px); overflow: auto; background: #fff; border-radius: 19px; box-shadow: 0 26px 80px rgba(13,27,51,0.3); animation: dialog-in 0.2s ease-out; }
+      .dialog { width: min(720px, 100%); max-height: min(85vh, 800px); overflow: auto; background: #fff; border-radius: 24px; box-shadow: 0 30px 90px rgba(13,27,51,0.2); animation: dialog-in 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
       @keyframes dialog-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-      .dialog-head { padding: 21px 23px; border-bottom: 1px solid #ebedf3; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
-      .dialog-head h2 { font-size: 19px; color: var(--navy); margin: 0; font-weight: 700; }
-      .dialog-head p { font-size: 11px; color: #8a93a3; margin: 4px 0 0; }
-      .close-btn { width: 34px; height: 34px; border: 1px solid var(--line); background: white; border-radius: 10px; color: #647087; display: grid; place-items: center; flex: none; }
-      .dialog-body { padding: 20px 23px 24px; }
-      .dialog-footer { display: flex; justify-content: flex-start; gap: 8px; margin-top: 19px; padding-top: 15px; border-top: 1px solid var(--line); }
+      .dialog-head { padding: 24px 28px; border-bottom: 1px solid #ebedf3; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top:0; background:#fff; z-index:10;}
+      .dialog-head h2 { font-size: 19px; color: var(--navy); margin: 0; font-weight: 800; }
+      .dialog-head p { font-size: 12px; color: #8a93a3; margin: 6px 0 0; }
+      .close-btn { width: 38px; height: 38px; border: 1px solid var(--line); background: white; border-radius: 12px; color: #647087; display: grid; place-items: center; flex: none; transition:0.2s;}
+      .close-btn:hover { background: #f0f3f7; color: var(--navy);}
+      .dialog-body { padding: 24px 28px 30px; }
+      .dialog-footer { display: flex; justify-content: flex-start; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
       
-      .auth-modal .dialog { width: min(410px, 100%); }
-      .auth-form { padding: 24px; }
-      .auth-form .field { padding: 12px; margin-bottom: 15px; }
-      .auth-form .primary-btn { width: 100%; padding: 12px; font-size: 12px; }
-      .auth-note { color: #9099a8; font-size: 10px; text-align: center; margin-top: 14px; }
+      .auth-modal .dialog { width: min(420px, 100%); }
+      .auth-form { padding: 28px; }
+      .auth-form .field { margin-bottom: 18px; }
+      .auth-form .primary-btn { width: 100%; padding: 14px; font-size: 13px; margin-top: 5px;}
+      .auth-note { color: #9099a8; font-size: 11px; text-align: center; margin-top: 16px; }
       
-      .toast-region { position: fixed; z-index: 100; bottom: 22px; left: 22px; display: flex; flex-direction: column; gap: 9px; }
-      .toast { background: #152343; color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; box-shadow: 0 12px 36px rgba(13,27,51,0.3); font-size: 12px; display: flex; align-items: center; gap: 9px; animation: dialog-in 0.2s; }
+      .toast-region { position: fixed; z-index: 200; bottom: 24px; left: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; pointer-events:none;}
+      .toast { background: #152343; color: white; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 18px; box-shadow: 0 12px 36px rgba(13,27,51,0.3); font-size: 13px; display: inline-flex; align-items: center; gap: 10px; animation: dialog-in 0.2s; pointer-events:auto;}
       .toast.success i { color: var(--teal); }
-      .toast.error i { color: #f0b3b3; }
+      .toast.error i { color: #fca5a5; }
       
-      .announcement-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #edf0f4; padding: 12px 0; }
+      .announcement-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #edf0f4; padding: 16px 0; }
       .announcement-card:last-child { border: 0; padding-bottom: 0; }
-      .announcement-card b { font-size: 12px; color: var(--navy); }
-      .announcement-card small { display: block; color: #929aab; font-size: 10px; margin-top: 4px; }
-      .admin-select { max-width: 320px; }
+      .announcement-card b { font-size: 13px; color: var(--navy); display:block; margin-bottom:4px;}
+      .announcement-card small { display: block; color: #7b8597; font-size: 11px; line-height: 1.5;}
+      .admin-select { max-width: 360px; }
       
+      /* شاشات الموبايل */
       @media(max-width: 620px) {
-        .form-grid { grid-template-columns: 1fr; }
-        .admin-top { flex-direction: column; align-items: flex-start; gap: 15px; }
-        .admin-table { min-width: 600px; }
+        .wrap { width: calc(100% - 40px); }
+        .content-wrap { padding-block: 24px 60px; }
+        .topbar { height: 65px; }
+        .form-grid { grid-template-columns: 1fr; gap: 16px; }
+        .admin-top { flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 24px;}
+        .admin-top h1 { font-size: 22px; }
+        .admin-card { padding: 20px; border-radius: 16px; }
+        .admin-card-head h2 { font-size: 15px; }
+        .dialog { border-radius: 24px 24px 0 0; position: absolute; bottom: 0; margin: 0; animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);}
+        @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .dialog-head { padding: 20px 24px; border-radius: 24px 24px 0 0;}
+        .dialog-body { padding: 20px 24px 30px; }
       }
     </style>
   </head>
   <body>
     <header class="topbar">
-      <div class="topbar-brand">
-        <i data-lucide="shield-check" width="18"></i>
-        <span>VetCommitto | بوابة الإدارة</span>
+      <div class="wrap" style="display:flex; align-items:center;">
+        <div class="topbar-brand">
+          <i data-lucide="shield-check" width="20"></i>
+          <span>VetCommitto | بوابة الإدارة</span>
+        </div>
       </div>
     </header>
 
     <main class="admin-view" id="adminView">
-      <div class="container">
+      <div class="wrap content-wrap">
         <div class="admin-top">
           <div>
-            <div class="section-kicker">إدارة قواعد البيانات - Firebase</div>
-            <h1>لوحة تحكم البوابة الأكاديمية</h1>
-            <p id="adminIdentity">جاري التحقق...</p>
+            <div class="section-kicker">إدارة قاعدة البيانات السحابية</div>
+            <h1>لوحة تحكم المنصة الأكاديمية</h1>
+            <p id="adminIdentity">جاري التحقق من الصلاحيات...</p>
           </div>
           <button class="ghost-btn" id="signOutButton">
-            <i data-lucide="log-out" width="15"></i>تسجيل الخروج
+            <i data-lucide="log-out" width="16"></i>تسجيل الخروج
           </button>
         </div>
         
         <div class="admin-tabs" role="tablist">
-          <button class="admin-tab active" data-tab="courses">المساقات</button>
+          <button class="admin-tab active" data-tab="courses">المساقات الأكاديمية</button>
           <button class="admin-tab" data-tab="resources">المواد الدراسية</button>
-          <button class="admin-tab" data-tab="announcements">الإعلانات</button>
+          <button class="admin-tab" data-tab="announcements">لوحة الإعلانات</button>
           <button class="admin-tab" data-tab="links">الروابط المنسدلة</button>
-          <button class="admin-tab" data-tab="backup">النظام والاستعادة</button>
+          <button class="admin-tab" data-tab="backup">النسخ الاحتياطي والنظام</button>
         </div>
         
         <!-- Courses Panel -->
         <section class="admin-panel active" id="panel-courses">
           <div class="admin-card">
             <div class="admin-card-head">
-              <h2>المساقات الأكاديمية المتاحة</h2>
-              <button class="primary-btn" id="addCourseButton"><i data-lucide="plus" width="15"></i>إضافة مساق</button>
+              <h2><i data-lucide="book-open" width="18"></i> المساقات الأكاديمية المتاحة</h2>
+              <button class="primary-btn" id="addCourseButton"><i data-lucide="plus" width="15"></i>إضافة مساق جديد</button>
             </div>
             <div class="table-wrap">
               <table class="admin-table">
@@ -152,7 +168,7 @@
                 <tbody id="adminCoursesBody"></tbody>
               </table>
             </div>
-            <div id="adminCoursesEmpty" class="empty-state" hidden>لا توجد مساقات مسجلة.</div>
+            <div id="adminCoursesEmpty" class="empty-state" hidden>لا توجد مساقات مسجلة حالياً.</div>
           </div>
         </section>
         
@@ -160,14 +176,14 @@
         <section class="admin-panel" id="panel-resources">
           <div class="admin-card">
             <div class="admin-card-head">
-              <h2>إدارة مواد المساقات</h2>
-              <button class="primary-btn" id="addResourceButton" disabled><i data-lucide="plus" width="15"></i>إضافة مادة</button>
+              <h2><i data-lucide="folder-open" width="18"></i> إدارة مواد المساقات وملحقاتها</h2>
+              <button class="primary-btn" id="addResourceButton" disabled><i data-lucide="plus" width="15"></i>إضافة مادة جديدة</button>
             </div>
             <div class="form-row">
               <label for="adminResourceCourse">اختر المساق لعرض وإدارة مواده:</label>
-              <select id="adminResourceCourse" class="select admin-select"><option value="">اختر مساقاً…</option></select>
+              <select id="adminResourceCourse" class="select admin-select"><option value="">اختر مساقاً من القائمة…</option></select>
             </div>
-            <div id="adminResourcesList"><div class="empty-state">اختر مساقاً أولاً.</div></div>
+            <div id="adminResourcesList"><div class="empty-state">اختر مساقاً لعرض مواده.</div></div>
           </div>
         </section>
         
@@ -175,8 +191,8 @@
         <section class="admin-panel" id="panel-announcements">
           <div class="admin-card">
             <div class="admin-card-head">
-              <h2>لوحة الإعلانات العامة (تظهر بالصفحة الرئيسية)</h2>
-              <button class="primary-btn" id="addAnnouncementButton"><i data-lucide="plus" width="15"></i>إعلان جديد</button>
+              <h2><i data-lucide="megaphone" width="18"></i> الإعلانات العامة للطلاب</h2>
+              <button class="primary-btn" id="addAnnouncementButton"><i data-lucide="plus" width="15"></i>نشر إعلان جديد</button>
             </div>
             <div id="adminAnnouncementsList"></div>
           </div>
@@ -186,28 +202,39 @@
         <section class="admin-panel" id="panel-links">
           <div class="admin-card">
             <div class="admin-card-head">
-              <h2>الروابط المهمة (تظهر في القائمة المنسدلة)</h2>
-              <button class="primary-btn" id="addLinkButton"><i data-lucide="plus" width="15"></i>إضافة رابط</button>
+              <h2><i data-lucide="link" width="18"></i> الروابط المهمة (تظهر في الشريط العلوي)</h2>
+              <button class="primary-btn" id="addLinkButton"><i data-lucide="plus" width="15"></i>إضافة رابط جديد</button>
             </div>
             <div id="adminLinksList"></div>
           </div>
         </section>
 
-        <!-- Backup & Restore Panel -->
+        <!-- Backup & Restore Panel (الاستيراد والتصدير) -->
         <section class="admin-panel" id="panel-backup">
-          <div class="admin-card">
-            <div class="admin-card-head">
-              <h2>استعادة البيانات من النظام القديم (JSON Backup)</h2>
-            </div>
-            <div class="form-row">
-              <p style="font-size: 12px; color: #606d85; margin-bottom: 12px; line-height: 1.6;">
-                الصق كود الـ JSON الخاص بالنسخة الاحتياطية هنا. سيقوم النظام بدمج المساقات، المواد، الإعلانات، والروابط تلقائياً مع قاعدة بيانات Firebase الحالية <b style="color: var(--purple)">(لن يتم استعادة المستخدمين كما طلبت)</b>.
-              </p>
-              <textarea id="backupJsonInput" class="textarea" style="min-height: 250px; font-family: monospace; direction: ltr;" placeholder='{ "courses": [...], "resources": [...] }'></textarea>
-            </div>
-            <button class="primary-btn" id="restoreDataBtn">
-              <i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات
-            </button>
+          <div class="form-grid">
+             <!-- قسم التصدير -->
+             <div class="admin-card">
+               <div class="admin-card-head">
+                 <h2><i data-lucide="download-cloud" width="18"></i> سحب البيانات (تصدير كـ JSON)</h2>
+               </div>
+               <p style="font-size: 12px; color: #606d85; margin-bottom: 16px; line-height:1.6;">انقر على الزر لجلب كافة بيانات المنصة (المساقات، المواد، الإعلانات، والروابط) من السيرفر ونسخها ككود جاهز للاحتفاظ به.</p>
+               <button class="ghost-btn" id="exportDataBtn" style="margin-bottom: 16px; width: 100%;">
+                 <i data-lucide="copy" width="15"></i> جلب ونسخ بيانات النظام
+               </button>
+               <textarea id="exportJsonOutput" class="textarea" style="min-height: 180px; font-family: monospace; direction: ltr; font-size:11px;" readonly placeholder="ستظهر البيانات هنا تلقائياً بعد السحب..."></textarea>
+             </div>
+
+             <!-- قسم الاستيراد -->
+             <div class="admin-card">
+               <div class="admin-card-head">
+                 <h2><i data-lucide="upload-cloud" width="18"></i> استعادة البيانات (دمج ملف JSON)</h2>
+               </div>
+               <p style="font-size: 12px; color: #606d85; margin-bottom: 16px; line-height:1.6;">الصق كود الـ JSON الذي تم سحبه مسبقاً هنا. سيقوم النظام بتحليله ودمجه فوراً مع قاعدة البيانات السحابية الحالية.</p>
+               <textarea id="backupJsonInput" class="textarea" style="min-height: 180px; font-family: monospace; direction: ltr; font-size:11px;" placeholder='{ "courses": [...], "resources": [...] }'></textarea>
+               <button class="primary-btn" id="restoreDataBtn" style="margin-top: 16px; width: 100%;">
+                 <i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات
+               </button>
+             </div>
           </div>
         </section>
 
@@ -219,7 +246,7 @@
       <section class="dialog">
         <header class="dialog-head">
           <div><h2 id="formTitle">تحرير</h2><p id="formSubtitle"></p></div>
-          <button class="close-btn" data-close="formModal"><i data-lucide="x" width="17"></i></button>
+          <button class="close-btn" data-close="formModal"><i data-lucide="x" width="18"></i></button>
         </header>
         <div class="dialog-body" id="formBody"></div>
       </section>
@@ -228,19 +255,19 @@
     <div class="auth-modal" id="authModal">
       <section class="dialog">
         <header class="dialog-head">
-          <div><h2>تسجيل دخول المشرفين</h2><p>يتطلب حساب بصلاحيات الكتابة في Firebase.</p></div>
+          <div><h2>بوابة الدخول للإدارة</h2><p>أدخل بيانات الحساب المصرح له بتعديل المنصة.</p></div>
         </header>
         <form class="auth-form" id="authForm">
           <div class="form-row">
-            <label>البريد الإلكتروني</label>
+            <label>البريد الإلكتروني للإدارة</label>
             <input class="field" type="email" id="authEmail" required autocomplete="username" />
           </div>
           <div class="form-row">
-            <label>كلمة المرور</label>
+            <label>كلمة المرور السريّة</label>
             <input class="field" type="password" id="authPassword" required autocomplete="current-password" />
           </div>
-          <button class="primary-btn" type="submit"><i data-lucide="log-in" width="15"></i>تسجيل الدخول الآمن</button>
-          <p class="auth-note">الدخول متاح لفريق الإدارة المعتمد فقط.</p>
+          <button class="primary-btn" type="submit"><i data-lucide="shield" width="16"></i>تسجيل الدخول الآمن</button>
+          <p class="auth-note">النظام محمي ومتاح لأعضاء اللجنة فقط.</p>
         </form>
       </section>
     </div>
@@ -252,7 +279,7 @@
       import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
       import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, deleteDoc, doc, setDoc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-      // المفاتيح الحقيقية والمعدلة
+      // المفاتيح الحقيقية الخاصة بك
       const firebaseConfig = {
         apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
         authDomain: "vetcommitto.firebaseapp.com",
@@ -271,7 +298,7 @@
           UI.bind();
           UI.icons();
           if (!DB.isConfigured()) {
-            UI.toast("Firebase غير مهيأ! استبدل firebaseConfig في الكود.", "error");
+            UI.toast("Firebase غير مهيأ! تأكد من مفاتيح الإعدادات.", "error");
             UI.openModal("authModal");
             return;
           }
@@ -285,7 +312,7 @@
                 this.user = user;
                 UI.closeModal("authModal");
                 UI.el("adminView").classList.add("active");
-                UI.el("adminIdentity").innerHTML = `<i data-lucide="user-check" width="14" style="display:inline; color:var(--teal)"></i> متصل كـ: ${user.email}`;
+                UI.el("adminIdentity").innerHTML = `<i data-lucide="user-check" width="14" style="display:inline; color:var(--teal)"></i> حساب الإدارة نشط: ${user.email}`;
                 UI.icons();
                 this.refresh();
               } else {
@@ -323,7 +350,7 @@
             await b.commit();
           }
         },
-        errMsg: (e) => e?.code?.includes("permission-denied") ? "لا تملك الصلاحية (Rules)." : e?.code?.includes("wrong-password") ? "كلمة المرور خاطئة." : (e?.message || "حدث خطأ.")
+        errMsg: (e) => e?.code?.includes("permission-denied") ? "لا تملك الصلاحية للتعديل." : e?.code?.includes("wrong-password") ? "كلمة المرور خاطئة." : (e?.message || "حدث خطأ غير معروف.")
       };
 
       const UI = {
@@ -332,17 +359,17 @@
         icons: () => window.lucide && window.lucide.createIcons(),
         toast(msg, type="success") {
           const t = document.createElement("div"); t.className = `toast ${type}`;
-          t.innerHTML = `<i data-lucide="${type==='error'?'circle-alert':'circle-check'}" width="17"></i><span>${this.esc(msg)}</span>`;
+          t.innerHTML = `<i data-lucide="${type==='error'?'circle-alert':'circle-check'}" width="18"></i><span>${this.esc(msg)}</span>`;
           this.el("toastRegion").append(t); this.icons(); setTimeout(() => t.remove(), 4000);
         },
-        openModal(id) { const m = this.el(id); m.classList.add("open"); document.body.style.overflow="hidden"; setTimeout(()=>m.querySelector("input")?.focus(),20); },
+        openModal(id) { const m = this.el(id); m.classList.add("open"); document.body.style.overflow="hidden"; setTimeout(()=>m.querySelector("input")?.focus(),50); },
         closeModal(id) { this.el(id).classList.remove("open"); document.body.style.overflow=""; },
         
         bind() {
           this.el("authForm").addEventListener("submit", async (e) => {
             e.preventDefault(); const b = e.submitter; b.disabled = true; b.textContent = "جارٍ التحقق...";
             try { await signInWithEmailAndPassword(App.auth, this.el("authEmail").value.trim(), this.el("authPassword").value); UI.el("authForm").reset(); }
-            catch (err) { this.toast(DB.errMsg(err), "error"); } finally { b.disabled = false; b.innerHTML = `<i data-lucide="log-in" width="15"></i>تسجيل الدخول الآمن`; this.icons(); }
+            catch (err) { this.toast(DB.errMsg(err), "error"); } finally { b.disabled = false; b.innerHTML = `<i data-lucide="shield" width="16"></i>تسجيل الدخول الآمن`; this.icons(); }
           });
           this.el("signOutButton").addEventListener("click", () => signOut(App.auth));
           document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => this.closeModal(b.dataset.close)));
@@ -363,16 +390,49 @@
           this.el("adminLinksList").addEventListener("click", e => this.linkAction(e));
           this.el("formBody").addEventListener("submit", e => { if(e.target.matches("form[data-entity]")) this.submitForm(e); });
 
-          // دالة استعادة JSON 
+          // --- دالة سحب وتصدير البيانات ---
+          this.el("exportDataBtn").addEventListener("click", async () => {
+            const btn = this.el("exportDataBtn");
+            const out = this.el("exportJsonOutput");
+            btn.disabled = true; btn.innerHTML = `<span class="loader" style="width:15px;height:15px;border-width:2px;margin:0"></span> جاري سحب البيانات...`;
+            try {
+              // جلب كامل المجموعات الأربعة من فايربيس
+              const [c, r, a, l] = await Promise.all([
+                  DB.list("acad_courses"),
+                  DB.list("acad_resources"),
+                  DB.list("acad_announcements"),
+                  DB.list("acad_links")
+              ]);
+              
+              const fullData = { courses: c, resources: r, announcements: a, links: l };
+              const jsonString = JSON.stringify(fullData, null, 2);
+              
+              // وضعها في المربع ونسخها للحافظة
+              out.value = jsonString;
+              try {
+                  await navigator.clipboard.writeText(jsonString);
+                  this.toast("تم سحب البيانات ونسخها للحافظة بنجاح!");
+              } catch(e) {
+                  this.toast("تم سحب البيانات! يرجى نسخها يدوياً من المربع.", "success");
+              }
+            } catch(err) {
+              this.toast("حدث خطأ أثناء السحب: " + DB.errMsg(err), "error");
+            } finally {
+              btn.disabled = false; btn.innerHTML = `<i data-lucide="copy" width="15"></i> جلب ونسخ بيانات النظام`;
+              this.icons();
+            }
+          });
+
+          // --- دالة استعادة ودمج البيانات ---
           this.el("restoreDataBtn").addEventListener("click", async () => {
             const val = this.el("backupJsonInput").value;
-            if (!val) return this.toast("الرجاء لصق البيانات أولاً.", "error");
+            if (!val) return this.toast("الرجاء لصق كود البيانات أولاً.", "error");
             try {
               const parsed = JSON.parse(val);
-              if (!confirm("سيتم دمج البيانات المعطاة مع قاعدة البيانات الحالية. هل أنت متأكد؟")) return;
+              if (!confirm("سيتم دمج البيانات المرفقة مع قاعدة البيانات السحابية الحالية. هل أنت متأكد من رغبتك بالاستمرار؟")) return;
               
               const btn = this.el("restoreDataBtn");
-              btn.disabled = true; btn.textContent = "جاري الاستعادة...";
+              btn.disabled = true; btn.textContent = "جاري المزامنة مع السيرفر...";
               
               let ops = [];
               
@@ -381,61 +441,47 @@
                       const yr = c.category ? c.category.replace(/[^0-9]/g, "") || "1" : "1";
                       const sem = c.semester ? c.semester.replace("semester-", "") : "1";
                       ops.push({ col: "acad_courses", id: c.id, data: {
-                          name: c.title || c.name || "",
-                          code: c.code || "",
+                          name: c.title || c.name || "", code: c.code || "",
                           category: c.category && c.category.toLowerCase().includes("year") ? `year-${yr}` : (c.category || "year-1"),
-                          year: yr,
-                          semester: sem,
-                          credits: c.credits || 0,
-                          updatedAt: serverTimestamp()
+                          year: yr, semester: sem, credits: c.credits || 0, updatedAt: serverTimestamp()
                       }});
                   });
               }
               if (parsed.resources) {
                   parsed.resources.forEach(r => {
                       ops.push({ col: "acad_resources", id: r.id, data: {
-                          courseId: r.courseId,
-                          type: r.type || "other",
-                          title: r.title || "مادة دراسية",
-                          url: r.url || "",
-                          updatedAt: serverTimestamp()
+                          courseId: r.courseId, type: r.type || "other", title: r.title || "مادة دراسية", url: r.url || "", updatedAt: serverTimestamp()
                       }});
                   });
               }
               if (parsed.announcements) {
                   parsed.announcements.forEach(a => {
                       ops.push({ col: "acad_announcements", id: a.id || crypto.randomUUID(), data: {
-                          title: a.title || "إعلان أكاديمي",
-                          message: a.text || a.message || "",
-                          createdAt: serverTimestamp()
+                          title: a.title || "إعلان أكاديمي", message: a.text || a.message || "", createdAt: serverTimestamp()
                       }});
                   });
               }
               if (parsed.links) {
                   parsed.links.forEach(l => {
                       ops.push({ col: "acad_links", id: l.id || crypto.randomUUID(), data: {
-                          title: l.name || l.title || "",
-                          name: l.name || l.title || "",
-                          url: l.url || "",
-                          updatedAt: serverTimestamp()
+                          title: l.name || l.title || "", name: l.name || l.title || "", url: l.url || "", updatedAt: serverTimestamp()
                       }});
                   });
               }
               
+              // الرفع على شكل دفعات (Batches) لتفادي أخطاء الحجم
               for(let i=0; i<ops.length; i+=450){
                   const b = writeBatch(App.db);
-                  ops.slice(i, i+450).forEach(op => {
-                      b.set(doc(App.db, op.col, op.id), op.data, { merge: true });
-                  });
+                  ops.slice(i, i+450).forEach(op => { b.set(doc(App.db, op.col, op.id), op.data, { merge: true }); });
                   await b.commit();
               }
               
-              this.toast(`تمت المزامنة بنجاح! (${ops.length} عنصر)`);
+              this.toast(`تمت المزامنة بنجاح! تم رفع (${ops.length}) عنصر للسيرفر.`);
               this.el("backupJsonInput").value = "";
               App.refresh();
             } catch(e) {
               console.error(e);
-              this.toast("صيغة JSON غير صحيحة، يرجى التأكد.", "error");
+              this.toast("صيغة JSON غير صحيحة، يرجى التأكد من الكود المنسوخ.", "error");
             } finally {
               const btn = this.el("restoreDataBtn");
               btn.disabled = false; btn.innerHTML = `<i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات`;
@@ -446,7 +492,7 @@
         
         // --- Courses ---
         renderCourses() {
-          this.el("adminCoursesBody").innerHTML = App.courses.map(c => `<tr><td><b>${this.esc(c.name||c.title)}</b></td><td class="latin">${this.esc(c.code||"")}</td><td>${this.esc(c.year||"")} · ${this.esc(c.semester||"")}</td><td><button class="tiny-btn" data-manage-res="${this.esc(c.id)}">المواد</button></td><td><span class="table-actions"><button class="tiny-btn" data-edit-course="${this.esc(c.id)}"><i data-lucide="pencil" width="13"></i></button><button class="tiny-btn" data-del-course="${this.esc(c.id)}"><i data-lucide="trash-2" width="13"></i></button></span></td></tr>`).join("");
+          this.el("adminCoursesBody").innerHTML = App.courses.map(c => `<tr><td><b>${this.esc(c.name||c.title)}</b></td><td class="latin">${this.esc(c.code||"")}</td><td>${this.esc(c.year||"")} · ${this.esc(c.semester||"")}</td><td><button class="tiny-btn" data-manage-res="${this.esc(c.id)}">المواد</button></td><td><span class="table-actions"><button class="tiny-btn" data-edit-course="${this.esc(c.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-course="${this.esc(c.id)}"><i data-lucide="trash-2" width="14"></i></button></span></td></tr>`).join("");
           this.el("adminCoursesEmpty").hidden = App.courses.length > 0; this.icons();
         },
         async courseAction(e) {
@@ -455,90 +501,90 @@
           if (mg) { document.querySelector('[data-tab="resources"]').click(); this.el("adminResourceCourse").value = mg.dataset.manageRes; this.chooseResCourse(mg.dataset.manageRes); }
           if (del) {
             const c = App.courses.find(x => x.id === del.dataset.delCourse);
-            if (!confirm(`حذف المساق «${c.name}» نهائياً؟`)) return;
+            if (!confirm(`تحذير: هل أنت متأكد من حذف المساق «${c.name}» نهائياً؟`)) return;
             try {
               const res = await DB.resources(c.id);
-              if (res.length && !confirm(`هذا المساق يحتوي ${res.length} مادة، هل تريد حذفها جميعاً أيضاً؟`)) return;
+              if (res.length && !confirm(`انتبه! هذا المساق يحتوي على (${res.length}) مادة، سيتم حذفها جميعاً. هل تريد المتابعة؟`)) return;
               if (res.length) await DB.removeResources(res);
               await DB.remove("acad_courses", c.id);
-              this.toast("تم حذف المساق."); App.adminResourceCourse = ""; App.refresh();
+              this.toast("تم حذف المساق والمواد التابعة له."); App.adminResourceCourse = ""; App.refresh();
             } catch(err) { this.toast(DB.errMsg(err), "error"); }
           }
         },
         courseForm(c=null) {
-          const ed = !!c, opts = [["year-1","السنة 1"],["year-2","السنة 2"],["year-3","السنة 3"],["year-4","السنة 4"],["year-5","السنة 5"],["year-6","السنة 6"],["elective","اختياري"],["university","متطلب جامعة"]];
-          const cOpts = opts.map(([id,lbl]) => `<option value="${id}" ${c?.category===id||c?.year===id?'selected':''}>${lbl}</option>`).join("");
-          this.openF(ed?"تعديل مساق":"إضافة مساق", "بيانات المساق الرسمية", `<form data-entity="course" data-id="${this.esc(c?.id)}"><div class="form-grid"><div class="form-row full"><label>اسم المساق</label><input name="name" class="field" required value="${this.esc(c?.name)}"></div><div class="form-row"><label>الرمز</label><input name="code" class="field" required value="${this.esc(c?.code)}"></div><div class="form-row"><label>السنة</label><select name="category" class="select">${cOpts}</select></div><div class="form-row"><label>الفصل</label><select name="semester" class="select"><option value="1" ${c?.semester=="1"?'selected':''}>الأول</option><option value="2" ${c?.semester=="2"?'selected':''}>الثاني</option><option value="summer" ${c?.semester=="summer"?'selected':''}>صيفي</option></select></div><div class="form-row"><label>الساعات</label><input name="credits" type="number" class="field" value="${this.esc(c?.credits)}"></div></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
+          const ed = !!c, opts = [["year-1","السنة الأولى"],["year-2","السنة الثانية"],["year-3","السنة الثالثة"],["year-4","السنة الرابعة"],["year-5","السنة الخامسة"],["year-6","السنة السادسة"],["elective","اختياري"],["university","متطلب جامعة"]];
+          const cOpts = opts.map(([id,lbl]) => `<option value="${id}" ${c?.category===id||c?.year===id.replace('year-','')?'selected':''}>${lbl}</option>`).join("");
+          this.openF(ed?"تعديل بيانات المساق":"إضافة مساق جديد", "املأ البيانات بدقة لتظهر بشكل صحيح للطلاب", `<form data-entity="course" data-id="${this.esc(c?.id)}"><div class="form-grid"><div class="form-row full"><label>اسم المساق الرسمي</label><input name="name" class="field" required value="${this.esc(c?.name||c?.title)}"></div><div class="form-row"><label>الرمز الأكاديمي (اختياري)</label><input name="code" class="field" value="${this.esc(c?.code)}"></div><div class="form-row"><label>سنة المساق</label><select name="category" class="select">${cOpts}</select></div><div class="form-row"><label>الفصل الدراسي</label><select name="semester" class="select"><option value="1" ${c?.semester=="1"?'selected':''}>الفصل الأول</option><option value="2" ${c?.semester=="2"?'selected':''}>الفصل الثاني</option><option value="summer" ${c?.semester=="summer"?'selected':''}>الفصل الصيفي</option></select></div><div class="form-row full"><label>عدد الساعات (اختياري)</label><input name="credits" type="number" class="field" value="${this.esc(c?.credits)}"></div></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ التغييرات</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
         },
         
         // --- Resources ---
         renderResourceCourseOptions() {
           const cur = this.el("adminResourceCourse").value;
-          this.el("adminResourceCourse").innerHTML = `<option value="">اختر مساقاً...</option>` + App.courses.map(c => `<option value="${this.esc(c.id)}">${this.esc(c.code)} - ${this.esc(c.name)}</option>`).join("");
+          this.el("adminResourceCourse").innerHTML = `<option value="">اختر مساقاً...</option>` + App.courses.map(c => `<option value="${this.esc(c.id)}">${this.esc(c.name||c.title)} ${c.code ? `(${c.code})` : ''}</option>`).join("");
           if(App.courses.some(c=>c.id===cur)) this.el("adminResourceCourse").value = cur;
         },
         async chooseResCourse(id) {
           App.adminResourceCourse = id; this.el("addResourceButton").disabled = !id;
           const t = this.el("adminResourcesList");
-          if (!id) { t.innerHTML = '<div class="empty-state">اختر مساقاً.</div>'; return; }
-          t.innerHTML = '<div class="loader"></div><div style="text-align:center; font-size:12px; color:#888">جاري التحميل...</div>';
+          if (!id) { t.innerHTML = '<div class="empty-state">اختر مساقاً من القائمة العلوية لعرض مواده.</div>'; return; }
+          t.innerHTML = '<div class="loader"></div><div style="text-align:center; font-size:12px; color:#888">جاري الجلب من السيرفر...</div>';
           try {
             const res = await DB.resources(id); App.adminResourceCache.set(id, res);
-            if(!res.length) { t.innerHTML = '<div class="empty-state">لا توجد مواد مضافة هنا بعد.</div>'; return; }
-            t.innerHTML = res.map(r => `<div class="announcement-card"><span><b>${this.esc(r.title)}</b><small>${this.esc(r.type)} · ${this.esc(r.url)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-res="${this.esc(r.id)}"><i data-lucide="pencil" width="13"></i></button><button class="tiny-btn" data-del-res="${this.esc(r.id)}"><i data-lucide="trash-2" width="13"></i></button></span></div>`).join("");
+            if(!res.length) { t.innerHTML = '<div class="empty-state">هذا المساق لا يحتوي على أي مواد حالياً.</div>'; return; }
+            t.innerHTML = res.map(r => `<div class="announcement-card"><span><b>${this.esc(r.title)}</b><small style="direction:ltr; text-align:right;">${this.esc(r.type)} · ${this.esc(r.url)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-res="${this.esc(r.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-res="${this.esc(r.id)}"><i data-lucide="trash-2" width="14"></i></button></span></div>`).join("");
             this.icons();
-          } catch(err) { t.innerHTML = `<div class="error-state">تعذر التحميل.</div>`; }
+          } catch(err) { t.innerHTML = `<div class="error-state">تعذر تحميل المواد، تحقق من الاتصال.</div>`; }
         },
         resAction(e) {
           const edit = e.target.closest("[data-edit-res]"), del = e.target.closest("[data-del-res]");
           const items = App.adminResourceCache.get(App.adminResourceCourse)||[];
           if(edit) this.resForm(items.find(x => x.id === edit.dataset.editRes));
-          if(del && confirm("حذف المادة؟")) {
-             DB.remove("acad_resources", del.dataset.delRes).then(()=>{ this.toast("تمت الإزالة"); this.chooseResCourse(App.adminResourceCourse); });
+          if(del && confirm("هل أنت متأكد من حذف هذه المادة؟ لا يمكن التراجع عن هذا الإجراء.")) {
+             DB.remove("acad_resources", del.dataset.delRes).then(()=>{ this.toast("تمت إزالة المادة بنجاح."); this.chooseResCourse(App.adminResourceCourse); });
           }
         },
         resForm(r=null) {
-          if(!App.adminResourceCourse) return this.toast("اختر مساقاً أولاً","error");
-          const cOpts = App.courses.map(c => `<option value="${this.esc(c.id)}" ${c.id===App.adminResourceCourse?'selected':''}>${this.esc(c.name)}</option>`).join("");
-          this.openF(r?"تعديل مادة":"إضافة مادة", "", `<form data-entity="resource" data-id="${this.esc(r?.id)}"><div class="form-row"><label>المساق</label><select name="courseId" class="select" required>${cOpts}</select></div><div class="form-row"><label>النوع</label><select name="type" class="select"><option value="lecture" ${r?.type=='lecture'?'selected':''}>محاضرة/سلايد</option><option value="recording" ${r?.type=='recording'?'selected':''}>تسجيل</option><option value="summary" ${r?.type=='summary'?'selected':''}>ملخص/امتحان</option><option value="other" ${r?.type=='other'?'selected':''}>أخرى</option></select></div><div class="form-row"><label>العنوان</label><input name="title" class="field" required value="${this.esc(r?.title)}"></div><div class="form-row"><label>الرابط</label><input name="url" type="url" class="field" required value="${this.esc(r?.url)}"></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
+          if(!App.adminResourceCourse) return this.toast("الرجاء اختيار المساق أولاً","error");
+          const curC = App.courses.find(x => x.id === App.adminResourceCourse);
+          this.openF(r?"تعديل المادة الدراسية":"إضافة مادة جديدة", `سيتم إضافتها إلى مساق: ${curC?.name}`, `<form data-entity="resource" data-id="${this.esc(r?.id)}"><input type="hidden" name="courseId" value="${App.adminResourceCourse}"><div class="form-row"><label>نوع المادة المرفقة</label><select name="type" class="select"><option value="lecture" ${r?.type=='lecture'?'selected':''}>سلايدات أو ملفات شرح (Lecture)</option><option value="recording" ${r?.type=='recording'?'selected':''}>تسجيلات وملفات صوتية (Record)</option><option value="summary" ${r?.type=='summary'?'selected':''}>ملخصات أو تفاريغ أو امتحانات (Summary/Exam)</option><option value="other" ${r?.type=='other'?'selected':''}>مصادر خارجية أخرى (Other)</option></select></div><div class="form-row"><label>عنوان المادة (اسم الملف)</label><input name="title" class="field" required placeholder="مثال: تفاريغ د.أحمد - المحاضرة الأولى" value="${this.esc(r?.title)}"></div><div class="form-row"><label>رابط الملف (Google Drive, YouTube, الخ)</label><input name="url" type="url" class="field" required placeholder="https://..." value="${this.esc(r?.url)}"></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ المادة بالنظام</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
         },
         
         // --- Announcements & Links ---
         renderAnnouncements() {
-          this.el("adminAnnouncementsList").innerHTML = !App.announcements.length ? '<div class="empty-state">لا توجد إعلانات.</div>' : App.announcements.map(a => `<div class="announcement-card"><span><b>${this.esc(a.title)}</b><small>${this.esc(a.message)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-ann="${this.esc(a.id)}"><i data-lucide="pencil" width="13"></i></button><button class="tiny-btn" data-del-ann="${this.esc(a.id)}"><i data-lucide="trash-2" width="13"></i></button></span></div>`).join(""); this.icons();
+          this.el("adminAnnouncementsList").innerHTML = !App.announcements.length ? '<div class="empty-state">لا توجد إعلانات منشورة.</div>' : App.announcements.map(a => `<div class="announcement-card"><span><b>${this.esc(a.title)}</b><small>${this.esc(a.message||a.body||"")}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-ann="${this.esc(a.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-ann="${this.esc(a.id)}"><i data-lucide="trash-2" width="14"></i></button></span></div>`).join(""); this.icons();
         },
         annAction(e) {
           const ed = e.target.closest("[data-edit-ann]"), del = e.target.closest("[data-del-ann]");
           if(ed) this.annForm(App.announcements.find(x => x.id === ed.dataset.editAnn));
-          if(del && confirm("حذف الإعلان؟")) DB.remove("acad_announcements", del.dataset.delAnn).then(()=>{ this.toast("تم الحذف"); App.refresh(); });
+          if(del && confirm("حذف الإعلان؟ سيختفي من صفحة الطلاب فوراً.")) DB.remove("acad_announcements", del.dataset.delAnn).then(()=>{ this.toast("تم الحذف بنجاح"); App.refresh(); });
         },
         annForm(a=null) {
-          this.openF(a?"تعديل إعلان":"إعلان جديد", "يظهر بالصفحة الرئيسية للطلاب", `<form data-entity="announcement" data-id="${this.esc(a?.id)}"><div class="form-row"><label>العنوان</label><input name="title" class="field" required value="${this.esc(a?.title)}"></div><div class="form-row"><label>النص</label><textarea name="message" class="textarea" required>${this.esc(a?.message)}</textarea></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
+          this.openF(a?"تعديل الإعلان":"نشر إعلان جديد", "سيظهر الإعلان في الشريط الأبيض في الصفحة الرئيسية للطلاب", `<form data-entity="announcement" data-id="${this.esc(a?.id)}"><div class="form-row"><label>عنوان الإعلان</label><input name="title" class="field" required placeholder="مثال: هام وعاجل" value="${this.esc(a?.title)}"></div><div class="form-row"><label>نص الإعلان</label><textarea name="message" class="textarea" required placeholder="اكتب تفاصيل الإعلان هنا...">${this.esc(a?.message||a?.body||"")}</textarea></div><div class="dialog-footer"><button class="primary-btn" type="submit">نشر الإعلان</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
         },
         
         renderLinks() {
-          this.el("adminLinksList").innerHTML = !App.links.length ? '<div class="empty-state">لا توجد روابط.</div>' : App.links.map(l => `<div class="announcement-card"><span><b>${this.esc(l.title||l.name)}</b><small>${this.esc(l.url)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-link="${this.esc(l.id)}"><i data-lucide="pencil" width="13"></i></button><button class="tiny-btn" data-del-link="${this.esc(l.id)}"><i data-lucide="trash-2" width="13"></i></button></span></div>`).join(""); this.icons();
+          this.el("adminLinksList").innerHTML = !App.links.length ? '<div class="empty-state">لم تقم بإضافة روابط بعد.</div>' : App.links.map(l => `<div class="announcement-card"><span><b>${this.esc(l.title||l.name)}</b><small dir="ltr" style="text-align:right">${this.esc(l.url)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-link="${this.esc(l.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-link="${this.esc(l.id)}"><i data-lucide="trash-2" width="14"></i></button></span></div>`).join(""); this.icons();
         },
         linkAction(e) {
           const ed = e.target.closest("[data-edit-link]"), del = e.target.closest("[data-del-link]");
           if(ed) this.linkForm(App.links.find(x => x.id === ed.dataset.editLink));
-          if(del && confirm("حذف الرابط؟")) DB.remove("acad_links", del.dataset.delLink).then(()=>{ this.toast("تم الحذف"); App.refresh(); });
+          if(del && confirm("إزالة هذا الرابط من القائمة؟")) DB.remove("acad_links", del.dataset.delLink).then(()=>{ this.toast("تم الحذف"); App.refresh(); });
         },
         linkForm(l=null) {
-          this.openF(l?"تعديل رابط":"إضافة رابط", "سيظهر في القائمة المنسدلة", `<form data-entity="link" data-id="${this.esc(l?.id)}"><div class="form-row"><label>الاسم</label><input name="title" class="field" required value="${this.esc(l?.title||l?.name)}"></div><div class="form-row"><label>الرابط</label><input name="url" type="url" class="field" required value="${this.esc(l?.url)}"></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
+          this.openF(l?"تعديل الرابط":"إضافة رابط جديد", "سيظهر للطلاب في قائمة (الروابط المهمة) في الأعلى", `<form data-entity="link" data-id="${this.esc(l?.id)}"><div class="form-row"><label>اسم الرابط الواضح</label><input name="title" class="field" required placeholder="مثال: الخدمات الطلابية" value="${this.esc(l?.title||l?.name)}"></div><div class="form-row"><label>الرابط (URL)</label><input name="url" type="url" class="field" required placeholder="https://..." value="${this.esc(l?.url)}"></div><div class="dialog-footer"><button class="primary-btn" type="submit">تثبيت الرابط</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
         },
         
         // --- Form Submission ---
         openF(t, s, h) { this.el("formTitle").textContent=t; this.el("formSubtitle").textContent=s; this.el("formBody").innerHTML=h; this.openModal("formModal"); },
         async submitForm(e) {
           e.preventDefault(); const f = e.target, en = f.dataset.entity, id = f.dataset.id, v = Object.fromEntries(new FormData(f).entries()), btn = f.querySelector('[type="submit"]');
-          btn.disabled = true; btn.textContent = "جاري الحفظ...";
+          btn.disabled = true; btn.textContent = "جاري الحفظ بالسيرفر...";
           try {
             if(en==="course") { const d = { name:v.name, code:v.code, category:v.category, year:v.category.replace("year-",""), semester:v.semester, credits:Number(v.credits)||0 }; id ? await DB.update("acad_courses", id, d) : await DB.create("acad_courses", d); await App.refresh(); }
             else if(en==="resource") { const d = { courseId:v.courseId, type:v.type, title:v.title, url:v.url }; id ? await DB.update("acad_resources", id, d) : await DB.create("acad_resources", d); await this.chooseResCourse(v.courseId); }
             else if(en==="announcement") { const d = { title:v.title, message:v.message }; id ? await DB.update("acad_announcements", id, d) : await DB.create("acad_announcements", d); await App.refresh(); }
             else if(en==="link") { const d = { title:v.title, name:v.title, url:v.url }; id ? await DB.update("acad_links", id, d) : await DB.create("acad_links", d); await App.refresh(); }
-            this.toast("تم الحفظ بنجاح"); this.closeModal("formModal");
+            this.toast("تم الحفظ بنجاح ونشر التعديل للطلاب."); this.closeModal("formModal");
           } catch(err) { this.toast(DB.errMsg(err), "error"); } finally { btn.disabled = false; }
         }
       };
