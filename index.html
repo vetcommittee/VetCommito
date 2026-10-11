@@ -218,7 +218,6 @@
         .topbar { height: 68px; padding-inline: 0; }
         .brand-logo { width: 40px; height: 40px; }
         
-        /* التعديل المطلوب لإخفاء الروابط وعرض زر القائمة فقط على الموبايل */
         .navlinks > a { display: none; }
         .navlinks .nav-btn { font-size: 13px; color: var(--navy); font-weight: 600; background: #f0f3f7; padding: 9px 14px; border-radius: 10px; }
         .dropdown { padding-block: 0; }
@@ -407,7 +406,7 @@
         </div>
       </section>
 
-      <!-- قسم الإنجازات الجديد -->
+      <!-- قسم الإنجازات -->
       <section class="achieve-section" id="achievements-section">
         <div class="wrap">
           <div class="achieve-head">
@@ -490,7 +489,7 @@
           <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="footer-logo" />
           <span>المنصة الأكاديمية - VetCommitto<br /><span class="footer-copy">لجنة الطب والجراحة البيطرية</span></span>
         </div>
-        <span class="footer-copy">بوابة أكاديمية للطلبة · نبني المجد لنرقى</span>
+        <span class="footer-copy">بوابة أكاديمية للطلبة · المعلومات الرسمية من إدارة الكلية</span>
         <span class="footer-copy latin">JUST · JORDAN</span>
       </div>
     </footer>
@@ -539,10 +538,6 @@
         measurementId: "G-4DXQ3B29YR"
       };
 
-      const DEMO_DATA = {
-        courses: [], resources: [], announcements: [], links: []
-      };
-
       const App = {
         firebaseReady: false, app: null, db: null,
         courses: [], announcements: [], links: [],
@@ -568,12 +563,25 @@
       const DB = {
         list: async (name) => {
           if (!App.db) return [];
-          const snap = await getDocs(collection(App.db, name)); return snap.docs.map(item => ({ id: item.id, ...item.data() }));
+          const cachedData = sessionStorage.getItem(name);
+          if (cachedData) return JSON.parse(cachedData);
+
+          const snap = await getDocs(collection(App.db, name));
+          const data = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+          sessionStorage.setItem(name, JSON.stringify(data));
+          return data;
         },
         resources: async (courseId) => {
           if (!App.db || !courseId) return [];
+          const cacheKey = `resources_${courseId}`;
+          const cachedData = sessionStorage.getItem(cacheKey);
+          if (cachedData) return JSON.parse(cachedData);
+
           const q = query(collection(App.db, "acad_resources"), where("courseId", "==", courseId));
-          const snap = await getDocs(q); return snap.docs.map(item => ({ id: item.id, ...item.data() }));
+          const snap = await getDocs(q);
+          const data = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+          sessionStorage.setItem(cacheKey, JSON.stringify(data));
+          return data;
         }
       };
 
@@ -676,7 +684,10 @@
           const item = App.announcements[0];
           if (!item) { this.el("announcementContent").innerHTML = "<b>الإعلانات الأكاديمية</b><p>لا توجد إعلانات حالياً.</p>"; return; }
           this.el("announcementContent").innerHTML = `<b>${this.esc(item.title)}</b><p>${this.esc(item.message || item.body || "")}</p>`;
-          try { this.el("announcementDate").textContent = new Intl.DateTimeFormat("ar-JO", { day: "numeric", month: "short" }).format(item.createdAt?.toDate ? item.createdAt.toDate() : new Date()); } catch {}
+          try { 
+            const dateObj = item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000) : new Date();
+            this.el("announcementDate").textContent = new Intl.DateTimeFormat("ar-JO", { day: "numeric", month: "short" }).format(dateObj); 
+          } catch {}
         },
         renderLinks() {
           const target = this.el("navDropdownLinks"); if (!target) return;
