@@ -35,16 +35,17 @@
       .nav-btn-back { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
       .nav-btn-back:hover { background: #f0f3f7; }
 
-      /* About Hero (تم تعديل الصورة وإزالة الغبش) */
+      /* About Hero (تم التعديل لإظهار الصورة بوضوح) */
       .about-hero { background: var(--navy); color: #fff; padding: 130px 0 110px; position: relative; overflow: hidden; text-align: center; border-bottom: 5px solid var(--gold);}
       .about-hero::before { 
         content: ""; position: absolute; inset: 0; 
-        background-image: url('IMG_7192.jpeg'); 
-        background-size: cover; background-position: center 30%; opacity: 0.45; mix-blend-mode: overlay;
+        background-image: url('IMG_7193.jpeg'); 
+        background-size: cover; background-position: center 30%; 
+        opacity: 0.35;
       }
       .about-hero::after {
         content: ""; position: absolute; inset: 0;
-        background: linear-gradient(0deg, var(--navy) 5%, rgba(13,27,51,0.6) 95%);
+        background: linear-gradient(0deg, var(--navy) 0%, transparent 80%);
       }
       .hero-content-wrap { position: relative; z-index: 2; }
       .about-hero .kicker { color: var(--gold); font-size: 14px; font-weight: 800; letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; background: rgba(209,170,92,0.15); padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(209,170,92,0.3);}
@@ -157,6 +158,7 @@
     </header>
 
     <main>
+      <!-- القسم المحدث: إحنا اللجنة -->
       <section class="about-hero">
         <div class="wrap hero-content-wrap">
           <span class="kicker"><i data-lucide="sparkles" width="16"></i> نبني المجد لنرقى</span>
