@@ -35,16 +35,16 @@
       .nav-btn-back { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
       .nav-btn-back:hover { background: #f0f3f7; }
 
-      /* About Hero (Professional "We are the Committee" Look) */
+      /* About Hero (المعدلة بالصورة الجديدة) */
       .about-hero { background: var(--navy); color: #fff; padding: 130px 0 110px; position: relative; overflow: hidden; text-align: center; border-bottom: 5px solid var(--gold);}
       .about-hero::before { 
         content: ""; position: absolute; inset: 0; 
-        background-image: url('https://images.pexels.com/photos/8164383/pexels-photo-8164383.jpeg?auto=compress&cs=tinysrgb&w=1600'); /* صورة تعبيرية للطلاب/الجامعة */
-        background-size: cover; background-position: center; opacity: 0.15; mix-blend-mode: luminosity;
+        background-image: url('IMG_7193.jpg'); /* الصورة المرفقة للطلاب */
+        background-size: cover; background-position: center 30%; opacity: 0.25; mix-blend-mode: luminosity; filter: blur(2px);
       }
       .about-hero::after {
         content: ""; position: absolute; inset: 0;
-        background: linear-gradient(0deg, var(--navy) 5%, transparent 95%);
+        background: linear-gradient(0deg, var(--navy) 5%, rgba(13,27,51,0.6) 95%);
       }
       .hero-content-wrap { position: relative; z-index: 2; }
       .about-hero .kicker { color: var(--gold); font-size: 14px; font-weight: 800; letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; background: rgba(209,170,92,0.15); padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(209,170,92,0.3);}
@@ -135,7 +135,7 @@
         .stat-box { padding: 20px 14px; border-radius: 16px;}
         .stat-num { font-size: 28px; margin-bottom: 8px;}
         .stat-label { font-size: 11px; }
-        .stat-box.wide { grid-column: 1 / -1; } /* الحفاظ على التمدد للموبايل */
+        .stat-box.wide { grid-column: 1 / -1; }
         
         .social-connect { padding: 60px 0; }
         .social-grid { flex-direction: column; gap: 14px;}
@@ -157,7 +157,6 @@
     </header>
 
     <main>
-      <!-- القسم المحدث: إحنا اللجنة -->
       <section class="about-hero">
         <div class="wrap hero-content-wrap">
           <span class="kicker"><i data-lucide="sparkles" width="16"></i> نبني المجد لنرقى</span>
@@ -239,7 +238,25 @@
             </div>
           </div>
 
-          <!-- فريق الإرشاد (تم التحديث بالأرقام) -->
+          <!-- فريق الطالبات (القسم الجديد) -->
+          <div class="team-row">
+            <div class="team-content">
+              <span class="team-kicker">المَشرِقُ الثاني وعِمادنا المكمّل</span>
+              <h2>فريق الطالبات</h2>
+              <p>يَضمّ المنتسبات للجنة من مختلف الدّفع والأفرقة، يعملنَ معًا في مهامٍّ عدّة كتقديم الشروحات والتفاريغ، صناعة المحتوى الإعلاميّ، وتنظيم الأنشطة. انتهجنَ منهج اليدِ الواحدة في سبيل رفعة اللجنة بِروح شغوفة بالخير، لتكتمل لوحة الإنجازات بإقامة الندوات العلمية وإرشاد الطالبات الجدد والمشاركة بالفعاليات والمناسبات الوطنية والدينية.</p>
+              <div class="tags-wrap">
+                <span class="team-tag"><i data-lucide="mic-2" width="16"></i> ندوات علمية</span>
+                <span class="team-tag"><i data-lucide="users" width="16"></i> إرشاد الطالبات</span>
+                <span class="team-tag"><i data-lucide="tent" width="16"></i> مشاركة بالكرنفالات</span>
+                <span class="team-tag"><i data-lucide="calendar-heart" width="16"></i> إحياء المناسبات</span>
+              </div>
+            </div>
+            <div class="team-visual">
+              <img src="https://images.pexels.com/photos/3184328/pexels-photo-3184328.jpeg?auto=compress&cs=tinysrgb&w=800" alt="فريق الطالبات" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
+            </div>
+          </div>
+
+          <!-- فريق الإرشاد -->
           <div class="team-row">
             <div class="team-content">
               <span class="team-kicker">بوصلة الطالب المستجد</span>
@@ -269,7 +286,7 @@
             </div>
           </div>
 
-          <!-- فريق الأنشطة (تم التحديث بالأرقام) -->
+          <!-- فريق الأنشطة -->
           <div class="team-row">
             <div class="team-content">
               <span class="team-kicker">نبض الحياة الجامعية</span>
@@ -316,7 +333,6 @@
               </div>
             </div>
             <div class="team-visual">
-              <!-- احتفظت بالصورة هنا لأن الفريق الدعوي لم ترفق له صورة أرقام -->
               <img src="https://images.pexels.com/photos/8164383/pexels-photo-8164383.jpeg?auto=compress&cs=tinysrgb&w=800" alt="التطوير والتنشئة" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
             </div>
           </div>
@@ -344,11 +360,9 @@
       </div>
     </footer>
 
-    <!-- سكربت العدادات والأيقونات -->
     <script>
       lucide.createIcons();
 
-      // سكربت العدادات الذكية الناعمة
       (function () {
         const nums = document.querySelectorAll(".count");
         if (!nums.length) return;
@@ -356,12 +370,12 @@
         const run = (el) => {
           const to = parseFloat(el.dataset.to) || 0;
           const dec = parseInt(el.dataset.dec) || 0;
-          const dur = 2000; // سرعة العداد (2 ثانية)
+          const dur = 2000;
           const t0 = performance.now();
           
           const tick = (t) => {
             const p = Math.min((t - t0) / dur, 1);
-            const ease = 1 - Math.pow(1 - p, 3); // معادلة التبطيء الناعم
+            const ease = 1 - Math.pow(1 - p, 3);
             el.textContent = (to * ease).toFixed(dec);
             if (p < 1) requestAnimationFrame(tick);
           };
