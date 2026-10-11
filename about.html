@@ -35,7 +35,7 @@
       .nav-btn-back { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;}
       .nav-btn-back:hover { background: #f0f3f7; }
 
-      /* About Hero (تم التعديل لإظهار الصورة بوضوح) */
+      /* About Hero */
       .about-hero { background: var(--navy); color: #fff; padding: 130px 0 110px; position: relative; overflow: hidden; text-align: center; border-bottom: 5px solid var(--gold);}
       .about-hero::before { 
         content: ""; position: absolute; inset: 0; 
@@ -80,7 +80,7 @@
       .stat-box.highlight { background: linear-gradient(135deg, var(--navy), var(--purple)); color: #fff; border-color: var(--navy);}
       .stat-box.highlight .stat-num { color: #fff; }
       .stat-box.highlight .stat-label { color: #d1d9e6; }
-      .stat-box.wide { grid-column: 1 / -1; } /* لجعل العنصر يأخذ عرض العمودين */
+      .stat-box.wide { grid-column: 1 / -1; }
       
       .stat-num { font: 800 36px Manrope, sans-serif; color: var(--purple); margin-bottom: 6px; direction: ltr; display: flex; justify-content: center; align-items: baseline; gap: 2px;}
       .stat-num span:last-child { font-size: 18px; color: var(--gold); }
@@ -119,6 +119,14 @@
         .nav-btn-back span { display: none; }
         
         .about-hero { padding: 90px 0 80px; }
+        
+        /* التعديل لضمان تمركز ووضوح الصورة على الموبايل */
+        .about-hero::before { 
+          background-position: center; 
+          background-size: cover; 
+          opacity: 0.5; 
+        }
+        
         .about-hero .kicker { font-size: 12px; padding: 6px 16px; margin-bottom: 20px;}
         .about-hero h1 { font-size: 50px; margin-bottom: 20px;}
         .about-hero p { font-size: 14px; padding-inline: 10px; line-height: 1.7;}
@@ -136,7 +144,7 @@
         .stat-box { padding: 20px 14px; border-radius: 16px;}
         .stat-num { font-size: 28px; margin-bottom: 8px;}
         .stat-label { font-size: 11px; }
-        .stat-box.wide { grid-column: 1 / -1; } /* الحفاظ على التمدد للموبايل */
+        .stat-box.wide { grid-column: 1 / -1; }
         
         .social-connect { padding: 60px 0; }
         .social-grid { flex-direction: column; gap: 14px;}
@@ -158,7 +166,6 @@
     </header>
 
     <main>
-      <!-- القسم المحدث: إحنا اللجنة -->
       <section class="about-hero">
         <div class="wrap hero-content-wrap">
           <span class="kicker"><i data-lucide="sparkles" width="16"></i> نبني المجد لنرقى</span>
@@ -254,7 +261,7 @@
               </div>
             </div>
             <div class="team-visual">
-              <img src="https://images.pexels.com/photos/3184328/pexels-photo-3184328.jpeg?auto=compress&cs=tinysrgb&w=800" alt="فريق الطالبات" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
+              <img src="image.png" alt="فريق الطالبات" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
             </div>
           </div>
 
@@ -271,20 +278,7 @@
               </div>
             </div>
             <div class="team-visual">
-              <div class="stats-grid">
-                <div class="stat-box highlight wide">
-                  <div class="stat-num"><span class="count" data-to="1.5" data-dec="1">0</span><span>k+</span></div>
-                  <div class="stat-label">طالب مهتم ومتابع للجروب الإرشادي</div>
-                </div>
-                <div class="stat-box">
-                  <div class="stat-num"><span class="count" data-to="550">0</span><span>+</span></div>
-                  <div class="stat-label">استفسار إلكتروني مُجاب</div>
-                </div>
-                <div class="stat-box">
-                  <div class="stat-num"><span class="count" data-to="400">0</span><span>+</span></div>
-                  <div class="stat-label">طالب مستفيد وجاهياً</div>
-                </div>
-              </div>
+              <img src="image_2.png" alt="فريق الإرشاد والتسجيل" style="width:100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(13,27,51,0.08); object-fit:cover; height:280px;" />
             </div>
           </div>
 
