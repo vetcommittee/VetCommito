@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
   <head>
-    <link rel="manifest" href="manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="logo.jpeg">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0d1b33" />
     <title>المنصة الأكاديمية | لجنة الطب والجراحة البيطرية</title>
     <meta name="description" content="البوابة الأكاديمية لطلبة الطب البيطري في جامعة العلوم والتكنولوجيا الأردنية" />
+    
+    <!-- PWA Setup -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="logo.jpeg" />
+    
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d1b33'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d1aa5c'%3EV%3C/text%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,7 +53,8 @@
       .brand-name { font-size: 14px; line-height: 1.45; font-weight: 700; color: var(--navy); }
       .brand-name small { display: block; color: var(--slate); font-size: 10px; font-weight: 500; }
       .navlinks { display: flex; align-items: center; gap: 28px; color: var(--slate); font-size: 13px; }
-      .navlinks a:hover { color: var(--purple); }
+      .navlinks > a { transition: 0.2s; }
+      .navlinks > a:hover { color: var(--purple); }
       
       .theme-toggle { border: none; background: transparent; color: var(--slate); padding: 8px; border-radius: 50%; display: grid; place-items: center; transition: 0.2s;}
       .theme-toggle:hover { background: var(--btn-bg); color: var(--navy); }
@@ -229,10 +233,18 @@
         </a>
         <nav class="navlinks">
           <button class="theme-toggle" id="themeToggle" aria-label="تبديل المظهر"><i data-lucide="moon" width="18"></i></button>
+          
           <div class="dropdown">
-            <button class="nav-btn">الروابط المهمة <i data-lucide="chevron-down" width="14"></i></button>
-            <div class="dropdown-content" id="navDropdownLinks"></div>
+            <button class="nav-btn">القائمة <i data-lucide="chevron-down" width="14"></i></button>
+            <div class="dropdown-content">
+              <a href="about.html"><i data-lucide="info" width="15"></i> عن اللجنة</a>
+              <a href="#courses"><i data-lucide="book-open" width="15"></i> المساقات</a>
+              <a href="#toolkit"><i data-lucide="wrench" width="15"></i> أدوات الدراسة</a>
+              <div style="height:1px; background:var(--line); margin:4px 0;"></div>
+              <div id="navDropdownLinks"></div>
+            </div>
           </div>
+          
           <a href="about.html">عن اللجنة</a>
           <a href="#courses">المساقات</a>
           <a href="#toolkit">أدوات الدراسة</a>
@@ -521,7 +533,7 @@
           });
           document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => { this.el(b.dataset.close).style.display = "none"; document.body.style.overflow = ""; }));
           
-          // Tools Bindings (GPA & Todo)
+          // Tools Bindings
           this.el("addGpaCourse").addEventListener("click", () => this.addGpaCourse());
           this.el("gpaRows").addEventListener("input", () => this.calculateGpa());
           this.el("gpaRows").addEventListener("click", (e) => { const r = e.target.closest("[data-remove-gpa]"); if (r) { this.saveGpaCourses(this.getGpaCourses().filter(c => c.id !== r.dataset.removeGpa)); this.renderGpaCourses(); this.calculateGpa(); } });
@@ -551,7 +563,6 @@
             return matchCat && matchSem;
           });
           
-          // فرز المساقات: المفضلة أولاً
           filtered.sort((a, b) => {
             const favA = App.favorites.includes(a.id) ? 1 : 0;
             const favB = App.favorites.includes(b.id) ? 1 : 0;
@@ -645,7 +656,6 @@
           update(); setInterval(update, 60000);
         },
 
-        // --- أدوات الدراسة المحلية ---
         getGpaCourses() { try { return JSON.parse(localStorage.getItem("just-vet-gpa-courses") || "[]"); } catch { return []; } },
         saveGpaCourses(items) { localStorage.setItem("just-vet-gpa-courses", JSON.stringify(items)); },
         renderGpaCourses() {
@@ -710,6 +720,32 @@
       };
 
       App.init();
+    </script>
+    <script>
+      (function () {
+        const dd = document.querySelector(".dropdown");
+        if (!dd) return;
+        const btn = dd.querySelector(".nav-btn");
+        const box = dd.querySelector(".dropdown-content");
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          box.style.display = box.style.display === "block" ? "none" : "block";
+        });
+        document.addEventListener("click", (e) => {
+          if (!dd.contains(e.target)) box.style.display = "";
+        });
+      })();
+    </script>
+    <script>
+      (function () {
+        const v = document.getElementById("heroVideo");
+        if (!v) return;
+        v.muted = true; v.defaultMuted = true; v.setAttribute("playsinline", "");
+        const tryPlay = () => v.play().catch(() => {}); tryPlay();
+        v.addEventListener("loadeddata", tryPlay);
+        document.addEventListener("visibilitychange", () => { if (!document.hidden) tryPlay(); });
+        window.addEventListener("touchstart", tryPlay, { once: true });
+      })();
     </script>
   </body>
 </html>
