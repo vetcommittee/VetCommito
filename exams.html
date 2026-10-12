@@ -1,1 +1,265 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1b33" />
+    <title>جدول الامتحانات | VetCommitto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    
+    <style>
+      :root {
+        --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
+        --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
+        --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #fff; --card-border: #dfe3ed; --card-hover: #a8bcd9;
+        --btn-bg: #f0f3f7; --btn-hover: #eef1f6; --text-muted: #8893a4;
+        --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
+      }
+      [data-theme="dark"] {
+        --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
+        --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
+        --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #1e293b; --card-border: #334155; --card-hover: #475569;
+        --btn-bg: #334155; --btn-hover: #475569; --text-muted: #949daf;
+        --nav-bg: #0f172a; --nav-border: #1e293b;
+      }
+      
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 60px;}
+      a { color: inherit; text-decoration: none; }
+      .wrap { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+      
+      /* Topbar */
+      .topbar { height: 74px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 100; transition: background 0.3s, border 0.3s;}
+      .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%;}
+      .brand { display: flex; align-items: center; gap: 13px; font-weight: 700; color: var(--navy); }
+      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+      .back-btn { width: 44px; height: 44px; border: 1px solid var(--line); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s;}
+      .back-btn:hover { background: var(--btn-bg); }
+      
+      /* Page Header */
+      .page-header { margin: 50px 0 40px; text-align: center; animation: fadein 0.4s; }
+      .page-header h1 { color: var(--navy); font-size: 32px; margin: 0 0 10px; font-weight: 800; }
+      .page-header p { color: var(--slate); font-size: 15px; margin: 0; }
 
+      /* Year Section */
+      .year-section { margin-bottom: 50px; animation: fadein 0.5s forwards; opacity: 0; transform: translateY(10px); }
+      .year-title { display: inline-flex; align-items: center; gap: 10px; background: var(--card-bg); border: 1px solid var(--line); padding: 10px 24px; border-radius: 999px; color: var(--navy); font-size: 16px; font-weight: 700; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+      .year-title i { color: var(--purple); }
+
+      /* Cards Grid */
+      .exams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+      
+      .exam-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 24px; position: relative; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.02);}
+      .exam-card:hover { transform: translateY(-4px); border-color: var(--purple); box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
+      
+      .exam-badge { position: absolute; top: 0; right: 0; background: var(--btn-bg); color: var(--violet); font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 0 0 0 16px; }
+      .exam-badge.urgent { background: #fee2e2; color: #dc2626; }
+      .exam-badge.warn { background: rgba(209, 170, 92, 0.15); color: var(--gold); }
+      
+      .exam-title { font-size: 18px; color: var(--navy); margin: 15px 0 8px; font-weight: 800; line-height: 1.4; }
+      .exam-course { font-size: 13px; color: var(--purple); margin: 0 0 16px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+      
+      .exam-meta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; padding-top: 16px; border-top: 1px dashed var(--line); flex: 1;}
+      .meta-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--slate); }
+      .meta-item i { color: var(--text-muted); }
+      
+      .ghost-btn { border: 1px solid var(--line); background: var(--btn-bg); color: var(--navy); border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.2s; width: 100%;}
+      .ghost-btn:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+      .toast { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; z-index: 200; animation: fadein 0.3s forwards; }
+      @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+      @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap navrow">
+        <a href="index.html" class="brand">
+          <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
+          <span>المنصة الأكاديمية</span>
+        </a>
+        <a href="index.html" class="back-btn" aria-label="العودة للرئيسية">
+          <i data-lucide="arrow-left" width="20"></i>
+        </a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="page-header">
+        <h1>جدول الامتحانات</h1>
+        <p>مواعيد الامتحانات الأكاديمية القادمة مرتبة حسب السنوات</p>
+      </div>
+      
+      <div id="examsContainer" style="text-align:center; padding: 40px; color: var(--slate);">
+        <i data-lucide="loader-circle" width="32" style="animation: spin 1s linear infinite; margin-bottom:15px;"></i>
+        <div>جاري تحميل الجدول...</div>
+      </div>
+    </main>
+
+    <div id="toastRegion"></div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      
+      const firebaseConfig = { 
+        apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q", 
+        authDomain: "vetcommitto.firebaseapp.com", 
+        projectId: "vetcommitto" 
+      };
+      
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // ضبط المظهر (Dark/Light Mode) بناءً على تفضيلات المستخدم المحفوظة في index
+      const isDark = localStorage.getItem("vet_theme") === "dark";
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+
+      const esc = (val) => String(val ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+      
+      window.toast = (msg) => { 
+        const t = document.createElement("div"); 
+        t.className="toast"; 
+        t.innerHTML=`<i data-lucide="calendar-check" width="18"></i><span>${esc(msg)}</span>`; 
+        document.getElementById("toastRegion").append(t); 
+        lucide.createIcons(); 
+        setTimeout(()=>t.remove(), 4500); 
+      };
+
+      // دالة بديلة لـ randomUUID لضمان عملها على كل الأجهزة القديمة والجديدة
+      function generateUID() {
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
+      }
+
+      window.examsData = [];
+
+      async function loadExams() {
+        try {
+          const [cs, ex] = await Promise.all([
+             getDocs(collection(db, "acad_courses")), 
+             getDocs(collection(db, "acad_exams"))
+          ]);
+          
+          const courses = cs.docs.map(d => ({id:d.id, ...d.data()}));
+          let exams = ex.docs.map(d => ({id:d.id, ...d.data()}));
+          
+          if (!exams.length) { 
+            document.getElementById("examsContainer").innerHTML = `<div style="padding:40px; background:var(--card-bg); border-radius:20px; border:1px dashed var(--line);">لا توجد امتحانات مجدولة حالياً.</div>`; 
+            return; 
+          }
+
+          const grouped = { "1": [], "2": [], "3": [], "4": [], "5": [], "6": [], "general": [] };
+          const yearNames = { "1":"السنة الأولى", "2":"السنة الثانية", "3":"السنة الثالثة", "4":"السنة الرابعة", "5":"السنة الخامسة", "6":"السنة السادسة", "general":"امتحانات عامة" };
+
+          exams.forEach(e => {
+            const target = new Date(e.date).getTime();
+            if (isNaN(target)) return;
+            const diff = Math.ceil((target - Date.now()) / 86400000);
+            if (diff < 0) return; // إخفاء الامتحانات اللي خلصت وتاريخها بالماضي
+            
+            const c = courses.find(x => x.id === e.courseId);
+            const y = c && c.year && grouped[c.year] ? c.year : "general";
+            grouped[y].push({ ...e, diff, courseName: c ? c.name : "عام" });
+          });
+
+          let html = "";
+          const dtf = new Intl.DateTimeFormat("ar-JO", {weekday:"long", day:"numeric", month:"long"});
+          let delay = 0;
+          let hasActiveExams = false;
+
+          for (const y of Object.keys(grouped)) {
+            if (!grouped[y].length) continue;
+            hasActiveExams = true;
+            grouped[y].sort((a,b) => a.diff - b.diff);
+            
+            html += `<div class="year-section" style="animation-delay: ${delay}s">
+                      <div class="year-title"><i data-lucide="layers"></i> ${yearNames[y]}</div>
+                      <div class="exams-grid">`;
+            
+            grouped[y].forEach(e => {
+              const dateStr = dtf.format(new Date(e.date));
+              const badgeClass = e.diff <= 4 ? "urgent" : e.diff <= 14 ? "warn" : "";
+              const badgeText = e.diff === 0 ? "اليوم" : `بعد ${e.diff} يوم`;
+              const metaText = [e.time, e.place].filter(Boolean).join(" · ");
+              
+              html += `
+                <div class="exam-card">
+                  <div class="exam-badge ${badgeClass}">${badgeText}</div>
+                  <h3 class="exam-title">${esc(e.title)}</h3>
+                  <p class="exam-course"><i data-lucide="book-open" width="14"></i> ${esc(e.courseName)}</p>
+                  
+                  <div class="exam-meta">
+                    <div class="meta-item"><i data-lucide="calendar"></i> ${dateStr}</div>
+                    ${metaText ? `<div class="meta-item"><i data-lucide="map-pin"></i> ${esc(metaText)}</div>` : ''}
+                  </div>
+                  
+                  <button class="ghost-btn" onclick="window.downloadICS('${esc(e.id)}')">
+                    <i data-lucide="calendar-plus" width="16"></i> أضف للتقويم
+                  </button>
+                </div>`;
+            });
+            html += `</div></div>`;
+            delay += 0.1;
+          }
+          
+          window.examsData = [].concat(...Object.values(grouped));
+          
+          if(!hasActiveExams){
+              document.getElementById("examsContainer").innerHTML = `<div style="padding:40px; background:var(--card-bg); border-radius:20px; border:1px dashed var(--line);">لا توجد امتحانات قادمة.</div>`;
+          } else {
+              document.getElementById("examsContainer").innerHTML = html;
+              lucide.createIcons();
+          }
+          
+        } catch(err) { 
+          console.error(err);
+          document.getElementById("examsContainer").innerHTML = "حدث خطأ أثناء تحميل الجدول. يرجى التأكد من اتصالك بالإنترنت."; 
+        }
+      }
+
+      window.downloadICS = (id) => {
+        const exam = window.examsData.find(e => e.id === id); 
+        if(!exam) return;
+        
+        const d = exam.date.replace(/-/g, "");
+        const next = new Date(exam.date + "T00:00:00"); 
+        next.setDate(next.getDate() + 1);
+        const dEnd = next.toISOString().slice(0, 10).replace(/-/g, "");
+        const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+        const title = (exam.title || "امتحان").replace(/[,;\n]/g, " ");
+        const desc = [exam.time && `الوقت: ${exam.time}`, exam.place && `المكان: ${exam.place}`].filter(Boolean).join(" - ");
+        
+        const str = [
+          "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//VetCommitto//AR//", "CALSCALE:GREGORIAN",
+          "BEGIN:VEVENT", `UID:${generateUID()}@vetcommitto`, `DTSTAMP:${stamp}`,
+          `DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${dEnd}`, `SUMMARY:${title}`, desc ? `DESCRIPTION:${desc}` : "",
+          "BEGIN:VALARM", "TRIGGER:-P3D", "ACTION:DISPLAY", `DESCRIPTION:بعد 3 أيام: ${title}`, "END:VALARM",
+          "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", `DESCRIPTION:غداً: ${title}`, "END:VALARM",
+          "END:VEVENT", "END:VCALENDAR"
+        ].filter(Boolean).join("\r\n");
+        
+        const blob = new Blob([str], { type: "text/calendar;charset=utf-8" });
+        const a = document.createElement("a"); 
+        a.href = URL.createObjectURL(blob); 
+        a.download = "exam.ics";
+        document.body.appendChild(a); 
+        a.click(); 
+        a.remove(); 
+        URL.revokeObjectURL(a.href);
+        window.toast("تم تجهيز التذكير، افتح الملف لإضافته لتقويمك");
+      };
+
+      // تشغيل الدالة بمجرد تحميل الصفحة
+      loadExams();
+      
+      // تأكد من تحميل الأيقونات الأولية (Loader)
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
