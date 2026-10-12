@@ -646,12 +646,17 @@
           const box = this.el("countdownBox"), val = this.el("countdownVal");
           this.el("countdownLbl").textContent = countd.title || "امتحان القادم";
           box.style.display = "flex";
+          box.style.background = "linear-gradient(135deg, var(--navy), var(--purple))";
+          box.style.borderColor = "var(--navy)";
+          this.el("countdownLbl").style.color = "#d1d9e6";
+          val.style.color = "#fff";
+          val.style.textShadow = "0 2px 10px rgba(0,0,0,0.2)";
           
           const update = () => {
             const diff = target - new Date().getTime();
             if (diff <= 0) { val.textContent = "اليوم!"; return; }
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            val.textContent = `${d} يوم`;
+            val.innerHTML = `<span style="direction:ltr; display:inline-block;">${d}</span> <span style="font-size:16px;">أيام</span>`;
           };
           update(); setInterval(update, 60000);
         },
