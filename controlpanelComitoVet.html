@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0d1b33" />
-    <title>لوحة الإدارة | VetCommitto</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d1b33'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d1aa5c'%3EAdmin%3C/text%3E%3C/svg%3E" />
+    <title>VetCommitto | بوابة الإدارة</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <style>
@@ -13,583 +15,429 @@
         --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
         --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
         --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #fff; --card-border: #dfe3ed;
+        --btn-bg: #f0f3f7; --text-muted: #8893a4;
       }
+      [data-theme="dark"] {
+        --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
+        --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
+        --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #1e293b; --card-border: #334155;
+        --btn-bg: #334155; --text-muted: #949daf;
+      }
+      
       * { box-sizing: border-box; }
-      body { margin: 0; background: #f4f7fa; color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow-x: hidden; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 80px;}
       button, input, select, textarea { font: inherit; }
       button { cursor: pointer; }
       a { color: inherit; text-decoration: none; }
       .latin { font-family: Manrope, sans-serif; }
       
-      /* الهوامش المريحة والموحدة */
-      .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
-      .content-wrap { padding-block: 40px 80px; }
+      .wrap { width: min(1000px, calc(100% - 30px)); margin-inline: auto; }
       
-      .topbar { background: #fff; border-bottom: 1px solid var(--line); height: 70px; display: flex; align-items: center; box-shadow: 0 2px 15px rgba(13,27,51,0.03); position: sticky; top: 0; z-index: 40; }
-      .topbar-brand { font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 10px; font-size: 15px; }
-      .topbar-brand i { color: var(--gold); }
+      .topbar { background: var(--card-bg); border-bottom: 1px solid var(--line); padding: 15px 0; position: sticky; top: 0; z-index: 100; }
+      .navrow { display: flex; align-items: center; justify-content: space-between; }
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
       
-      .admin-view { display: none; }
-      .admin-view.active { display: block; animation: dialog-in 0.3s ease-out; }
+      .tab-bar { display: flex; gap: 10px; margin-top: 30px; border-bottom: 1px solid var(--line); padding-bottom: 15px; overflow-x: auto;}
+      .tab-btn { background: transparent; border: none; padding: 8px 16px; font-size: 14px; color: var(--slate); font-weight: 600; border-radius: 8px; transition: 0.2s; white-space: nowrap;}
+      .tab-btn.active { background: var(--btn-bg); color: var(--purple); }
+      .tab-content { display: none; margin-top: 30px; animation: fadein 0.3s; }
+      .tab-content.active { display: block; }
+      @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
       
-      .admin-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
-      .section-kicker { font-family: Manrope, sans-serif; font-size: 11px; letter-spacing: 0.16em; color: var(--purple); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-      .admin-top h1 { font-size: 26px; color: var(--navy); margin: 0; line-height: 1.4; font-weight: 700;}
-      .admin-top p { font-size: 13px; color: #7b8597; margin: 6px 0 0; }
+      .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+      .card-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--navy); margin: 0 0 20px; }
       
-      .admin-tabs { display: flex; gap: 8px; border-bottom: 1px solid #dfe4ec; margin-bottom: 24px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px;}
-      .admin-tabs::-webkit-scrollbar { display: none; }
-      .admin-tab { background: none; border: 0; padding: 14px 18px; color: #6e7a8f; font-size: 13px; border-bottom: 2px solid transparent; white-space: nowrap; transition: 0.2s; font-weight: 500;}
-      .admin-tab:hover { color: var(--purple); }
-      .admin-tab.active { color: var(--purple); border-color: var(--purple); font-weight: 700; }
+      .field { width: 100%; border: 1px solid var(--card-border); background: var(--paper); padding: 12px 14px; border-radius: 10px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s; margin-bottom: 15px;}
+      .field:focus { border-color: var(--purple); background: var(--card-bg);}
       
-      .admin-panel { display: none; }
-      .admin-panel.active { display: block; animation: dialog-in 0.2s ease-out; }
+      .primary-btn { border: 0; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
+      .primary-btn:hover { opacity: 0.9; }
+      .danger-btn { border: 0; background: #fee2e2; color: #dc2626; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: 0.2s; }
       
-      .admin-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 26px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(13, 27, 51, 0.02); }
-      .admin-card-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;}
-      .admin-card-head h2 { font-size: 17px; color: var(--navy); margin: 0; font-weight: 700; display: flex; align-items: center; gap: 10px;}
+      .data-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+      .data-item { display: flex; align-items: center; justify-content: space-between; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
+      .data-meta { font-size: 13px; color: var(--navy); font-weight: 600; }
+      .data-sub { font-size: 11px; color: var(--slate); margin-top: 4px; display: block;}
       
-      .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-      .admin-table th { text-align: right; color: #7b8597; font-weight: 600; background: #f5f8fb; padding: 12px 14px; border-bottom: 1px solid var(--line); white-space: nowrap;}
-      .admin-table td { padding: 14px; border-bottom: 1px solid #eff1f5; color: #43506a; vertical-align: middle;}
-      .admin-table tr:hover td { background: #fafbfc; }
-      .admin-table tr:last-child td { border: 0; }
-      .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
-      .table-actions { display: flex; gap: 8px; }
+      /* Filters for Courses */
+      .filters-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: var(--btn-bg); padding: 10px; border-radius: 12px;}
+      .filter-sel { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); border-radius: 8px; padding: 6px 10px; font-size: 12px; outline: none;}
+
+      .toast { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 1000; animation: toast-in 0.3s, toast-out 0.3s 4s forwards; }
+      @keyframes toast-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+      @keyframes toast-out { to { opacity:0; transform:translateY(10px); } }
       
-      .primary-btn { border: 0; background: var(--purple); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; white-space: nowrap;}
-      .primary-btn:hover { background: var(--navy2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,63,112,0.2); }
-      .primary-btn:disabled { opacity: 0.7; pointer-events: none; }
-      .ghost-btn { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 11px 18px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; white-space: nowrap;}
-      .ghost-btn:hover { background: #f5f7fa; border-color: #bbc7d9;}
-      .tiny-btn { border: 1px solid #e5e9ef; background: #fff; color: #627087; border-radius: 10px; padding: 8px 12px; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; transition: 0.2s;}
-      .tiny-btn:hover { color: var(--purple); border-color: #aebce3; background: #f8fafe; }
-      
-      .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-      .form-row { margin-bottom: 18px; }
-      .form-row.full { grid-column: 1/-1; }
-      .form-row label { display: block; color: #516079; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
-      .field, .select, .textarea { width: 100%; border: 1px solid #e0e5ed; background: #f8f9fc; padding: 12px 14px; border-radius: 12px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s; }
-      .field:focus, .select:focus, .textarea:focus { border-color: #8baccf; box-shadow: 0 0 0 3px rgba(30,63,112,0.1); background: #fff; }
-      .textarea { min-height: 100px; resize: vertical; line-height: 1.6;}
-      
-      .empty-state { padding: 40px 20px; text-align: center; color: #7b8597; font-size: 13px; background: #fcfcfd; border-radius: 16px; border: 1px dashed #cfd6e4;}
-      .loader { width: 28px; height: 28px; border-radius: 50%; border: 3px solid #e3e6f0; border-top-color: var(--purple); animation: spin 0.8s linear infinite; margin: 0 auto 12px; display: block; }
-      @keyframes spin { to { transform: rotate(360deg); } }
-      
-      .auth-modal, .form-modal { position: fixed; inset: 0; background: rgba(13, 27, 51, 0.7); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
-      .auth-modal.open, .form-modal.open { display: flex; }
-      .dialog { width: min(720px, 100%); max-height: min(85vh, 800px); overflow: auto; background: #fff; border-radius: 24px; box-shadow: 0 30px 90px rgba(13,27,51,0.2); animation: dialog-in 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-      @keyframes dialog-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-      .dialog-head { padding: 24px 28px; border-bottom: 1px solid #ebedf3; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top:0; background:#fff; z-index:10;}
-      .dialog-head h2 { font-size: 19px; color: var(--navy); margin: 0; font-weight: 800; }
-      .dialog-head p { font-size: 12px; color: #8a93a3; margin: 6px 0 0; }
-      .close-btn { width: 38px; height: 38px; border: 1px solid var(--line); background: white; border-radius: 12px; color: #647087; display: grid; place-items: center; flex: none; transition:0.2s;}
-      .close-btn:hover { background: #f0f3f7; color: var(--navy);}
-      .dialog-body { padding: 24px 28px 30px; }
-      .dialog-footer { display: flex; justify-content: flex-start; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
-      
-      .auth-modal .dialog { width: min(420px, 100%); }
-      .auth-form { padding: 28px; }
-      .auth-form .field { margin-bottom: 18px; }
-      .auth-form .primary-btn { width: 100%; padding: 14px; font-size: 13px; margin-top: 5px;}
-      .auth-note { color: #9099a8; font-size: 11px; text-align: center; margin-top: 16px; }
-      
-      .toast-region { position: fixed; z-index: 200; bottom: 24px; left: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; align-items: flex-end; pointer-events:none;}
-      .toast { background: #152343; color: white; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 18px; box-shadow: 0 12px 36px rgba(13,27,51,0.3); font-size: 13px; display: inline-flex; align-items: center; gap: 10px; animation: dialog-in 0.2s; pointer-events:auto;}
-      .toast.success i { color: var(--teal); }
-      .toast.error i { color: #fca5a5; }
-      
-      .announcement-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #edf0f4; padding: 16px 0; }
-      .announcement-card:last-child { border: 0; padding-bottom: 0; }
-      .announcement-card b { font-size: 13px; color: var(--navy); display:block; margin-bottom:4px;}
-      .announcement-card small { display: block; color: #7b8597; font-size: 11px; line-height: 1.5;}
-      .admin-select { max-width: 360px; }
-      
-      /* شاشات الموبايل */
-      @media(max-width: 620px) {
-        .wrap { width: calc(100% - 40px); }
-        .content-wrap { padding-block: 24px 60px; }
-        .topbar { height: 65px; }
-        .form-grid { grid-template-columns: 1fr; gap: 16px; }
-        .admin-top { flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 24px;}
-        .admin-top h1 { font-size: 22px; }
-        .admin-card { padding: 20px; border-radius: 16px; }
-        .admin-card-head h2 { font-size: 15px; }
-        .dialog { border-radius: 24px 24px 0 0; position: absolute; bottom: 0; margin: 0; animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);}
-        @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .dialog-head { padding: 20px 24px; border-radius: 24px 24px 0 0;}
-        .dialog-body { padding: 20px 24px 30px; }
-      }
+      /* Login Overlay */
+      #loginOverlay { position: fixed; inset: 0; background: var(--card-bg); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+      .login-box { max-width: 400px; width: 100%; text-align: center; }
     </style>
   </head>
   <body>
+    
+    <div id="loginOverlay">
+      <div class="login-box card">
+        <h2 style="color:var(--navy); margin-bottom:10px;">تسجيل الدخول</h2>
+        <p style="color:var(--slate); font-size:13px; margin-bottom:20px;">بوابة الإدارة خاصة بأعضاء اللجنة فقط.</p>
+        <input type="email" id="authEmail" class="field" placeholder="البريد الإلكتروني" />
+        <input type="password" id="authPass" class="field" placeholder="كلمة المرور" />
+        <button class="primary-btn" id="loginBtn" style="margin-bottom:10px;">تسجيل الدخول</button>
+        <div id="loginErr" style="color:#dc2626; font-size:12px; display:none;">بيانات غير صحيحة.</div>
+      </div>
+    </div>
+
     <header class="topbar">
-      <div class="wrap" style="display:flex; align-items:center;">
-        <div class="topbar-brand">
-          <i data-lucide="shield-check" width="20"></i>
+      <div class="wrap navrow">
+        <div class="brand">
+          <i data-lucide="shield-check" width="24" style="color:var(--gold)"></i>
           <span>VetCommitto | بوابة الإدارة</span>
         </div>
+        <button id="logoutBtn" style="border:none; background:transparent; color:var(--slate); font-size:12px; display:none;"><i data-lucide="log-out" width="16" style="vertical-align:middle"></i> خروج</button>
       </div>
     </header>
 
-    <main class="admin-view" id="adminView">
-      <div class="wrap content-wrap">
-        <div class="admin-top">
-          <div>
-            <div class="section-kicker">إدارة قاعدة البيانات السحابية</div>
-            <h1>لوحة تحكم المنصة الأكاديمية</h1>
-            <p id="adminIdentity">جاري التحقق من الصلاحيات...</p>
-          </div>
-          <button class="ghost-btn" id="signOutButton">
-            <i data-lucide="log-out" width="16"></i>تسجيل الخروج
-          </button>
+    <main class="wrap" style="display:none;" id="mainContent">
+      <div class="tab-bar" id="tabBar">
+        <button class="tab-btn active" data-tab="tab-courses">المساقات والمواد</button>
+        <button class="tab-btn" data-tab="tab-exams">الامتحانات</button>
+        <button class="tab-btn" data-tab="tab-announcements">الإعلانات</button>
+        <button class="tab-btn" data-tab="tab-links">الروابط</button>
+        <button class="tab-btn" data-tab="tab-system">بيانات النظام</button>
+      </div>
+
+      <!-- تبويب المساقات -->
+      <div id="tab-courses" class="tab-content active">
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="folder-plus"></i> إضافة مساق جديد</h3>
+          <form id="courseForm">
+            <input type="text" id="cName" class="field" placeholder="اسم المساق (مثال: علم أمراض الدم)" required />
+            <input type="text" id="cCode" class="field" placeholder="الرمز (مثال: طب 355)" />
+            <div style="display:flex; gap:10px;">
+              <select id="cYear" class="field" required>
+                <option value="" disabled selected>السنة...</option>
+                <option value="1">السنة الأولى</option><option value="2">السنة الثانية</option>
+                <option value="3">السنة الثالثة</option><option value="4">السنة الرابعة</option>
+                <option value="5">السنة الخامسة</option><option value="6">السنة السادسة</option>
+                <option value="elective">مواد اختيارية</option><option value="university">متطلبات جامعة</option>
+              </select>
+              <select id="cSem" class="field" required>
+                <option value="" disabled selected>الفصل...</option>
+                <option value="1">الأول</option><option value="2">الثاني</option><option value="summer">صيفي</option>
+              </select>
+            </div>
+            <button type="submit" class="primary-btn">إضافة مساق</button>
+          </form>
         </div>
-        
-        <div class="admin-tabs" role="tablist">
-          <button class="admin-tab active" data-tab="courses">المساقات الأكاديمية</button>
-          <button class="admin-tab" data-tab="resources">المواد الدراسية</button>
-          <button class="admin-tab" data-tab="announcements">لوحة الإعلانات</button>
-          <button class="admin-tab" data-tab="links">الروابط المنسدلة</button>
-          <button class="admin-tab" data-tab="backup">النسخ الاحتياطي والنظام</button>
+
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="book-open"></i> إدارة المساقات</h3>
+          <div class="filters-row">
+            <select id="filterYear" class="filter-sel">
+              <option value="all">كل السنوات</option>
+              <option value="1">السنة 1</option><option value="2">السنة 2</option><option value="3">السنة 3</option>
+              <option value="4">السنة 4</option><option value="5">السنة 5</option><option value="6">السنة 6</option>
+            </select>
+            <select id="filterSem" class="filter-sel">
+              <option value="all">كل الفصول</option>
+              <option value="1">الفصل الأول</option><option value="2">الفصل الثاني</option><option value="summer">الصيفي</option>
+            </select>
+          </div>
+          <div class="data-list" id="coursesList">جاري التحميل...</div>
         </div>
-        
-        <!-- Courses Panel -->
-        <section class="admin-panel active" id="panel-courses">
-          <div class="admin-card">
-            <div class="admin-card-head">
-              <h2><i data-lucide="book-open" width="18"></i> المساقات الأكاديمية المتاحة</h2>
-              <button class="primary-btn" id="addCourseButton"><i data-lucide="plus" width="15"></i>إضافة مساق جديد</button>
-            </div>
-            <div class="table-wrap">
-              <table class="admin-table">
-                <thead><tr><th>اسم المساق</th><th>الرمز</th><th>السنة / الفصل</th><th>المواد</th><th>إجراءات</th></tr></thead>
-                <tbody id="adminCoursesBody"></tbody>
-              </table>
-            </div>
-            <div id="adminCoursesEmpty" class="empty-state" hidden>لا توجد مساقات مسجلة حالياً.</div>
-          </div>
-        </section>
-        
-        <!-- Resources Panel -->
-        <section class="admin-panel" id="panel-resources">
-          <div class="admin-card">
-            <div class="admin-card-head">
-              <h2><i data-lucide="folder-open" width="18"></i> إدارة مواد المساقات وملحقاتها</h2>
-              <button class="primary-btn" id="addResourceButton" disabled><i data-lucide="plus" width="15"></i>إضافة مادة جديدة</button>
-            </div>
-            <div class="form-row">
-              <label for="adminResourceCourse">اختر المساق لعرض وإدارة مواده:</label>
-              <select id="adminResourceCourse" class="select admin-select"><option value="">اختر مساقاً من القائمة…</option></select>
-            </div>
-            <div id="adminResourcesList"><div class="empty-state">اختر مساقاً لعرض مواده.</div></div>
-          </div>
-        </section>
-        
-        <!-- Announcements Panel -->
-        <section class="admin-panel" id="panel-announcements">
-          <div class="admin-card">
-            <div class="admin-card-head">
-              <h2><i data-lucide="megaphone" width="18"></i> الإعلانات العامة للطلاب</h2>
-              <button class="primary-btn" id="addAnnouncementButton"><i data-lucide="plus" width="15"></i>نشر إعلان جديد</button>
-            </div>
-            <div id="adminAnnouncementsList"></div>
-          </div>
-        </section>
-        
-        <!-- Links Panel -->
-        <section class="admin-panel" id="panel-links">
-          <div class="admin-card">
-            <div class="admin-card-head">
-              <h2><i data-lucide="link" width="18"></i> الروابط المهمة (تظهر في الشريط العلوي)</h2>
-              <button class="primary-btn" id="addLinkButton"><i data-lucide="plus" width="15"></i>إضافة رابط جديد</button>
-            </div>
-            <div id="adminLinksList"></div>
-          </div>
-        </section>
+      </div>
 
-        <!-- Backup & Restore Panel (الاستيراد والتصدير) -->
-        <section class="admin-panel" id="panel-backup">
-          <div class="form-grid">
-             <!-- قسم التصدير -->
-             <div class="admin-card">
-               <div class="admin-card-head">
-                 <h2><i data-lucide="download-cloud" width="18"></i> سحب البيانات (تصدير كـ JSON)</h2>
-               </div>
-               <p style="font-size: 12px; color: #606d85; margin-bottom: 16px; line-height:1.6;">انقر على الزر لجلب كافة بيانات المنصة (المساقات، المواد، الإعلانات، والروابط) من السيرفر ونسخها ككود جاهز للاحتفاظ به.</p>
-               <button class="ghost-btn" id="exportDataBtn" style="margin-bottom: 16px; width: 100%;">
-                 <i data-lucide="copy" width="15"></i> جلب ونسخ بيانات النظام
-               </button>
-               <textarea id="exportJsonOutput" class="textarea" style="min-height: 180px; font-family: monospace; direction: ltr; font-size:11px;" readonly placeholder="ستظهر البيانات هنا تلقائياً بعد السحب..."></textarea>
-             </div>
+      <!-- تبويب الامتحانات -->
+      <div id="tab-exams" class="tab-content">
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="calendar-plus"></i> إضافة امتحان (للعداد والتقويم)</h3>
+          <form id="examForm">
+            <input type="text" id="exTitle" class="field" placeholder="اسم الامتحان (مثال: فاينل - باثولوجي)" required />
+            <input type="date" id="exDate" class="field" required />
+            <div style="display:flex; gap:10px;">
+              <input type="time" id="exTime" class="field" />
+              <input type="text" id="exPlace" class="field" placeholder="القاعة (اختياري)" />
+            </div>
+            <select id="exCourse" class="field">
+              <option value="">غير مرتبط بمساق محدد</option>
+              <!-- سيتم تعبئتها بالمساقات -->
+            </select>
+            <button type="submit" class="primary-btn">إضافة امتحان</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="calendar"></i> الامتحانات المجدولة</h3>
+          <div class="data-list" id="examsList">جاري التحميل...</div>
+        </div>
+      </div>
 
-             <!-- قسم الاستيراد -->
-             <div class="admin-card">
-               <div class="admin-card-head">
-                 <h2><i data-lucide="upload-cloud" width="18"></i> استعادة البيانات (دمج ملف JSON)</h2>
-               </div>
-               <p style="font-size: 12px; color: #606d85; margin-bottom: 16px; line-height:1.6;">الصق كود الـ JSON الذي تم سحبه مسبقاً هنا. سيقوم النظام بتحليله ودمجه فوراً مع قاعدة البيانات السحابية الحالية.</p>
-               <textarea id="backupJsonInput" class="textarea" style="min-height: 180px; font-family: monospace; direction: ltr; font-size:11px;" placeholder='{ "courses": [...], "resources": [...] }'></textarea>
-               <button class="primary-btn" id="restoreDataBtn" style="margin-top: 16px; width: 100%;">
-                 <i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات
-               </button>
-             </div>
-          </div>
-        </section>
+      <!-- تبويب الإعلانات -->
+      <div id="tab-announcements" class="tab-content">
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="megaphone"></i> إضافة إعلان</h3>
+          <form id="annForm">
+            <input type="text" id="aTitle" class="field" placeholder="عنوان الإعلان" required />
+            <textarea id="aMsg" class="field" rows="3" placeholder="نص الإعلان..." required></textarea>
+            <button type="submit" class="primary-btn">نشر الإعلان</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="list"></i> الإعلانات السابقة</h3>
+          <div class="data-list" id="annsList"></div>
+        </div>
+      </div>
 
+      <!-- تبويب الروابط -->
+      <div id="tab-links" class="tab-content">
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="link"></i> إضافة رابط (يظهر في القائمة الجانبية)</h3>
+          <form id="linkForm">
+            <input type="text" id="lTitle" class="field" placeholder="اسم الرابط (مثال: بنك الأسئلة)" required />
+            <input type="url" id="lUrl" class="field" placeholder="https://..." required />
+            <button type="submit" class="primary-btn">إضافة رابط</button>
+          </form>
+        </div>
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="list"></i> الروابط الحالية</h3>
+          <div class="data-list" id="linksList"></div>
+        </div>
+      </div>
+
+      <!-- تبويب النظام والمزامنة -->
+      <div id="tab-system" class="tab-content">
+        <div class="card">
+          <h3 class="card-title"><i data-lucide="database"></i> بيانات النظام (JSON)</h3>
+          <p style="font-size:12px; color:var(--slate);">يمكنك لصق كود مساقات جاهز هنا وسيقوم النظام برفعه تلقائياً. حتى لو لم يحتوي الكود على ID سيتم توليده.</p>
+          <textarea id="jsonInput" class="field" rows="6" placeholder='{ "courses": [ { "name":"علم الأنسجة", "year":"1", "semester":"2" } ] }'></textarea>
+          <button id="importBtn" class="primary-btn"><i data-lucide="upload-cloud"></i> رفع البيانات</button>
+        </div>
       </div>
     </main>
 
-    <!-- Modals -->
-    <div class="form-modal" id="formModal">
-      <section class="dialog">
-        <header class="dialog-head">
-          <div><h2 id="formTitle">تحرير</h2><p id="formSubtitle"></p></div>
-          <button class="close-btn" data-close="formModal"><i data-lucide="x" width="18"></i></button>
-        </header>
-        <div class="dialog-body" id="formBody"></div>
-      </section>
-    </div>
-    
-    <div class="auth-modal" id="authModal">
-      <section class="dialog">
-        <header class="dialog-head">
-          <div><h2>بوابة الدخول للإدارة</h2><p>أدخل بيانات الحساب المصرح له بتعديل المنصة.</p></div>
-        </header>
-        <form class="auth-form" id="authForm">
-          <div class="form-row">
-            <label>البريد الإلكتروني للإدارة</label>
-            <input class="field" type="email" id="authEmail" required autocomplete="username" />
-          </div>
-          <div class="form-row">
-            <label>كلمة المرور السريّة</label>
-            <input class="field" type="password" id="authPassword" required autocomplete="current-password" />
-          </div>
-          <button class="primary-btn" type="submit"><i data-lucide="shield" width="16"></i>تسجيل الدخول الآمن</button>
-          <p class="auth-note">النظام محمي ومتاح لأعضاء اللجنة فقط.</p>
+    <div id="toastRegion"></div>
+
+    <!-- نافذة إضافة مواد لمساق -->
+    <div id="resModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px;">
+      <div class="card" style="width:100%; max-width:500px; max-height:90vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+          <h3 style="margin:0; color:var(--navy);" id="resModalTitle">مواد المساق</h3>
+          <button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('resModal').style.display='none'"><i data-lucide="x"></i></button>
+        </div>
+        <form id="resForm" style="background:var(--paper); padding:15px; border-radius:12px; margin-bottom:15px;">
+          <input type="hidden" id="rCourseId" />
+          <input type="text" id="rTitle" class="field" placeholder="اسم الملف/الرابط (مثال: سلايدات الفاينل)" required />
+          <input type="url" id="rUrl" class="field" placeholder="رابط جوجل درايف أو الموقع" required />
+          <select id="rType" class="field" required>
+            <option value="lecture">محاضرة / سلايد</option>
+            <option value="records">تسجيل صوتي</option>
+            <option value="exam">ملخص / سنوات</option>
+            <option value="other">أخرى</option>
+          </select>
+          <button type="submit" class="primary-btn" style="background:var(--purple)">إضافة مادة</button>
         </form>
-      </section>
+        <div class="data-list" id="resList"></div>
+      </div>
     </div>
-    
-    <div class="toast-region" id="toastRegion"></div>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-      import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-      import { getFirestore, collection, getDocs, query, where, addDoc, updateDoc, deleteDoc, doc, setDoc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+      import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-      // المفاتيح الحقيقية الخاصة بك
       const firebaseConfig = {
         apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
         authDomain: "vetcommitto.firebaseapp.com",
         projectId: "vetcommitto",
         storageBucket: "vetcommitto.firebasestorage.app",
         messagingSenderId: "373611992706",
-        appId: "1:373611992706:web:5de16778bb9d9544d0069b",
-        measurementId: "G-4DXQ3B29YR"
+        appId: "1:373611992706:web:5de16778bb9d9544d0069b"
       };
 
-      const App = {
-        app: null, auth: null, db: null, user: null,
-        courses: [], announcements: [], links: [], adminResourceCourse: "", adminResourceCache: new Map(),
-        
-        async init() {
-          UI.bind();
-          UI.icons();
-          if (!DB.isConfigured()) {
-            UI.toast("Firebase غير مهيأ! تأكد من مفاتيح الإعدادات.", "error");
-            UI.openModal("authModal");
-            return;
-          }
-          try {
-            this.app = initializeApp(firebaseConfig);
-            this.auth = getAuth(this.app);
-            this.db = getFirestore(this.app);
-            
-            onAuthStateChanged(this.auth, (user) => {
-              if (user) {
-                this.user = user;
-                UI.closeModal("authModal");
-                UI.el("adminView").classList.add("active");
-                UI.el("adminIdentity").innerHTML = `<i data-lucide="user-check" width="14" style="display:inline; color:var(--teal)"></i> حساب الإدارة نشط: ${user.email}`;
-                UI.icons();
-                this.refresh();
-              } else {
-                this.user = null;
-                UI.el("adminView").classList.remove("active");
-                UI.openModal("authModal");
-              }
-            });
-          } catch (error) {
-            UI.toast("تعذر الاتصال بقاعدة البيانات.", "error");
-          }
-        },
-        async refresh() {
-          try {
-            const [c, a, l] = await Promise.all([DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links")]);
-            this.courses = c; 
-            this.announcements = a.sort((x,y) => (y.createdAt?.seconds||0) - (x.createdAt?.seconds||0)); 
-            this.links = l;
-            UI.renderCourses(); UI.renderResourceCourseOptions(); UI.renderAnnouncements(); UI.renderLinks();
-          } catch (err) { UI.toast(DB.errMsg(err), "error"); }
-        }
-      };
-
-      const DB = {
-        isConfigured: () => !Object.values(firebaseConfig).some(v => !v || v.includes("YOUR_")),
-        list: async (name) => { const s = await getDocs(collection(App.db, name)); return s.docs.map(i => ({ id: i.id, ...i.data() })); },
-        resources: async (cId) => { const s = await getDocs(query(collection(App.db, "acad_resources"), where("courseId", "==", cId))); return s.docs.map(i => ({ id: i.id, ...i.data() })); },
-        create: (n, d) => addDoc(collection(App.db, n), { ...d, createdAt: serverTimestamp(), updatedAt: serverTimestamp() }),
-        update: (n, id, d) => updateDoc(doc(App.db, n, id), { ...d, updatedAt: serverTimestamp() }),
-        remove: (n, id) => deleteDoc(doc(App.db, n, id)),
-        removeResources: async (res) => {
-          for(let i=0; i<res.length; i+=450){
-            const b = writeBatch(App.db);
-            res.slice(i, i+450).forEach(r => b.delete(doc(App.db, "acad_resources", r.id)));
-            await b.commit();
-          }
-        },
-        errMsg: (e) => e?.code?.includes("permission-denied") ? "لا تملك الصلاحية للتعديل." : e?.code?.includes("wrong-password") ? "كلمة المرور خاطئة." : (e?.message || "حدث خطأ غير معروف.")
-      };
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
 
       const UI = {
         el: id => document.getElementById(id),
-        esc: val => String(val??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]),
-        icons: () => window.lucide && window.lucide.createIcons(),
-        toast(msg, type="success") {
-          const t = document.createElement("div"); t.className = `toast ${type}`;
-          t.innerHTML = `<i data-lucide="${type==='error'?'circle-alert':'circle-check'}" width="18"></i><span>${this.esc(msg)}</span>`;
-          this.el("toastRegion").append(t); this.icons(); setTimeout(() => t.remove(), 4000);
+        toast(msg) {
+          const t = document.createElement("div"); t.className = "toast";
+          t.innerHTML = `<i data-lucide="info" width="18"></i><span>${msg}</span>`;
+          this.el("toastRegion").append(t); lucide.createIcons();
+          setTimeout(() => t.remove(), 4500);
         },
-        openModal(id) { const m = this.el(id); m.classList.add("open"); document.body.style.overflow="hidden"; setTimeout(()=>m.querySelector("input")?.focus(),50); },
-        closeModal(id) { this.el(id).classList.remove("open"); document.body.style.overflow=""; },
-        
-        bind() {
-          this.el("authForm").addEventListener("submit", async (e) => {
-            e.preventDefault(); const b = e.submitter; b.disabled = true; b.textContent = "جارٍ التحقق...";
-            try { await signInWithEmailAndPassword(App.auth, this.el("authEmail").value.trim(), this.el("authPassword").value); UI.el("authForm").reset(); }
-            catch (err) { this.toast(DB.errMsg(err), "error"); } finally { b.disabled = false; b.innerHTML = `<i data-lucide="shield" width="16"></i>تسجيل الدخول الآمن`; this.icons(); }
-          });
-          this.el("signOutButton").addEventListener("click", () => signOut(App.auth));
-          document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => this.closeModal(b.dataset.close)));
-          document.querySelectorAll(".admin-tab").forEach(t => t.addEventListener("click", () => {
-            document.querySelectorAll(".admin-tab").forEach(x => x.classList.remove("active"));
-            document.querySelectorAll(".admin-panel").forEach(x => x.classList.remove("active"));
-            t.classList.add("active"); this.el(`panel-${t.dataset.tab}`).classList.add("active");
-          }));
-          
-          this.el("addCourseButton").addEventListener("click", () => this.courseForm());
-          this.el("adminCoursesBody").addEventListener("click", e => this.courseAction(e));
-          this.el("adminResourceCourse").addEventListener("change", e => this.chooseResCourse(e.target.value));
-          this.el("addResourceButton").addEventListener("click", () => this.resForm());
-          this.el("adminResourcesList").addEventListener("click", e => this.resAction(e));
-          this.el("addAnnouncementButton").addEventListener("click", () => this.annForm());
-          this.el("adminAnnouncementsList").addEventListener("click", e => this.annAction(e));
-          this.el("addLinkButton").addEventListener("click", () => this.linkForm());
-          this.el("adminLinksList").addEventListener("click", e => this.linkAction(e));
-          this.el("formBody").addEventListener("submit", e => { if(e.target.matches("form[data-entity]")) this.submitForm(e); });
+        bumpMeta() { setDoc(doc(db, "acad_settings", "meta"), { v: Date.now().toString() }, { merge:true }); }
+      };
 
-          // --- دالة سحب وتصدير البيانات ---
-          this.el("exportDataBtn").addEventListener("click", async () => {
-            const btn = this.el("exportDataBtn");
-            const out = this.el("exportJsonOutput");
-            btn.disabled = true; btn.innerHTML = `<span class="loader" style="width:15px;height:15px;border-width:2px;margin:0"></span> جاري سحب البيانات...`;
-            try {
-              // جلب كامل المجموعات الأربعة من فايربيس
-              const [c, r, a, l] = await Promise.all([
-                  DB.list("acad_courses"),
-                  DB.list("acad_resources"),
-                  DB.list("acad_announcements"),
-                  DB.list("acad_links")
-              ]);
-              
-              const fullData = { courses: c, resources: r, announcements: a, links: l };
-              const jsonString = JSON.stringify(fullData, null, 2);
-              
-              // وضعها في المربع ونسخها للحافظة
-              out.value = jsonString;
-              try {
-                  await navigator.clipboard.writeText(jsonString);
-                  this.toast("تم سحب البيانات ونسخها للحافظة بنجاح!");
-              } catch(e) {
-                  this.toast("تم سحب البيانات! يرجى نسخها يدوياً من المربع.", "success");
-              }
-            } catch(err) {
-              this.toast("حدث خطأ أثناء السحب: " + DB.errMsg(err), "error");
-            } finally {
-              btn.disabled = false; btn.innerHTML = `<i data-lucide="copy" width="15"></i> جلب ونسخ بيانات النظام`;
-              this.icons();
-            }
-          });
+      let state = { courses: [], exams: [], anns: [], links: [] };
 
-          // --- دالة استعادة ودمج البيانات ---
-          this.el("restoreDataBtn").addEventListener("click", async () => {
-            const val = this.el("backupJsonInput").value;
-            if (!val) return this.toast("الرجاء لصق كود البيانات أولاً.", "error");
-            try {
-              const parsed = JSON.parse(val);
-              if (!confirm("سيتم دمج البيانات المرفقة مع قاعدة البيانات السحابية الحالية. هل أنت متأكد من رغبتك بالاستمرار؟")) return;
-              
-              const btn = this.el("restoreDataBtn");
-              btn.disabled = true; btn.textContent = "جاري المزامنة مع السيرفر...";
-              
-              let ops = [];
-              
-              if (parsed.courses) {
-                  parsed.courses.forEach(c => {
-                      const yr = c.category ? c.category.replace(/[^0-9]/g, "") || "1" : "1";
-                      const sem = c.semester ? c.semester.replace("semester-", "") : "1";
-                      ops.push({ col: "acad_courses", id: c.id, data: {
-                          name: c.title || c.name || "", code: c.code || "",
-                          category: c.category && c.category.toLowerCase().includes("year") ? `year-${yr}` : (c.category || "year-1"),
-                          year: yr, semester: sem, credits: c.credits || 0, updatedAt: serverTimestamp()
-                      }});
-                  });
-              }
-              if (parsed.resources) {
-                  parsed.resources.forEach(r => {
-                      ops.push({ col: "acad_resources", id: r.id, data: {
-                          courseId: r.courseId, type: r.type || "other", title: r.title || "مادة دراسية", url: r.url || "", updatedAt: serverTimestamp()
-                      }});
-                  });
-              }
-              if (parsed.announcements) {
-                  parsed.announcements.forEach(a => {
-                      ops.push({ col: "acad_announcements", id: a.id || crypto.randomUUID(), data: {
-                          title: a.title || "إعلان أكاديمي", message: a.text || a.message || "", createdAt: serverTimestamp()
-                      }});
-                  });
-              }
-              if (parsed.links) {
-                  parsed.links.forEach(l => {
-                      ops.push({ col: "acad_links", id: l.id || crypto.randomUUID(), data: {
-                          title: l.name || l.title || "", name: l.name || l.title || "", url: l.url || "", updatedAt: serverTimestamp()
-                      }});
-                  });
-              }
-              
-              // الرفع على شكل دفعات (Batches) لتفادي أخطاء الحجم
-              for(let i=0; i<ops.length; i+=450){
-                  const b = writeBatch(App.db);
-                  ops.slice(i, i+450).forEach(op => { b.set(doc(App.db, op.col, op.id), op.data, { merge: true }); });
-                  await b.commit();
-              }
-              
-              this.toast(`تمت المزامنة بنجاح! تم رفع (${ops.length}) عنصر للسيرفر.`);
-              this.el("backupJsonInput").value = "";
-              App.refresh();
-            } catch(e) {
-              console.error(e);
-              this.toast("صيغة JSON غير صحيحة، يرجى التأكد من الكود المنسوخ.", "error");
-            } finally {
-              const btn = this.el("restoreDataBtn");
-              btn.disabled = false; btn.innerHTML = `<i data-lucide="database-zap" width="15"></i> استعادة ومزامنة البيانات`;
-              this.icons();
-            }
-          });
-        },
-        
-        // --- Courses ---
-        renderCourses() {
-          this.el("adminCoursesBody").innerHTML = App.courses.map(c => `<tr><td><b>${this.esc(c.name||c.title)}</b></td><td class="latin">${this.esc(c.code||"")}</td><td>${this.esc(c.year||"")} · ${this.esc(c.semester||"")}</td><td><button class="tiny-btn" data-manage-res="${this.esc(c.id)}">المواد</button></td><td><span class="table-actions"><button class="tiny-btn" data-edit-course="${this.esc(c.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-course="${this.esc(c.id)}"><i data-lucide="trash-2" width="14"></i></button></span></td></tr>`).join("");
-          this.el("adminCoursesEmpty").hidden = App.courses.length > 0; this.icons();
-        },
-        async courseAction(e) {
-          const edit = e.target.closest("[data-edit-course]"), del = e.target.closest("[data-del-course]"), mg = e.target.closest("[data-manage-res]");
-          if (edit) this.courseForm(App.courses.find(x => x.id === edit.dataset.editCourse));
-          if (mg) { document.querySelector('[data-tab="resources"]').click(); this.el("adminResourceCourse").value = mg.dataset.manageRes; this.chooseResCourse(mg.dataset.manageRes); }
-          if (del) {
-            const c = App.courses.find(x => x.id === del.dataset.delCourse);
-            if (!confirm(`تحذير: هل أنت متأكد من حذف المساق «${c.name}» نهائياً؟`)) return;
-            try {
-              const res = await DB.resources(c.id);
-              if (res.length && !confirm(`انتبه! هذا المساق يحتوي على (${res.length}) مادة، سيتم حذفها جميعاً. هل تريد المتابعة؟`)) return;
-              if (res.length) await DB.removeResources(res);
-              await DB.remove("acad_courses", c.id);
-              this.toast("تم حذف المساق والمواد التابعة له."); App.adminResourceCourse = ""; App.refresh();
-            } catch(err) { this.toast(DB.errMsg(err), "error"); }
-          }
-        },
-        courseForm(c=null) {
-          const ed = !!c, opts = [["year-1","السنة الأولى"],["year-2","السنة الثانية"],["year-3","السنة الثالثة"],["year-4","السنة الرابعة"],["year-5","السنة الخامسة"],["year-6","السنة السادسة"],["elective","اختياري"],["university","متطلب جامعة"]];
-          const cOpts = opts.map(([id,lbl]) => `<option value="${id}" ${c?.category===id||c?.year===id.replace('year-','')?'selected':''}>${lbl}</option>`).join("");
-          this.openF(ed?"تعديل بيانات المساق":"إضافة مساق جديد", "املأ البيانات بدقة لتظهر بشكل صحيح للطلاب", `<form data-entity="course" data-id="${this.esc(c?.id)}"><div class="form-grid"><div class="form-row full"><label>اسم المساق الرسمي</label><input name="name" class="field" required value="${this.esc(c?.name||c?.title)}"></div><div class="form-row"><label>الرمز الأكاديمي (اختياري)</label><input name="code" class="field" value="${this.esc(c?.code)}"></div><div class="form-row"><label>سنة المساق</label><select name="category" class="select">${cOpts}</select></div><div class="form-row"><label>الفصل الدراسي</label><select name="semester" class="select"><option value="1" ${c?.semester=="1"?'selected':''}>الفصل الأول</option><option value="2" ${c?.semester=="2"?'selected':''}>الفصل الثاني</option><option value="summer" ${c?.semester=="summer"?'selected':''}>الفصل الصيفي</option></select></div><div class="form-row full"><label>عدد الساعات (اختياري)</label><input name="credits" type="number" class="field" value="${this.esc(c?.credits)}"></div></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ التغييرات</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
-        },
-        
-        // --- Resources ---
-        renderResourceCourseOptions() {
-          const cur = this.el("adminResourceCourse").value;
-          this.el("adminResourceCourse").innerHTML = `<option value="">اختر مساقاً...</option>` + App.courses.map(c => `<option value="${this.esc(c.id)}">${this.esc(c.name||c.title)} ${c.code ? `(${c.code})` : ''}</option>`).join("");
-          if(App.courses.some(c=>c.id===cur)) this.el("adminResourceCourse").value = cur;
-        },
-        async chooseResCourse(id) {
-          App.adminResourceCourse = id; this.el("addResourceButton").disabled = !id;
-          const t = this.el("adminResourcesList");
-          if (!id) { t.innerHTML = '<div class="empty-state">اختر مساقاً من القائمة العلوية لعرض مواده.</div>'; return; }
-          t.innerHTML = '<div class="loader"></div><div style="text-align:center; font-size:12px; color:#888">جاري الجلب من السيرفر...</div>';
-          try {
-            const res = await DB.resources(id); App.adminResourceCache.set(id, res);
-            if(!res.length) { t.innerHTML = '<div class="empty-state">هذا المساق لا يحتوي على أي مواد حالياً.</div>'; return; }
-            t.innerHTML = res.map(r => `<div class="announcement-card"><span><b>${this.esc(r.title)}</b><small style="direction:ltr; text-align:right;">${this.esc(r.type)} · ${this.esc(r.url)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-res="${this.esc(r.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-res="${this.esc(r.id)}"><i data-lucide="trash-2" width="14"></i></button></span></div>`).join("");
-            this.icons();
-          } catch(err) { t.innerHTML = `<div class="error-state">تعذر تحميل المواد، تحقق من الاتصال.</div>`; }
-        },
-        resAction(e) {
-          const edit = e.target.closest("[data-edit-res]"), del = e.target.closest("[data-del-res]");
-          const items = App.adminResourceCache.get(App.adminResourceCourse)||[];
-          if(edit) this.resForm(items.find(x => x.id === edit.dataset.editRes));
-          if(del && confirm("هل أنت متأكد من حذف هذه المادة؟ لا يمكن التراجع عن هذا الإجراء.")) {
-             DB.remove("acad_resources", del.dataset.delRes).then(()=>{ this.toast("تمت إزالة المادة بنجاح."); this.chooseResCourse(App.adminResourceCourse); });
-          }
-        },
-        resForm(r=null) {
-          if(!App.adminResourceCourse) return this.toast("الرجاء اختيار المساق أولاً","error");
-          const curC = App.courses.find(x => x.id === App.adminResourceCourse);
-          this.openF(r?"تعديل المادة الدراسية":"إضافة مادة جديدة", `سيتم إضافتها إلى مساق: ${curC?.name}`, `<form data-entity="resource" data-id="${this.esc(r?.id)}"><input type="hidden" name="courseId" value="${App.adminResourceCourse}"><div class="form-row"><label>نوع المادة المرفقة</label><select name="type" class="select"><option value="lecture" ${r?.type=='lecture'?'selected':''}>سلايدات أو ملفات شرح (Lecture)</option><option value="recording" ${r?.type=='recording'?'selected':''}>تسجيلات وملفات صوتية (Record)</option><option value="summary" ${r?.type=='summary'?'selected':''}>ملخصات أو تفاريغ أو امتحانات (Summary/Exam)</option><option value="other" ${r?.type=='other'?'selected':''}>مصادر خارجية أخرى (Other)</option></select></div><div class="form-row"><label>عنوان المادة (اسم الملف)</label><input name="title" class="field" required placeholder="مثال: تفاريغ د.أحمد - المحاضرة الأولى" value="${this.esc(r?.title)}"></div><div class="form-row"><label>رابط الملف (Google Drive, YouTube, الخ)</label><input name="url" type="url" class="field" required placeholder="https://..." value="${this.esc(r?.url)}"></div><div class="dialog-footer"><button class="primary-btn" type="submit">حفظ المادة بالنظام</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
-        },
-        
-        // --- Announcements & Links ---
-        renderAnnouncements() {
-          this.el("adminAnnouncementsList").innerHTML = !App.announcements.length ? '<div class="empty-state">لا توجد إعلانات منشورة.</div>' : App.announcements.map(a => `<div class="announcement-card"><span><b>${this.esc(a.title)}</b><small>${this.esc(a.message||a.body||"")}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-ann="${this.esc(a.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-ann="${this.esc(a.id)}"><i data-lucide="trash-2" width="14"></i></button></span></div>`).join(""); this.icons();
-        },
-        annAction(e) {
-          const ed = e.target.closest("[data-edit-ann]"), del = e.target.closest("[data-del-ann]");
-          if(ed) this.annForm(App.announcements.find(x => x.id === ed.dataset.editAnn));
-          if(del && confirm("حذف الإعلان؟ سيختفي من صفحة الطلاب فوراً.")) DB.remove("acad_announcements", del.dataset.delAnn).then(()=>{ this.toast("تم الحذف بنجاح"); App.refresh(); });
-        },
-        annForm(a=null) {
-          this.openF(a?"تعديل الإعلان":"نشر إعلان جديد", "سيظهر الإعلان في الشريط الأبيض في الصفحة الرئيسية للطلاب", `<form data-entity="announcement" data-id="${this.esc(a?.id)}"><div class="form-row"><label>عنوان الإعلان</label><input name="title" class="field" required placeholder="مثال: هام وعاجل" value="${this.esc(a?.title)}"></div><div class="form-row"><label>نص الإعلان</label><textarea name="message" class="textarea" required placeholder="اكتب تفاصيل الإعلان هنا...">${this.esc(a?.message||a?.body||"")}</textarea></div><div class="dialog-footer"><button class="primary-btn" type="submit">نشر الإعلان</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
-        },
-        
-        renderLinks() {
-          this.el("adminLinksList").innerHTML = !App.links.length ? '<div class="empty-state">لم تقم بإضافة روابط بعد.</div>' : App.links.map(l => `<div class="announcement-card"><span><b>${this.esc(l.title||l.name)}</b><small dir="ltr" style="text-align:right">${this.esc(l.url)}</small></span><span class="table-actions"><button class="tiny-btn" data-edit-link="${this.esc(l.id)}"><i data-lucide="pencil" width="14"></i></button><button class="tiny-btn" style="color:#ef4444; border-color:#fee2e2;" data-del-link="${this.esc(l.id)}"><i data-lucide="trash-2" width="14"></i></button></span></div>`).join(""); this.icons();
-        },
-        linkAction(e) {
-          const ed = e.target.closest("[data-edit-link]"), del = e.target.closest("[data-del-link]");
-          if(ed) this.linkForm(App.links.find(x => x.id === ed.dataset.editLink));
-          if(del && confirm("إزالة هذا الرابط من القائمة؟")) DB.remove("acad_links", del.dataset.delLink).then(()=>{ this.toast("تم الحذف"); App.refresh(); });
-        },
-        linkForm(l=null) {
-          this.openF(l?"تعديل الرابط":"إضافة رابط جديد", "سيظهر للطلاب في قائمة (الروابط المهمة) في الأعلى", `<form data-entity="link" data-id="${this.esc(l?.id)}"><div class="form-row"><label>اسم الرابط الواضح</label><input name="title" class="field" required placeholder="مثال: الخدمات الطلابية" value="${this.esc(l?.title||l?.name)}"></div><div class="form-row"><label>الرابط (URL)</label><input name="url" type="url" class="field" required placeholder="https://..." value="${this.esc(l?.url)}"></div><div class="dialog-footer"><button class="primary-btn" type="submit">تثبيت الرابط</button><button class="ghost-btn" type="button" data-close="formModal">إلغاء</button></div></form>`);
-        },
-        
-        // --- Form Submission ---
-        openF(t, s, h) { this.el("formTitle").textContent=t; this.el("formSubtitle").textContent=s; this.el("formBody").innerHTML=h; this.openModal("formModal"); },
-        async submitForm(e) {
-          e.preventDefault(); const f = e.target, en = f.dataset.entity, id = f.dataset.id, v = Object.fromEntries(new FormData(f).entries()), btn = f.querySelector('[type="submit"]');
-          btn.disabled = true; btn.textContent = "جاري الحفظ بالسيرفر...";
-          try {
-            if(en==="course") { const d = { name:v.name, code:v.code, category:v.category, year:v.category.replace("year-",""), semester:v.semester, credits:Number(v.credits)||0 }; id ? await DB.update("acad_courses", id, d) : await DB.create("acad_courses", d); await App.refresh(); }
-            else if(en==="resource") { const d = { courseId:v.courseId, type:v.type, title:v.title, url:v.url }; id ? await DB.update("acad_resources", id, d) : await DB.create("acad_resources", d); await this.chooseResCourse(v.courseId); }
-            else if(en==="announcement") { const d = { title:v.title, message:v.message }; id ? await DB.update("acad_announcements", id, d) : await DB.create("acad_announcements", d); await App.refresh(); }
-            else if(en==="link") { const d = { title:v.title, name:v.title, url:v.url }; id ? await DB.update("acad_links", id, d) : await DB.create("acad_links", d); await App.refresh(); }
-            this.toast("تم الحفظ بنجاح ونشر التعديل للطلاب."); this.closeModal("formModal");
-          } catch(err) { this.toast(DB.errMsg(err), "error"); } finally { btn.disabled = false; }
+      // Auth
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          UI.el("loginOverlay").style.display = "none";
+          UI.el("mainContent").style.display = "block";
+          UI.el("logoutBtn").style.display = "inline-flex";
+          loadAll();
+        } else {
+          UI.el("loginOverlay").style.display = "flex";
+          UI.el("mainContent").style.display = "none";
+          UI.el("logoutBtn").style.display = "none";
         }
+      });
+      UI.el("loginBtn").onclick = () => {
+        signInWithEmailAndPassword(auth, UI.el("authEmail").value, UI.el("authPass").value)
+          .catch(() => UI.el("loginErr").style.display="block");
+      };
+      UI.el("logoutBtn").onclick = () => signOut(auth);
+
+      // Tabs
+      document.querySelectorAll(".tab-btn").forEach(b => {
+        b.onclick = () => {
+          document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
+          document.querySelectorAll(".tab-content").forEach(x => x.classList.remove("active"));
+          b.classList.add("active"); UI.el(b.dataset.tab).classList.add("active");
+        };
+      });
+
+      async function loadAll() {
+        UI.toast("جاري سحب البيانات...");
+        try {
+          const [cs, ex, an, lk] = await Promise.all([
+            getDocs(collection(db, "acad_courses")), getDocs(collection(db, "acad_exams")),
+            getDocs(collection(db, "acad_announcements")), getDocs(collection(db, "acad_links"))
+          ]);
+          state.courses = cs.docs.map(d => ({id:d.id, ...d.data()}));
+          state.exams = ex.docs.map(d => ({id:d.id, ...d.data()}));
+          state.anns = an.docs.map(d => ({id:d.id, ...d.data()}));
+          state.links = lk.docs.map(d => ({id:d.id, ...d.data()}));
+          
+          renderCourses(); renderExams(); renderAnns(); renderLinks();
+          
+          // Populate course selects
+          const cOpts = `<option value="">-- اختر مساق --</option>` + state.courses.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
+          UI.el("exCourse").innerHTML = cOpts;
+          lucide.createIcons();
+        } catch(e) { UI.toast("خطأ في جلب البيانات"); }
+      }
+
+      // --- Courses ---
+      UI.el("courseForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const data = { name: UI.el("cName").value, code: UI.el("cCode").value, year: UI.el("cYear").value, semester: UI.el("cSem").value, category: `year-${UI.el("cYear").value}`, updatedAt: serverTimestamp() };
+        await addDoc(collection(db, "acad_courses"), data);
+        UI.bumpMeta(); UI.toast("تم الإضافة بنجاح"); UI.el("courseForm").reset(); loadAll();
       };
       
-      App.init();
+      function renderCourses() {
+        const yF = UI.el("filterYear").value; const sF = UI.el("filterSem").value;
+        const filtered = state.courses.filter(c => (yF==="all" || c.year===yF) && (sF==="all" || c.semester===sF));
+        
+        UI.el("coursesList").innerHTML = filtered.length ? filtered.map(c => `
+          <div class="data-item">
+            <div>
+              <div class="data-meta">${c.name} <small style="color:var(--slate)">(${c.code})</small></div>
+              <span class="data-sub">السنة ${c.year} · الفصل ${c.semester==="summer"?"الصيفي":c.semester}</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="danger-btn" style="background:var(--purple); color:#fff" onclick="window.openRes('${c.id}', '${c.name}')">المواد</button>
+              <button class="danger-btn" onclick="window.delDoc('acad_courses', '${c.id}')"><i data-lucide="trash" width="14"></i></button>
+            </div>
+          </div>
+        `).join("") : '<div style="text-align:center; padding:20px; color:var(--slate)">لا توجد مساقات بهذا الفلتر.</div>';
+        lucide.createIcons();
+      }
+      
+      UI.el("filterYear").onchange = renderCourses;
+      UI.el("filterSem").onchange = renderCourses;
+
+      // --- Resources (Inside Course) ---
+      window.openRes = async (cId, cName) => {
+        UI.el("rCourseId").value = cId; UI.el("resModalTitle").textContent = "مواد: " + cName;
+        UI.el("resModal").style.display = "flex"; UI.el("resList").innerHTML = "جاري التحميل...";
+        const snap = await getDocs(query(collection(db, "acad_resources"), where("courseId", "==", cId)));
+        const res = snap.docs.map(d => ({id:d.id, ...d.data()}));
+        UI.el("resList").innerHTML = res.map(r => `
+          <div class="data-item" style="padding:10px;">
+            <div><div class="data-meta">${r.title}</div><a href="${r.url}" target="_blank" class="data-sub">${r.type}</a></div>
+            <button class="danger-btn" onclick="window.delDoc('acad_resources', '${r.id}'); window.openRes('${cId}', '${cName}')"><i data-lucide="x" width="12"></i></button>
+          </div>
+        `).join("");
+        lucide.createIcons();
+      };
+      UI.el("resForm").onsubmit = async (e) => {
+        e.preventDefault();
+        await addDoc(collection(db, "acad_resources"), { courseId: UI.el("rCourseId").value, title: UI.el("rTitle").value, url: UI.el("rUrl").value, type: UI.el("rType").value, createdAt: serverTimestamp() });
+        UI.bumpMeta(); UI.el("resForm").reset(); window.openRes(UI.el("rCourseId").value, UI.el("resModalTitle").textContent.replace("مواد: ",""));
+      };
+
+      // --- Exams ---
+      UI.el("examForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const data = { title: UI.el("exTitle").value, date: UI.el("exDate").value, time: UI.el("exTime").value, place: UI.el("exPlace").value, courseId: UI.el("exCourse").value, updatedAt: serverTimestamp() };
+        await addDoc(collection(db, "acad_exams"), data);
+        UI.bumpMeta(); UI.toast("تم إضافة الامتحان"); UI.el("examForm").reset(); loadAll();
+      };
+      function renderExams() {
+        UI.el("examsList").innerHTML = state.exams.map(e => `
+          <div class="data-item">
+            <div><div class="data-meta">${e.title}</div><span class="data-sub">${e.date} ${e.time?"· "+e.time:""}</span></div>
+            <button class="danger-btn" onclick="window.delDoc('acad_exams', '${e.id}')"><i data-lucide="trash" width="14"></i></button>
+          </div>
+        `).join("");
+      }
+
+      // --- Announcements & Links ---
+      UI.el("annForm").onsubmit = async (e) => {
+        e.preventDefault(); await addDoc(collection(db, "acad_announcements"), { title: UI.el("aTitle").value, message: UI.el("aMsg").value, createdAt: serverTimestamp() });
+        UI.bumpMeta(); UI.toast("تم النشر"); UI.el("annForm").reset(); loadAll();
+      };
+      function renderAnns() {
+        UI.el("annsList").innerHTML = state.anns.map(a => `<div class="data-item"><div><div class="data-meta">${a.title}</div></div><button class="danger-btn" onclick="window.delDoc('acad_announcements', '${a.id}')"><i data-lucide="trash" width="14"></i></button></div>`).join("");
+      }
+      
+      UI.el("linkForm").onsubmit = async (e) => {
+        e.preventDefault(); await addDoc(collection(db, "acad_links"), { title: UI.el("lTitle").value, url: UI.el("lUrl").value, updatedAt: serverTimestamp() });
+        UI.bumpMeta(); UI.toast("تم الإضافة"); UI.el("linkForm").reset(); loadAll();
+      };
+      function renderLinks() {
+        UI.el("linksList").innerHTML = state.links.map(l => `<div class="data-item"><div><div class="data-meta">${l.title}</div></div><button class="danger-btn" onclick="window.delDoc('acad_links', '${l.id}')"><i data-lucide="trash" width="14"></i></button></div>`).join("");
+      }
+
+      // Delete Helper
+      window.delDoc = async (col, id) => {
+        if(confirm("متأكد من الحذف؟")) { await deleteDoc(doc(db, col, id)); UI.bumpMeta(); loadAll(); }
+      };
+
+      // --- JSON Import (Smarter & Forgiving) ---
+      UI.el("importBtn").onclick = async () => {
+        const val = UI.el("jsonInput").value.trim();
+        if(!val) return UI.toast("المربع فارغ!");
+        try {
+          const parsed = JSON.parse(val);
+          const list = parsed.courses || (Array.isArray(parsed) ? parsed : []);
+          if(!list.length) throw new Error("no_data");
+          
+          UI.toast("جاري الرفع...");
+          let count = 0;
+          for (const item of list) {
+            // التخطي فقط لو نفس الاسم بالضبط موجود لتقليل التكرار
+            if (!state.courses.some(c => c.name === item.name && c.year === item.year && c.semester === item.semester)) {
+               const cleanItem = {
+                 name: item.name || "بدون اسم", code: item.code || "", year: item.year || "1",
+                 semester: item.semester || "1", category: `year-${item.year||"1"}`, hours: item.hours || 0,
+                 updatedAt: serverTimestamp()
+               };
+               // فايربيس سيولد ID جديد تلقائياً
+               await addDoc(collection(db, "acad_courses"), cleanItem);
+               count++;
+            }
+          }
+          UI.bumpMeta(); UI.toast(`تم رفع ${count} مساق جديد بنجاح!`); UI.el("jsonInput").value = ""; loadAll();
+        } catch(e) { 
+          UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة.");
+        }
+      };
+
+      lucide.createIcons();
     </script>
   </body>
 </html>
