@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -16,10 +16,23 @@
         --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
         --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
         --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #fff; --card-border: #dfe3ed; --card-hover: #a8bcd9;
+        --btn-bg: #f0f3f7; --btn-hover: #eef1f6; --text-muted: #8893a4;
+        --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
       }
+      /* Dark Theme Variables */
+      [data-theme="dark"] {
+        --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
+        --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
+        --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #1e293b; --card-border: #334155; --card-hover: #475569;
+        --btn-bg: #334155; --btn-hover: #475569; --text-muted: #949daf;
+        --nav-bg: #0f172a; --nav-border: #1e293b;
+      }
+      
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
-      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow-x: hidden; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow-x: hidden; transition: background 0.3s, color 0.3s;}
       button, input, select, textarea { font: inherit; }
       button { cursor: pointer; }
       a { color: inherit; text-decoration: none; }
@@ -27,26 +40,28 @@
       
       .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
       
-      .topbar { height: 74px; background: #fbfbfd; border-bottom: 1px solid #e8eaf1; display: flex; align-items: center; position: relative; z-index: 10; }
+      .topbar { height: 74px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: relative; z-index: 10; transition: 0.3s; }
       .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
       .brand { display: flex; align-items: center; gap: 13px; min-width: max-content; }
-      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); box-shadow: 0 3px 10px rgba(13, 27, 51, 0.15); background: var(--navy); }
+      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); box-shadow: 0 3px 10px rgba(13, 27, 51, 0.15); background: #0d1b33; }
       .brand-name { font-size: 14px; line-height: 1.45; font-weight: 700; color: var(--navy); }
-      .brand-name small { display: block; color: #7b8294; font-size: 10px; font-weight: 500; }
-      .navlinks { display: flex; align-items: center; gap: 28px; color: #606a82; font-size: 13px; }
+      .brand-name small { display: block; color: var(--slate); font-size: 10px; font-weight: 500; }
+      .navlinks { display: flex; align-items: center; gap: 28px; color: var(--slate); font-size: 13px; }
       .navlinks a:hover { color: var(--purple); }
       
+      .theme-toggle { border: none; background: transparent; color: var(--slate); padding: 8px; border-radius: 50%; display: grid; place-items: center; transition: 0.2s;}
+      .theme-toggle:hover { background: var(--btn-bg); color: var(--navy); }
+      
       .dropdown { position: relative; display: inline-block; padding-block: 10px; }
-      .dropdown-content { display: none; position: absolute; background-color: #fff; min-width: 220px; box-shadow: 0 10px 25px rgba(13, 27, 51, 0.08); z-index: 50; border-radius: 12px; top: 100%; right: 0; border: 1px solid var(--line); overflow: hidden; }
+      .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 220px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); z-index: 50; border-radius: 12px; top: 100%; right: 0; border: 1px solid var(--line); overflow: hidden; }
       .dropdown:hover .dropdown-content { display: block; animation: dialog-in 0.2s ease-out; }
-      .dropdown-content a { color: var(--navy); padding: 12px 16px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 12px; border-bottom: 1px solid #f0f2f5; transition: background 0.2s; }
+      .dropdown-content a { color: var(--navy); padding: 12px 16px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 12px; border-bottom: 1px solid var(--line); transition: background 0.2s; }
       .dropdown-content a:last-child { border-bottom: none; }
       .dropdown-content a:hover { background-color: var(--paper); color: var(--purple); }
       .nav-btn { border: none; background: transparent; color: inherit; font: inherit; display: flex; align-items: center; gap: 5px; padding: 0; cursor: pointer; }
       .nav-btn:hover { color: var(--purple); }
-      .nav-actions { display: flex; align-items: center; gap: 10px; }
       
-      .hero { position: relative; min-height: 496px; overflow: hidden; background: var(--navy); color: white; display: flex; align-items: center; }
+      .hero { position: relative; min-height: 496px; overflow: hidden; background: #0d1b33; color: white; display: flex; align-items: center; }
       .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transform: translateZ(0); }
       .hero:before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(13, 27, 51, 0.88) 0%, rgba(21, 44, 80, 0.75) 48%, rgba(30, 63, 112, 0.6) 100%); }
       .hero:after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at 9% 16%, rgba(209, 170, 92, 0.15), transparent 45%), linear-gradient(0deg, rgba(13, 27, 51, 0.9), transparent 50%); }
@@ -65,44 +80,58 @@
       .searchbox i { color: #d0daeb; flex: none; }
       .searchbox input { border: 0; outline: 0; background: transparent; color: #fff; width: 100%; font-size: 14px; }
       .searchbox input::placeholder { color: #b5c3d9; }
-      .search-hint { font-size: 11px; color: #d1dae8; white-space: nowrap; background: rgba(255,255,255,0.1); padding: 7px 12px; border-radius: 8px; }
       
-      .notice-strip { position: relative; z-index: 3; margin-top: -25px; }
-      .notice-box { background: #fff; border: 1px solid #e5e6ef; border-radius: 15px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 12px 34px rgba(13,27,51,0.05); min-height: 75px; }
-      .notice-icon { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: #eff3f7; color: var(--purple); flex: none; }
+      .notice-strip { position: relative; z-index: 3; margin-top: -25px; display: grid; gap: 16px; grid-template-columns: 1fr; }
+      @media (min-width: 850px) { .notice-strip { grid-template-columns: 2fr 1fr; } }
+      .notice-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 12px 34px rgba(0,0,0,0.05); min-height: 75px; transition: 0.3s;}
+      .notice-icon { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--btn-bg); color: var(--purple); flex: none; }
       .notice-content { flex: 1; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 2px;}
       .notice-content b { font-size: 14px; color: var(--navy); }
       .notice-content p { font-size: 13px; color: var(--slate); margin: 0; }
+      .notice-date { font-size: 12px; color: var(--slate); white-space: nowrap;}
       
-      .section { padding: 72px 0; }
+      .countdown-box { align-items: center; justify-content: center; text-align: center; padding: 12px;}
+      .countdown-val { font: 800 24px Manrope, sans-serif; color: var(--purple); display: block; margin-bottom: 2px; direction: ltr;}
+      .countdown-lbl { font-size: 11px; color: var(--slate); font-weight: 600;}
+      
+      /* جديد هالأسبوع */
+      .recent-adds { margin-top: 30px; background: var(--card-bg); border: 1px dashed var(--purple); border-radius: 16px; padding: 20px; box-shadow: 0 5px 15px rgba(30,63,112,0.03);}
+      .recent-adds-title { font-size: 14px; color: var(--navy); margin: 0 0 15px; display: flex; align-items: center; gap: 8px; font-weight: 700;}
+      .recent-list { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;}
+      .recent-list::-webkit-scrollbar { display: none; }
+      .recent-item { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; flex: 0 0 auto; min-width: 200px; display: flex; flex-direction: column; gap: 5px; transition: 0.2s;}
+      .recent-item:hover { border-color: var(--purple); transform: translateY(-2px);}
+      .recent-item b { font-size: 12px; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+      .recent-item small { font-size: 11px; color: var(--slate);}
+
+      .section { padding: 60px 0; }
       .section-head { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-bottom: 30px; }
       .section-kicker { font-family: Manrope, sans-serif; font-size: 11px; letter-spacing: 0.16em; color: var(--purple); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
       .section-title { margin: 0; font-size: 26px; color: var(--navy); line-height: 1.4; font-weight: 700;}
-      .section-desc { margin: 6px 0 0; color: #788294; font-size: 14px; }
-      .mini-link { font-size: 12px; color: var(--purple); display: flex; align-items: center; gap: 8px; white-space: nowrap; font-weight: 600; background: #f0f3f7; padding: 8px 14px; border-radius: 9px;}
+      .section-desc { margin: 6px 0 0; color: var(--slate); font-size: 14px; }
       
       .tools-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-      .tool-card { border: 1px solid var(--line); border-radius: 20px; background: #fff; padding: 24px; min-height: 235px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
-      .tool-card:after { content: ""; position: absolute; inset: auto -15px -50px auto; width: 145px; height: 145px; border-radius: 50%; background: #eff3f7; pointer-events: none; }
+      .tool-card { border: 1px solid var(--card-border); border-radius: 20px; background: var(--card-bg); padding: 24px; min-height: 235px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.3s;}
+      .tool-card:after { content: ""; position: absolute; inset: auto -15px -50px auto; width: 145px; height: 145px; border-radius: 50%; background: var(--btn-bg); pointer-events: none; transition: 0.3s;}
       .tool-head { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
       .tool-heading { display: flex; align-items: center; gap: 12px; }
-      .tool-ico { width: 42px; height: 42px; border-radius: 12px; background: #eff3f7; color: var(--purple); display: grid; place-items: center; }
+      .tool-ico { width: 42px; height: 42px; border-radius: 12px; background: var(--btn-bg); color: var(--purple); display: grid; place-items: center; }
       .tool-heading strong { display: block; color: var(--navy); font-size: 15px; }
-      .tool-heading small { font-size: 11px; color: #8893a4; }
+      .tool-heading small { font-size: 11px; color: var(--text-muted); }
       .tool-card-body { position: relative; z-index: 1; margin-top: 24px; }
       
-      .field, .select, .textarea { width: 100%; border: 1px solid #e0e5ed; background: #f8f9fc; padding: 12px 14px; border-radius: 10px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s;}
-      .field:focus, .select:focus, .textarea:focus { border-color: #8baccf; box-shadow: 0 0 0 3px rgba(30,63,112,0.1); background: #fff;}
+      .field, .select, .textarea { width: 100%; border: 1px solid var(--card-border); background: var(--paper); padding: 12px 14px; border-radius: 10px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s;}
+      .field:focus, .select:focus, .textarea:focus { border-color: var(--purple); background: var(--card-bg);}
       
       .tool-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; gap: 8px; }
       .tool-result { font: 700 18px Manrope, sans-serif; color: var(--purple); }
       .primary-btn { border: 0; background: var(--purple); color: #fff; padding: 12px 18px; border-radius: 10px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-      .primary-btn:hover { background: var(--navy2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,63,112,0.2);}
-      .ghost-btn { border: 1px solid var(--line); background: #fff; color: var(--navy); padding: 11px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: 0.2s;}
-      .ghost-btn:hover { background: #f5f7fa; }
+      .primary-btn:hover { opacity: 0.9; transform: translateY(-1px);}
+      .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 11px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: 0.2s;}
+      .ghost-btn:hover { background: var(--btn-bg); }
       
       .timer { display: flex; align-items: center; justify-content: center; gap: 20px; }
-      .timer-ring { width: 120px; height: 120px; border: 6px solid #eff3f7; border-right-color: var(--purple); border-radius: 50%; display: grid; place-items: center; }
+      .timer-ring { width: 120px; height: 120px; border: 6px solid var(--btn-bg); border-right-color: var(--purple); border-radius: 50%; display: grid; place-items: center; }
       .timer-readout { font: 700 28px Manrope, sans-serif; color: var(--navy); direction: ltr; }
       .timer-controls { display: flex; flex-direction: column; gap: 10px; }
       .timer-mode { font-size: 11px; color: var(--slate); margin-bottom: 4px; }
@@ -110,200 +139,98 @@
       .todo-form { display: flex; gap: 8px; }
       .todo-form .field { flex: 1; }
       .todo-list { list-style: none; padding: 0; margin: 16px 0 0; max-height: 120px; overflow: auto; }
-      .todo-list li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f2f5; font-size: 12px; color: #43506a; }
-      .todo-list li.done span { text-decoration: line-through; color: #a0a7b4; }
+      .todo-list li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--slate); }
       .todo-list input { accent-color: var(--purple); width: 16px; height: 16px; }
-      .todo-delete { margin-inline-start: auto; border: 0; background: none; color: #a0a6b4; padding: 4px; border-radius: 6px; transition: 0.2s;}
-      .todo-delete:hover { background: #fee2e2; color: #ef4444; }
+      .todo-delete { margin-inline-start: auto; border: 0; background: none; color: var(--text-muted); padding: 4px; border-radius: 6px; transition: 0.2s;}
+      .todo-delete:hover { color: #ef4444; }
 
-      /* =========================================
-         قسم إنجازات الفريق الأكاديمي (العدادات)
-         ========================================= */
-      .achieve-section { background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%); padding: 72px 0; position: relative; overflow: hidden; margin-top: -1px; }
-      .achieve-section::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(209, 170, 92, 0.08), transparent 40%); pointer-events: none;}
-      .achieve-head { text-align: center; margin-bottom: 44px; position: relative; z-index: 2;}
-      .achieve-head .section-kicker { color: var(--gold); }
-      .achieve-head .section-title { color: #fff; margin-bottom: 8px;}
-      .achieve-head .section-desc { color: #b3c5e8; font-size: 14px;}
-      .achieve-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; position: relative; z-index: 2;}
-      .achieve-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 30px 20px; text-align: center; transition: 0.3s; backdrop-filter: blur(10px);}
-      .achieve-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.06); border-color: rgba(209, 170, 92, 0.3);}
-      .achieve-icon { width: 54px; height: 54px; background: rgba(209, 170, 92, 0.1); color: var(--gold); border-radius: 14px; display: grid; place-items: center; margin: 0 auto 18px; }
-      .achieve-num { font: 800 38px Manrope, sans-serif; color: #fff; margin-bottom: 5px; direction: ltr; display: flex; justify-content: center; align-items: baseline; gap: 2px;}
-      .achieve-num span:last-child { font-size: 22px; color: var(--gold); }
-      .achieve-text { font-size: 13px; color: #d1d9e6; line-height: 1.6; font-weight: 500;}
-      
-      .course-section { background: #f0f3f7; border-block: 1px solid #e5e9f0; padding-bottom: 80px; }
+      .course-section { background: var(--paper); border-block: 1px solid var(--line); padding-bottom: 80px; transition: 0.3s;}
       .course-shell { display: grid; grid-template-columns: 240px 1fr; gap: 40px; }
       .course-aside { padding: 18px 0; }
       .course-aside h3 { font-size: 14px; color: var(--navy); margin: 0 0 16px; }
       
-      .category-list, .semester-row { display: flex; gap: 8px; scrollbar-width: none; }
-      .category-list::-webkit-scrollbar, .semester-row::-webkit-scrollbar { display: none; }
+      .category-list { display: flex; flex-direction: column; gap: 6px; }
+      .category-btn { border: 0; text-align: right; background: transparent; color: var(--slate); padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: 0.2s;}
+      .category-btn.active, .category-btn:hover { background: var(--card-bg); color: var(--purple); box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-weight: 600;}
+      .category-btn small { font: 11px Manrope, sans-serif; color: var(--text-muted); background: var(--btn-bg); padding: 2px 8px; border-radius: 20px;}
+      .category-btn.active small { background: var(--btn-hover); color: var(--purple); }
       
-      .category-list { flex-direction: column; gap: 6px; }
-      .category-btn { border: 0; text-align: right; background: transparent; color: #516079; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: 0.2s;}
-      .category-btn.active, .category-btn:hover { background: #fff; color: var(--purple); box-shadow: 0 4px 15px rgba(13, 27, 51, 0.05); font-weight: 600;}
-      .category-btn small { font: 11px Manrope, sans-serif; color: #949daf; background: #f0f3f7; padding: 2px 8px; border-radius: 20px;}
-      .category-btn.active small { background: #eef1f6; color: var(--purple); }
-      
-      .semester-row { margin-bottom: 28px; flex-wrap: wrap; }
-      .semester-pill { border: 1px solid #dfe3eb; border-radius: 999px; background: #fff; padding: 10px 18px; color: #606d85; font-size: 12px; font-weight: 500; transition: 0.2s; cursor: pointer;}
-      .semester-pill:hover { border-color: #bbc7d9; }
-      .semester-pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+      .semester-row { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+      .semester-pill { border: 1px solid var(--line); border-radius: 999px; background: var(--card-bg); padding: 10px 18px; color: var(--slate); font-size: 12px; font-weight: 500; transition: 0.2s; cursor: pointer;}
+      .semester-pill:hover { border-color: var(--purple); }
+      .semester-pill.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
       
       .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-      .course-card { border: 1px solid #dfe3ed; border-radius: 16px; background: #fff; text-align: right; padding: 20px; min-height: 140px; transition: 0.25s; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer;}
-      .course-card:hover { transform: translateY(-4px); border-color: #a8bcd9; box-shadow: 0 16px 32px rgba(30,63,112,0.08); }
+      .course-card { border: 1px solid var(--card-border); border-radius: 16px; background: var(--card-bg); text-align: right; padding: 20px; min-height: 140px; transition: 0.25s; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative;}
+      .course-card:hover { transform: translateY(-4px); border-color: var(--purple); box-shadow: 0 16px 32px rgba(0,0,0,0.08); }
+      .course-card.favorite { border-color: var(--gold); background: rgba(209, 170, 92, 0.05); }
       .course-card-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
-      .course-code { font: 700 11px Manrope, sans-serif; color: var(--purple); background: #f2f5fa; padding: 6px 10px; border-radius: 8px; direction: ltr; }
+      .course-code { font: 700 11px Manrope, sans-serif; color: var(--purple); background: var(--btn-bg); padding: 6px 10px; border-radius: 8px; direction: ltr; }
+      .fav-btn { border: none; background: transparent; color: var(--card-border); padding: 5px; border-radius: 8px; transition: 0.2s; display: grid; place-items: center; z-index: 2;}
+      .fav-btn:hover { color: var(--gold); background: var(--btn-bg); }
+      .fav-btn.active { color: var(--gold); }
       .course-card h3 { font-size: 15px; line-height: 1.6; color: var(--navy); margin: 14px 0 6px; font-weight: 700;}
-      .course-card p { font-size: 12px; color: #8893a4; margin: 0; }
-      .course-open { display: flex; align-items: center; gap: 6px; color: #7b8597; font-size: 12px; margin-top: 18px; font-weight: 600;}
-      .course-card:hover .course-open { color: var(--purple); }
+      .course-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
       
-      .resource-modal { position: fixed; inset: 0; background: rgba(13,27,51,0.6); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
-      .resource-modal.open { display: flex; }
-      .dialog { width: min(760px, 100%); max-height: min(85vh, 800px); overflow: auto; background: #fff; border-radius: 24px; box-shadow: 0 30px 90px rgba(13,27,51,0.2); animation: dialog-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+      .dialog { width: min(760px, 100%); max-height: min(85vh, 800px); overflow: auto; background: var(--card-bg); border-radius: 24px; box-shadow: 0 30px 90px rgba(0,0,0,0.2); animation: dialog-in 0.3s; }
       @keyframes dialog-in { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-      .dialog-head { padding: 24px 28px; border-bottom: 1px solid #ebedf3; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 10; }
-      .dialog-head h2 { font-size: 20px; color: var(--navy); margin: 0; line-height: 1.4; font-weight: 800;}
-      .dialog-head p { font-size: 12px; color: #7b8597; margin: 6px 0 0; }
-      .close-btn { width: 38px; height: 38px; border: 1px solid var(--line); background: white; border-radius: 12px; color: #647087; display: grid; place-items: center; flex: none; transition: 0.2s;}
-      .close-btn:hover { background: #f0f3f7; color: var(--navy); }
+      .dialog-head { padding: 24px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
+      .dialog-head h2 { font-size: 20px; color: var(--navy); margin: 0; font-weight: 800;}
+      .dialog-head p { font-size: 12px; color: var(--slate); margin: 6px 0 0; }
+      .close-btn { width: 38px; height: 38px; border: 1px solid var(--line); background: transparent; border-radius: 12px; color: var(--slate); display: grid; place-items: center; transition: 0.2s;}
+      .close-btn:hover { background: var(--btn-bg); color: var(--navy); }
       .dialog-body { padding: 24px 28px 32px; }
       
       .resource-group { margin-bottom: 28px; }
-      .resource-group:last-child { margin-bottom: 0; }
       .resource-group h3 { display: flex; align-items: center; gap: 10px; color: var(--navy); font-size: 15px; margin: 0 0 14px; font-weight: 700;}
-      .resource-item { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1px solid #ebedf3; border-radius: 16px; margin-top: 10px; transition: 0.2s; background: #fff;}
-      .resource-item:hover { border-color: #cfd6e4; box-shadow: 0 6px 16px rgba(13,27,51,0.04); transform: translateY(-2px);}
-      .resource-symbol { width: 42px; height: 42px; border-radius: 12px; background: #eff3f7; color: var(--purple); display: grid; place-items: center; flex: none; }
+      .resource-item { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; margin-top: 10px; transition: 0.2s; background: var(--paper);}
+      .resource-item:hover { border-color: var(--purple); }
+      .resource-symbol { width: 42px; height: 42px; border-radius: 12px; background: var(--btn-bg); color: var(--purple); display: grid; place-items: center; flex: none; }
       .resource-meta { min-width: 0; flex: 1; }
-      .resource-meta b { font-size: 13px; color: var(--navy); display: block; word-break: break-word; line-height: 1.5;}
-      .resource-meta small { color: #8a93a3; font-size: 11px; margin-top: 4px; display: block;}
-      .resource-actions { display: flex; gap: 8px; }
-      .tiny-btn { border: 1px solid #e5e9ef; background: #fff; color: #516079; border-radius: 10px; padding: 9px 14px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; transition: 0.2s;}
-      .tiny-btn:hover { color: var(--purple); border-color: #aebce3; background: #f8fafe;}
-      
-      .loading-state, .empty-state, .error-state { padding: 40px 20px; text-align: center; color: #7b8597; font-size: 14px; background: #fcfcfd; border-radius: 16px; border: 1px dashed #cfd6e4;}
-      .loader { width: 30px; height: 30px; border-radius: 50%; border: 3px solid #e3e6f0; border-top-color: var(--purple); animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+      .resource-meta b { font-size: 13px; color: var(--navy); display: block; line-height: 1.5;}
+      .resource-meta small { color: var(--slate); font-size: 11px; margin-top: 4px; display: block;}
+      .tiny-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--slate); border-radius: 10px; padding: 9px 14px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;}
+      .tiny-btn:hover { color: var(--purple); border-color: var(--purple); }
       
       footer { background: #0b1526; color: #a2aac0; padding: 40px 0; }
-      .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; font-size: 11px; }
+      .footer-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; }
       .footer-brand { display: flex; align-items: center; gap: 14px; color: #d6dae5;}
-      .footer-logo { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+      .footer-logo { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
       
-      .toast-region { position: fixed; z-index: 100; bottom: 22px; left: 22px; right: 22px; display: flex; flex-direction: column; gap: 9px; align-items: flex-end; pointer-events: none;}
-      .toast { background: #152343; color: white; border: 1px solid #ffffff20; border-radius: 12px; padding: 12px 15px; box-shadow: 0 12px 36px #0d1b3330; font-size: 12px; display: inline-flex; align-items: center; gap: 9px; animation: dialog-in 0.18s; pointer-events: auto;}
-      .toast.success i { color: #b8d7d2; }
-      .toast.error i { color: #f0b3b3; }
-      
-      /* --- تعديلات الموبايل والشاشات الأصغر --- */
       @media (max-width: 850px) {
-        .navlinks { gap: 16px; }
         .course-shell { grid-template-columns: 100%; gap: 24px; }
-        .course-aside { border-left: none; padding: 0 0 10px; border-bottom: 1px solid #dfe3eb;}
-        .category-list { flex-direction: row; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none;}
-        .category-list::-webkit-scrollbar { display: none; }
-        .category-btn { white-space: nowrap; background: #fff; border: 1px solid #e2e6ed; border-radius: 20px;}
-        .category-btn.active { border-color: var(--purple); background: var(--purple); color: #fff;}
-        .category-btn.active small { background: rgba(255,255,255,0.2); color: #fff; }
+        .category-list { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
+        .category-btn { white-space: nowrap; background: var(--card-bg); border: 1px solid var(--line); }
+        .category-btn.active { background: var(--purple); color: #fff;}
         .tools-grid { grid-template-columns: 1fr 1fr; }
-        .achieve-grid { grid-template-columns: repeat(3, 1fr); gap: 16px;}
       }
       
       @media (max-width: 620px) {
         .wrap { width: calc(100% - 40px); } 
-        .topbar { height: 68px; padding-inline: 0; }
-        .brand-logo { width: 40px; height: 40px; }
-        
+        .topbar { height: 68px; }
         .navlinks > a { display: none; }
-        .navlinks .nav-btn { font-size: 13px; color: var(--navy); font-weight: 600; background: #f0f3f7; padding: 9px 14px; border-radius: 10px; }
-        .dropdown { padding-block: 0; }
-        .dropdown-content { right: auto; left: 0; min-width: 200px; }
-
         .hero { min-height: 420px; }
-        .hero-inner { padding-block: 45px 55px; }
         .hero h1 { font-size: 28px; line-height: 1.4; }
-        .hero-copy { font-size: 14px; line-height: 1.7; margin-bottom: 25px; padding-left: 10px;}
-        
-        .searchbox { height: 56px; padding-inline: 16px; border-radius: 14px; }
-        .search-hint { display: none; }
-        
-        .notice-box { padding: 20px; border-radius: 16px; align-items: center;}
-        .notice-icon { width: 36px; height: 36px; border-radius: 10px; }
-        .notice-icon i { width: 16px; height: 16px; }
-        
-        .section { padding: 50px 0; }
-        .section-head { flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 24px;}
-        .section-title { font-size: 22px; }
-        
-        .tools-grid { grid-template-columns: 1fr; gap: 16px; }
-        .tool-card { padding: 20px; }
-        
-        .achieve-section { padding: 50px 0; }
-        .achieve-head { margin-bottom: 30px; }
-        .achieve-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .achieve-card { padding: 20px 14px; border-radius: 16px; }
-        .achieve-card:nth-child(5) { grid-column: 1 / -1; max-width: 260px; margin: 0 auto; width: 100%;}
-        .achieve-icon { width: 44px; height: 44px; margin-bottom: 14px; }
-        .achieve-icon i { width: 22px; height: 22px; }
-        .achieve-num { font-size: 28px; }
-        .achieve-num span:last-child { font-size: 18px; }
-        .achieve-text { font-size: 11px; }
-
-        .semester-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 15px;}
-        .semester-row::-webkit-scrollbar { display: none; }
-        
-        .course-shell { gap: 16px; }
-        .course-card { padding: 20px; border-radius: 18px;}
-        
-        .dialog { width: 100%; max-height: 90vh; border-radius: 28px 28px 0 0; position: absolute; bottom: 0; margin: 0; animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);}
-        @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .dialog-head { padding: 22px 24px; border-radius: 28px 28px 0 0;}
-        .dialog-body { padding: 16px 24px 36px; }
-        .resource-item { flex-direction: column; align-items: stretch; gap: 14px; padding: 16px; border-radius: 14px;}
-        .resource-meta { display: flex; align-items: center; gap: 12px; }
-        .resource-actions { justify-content: flex-end; border-top: 1px solid #f0f2f5; padding-top: 12px;}
-        .tiny-btn { justify-content: center; width: 100%; border-radius: 10px;}
-        
-        .footer-row { flex-direction: column; align-items: center; text-align: center; gap: 16px; }
-        
-        .brand-name small, .search-hint, .notice-date, .section-kicker, .mini-link, .tool-heading small, 
-        .primary-btn, .ghost-btn, .timer-mode, .todo-list li, .category-btn small, .semester-pill, 
-        .course-code, .course-card p, .course-open, .dialog-head p, .resource-meta small, .tiny-btn, 
-        .loading-state, .empty-state, .error-state, .footer-row, .gpa-entry .field-label, .gpa-total, .gpa-empty {
-            font-size: 12px;
-        }
-        .notice-content p { font-size: 12px; margin-top: 3px; }
+        .notice-box { flex-direction: column; align-items: stretch; padding: 20px;}
+        .tools-grid { grid-template-columns: 1fr; }
+        .dialog { width: 100%; max-height: 90vh; border-radius: 28px 28px 0 0; position: absolute; bottom: 0; margin: 0;}
       }
-    </style>
-    <style>
-      .gpa-editor { margin-top: 16px; }
-      .gpa-entry { display: grid; grid-template-columns: minmax(90px, 1fr) 65px 75px 34px; gap: 8px; align-items: end; margin-bottom: 10px; }
-      .gpa-entry .field { padding: 10px 12px; }
-      .gpa-entry .field-label { white-space: nowrap; font-size: 11px; margin-bottom: 6px;}
-      .gpa-remove { width: 34px; height: 39px; border: 1px solid #e5e9ef; border-radius: 10px; background: #fff; color: #ef4444; display: grid; place-items: center; transition: 0.2s;}
-      .gpa-remove:hover { background: #fee2e2; border-color: #fca5a5;}
-      .gpa-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 16px; }
-      .gpa-total, .gpa-empty { font-size: 11px; color: #7b8597; font-weight: 500;}
-      .demo-badge { display: none; }
-      @media (max-width: 440px) { .gpa-entry { grid-template-columns: 1fr 60px 65px 34px; gap: 6px; } }
     </style>
   </head>
   <body>
     <header class="topbar">
       <div class="wrap navrow">
-        <a href="#" class="brand" aria-label="العودة إلى الرئيسية">
+        <a href="#" class="brand">
           <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="brand-logo" />
           <span class="brand-name">المنصة الأكاديمية - VetCommitto<small>لجنة الطب والجراحة البيطرية</small></span>
         </a>
-        <nav class="navlinks" aria-label="التنقل الرئيسي">
+        <nav class="navlinks">
+          <button class="theme-toggle" id="themeToggle" aria-label="تبديل المظهر"><i data-lucide="moon" width="18"></i></button>
           <div class="dropdown">
             <button class="nav-btn">الروابط المهمة <i data-lucide="chevron-down" width="14"></i></button>
             <div class="dropdown-content" id="navDropdownLinks"></div>
           </div>
+          <a href="about.html">عن اللجنة</a>
           <a href="#courses">المساقات</a>
           <a href="#toolkit">أدوات الدراسة</a>
         </nav>
@@ -312,7 +239,7 @@
 
     <main class="student-view">
       <section class="hero">
-        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture aria-hidden="true" poster="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1800">
+        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1800">
           <source src="hero.mp4" type="video/mp4" />
         </video>
         <div class="wrap hero-inner">
@@ -322,8 +249,7 @@
             <p class="hero-copy">مساحتك الأكاديمية للعثور على مواد المساقات، متابعة الإعلانات الرسمية، وتنظيم رحلة تعلّمك في الطب البيطري.</p>
             <label class="searchbox" for="courseSearch">
               <i data-lucide="search" width="20"></i>
-              <input id="courseSearch" type="search" placeholder="ابحث عن مساق أو رمز المساق..." autocomplete="off" />
-              <span class="search-hint">ابحث الآن</span>
+              <input id="courseSearch" type="search" placeholder="ابحث عن أي مساق بالاسم أو الرمز..." autocomplete="off" />
             </label>
           </div>
         </div>
@@ -338,6 +264,19 @@
           </div>
           <span class="notice-date" id="announcementDate"></span>
         </article>
+        <article class="notice-box countdown-box" id="countdownBox" style="display:none;">
+          <div>
+            <span class="countdown-val" id="countdownVal">--</span>
+            <span class="countdown-lbl" id="countdownLbl">امتحان</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="wrap" id="recentAddsSection" style="display:none;">
+        <div class="recent-adds">
+          <h3 class="recent-adds-title"><i data-lucide="sparkles" width="16"></i> جديد المنصة هذا الأسبوع</h3>
+          <div class="recent-list" id="recentAddsList"></div>
+        </div>
       </div>
       
       <section class="section" id="toolkit">
@@ -348,24 +287,23 @@
               <h2 class="section-title">أدوات تساعدك على التقدّم</h2>
               <p class="section-desc">أدواتك محفوظة على هذا الجهاز فقط.</p>
             </div>
-            <span class="mini-link"><i data-lucide="shield-check" width="16"></i>خصوصية محلية</span>
           </div>
           <div class="tools-grid">
             <article class="tool-card">
               <div class="tool-head">
                 <div class="tool-heading">
                   <span class="tool-ico"><i data-lucide="chart-no-axes-column-increasing" width="20"></i></span>
-                  <div><strong>حاسبة المعدل</strong><small>أدخل ساعات كل مساق ونقاطه</small></div>
+                  <div><strong>حاسبة المعدل</strong><small>أدخل الساعات والنقاط</small></div>
                 </div>
               </div>
               <div class="tool-card-body">
-                <div class="gpa-editor" id="gpaRows"></div>
-                <div class="gpa-tools">
-                  <button class="ghost-btn" id="addGpaCourse" type="button"><i data-lucide="plus" width="14"></i>إضافة مساق</button>
-                  <span class="gpa-total" id="gpaTotalHours">0 ساعة</span>
+                <div id="gpaRows"></div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                  <button class="ghost-btn" id="addGpaCourse" type="button"><i data-lucide="plus" width="14"></i>مساق</button>
+                  <span id="gpaTotalHours" style="font-size:12px; color:var(--slate);">0 ساعة</span>
                 </div>
                 <div class="tool-foot">
-                  <span class="tool-result" id="gpaResult">أضف مساقاً</span><span class="gpa-total">المعدل الفصلي</span>
+                  <span class="tool-result" id="gpaResult">أضف مساقاً</span><span style="font-size:12px;">المعدل</span>
                 </div>
               </div>
             </article>
@@ -373,15 +311,15 @@
               <div class="tool-head">
                 <div class="tool-heading">
                   <span class="tool-ico"><i data-lucide="timer" width="20"></i></span>
-                  <div><strong>مؤقّت التركيز</strong><small>جلسات بومودورو للدراسة</small></div>
+                  <div><strong>مؤقّت التركيز</strong><small>جلسات بومودورو</small></div>
                 </div>
               </div>
               <div class="tool-card-body timer">
-                <div class="timer-ring" id="timerRing" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="timer-ring" id="timerRing">
                   <span class="timer-readout" id="timerReadout">25:00</span>
                 </div>
                 <div class="timer-controls">
-                  <div class="timer-mode" id="timerMode">جلسة تركيز · 25 دقيقة</div>
+                  <div class="timer-mode" id="timerMode">جلسة تركيز</div>
                   <button class="primary-btn" id="timerToggle"><i data-lucide="play" width="14"></i>ابدأ</button>
                   <button class="ghost-btn" id="timerReset"><i data-lucide="rotate-ccw" width="14"></i>إعادة ضبط</button>
                 </div>
@@ -396,7 +334,7 @@
               </div>
               <div class="tool-card-body">
                 <form class="todo-form" id="todoForm">
-                  <input id="todoInput" class="field" maxlength="100" placeholder="أضف مهمة دراسية..." />
+                  <input id="todoInput" class="field" maxlength="100" placeholder="أضف مهمة..." />
                   <button class="primary-btn" type="submit"><i data-lucide="plus" width="16"></i></button>
                 </form>
                 <ul class="todo-list" id="todoList"></ul>
@@ -406,57 +344,19 @@
         </div>
       </section>
 
-      <!-- قسم الإنجازات -->
-      <section class="achieve-section" id="achievements-section">
-        <div class="wrap">
-          <div class="achieve-head">
-            <div class="section-kicker">فخر الإنجاز</div>
-            <h2 class="section-title">إنجازات الفريق الأكاديمي</h2>
-            <p class="section-desc">أرقام تعكس التزامنا بتقديم الأفضل وتسهيل مسيرتكم الجامعية</p>
-          </div>
-          <div class="achieve-grid">
-            <article class="achieve-card">
-              <div class="achieve-icon"><i data-lucide="youtube" width="26"></i></div>
-              <div class="achieve-num"><span class="achieve-num-val" data-to="270.1" data-dec="1">0</span><span>k+</span></div>
-              <div class="achieve-text">مشاهدة على قناة اليوتيوب</div>
-            </article>
-            <article class="achieve-card">
-              <div class="achieve-icon"><i data-lucide="file-text" width="26"></i></div>
-              <div class="achieve-num"><span class="achieve-num-val" data-to="513">0</span><span>+</span></div>
-              <div class="achieve-text">تلخيص للمواد الدراسية</div>
-            </article>
-            <article class="achieve-card">
-              <div class="achieve-icon"><i data-lucide="mic" width="26"></i></div>
-              <div class="achieve-num"><span class="achieve-num-val" data-to="740">0</span><span>+</span></div>
-              <div class="achieve-text">ريكورد وتسجيل للفصل الحالي</div>
-            </article>
-            <article class="achieve-card">
-              <div class="achieve-icon"><i data-lucide="layers" width="26"></i></div>
-              <div class="achieve-num"><span class="achieve-num-val" data-to="152">0</span><span>+</span></div>
-              <div class="achieve-text">ملف سنوات ومواد حرة</div>
-            </article>
-            <article class="achieve-card">
-              <div class="achieve-icon"><i data-lucide="file-question" width="26"></i></div>
-              <div class="achieve-num"><span class="achieve-num-val" data-to="90">0</span><span>+</span></div>
-              <div class="achieve-text">ملف أسئلة تدريبية</div>
-            </article>
-          </div>
-        </div>
-      </section>
-      
       <section class="section course-section" id="courses">
         <div class="wrap">
           <div class="section-head">
             <div>
               <div class="section-kicker">دليلك الأكاديمي</div>
               <h2 class="section-title">مكتبة المساقات</h2>
-              <p class="section-desc">اختر مساقاً للوصول إلى مواده الدراسية.</p>
+              <p class="section-desc" id="courseDesc">اختر مساقاً للوصول إلى مواده الدراسية.</p>
             </div>
-            <span id="courseCount" class="mini-link" style="background:transparent; padding:0">— مساق</span>
+            <span id="courseCount" style="font-size:12px; font-weight:600; color:var(--slate);">— مساق</span>
           </div>
           <div class="course-shell">
             <aside class="course-aside">
-              <h3 class="hidden-mobile">التصنيف الأكاديمي</h3>
+              <h3>التصنيف الأكاديمي</h3>
               <div class="category-list" id="categoryList"></div>
             </aside>
             <div>
@@ -468,65 +368,28 @@
       </section>
     </main>
     
-    <div class="resource-modal" id="resourceModal">
+    <div class="resource-modal" id="resourceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
       <section class="dialog">
         <header class="dialog-head">
-          <div>
-            <h2 id="resourceTitle">مواد المساق</h2>
-            <p id="resourceSubtitle"></p>
-          </div>
+          <div><h2 id="resourceTitle">مواد المساق</h2><p id="resourceSubtitle"></p></div>
           <button class="close-btn" data-close="resourceModal"><i data-lucide="x" width="18"></i></button>
         </header>
         <div class="dialog-body" id="resourceBody"></div>
       </section>
     </div>
     
-    <div class="toast-region" id="toastRegion"></div>
+    <div id="toastRegion" style="position:fixed; bottom:20px; left:20px; z-index:200; display:flex; flex-direction:column; gap:10px;"></div>
     
     <footer>
       <div class="wrap footer-row">
-        <div class="footer-brand">
-          <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="footer-logo" />
-          <span>المنصة الأكاديمية - VetCommitto<br /><span class="footer-copy">لجنة الطب والجراحة البيطرية</span></span>
-        </div>
-        <span class="footer-copy">بوابة أكاديمية للطلبة · المعلومات الرسمية من إدارة الكلية</span>
-        <span class="footer-copy latin">JUST · JORDAN</span>
+        <div class="footer-brand"><img src="logo.jpeg" class="footer-logo" /><span>المنصة الأكاديمية - VetCommitto</span></div>
+        <span class="latin">JUST · JORDAN</span>
       </div>
     </footer>
 
-    <!-- سكربت العدادات الذكية -->
-    <script>
-      (function () {
-        const nums = document.querySelectorAll(".achieve-num-val");
-        if (!nums.length) return;
-        const run = (el) => {
-          const to = parseFloat(el.dataset.to) || 0;
-          const dec = parseInt(el.dataset.dec) || 0;
-          const dur = 2000, t0 = performance.now();
-          const tick = (t) => {
-            const p = Math.min((t - t0) / dur, 1);
-            const ease = 1 - Math.pow(1 - p, 3);
-            el.textContent = (to * ease).toFixed(dec);
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-        };
-        if (!("IntersectionObserver" in window)) { nums.forEach(run); return; }
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((e) => { 
-              if (e.isIntersecting) { 
-                  run(e.target); 
-                  io.unobserve(e.target); 
-              } 
-          });
-        }, { threshold: 0.1 });
-        nums.forEach((n) => io.observe(n));
-      })();
-    </script>
-
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-      import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      import { getFirestore, collection, getDocs, query, where, doc, getDoc, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
@@ -534,54 +397,87 @@
         projectId: "vetcommitto",
         storageBucket: "vetcommitto.firebasestorage.app",
         messagingSenderId: "373611992706",
-        appId: "1:373611992706:web:5de16778bb9d9544d0069b",
-        measurementId: "G-4DXQ3B29YR"
-      };
-
-      const App = {
-        firebaseReady: false, app: null, db: null,
-        courses: [], announcements: [], links: [],
-        activeCategory: "year-1", semester: "all", search: "",
-        async init() {
-          UI.bind(); UI.renderCategories(); UI.renderSemesters(); UI.renderTools(); UI.icons();
-          try {
-            this.app = initializeApp(firebaseConfig); this.db = getFirestore(this.app);
-            this.firebaseReady = true; await this.loadInitial();
-          } catch (error) { UI.toast("تعذر الاتصال بقاعدة البيانات", "error"); }
-        },
-        async loadInitial() {
-          try {
-            const [courses, announcements, links] = await Promise.all([ DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links") ]);
-            this.courses = courses; 
-            this.announcements = announcements.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-            this.links = links;
-            UI.renderCourses(); UI.renderAnnouncement(); UI.renderLinks();
-          } catch (error) { UI.toast("تعذر تحميل البيانات.", "error"); }
-        }
+        appId: "1:373611992706:web:5de16778bb9d9544d0069b"
       };
 
       const DB = {
+        async version() {
+          if (DB._v !== undefined) return DB._v;
+          if (DB._vPromise) return DB._vPromise;
+          DB._vPromise = (async () => {
+            try {
+              const s = await getDoc(doc(App.db, "acad_settings", "meta"));
+              DB._v = s.exists() ? String(s.data().v || "0") : "0";
+            } catch { DB._v = null; }
+            return DB._v;
+          })();
+          return DB._vPromise;
+        },
+        async cached(key) {
+          try {
+            const c = JSON.parse(localStorage.getItem("vet_cache_" + key));
+            const v = await DB.version();
+            return c && (v === null || c.v === v) ? c.d : null;
+          } catch { return null; }
+        },
+        async save(key, d) {
+          try { localStorage.setItem("vet_cache_" + key, JSON.stringify({ v: await DB.version(), d })); } catch {}
+        },
         list: async (name) => {
           if (!App.db) return [];
-          const cachedData = sessionStorage.getItem(name);
-          if (cachedData) return JSON.parse(cachedData);
-
+          const hit = await DB.cached(name); if (hit) return hit;
           const snap = await getDocs(collection(App.db, name));
-          const data = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-          sessionStorage.setItem(name, JSON.stringify(data));
-          return data;
+          const data = snap.docs.map(i => ({ id: i.id, ...i.data() }));
+          await DB.save(name, data); return data;
         },
         resources: async (courseId) => {
           if (!App.db || !courseId) return [];
-          const cacheKey = `resources_${courseId}`;
-          const cachedData = sessionStorage.getItem(cacheKey);
-          if (cachedData) return JSON.parse(cachedData);
+          const key = "res_" + courseId, hit = await DB.cached(key); if (hit) return hit;
+          const snap = await getDocs(query(collection(App.db, "acad_resources"), where("courseId", "==", courseId)));
+          const data = snap.docs.map(i => ({ id: i.id, ...i.data() }));
+          await DB.save(key, data); return data;
+        },
+        recent: async () => {
+          if (!App.db) return [];
+          const key = "recent_adds", hit = await DB.cached(key); if (hit) return hit;
+          const snap = await getDocs(query(collection(App.db, "acad_resources"), orderBy("createdAt", "desc"), limit(5)));
+          const data = snap.docs.map(i => ({ id: i.id, ...i.data() }));
+          await DB.save(key, data); return data;
+        },
+        countdown: async () => {
+          if (!App.db) return null;
+          const key = "countdown", hit = await DB.cached(key); if (hit) return hit;
+          try {
+            const s = await getDoc(doc(App.db, "acad_settings", "exam"));
+            const data = s.exists() ? s.data() : null;
+            await DB.save(key, data); return data;
+          } catch { return null; }
+        }
+      };
 
-          const q = query(collection(App.db, "acad_resources"), where("courseId", "==", courseId));
-          const snap = await getDocs(q);
-          const data = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-          sessionStorage.setItem(cacheKey, JSON.stringify(data));
-          return data;
+      const App = {
+        app: null, db: null, courses: [], favorites: [],
+        activeCategory: "year-1", semester: "all", search: "",
+        async init() {
+          UI.bind(); UI.icons(); UI.loadTheme();
+          this.favorites = JSON.parse(localStorage.getItem("vet_favorites") || "[]");
+          try {
+            this.app = initializeApp(firebaseConfig); this.db = getFirestore(this.app);
+            const [courses, announcements, links, recents, countd] = await Promise.all([ 
+              DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links"), DB.recent(), DB.countdown() 
+            ]);
+            this.courses = courses; 
+            UI.renderAnnouncement(announcements.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))[0]); 
+            UI.renderLinks(links); UI.renderRecent(recents); UI.renderCountdown(countd);
+            UI.renderCategories(); UI.renderSemesters(); UI.renderCourses(); UI.renderTools();
+          } catch (error) { console.error(error); }
+        },
+        toggleFavorite(id, e) {
+          e.stopPropagation();
+          if (this.favorites.includes(id)) this.favorites = this.favorites.filter(x => x !== id);
+          else this.favorites.push(id);
+          localStorage.setItem("vet_favorites", JSON.stringify(this.favorites));
+          UI.renderCourses();
         }
       };
 
@@ -589,85 +485,111 @@
         el: (id) => document.getElementById(id),
         esc: (val) => String(val ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]),
         icons: () => window.lucide && window.lucide.createIcons(),
-        toast(message, type = "success") {
-          const t = document.createElement("div"); t.className = `toast ${type}`;
-          t.innerHTML = `<i data-lucide="${type === "error" ? "circle-alert" : "circle-check"}" width="18"></i><span>${this.esc(message)}</span>`;
-          this.el("toastRegion").append(t); this.icons(); setTimeout(() => t.remove(), 4400);
+        
+        loadTheme() {
+          const isDark = localStorage.getItem("vet_theme") === "dark";
+          document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+          this.el("themeToggle").innerHTML = `<i data-lucide="${isDark ? "sun" : "moon"}" width="18"></i>`;
         },
+        toggleTheme() {
+          const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+          localStorage.setItem("vet_theme", isDark ? "light" : "dark");
+          this.loadTheme(); this.icons();
+        },
+
         bind() {
-          this.el("courseSearch").addEventListener("input", (e) => { App.search = e.target.value.trim().toLowerCase(); this.renderCourses(); });
-          this.el("addGpaCourse").addEventListener("click", () => this.addGpaCourse());
-          this.el("gpaRows").addEventListener("input", () => this.calculateGpa());
-          this.el("gpaRows").addEventListener("click", (e) => {
-            const r = e.target.closest("[data-remove-gpa]");
-            if (r) { this.saveGpaCourses(this.getGpaCourses().filter((c) => c.id !== r.dataset.removeGpa)); this.renderGpaCourses(); this.calculateGpa(); }
+          this.el("themeToggle").addEventListener("click", () => this.toggleTheme());
+          this.el("courseSearch").addEventListener("input", (e) => { 
+            App.search = e.target.value.trim().toLowerCase(); 
+            if(App.search) { App.activeCategory = ""; App.semester = "all"; this.renderCategories(); this.renderSemesters(); }
+            this.renderCourses(); 
           });
-          this.el("todoForm").addEventListener("submit", (e) => {
-            e.preventDefault(); const text = this.el("todoInput").value.trim(); if (!text) return;
-            const todos = this.getTodos(); todos.push({ id: crypto.randomUUID(), text, done: false });
-            this.saveTodos(todos); this.el("todoInput").value = ""; this.renderTodos();
-          });
-          this.el("timerToggle").addEventListener("click", () => this.toggleTimer());
-          this.el("timerReset").addEventListener("click", () => this.resetTimer());
           this.el("categoryList").addEventListener("click", (e) => {
             const b = e.target.closest("[data-category]");
-            if (b) { App.activeCategory = b.dataset.category; App.semester = "all"; this.renderCategories(); this.renderSemesters(); this.renderCourses(); }
+            if (b) { App.search = ""; this.el("courseSearch").value = ""; App.activeCategory = b.dataset.category; App.semester = "all"; this.renderCategories(); this.renderSemesters(); this.renderCourses(); }
           });
           this.el("semesterRow").addEventListener("click", (e) => {
             const b = e.target.closest("[data-semester]");
             if (b) { App.semester = b.dataset.semester; this.renderSemesters(); this.renderCourses(); }
           });
           this.el("courseGrid").addEventListener("click", (e) => {
+            const f = e.target.closest(".fav-btn"); if (f) return App.toggleFavorite(f.dataset.id, e);
             const c = e.target.closest("[data-course-id]"); if (c) this.openResources(c.dataset.courseId);
           });
-          document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => this.closeModal(b.dataset.close)));
-          document.querySelectorAll(".resource-modal").forEach((m) => {
-            m.addEventListener("click", (e) => { if (e.target === m) this.closeModal(m.id); });
-            m.addEventListener("keydown", (e) => { if (e.key === "Escape") this.closeModal(m.id); });
-          });
+          document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => { this.el(b.dataset.close).style.display = "none"; document.body.style.overflow = ""; }));
+          
+          // Tools Bindings (GPA & Todo)
+          this.el("addGpaCourse").addEventListener("click", () => this.addGpaCourse());
+          this.el("gpaRows").addEventListener("input", () => this.calculateGpa());
+          this.el("gpaRows").addEventListener("click", (e) => { const r = e.target.closest("[data-remove-gpa]"); if (r) { this.saveGpaCourses(this.getGpaCourses().filter(c => c.id !== r.dataset.removeGpa)); this.renderGpaCourses(); this.calculateGpa(); } });
+          this.el("todoForm").addEventListener("submit", (e) => { e.preventDefault(); const text = this.el("todoInput").value.trim(); if (!text) return; const todos = this.getTodos(); todos.push({ id: crypto.randomUUID(), text, done: false }); this.saveTodos(todos); this.el("todoInput").value = ""; this.renderTodos(); });
+          this.el("timerToggle").addEventListener("click", () => this.toggleTimer());
+          this.el("timerReset").addEventListener("click", () => this.resetTimer());
         },
+
         renderCategories() {
           const cats = [
             { id: "year-1", name: "السنة الأولى" }, { id: "year-2", name: "السنة الثانية" }, { id: "year-3", name: "السنة الثالثة" },
             { id: "year-4", name: "السنة الرابعة" }, { id: "year-5", name: "السنة الخامسة" }, { id: "year-6", name: "السنة السادسة" },
             { id: "elective", name: "مواد اختيارية" }, { id: "university", name: "متطلبات جامعة" }
           ];
-          this.el("categoryList").innerHTML = cats.map(c => `<button class="category-btn ${App.activeCategory === c.id ? "active" : ""}" data-category="${c.id}">${c.name}<small>${App.courses.filter((x) => x.category === c.id || x.year == c.id.replace('year-','')).length}</small></button>`).join("");
+          this.el("categoryList").innerHTML = cats.map(c => `<button class="category-btn ${App.activeCategory === c.id ? "active" : ""}" data-category="${c.id}">${c.name}<small>${App.courses.filter(x => x.category === c.id || x.year == c.id.replace('year-','')).length}</small></button>`).join("");
         },
         renderSemesters() {
           const all = [ { id: "all", label: "كل الفصول" }, { id: "1", label: "الفصل الأول" }, { id: "2", label: "الفصل الثاني" }, { id: "summer", label: "الصيفي" } ];
           this.el("semesterRow").innerHTML = all.map(s => `<button class="semester-pill ${App.semester === s.id ? "active" : ""}" data-semester="${s.id}">${s.label}</button>`).join("");
         },
         renderCourses() {
-          const filtered = App.courses.filter(c => {
+          let filtered = App.courses.filter(c => {
+            if (App.search) return `${c.name || ""} ${c.title || ""} ${c.code || ""}`.toLowerCase().includes(App.search);
             const cat = c.category || (c.year ? `year-${c.year}` : ""); const sem = String(c.semester || "");
             const matchCat = cat === App.activeCategory || c.year == App.activeCategory.replace('year-','');
             const matchSem = App.semester === "all" || (App.semester === "summer" ? sem.includes("summer") || sem.includes("صيف") : sem === App.semester || sem.includes(App.semester === "1" ? "الأول" : "الثاني"));
-            const matchSearch = !App.search || `${c.name || ""} ${c.title || ""} ${c.code || ""}`.toLowerCase().includes(App.search);
-            return matchCat && matchSem && matchSearch;
+            return matchCat && matchSem;
           });
+          
+          // فرز المساقات: المفضلة أولاً
+          filtered.sort((a, b) => {
+            const favA = App.favorites.includes(a.id) ? 1 : 0;
+            const favB = App.favorites.includes(b.id) ? 1 : 0;
+            return favB - favA;
+          });
+
           this.el("courseCount").textContent = `${filtered.length} مساق`;
-          this.el("categoryList").querySelectorAll("[data-category]").forEach(b => {
-             b.querySelector("small").textContent = App.courses.filter(c => c.category === b.dataset.category || c.year == b.dataset.category.replace('year-','')).length;
-          });
+          if (App.search) this.el("courseDesc").innerHTML = `نتائج البحث عن: <b>${this.esc(App.search)}</b>`;
+          else this.el("courseDesc").textContent = "اختر مساقاً للوصول إلى مواده الدراسية.";
+
           if (!filtered.length) {
-            this.el("courseGrid").innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="empty-mark"><i data-lucide="book-open" width="24"></i></span><b>لا توجد مساقات مطابقة</b></div>`;
+            this.el("courseGrid").innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--slate);">لا توجد مساقات مطابقة</div>`;
           } else {
-            this.el("courseGrid").innerHTML = filtered.map(c => `<button class="course-card" data-course-id="${this.esc(c.id)}"><span><span class="course-card-top"><span class="course-code">${this.esc(c.code || "")}</span><i data-lucide="arrow-up-left" width="16" style="color:#a8bcd9"></i></span><h3>${this.esc(c.name || c.title || "مساق")}</h3><p>${this.esc(c.year ? `السنة ${c.year}` : "مساق")} · ${this.esc(c.semester === "1" ? "الفصل الأول" : c.semester === "2" ? "الفصل الثاني" : c.semester === "summer" ? "الفصل الصيفي" : c.semester)}</p></span><span class="course-open"><i data-lucide="folder-open" width="14"></i>عرض المواد</span></button>`).join("");
+            this.el("courseGrid").innerHTML = filtered.map(c => {
+              const isFav = App.favorites.includes(c.id);
+              return `<div class="course-card ${isFav ? 'favorite' : ''}" data-course-id="${this.esc(c.id)}">
+                <span class="course-card-top">
+                  <span class="course-code">${this.esc(c.code || "")}</span>
+                  <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${this.esc(c.id)}"><i data-lucide="star" width="16" fill="${isFav ? 'currentColor' : 'none'}"></i></button>
+                </span>
+                <div>
+                  <h3>${this.esc(c.name || c.title || "مساق")}</h3>
+                  <p>${this.esc(c.year ? `السنة ${c.year}` : "مساق")} · ${this.esc(c.semester === "1" ? "الفصل الأول" : c.semester === "2" ? "الفصل الثاني" : c.semester === "summer" ? "الفصل الصيفي" : c.semester)}</p>
+                </div>
+              </div>`;
+            }).join("");
           }
           this.icons();
         },
+        
         async openResources(id) {
-          const c = App.courses.find((x) => x.id === id); if (!c) return;
+          const c = App.courses.find(x => x.id === id); if (!c) return;
           this.el("resourceTitle").textContent = c.name || c.title || ""; this.el("resourceSubtitle").textContent = c.code || "";
-          this.el("resourceBody").innerHTML = `<div class="loading-state"><span class="loader"></span>جارٍ تحميل المواد...</div>`;
-          this.openModal("resourceModal");
+          this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:var(--slate);">جارٍ تحميل المواد...</div>`;
+          this.el("resourceModal").style.display = "flex"; document.body.style.overflow = "hidden";
           try {
             const res = await DB.resources(id);
             const groups = [ ["lectures", "محاضرات وسلايدات", "presentation"], ["records", "تسجيلات صوتية", "headphones"], ["summaries", "ملخصات وامتحانات", "notebook-tabs"], ["other", "مواد ومصادر أخرى", "files"] ];
-            if (!res.length) { this.el("resourceBody").innerHTML = `<div class="empty-state">لا توجد مواد مضافة لهذا المساق بعد.</div>`; return; }
+            if (!res.length) { this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:var(--slate);">لا توجد مواد مضافة لهذا المساق بعد.</div>`; return; }
             this.el("resourceBody").innerHTML = groups.map(([key, lbl, ico]) => {
-                const sub = res.filter((r) => {
+                const sub = res.filter(r => {
                     const t = (r.type || "other").toLowerCase();
                     if(key === 'lectures') return t.includes('lec') || t.includes('slide');
                     if(key === 'records') return t.includes('rec') || t.includes('audio');
@@ -675,41 +597,57 @@
                     return t === 'other';
                 });
                 if (!sub.length) return "";
-                return `<section class="resource-group"><h3><i data-lucide="${ico}" width="18"></i>${lbl}</h3>${sub.map((item) => `<article class="resource-item"><span class="resource-symbol"><i data-lucide="${ico}" width="18"></i></span><div class="resource-meta"><b>${this.esc(item.title)}</b><small>${this.esc(item.url ? "رابط خارجي للتحميل أو المشاهدة" : "")}</small></div><div class="resource-actions"><a class="tiny-btn" href="${this.esc(item.url)}" target="_blank"><i data-lucide="external-link" width="14"></i>فتح الرابط</a></div></article>`).join("")}</section>`;
+                return `<section class="resource-group"><h3><i data-lucide="${ico}" width="18"></i>${lbl}</h3>${sub.map((item) => `<article class="resource-item"><span class="resource-symbol"><i data-lucide="${ico}" width="18"></i></span><div class="resource-meta"><b>${this.esc(item.title)}</b><small>${this.esc(item.url ? "رابط خارجي" : "")}</small></div><a class="tiny-btn" href="${this.esc(item.url)}" target="_blank"><i data-lucide="external-link" width="14"></i>فتح</a></article>`).join("")}</section>`;
               }).join("");
             this.icons();
-          } catch { this.el("resourceBody").innerHTML = `<div class="error-state">تعذر تحميل المواد، يرجى المحاولة لاحقاً</div>`; }
+          } catch { this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:red;">تعذر التحميل</div>`; }
         },
-        renderAnnouncement() {
-          const item = App.announcements[0];
-          if (!item) { this.el("announcementContent").innerHTML = "<b>الإعلانات الأكاديمية</b><p>لا توجد إعلانات حالياً.</p>"; return; }
+
+        renderAnnouncement(item) {
+          if (!item) return;
           this.el("announcementContent").innerHTML = `<b>${this.esc(item.title)}</b><p>${this.esc(item.message || item.body || "")}</p>`;
-          try { 
-            const dateObj = item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000) : new Date();
-            this.el("announcementDate").textContent = new Intl.DateTimeFormat("ar-JO", { day: "numeric", month: "short" }).format(dateObj); 
-          } catch {}
+          try { const d = item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000) : new Date(); this.el("announcementDate").textContent = new Intl.DateTimeFormat("ar-JO", { day: "numeric", month: "short" }).format(d); } catch {}
         },
-        renderLinks() {
-          const target = this.el("navDropdownLinks"); if (!target) return;
-          if (!App.links.length) { target.innerHTML = `<div style="padding:16px; font-size:12px; color:#8a93a3; text-align:center;">لا توجد روابط مضافة.</div>`; return; }
-          target.innerHTML = App.links.map(l => `<a href="${this.esc(l.url)}" target="_blank"><i data-lucide="${this.esc(l.icon || "external-link")}" width="15"></i>${this.esc(l.title || l.name)}</a>`).join("");
+        
+        renderLinks(links) {
+          const target = this.el("navDropdownLinks"); if (!target || !links.length) return;
+          target.innerHTML = links.map(l => `<a href="${this.esc(l.url)}" target="_blank"><i data-lucide="${this.esc(l.icon || "external-link")}" width="15"></i>${this.esc(l.title || l.name)}</a>`).join("");
           this.icons();
         },
-        openModal(id) { const m = this.el(id); m.classList.add("open"); document.body.style.overflow = "hidden"; },
-        closeModal(id) { const m = this.el(id); m.classList.remove("open"); document.body.style.overflow = ""; },
+
+        renderRecent(recents) {
+          if (!recents || !recents.length) return;
+          this.el("recentAddsSection").style.display = "block";
+          this.el("recentAddsList").innerHTML = recents.map(r => {
+             const c = App.courses.find(x => x.id === r.courseId);
+             const cName = c ? (c.name || c.title) : "مساق عام";
+             return `<a href="#courses" onclick="document.getElementById('courseSearch').value='${cName}'; document.getElementById('courseSearch').dispatchEvent(new Event('input'));" class="recent-item"><b>${this.esc(r.title)}</b><small>${this.esc(cName)}</small></a>`;
+          }).join("");
+        },
+
+        renderCountdown(countd) {
+          if (!countd || !countd.date) return;
+          const target = new Date(countd.date).getTime();
+          if (isNaN(target)) return;
+          const box = this.el("countdownBox"), val = this.el("countdownVal");
+          this.el("countdownLbl").textContent = countd.title || "امتحان القادم";
+          box.style.display = "flex";
+          
+          const update = () => {
+            const diff = target - new Date().getTime();
+            if (diff <= 0) { val.textContent = "اليوم!"; return; }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            val.textContent = `${d} يوم`;
+          };
+          update(); setInterval(update, 60000);
+        },
 
         // --- أدوات الدراسة المحلية ---
         getGpaCourses() { try { return JSON.parse(localStorage.getItem("just-vet-gpa-courses") || "[]"); } catch { return []; } },
         saveGpaCourses(items) { localStorage.setItem("just-vet-gpa-courses", JSON.stringify(items)); },
         renderGpaCourses() {
           const courses = this.getGpaCourses();
-          this.el("gpaRows").innerHTML = !courses.length ? '<div class="gpa-empty">أضف مساقات لحساب المعدل.</div>' : courses.map((c) => `
-            <div class="gpa-entry" data-gpa-row="${this.esc(c.id)}">
-              <input class="field" type="text" placeholder="اسم المساق" value="${this.esc(c.name)}" data-gpa-field="name">
-              <input class="field" type="number" min="0.5" step="0.5" placeholder="ساعات" value="${this.esc(c.hours)}" data-gpa-field="hours">
-              <input class="field" type="number" min="0" max="4" step="0.01" placeholder="نقاط" value="${this.esc(c.grade)}" data-gpa-field="grade">
-              <button class="gpa-remove" type="button" data-remove-gpa="${this.esc(c.id)}"><i data-lucide="x" width="16"></i></button>
-            </div>`).join("");
+          this.el("gpaRows").innerHTML = courses.map((c) => `<div style="display:flex; gap:6px; margin-bottom:8px;" data-gpa-row="${this.esc(c.id)}"><input class="field" style="flex:2" type="text" placeholder="المساق" value="${this.esc(c.name)}" data-gpa-field="name"><input class="field" style="flex:1" type="number" step="0.5" placeholder="ساعات" value="${this.esc(c.hours)}" data-gpa-field="hours"><input class="field" style="flex:1" type="number" step="0.01" placeholder="نقاط" value="${this.esc(c.grade)}" data-gpa-field="grade"><button style="background:transparent; border:none; color:var(--slate);" data-remove-gpa="${this.esc(c.id)}"><i data-lucide="x" width="16"></i></button></div>`).join("");
           this.icons();
         },
         addGpaCourse() { const courses = this.getGpaCourses(); courses.push({ id: crypto.randomUUID(), name: "", hours: "", grade: "" }); this.saveGpaCourses(courses); this.renderGpaCourses(); this.calculateGpa(); },
@@ -725,9 +663,7 @@
         getTodos() { try { return JSON.parse(localStorage.getItem("just-vet-todos") || "[]"); } catch { return []; } },
         saveTodos(items) { localStorage.setItem("just-vet-todos", JSON.stringify(items)); },
         renderTodos() {
-          this.el("todoList").innerHTML = this.getTodos().map((t) => `<li class="${t.done ? "done" : ""}"><input type="checkbox" data-toggle-todo="${this.esc(t.id)}" ${t.done ? "checked" : ""}><span>${this.esc(t.text)}</span><button class="todo-delete" data-delete-todo="${this.esc(t.id)}"><i data-lucide="x" width="15"></i></button></li>`).join("");
-          this.el("todoList").querySelectorAll("[data-toggle-todo]").forEach((i) => i.addEventListener("change", () => { this.saveTodos(this.getTodos().map((x) => x.id === i.dataset.toggleTodo ? { ...x, done: i.checked } : x )); this.renderTodos(); }));
-          this.el("todoList").querySelectorAll("[data-delete-todo]").forEach((b) => b.addEventListener("click", () => { this.saveTodos(this.getTodos().filter((x) => x.id !== b.dataset.deleteTodo)); this.renderTodos(); }));
+          this.el("todoList").innerHTML = this.getTodos().map((t) => `<li style="${t.done?'opacity:0.5; text-decoration:line-through':''}"><input type="checkbox" data-toggle-todo="${this.esc(t.id)}" ${t.done ? "checked" : ""}><span>${this.esc(t.text)}</span><button class="todo-delete" data-delete-todo="${this.esc(t.id)}"><i data-lucide="x" width="15"></i></button></li>`).join("");
           this.icons();
         },
         renderTools() {
@@ -743,7 +679,7 @@
           this.el("timerMode").textContent = this.timer.break ? "استراحة · 5 دقائق" : "جلسة تركيز · 25 دقيقة";
           this.el("timerToggle").innerHTML = `<i data-lucide="${this.timer.running ? "pause" : "play"}" width="15"></i>${this.timer.running ? "إيقاف" : "ابدأ"}`;
           const duration = this.timer.break ? 300 : 1500, progress = Math.round(((duration - this.timer.seconds) / duration) * 100);
-          this.el("timerRing").style.setProperty("--timer-progress", `${progress}%`);
+          this.el("timerRing").style.setProperty("border-image", `conic-gradient(var(--purple) ${progress}%, transparent 0) 1`);
           this.icons();
         },
         toggleTimer() {
@@ -756,7 +692,6 @@
               this.timer.seconds--;
               if (this.timer.seconds <= 0) {
                 clearInterval(this.timer.interval); this.timer.running = false; this.timer.break = !this.timer.break; this.timer.seconds = this.timer.break ? 300 : 1500;
-                this.toast(this.timer.break ? "وقت الاستراحة!" : "انتهت الاستراحة، عد للتركيز.");
               }
               localStorage.setItem("just-vet-pomodoro", JSON.stringify({ seconds: this.timer.seconds, break: this.timer.break }));
               this.paintTimer();
@@ -772,32 +707,6 @@
       };
 
       App.init();
-    </script>
-    <script>
-      (function () {
-        const dd = document.querySelector(".dropdown");
-        if (!dd) return;
-        const btn = dd.querySelector(".nav-btn");
-        const box = dd.querySelector(".dropdown-content");
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          box.style.display = box.style.display === "block" ? "none" : "block";
-        });
-        document.addEventListener("click", (e) => {
-          if (!dd.contains(e.target)) box.style.display = "";
-        });
-      })();
-    </script>
-    <script>
-      (function () {
-        const v = document.getElementById("heroVideo");
-        if (!v) return;
-        v.muted = true; v.defaultMuted = true; v.setAttribute("playsinline", "");
-        const tryPlay = () => v.play().catch(() => {}); tryPlay();
-        v.addEventListener("loadeddata", tryPlay);
-        document.addEventListener("visibilitychange", () => { if (!document.hidden) tryPlay(); });
-        window.addEventListener("touchstart", tryPlay, { once: true });
-      })();
     </script>
   </body>
 </html>
