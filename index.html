@@ -89,17 +89,12 @@
       .searchbox input::placeholder { color: #b5c3d9; }
       
       .notice-strip { position: relative; z-index: 3; margin-top: -25px; display: grid; gap: 16px; grid-template-columns: 1fr; }
-      @media (min-width: 850px) { .notice-strip { grid-template-columns: 2fr 1fr; } }
       .notice-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 12px 34px rgba(0,0,0,0.05); min-height: 75px; transition: 0.3s;}
       .notice-icon { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--btn-bg); color: var(--purple); flex: none; }
       .notice-content { flex: 1; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 2px;}
       .notice-content b { font-size: 14px; color: var(--navy); }
       .notice-content p { font-size: 13px; color: var(--slate); margin: 0; }
       .notice-date { font-size: 12px; color: var(--slate); white-space: nowrap;}
-      
-      .countdown-box { align-items: center; justify-content: center; text-align: center; padding: 12px;}
-      .countdown-val { font: 800 24px Manrope, sans-serif; color: var(--purple); display: block; margin-bottom: 2px; direction: ltr;}
-      .countdown-lbl { font-size: 11px; color: var(--slate); font-weight: 600;}
       
       /* جديد هالأسبوع */
       .recent-adds { margin-top: 30px; background: var(--card-bg); border: 1px dashed var(--purple); border-radius: 16px; padding: 20px; box-shadow: 0 5px 15px rgba(30,63,112,0.03);}
@@ -117,6 +112,35 @@
       .section-title { margin: 0; font-size: 26px; color: var(--navy); line-height: 1.4; font-weight: 700;}
       .section-desc { margin: 6px 0 0; color: var(--slate); font-size: 14px; }
       
+      /* Exam Ring Countdown */
+      .head-side { display: flex; align-items: center; gap: 22px; }
+
+      .exam-ring { display: flex; align-items: center; gap: 12px; --ring: var(--violet); }
+      .ring-wrap { position: relative; width: 58px; height: 58px; flex: none; }
+      .ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+      .ring-wrap circle { fill: none; stroke-width: 3.5; }
+      .ring-bg { stroke: var(--btn-bg); }
+      .ring-fg {
+        stroke: var(--ring); stroke-linecap: round;
+        stroke-dasharray: 119.4; stroke-dashoffset: 119.4;
+        transition: stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1), stroke 0.3s;
+      }
+      .ring-num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1; }
+      .ring-num b { font: 800 17px Manrope, sans-serif; color: var(--ring); direction: ltr; }
+      .ring-num small { font-size: 8px; color: var(--text-muted); margin-top: 2px; }
+
+      .ring-text { display: flex; flex-direction: column; gap: 2px; }
+      .ring-text small { font-size: 10px; color: var(--text-muted); }
+      .ring-text b { font-size: 12px; color: var(--navy); max-width: 130px; line-height: 1.4; }
+
+      .exam-ring.warn { --ring: var(--gold); }
+      .exam-ring.urgent { --ring: #e5484d; }
+      .exam-ring.urgent .ring-wrap { animation: ring-pulse 2s ease-in-out infinite; }
+      @keyframes ring-pulse {
+        0%, 100% { filter: drop-shadow(0 0 0 rgba(229,72,77,0)); }
+        50% { filter: drop-shadow(0 0 6px rgba(229,72,77,.55)); }
+      }
+
       .tools-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
       .tool-card { border: 1px solid var(--card-border); border-radius: 20px; background: var(--card-bg); padding: 24px; min-height: 235px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.3s;}
       .tool-card:after { content: ""; position: absolute; inset: auto -15px -50px auto; width: 145px; height: 145px; border-radius: 50%; background: var(--btn-bg); pointer-events: none; transition: 0.3s;}
@@ -204,6 +228,10 @@
       .footer-brand { display: flex; align-items: center; gap: 14px; color: #d6dae5;}
       .footer-logo { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
       
+      @media (min-width: 850px) { 
+        .notice-strip { grid-template-columns: 1fr; } /* تم التعديل إلى عمود واحد كما طلبت */
+      }
+      
       @media (max-width: 850px) {
         .course-shell { grid-template-columns: 100%; gap: 24px; }
         .category-list { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
@@ -221,6 +249,8 @@
         .notice-box { flex-direction: column; align-items: stretch; padding: 20px;}
         .tools-grid { grid-template-columns: 1fr; }
         .dialog { width: 100%; max-height: 90vh; border-radius: 28px 28px 0 0; position: absolute; bottom: 0; margin: 0;}
+        .section-head { flex-direction: column; align-items: flex-start; }
+        .head-side { width: 100%; justify-content: space-between; }
       }
     </style>
   </head>
@@ -278,12 +308,6 @@
             <p>جارٍ التحقق من آخر الإعلانات الرسمية…</p>
           </div>
           <span class="notice-date" id="announcementDate"></span>
-        </article>
-        <article class="notice-box countdown-box" id="countdownBox" style="display:none;">
-          <div>
-            <span class="countdown-val" id="countdownVal">--</span>
-            <span class="countdown-lbl" id="countdownLbl">امتحان</span>
-          </div>
         </article>
       </div>
 
@@ -361,14 +385,31 @@
 
       <section class="section course-section" id="courses">
         <div class="wrap">
+          <!-- التحديث الجديد: حلقة العد التنازلي في ترويسة المساقات -->
           <div class="section-head">
             <div>
               <div class="section-kicker">دليلك الأكاديمي</div>
               <h2 class="section-title">مكتبة المساقات</h2>
               <p class="section-desc" id="courseDesc">اختر مساقاً للوصول إلى مواده الدراسية.</p>
             </div>
-            <span id="courseCount" style="font-size:12px; font-weight:600; color:var(--slate);">— مساق</span>
+            <div class="head-side">
+              <div class="exam-ring" id="countdownBox" style="display:none;">
+                <div class="ring-wrap">
+                  <svg viewBox="0 0 44 44" aria-hidden="true">
+                    <circle class="ring-bg" cx="22" cy="22" r="19"></circle>
+                    <circle class="ring-fg" id="ringFg" cx="22" cy="22" r="19"></circle>
+                  </svg>
+                  <div class="ring-num"><b id="countdownVal">--</b><small id="ringUnit">يوم</small></div>
+                </div>
+                <div class="ring-text">
+                  <small>الامتحان القادم</small>
+                  <b id="countdownLbl">امتحان</b>
+                </div>
+              </div>
+              <span id="courseCount" style="font-size:12px; font-weight:600; color:var(--slate);">— مساق</span>
+            </div>
           </div>
+          <!-- نهاية التحديث -->
           <div class="course-shell">
             <aside class="course-aside">
               <h3>التصنيف الأكاديمي</h3>
@@ -639,26 +680,36 @@
           }).join("");
         },
 
+        /* التحديث الجديد: الحلقة الدائرية للعد التنازلي */
         renderCountdown(countd) {
           if (!countd || !countd.date) return;
           const target = new Date(countd.date).getTime();
           if (isNaN(target)) return;
-          const box = this.el("countdownBox"), val = this.el("countdownVal");
-          this.el("countdownLbl").textContent = countd.title || "امتحان القادم";
-          box.style.display = "flex";
-          box.style.background = "linear-gradient(135deg, var(--navy), var(--purple))";
-          box.style.borderColor = "var(--navy)";
-          this.el("countdownLbl").style.color = "#d1d9e6";
-          val.style.color = "#fff";
-          val.style.textShadow = "0 2px 10px rgba(0,0,0,0.2)";
-          
+
+          const box = this.el("countdownBox");
+          const WINDOW = 60;
+
           const update = () => {
-            const diff = target - new Date().getTime();
-            if (diff <= 0) { val.textContent = "اليوم!"; return; }
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            val.innerHTML = `<span style="direction:ltr; display:inline-block;">${d}</span> <span style="font-size:16px;">أيام</span>`;
+            const diff = Math.ceil((target - Date.now()) / 86400000);
+            if (diff < 0 || diff > WINDOW) { box.style.display = "none"; return; }
+
+            this.el("countdownLbl").textContent = countd.title || "امتحان";
+            this.el("countdownVal").textContent = diff === 0 ? "اليوم" : diff;
+            this.el("ringUnit").style.display = diff === 0 ? "none" : "";
+
+            box.classList.toggle("urgent", diff <= 4);
+            box.classList.toggle("warn", diff > 4 && diff <= 14);
+            box.style.display = "flex";
+
+            const progress = 1 - diff / WINDOW;
+            const C = 2 * Math.PI * 19;
+            requestAnimationFrame(() => {
+              this.el("ringFg").style.strokeDashoffset = C * (1 - progress);
+            });
           };
-          update(); setInterval(update, 60000);
+
+          update();
+          setInterval(update, 3600000);
         },
 
         getGpaCourses() { try { return JSON.parse(localStorage.getItem("just-vet-gpa-courses") || "[]"); } catch { return []; } },
