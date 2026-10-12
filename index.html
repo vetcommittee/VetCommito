@@ -26,7 +26,6 @@
         --btn-bg: #f0f3f7; --btn-hover: #eef1f6; --text-muted: #8893a4;
         --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
       }
-      /* Dark Theme Variables */
       [data-theme="dark"] {
         --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
         --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
@@ -53,6 +52,7 @@
       .brand-name { font-size: 14px; line-height: 1.45; font-weight: 700; color: var(--navy); }
       .brand-name small { display: block; color: var(--slate); font-size: 10px; font-weight: 500; }
       
+      /* Drawer Styles */
       .menu-btn { width: 44px; height: 44px; border: 1px solid var(--line); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); flex: none; transition: 0.2s; }
       .menu-btn:hover { background: var(--btn-bg); }
       .menu-btn svg { width: 22px; height: 22px; }
@@ -107,7 +107,6 @@
       .notice-content p { font-size: 13px; color: var(--slate); margin: 0; }
       .notice-date { font-size: 12px; color: var(--slate); white-space: nowrap;}
       
-      /* جديد هالأسبوع */
       .recent-adds { margin-top: 30px; background: var(--card-bg); border: 1px dashed var(--purple); border-radius: 16px; padding: 20px; box-shadow: 0 5px 15px rgba(30,63,112,0.03);}
       .recent-adds-title { font-size: 14px; color: var(--navy); margin: 0 0 15px; display: flex; align-items: center; gap: 8px; font-weight: 700;}
       .recent-list { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none;}
@@ -125,34 +124,25 @@
       
       /* Exam Ring Countdown */
       .head-side { display: flex; align-items: center; gap: 22px; }
-
-      .exam-ring { display: flex; align-items: center; gap: 12px; --ring: var(--violet); }
+      .exam-ring { display: flex; align-items: center; gap: 12px; --ring: var(--violet); cursor: pointer; transition: transform 0.2s; user-select: none; }
+      .exam-ring:hover { transform: scale(1.02); }
       .ring-wrap { position: relative; width: 58px; height: 58px; flex: none; }
       .ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
       .ring-wrap circle { fill: none; stroke-width: 3.5; }
       .ring-bg { stroke: var(--btn-bg); }
-      .ring-fg {
-        stroke: var(--ring); stroke-linecap: round;
-        stroke-dasharray: 119.4; stroke-dashoffset: 119.4;
-        transition: stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1), stroke 0.3s;
-      }
+      .ring-fg { stroke: var(--ring); stroke-linecap: round; stroke-dasharray: 119.4; stroke-dashoffset: 119.4; transition: stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1), stroke 0.3s; }
       .ring-num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1; }
       .ring-num b { font: 800 17px Manrope, sans-serif; color: var(--ring); direction: ltr; }
       .ring-num small { font-size: 8px; color: var(--text-muted); margin-top: 2px; }
-
       .ring-text { display: flex; flex-direction: column; gap: 2px; }
       .ring-text small { font-size: 10px; color: var(--text-muted); }
       .ring-text b { font-size: 12px; color: var(--navy); max-width: 130px; line-height: 1.4; }
-
       .exam-ring.warn { --ring: var(--gold); }
       .exam-ring.urgent { --ring: #e5484d; }
       .exam-ring.urgent .ring-wrap { animation: ring-pulse 2s ease-in-out infinite; }
-      @keyframes ring-pulse {
-        0%, 100% { filter: drop-shadow(0 0 0 rgba(229,72,77,0)); }
-        50% { filter: drop-shadow(0 0 6px rgba(229,72,77,.55)); }
-      }
+      @keyframes ring-pulse { 0%, 100% { filter: drop-shadow(0 0 0 rgba(229,72,77,0)); } 50% { filter: drop-shadow(0 0 6px rgba(229,72,77,.55)); } }
 
-      .tools-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+      .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
       .tool-card { border: 1px solid var(--card-border); border-radius: 20px; background: var(--card-bg); padding: 24px; min-height: 235px; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.3s;}
       .tool-card:after { content: ""; position: absolute; inset: auto -15px -50px auto; width: 145px; height: 145px; border-radius: 50%; background: var(--btn-bg); pointer-events: none; transition: 0.3s;}
       .tool-head { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
@@ -172,9 +162,11 @@
       .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 11px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: 0.2s;}
       .ghost-btn:hover { background: var(--btn-bg); }
       
+      /* مؤقّت: حلقة تقدّم دائرية (conic-gradient) */
       .timer { display: flex; align-items: center; justify-content: center; gap: 20px; }
-      .timer-ring { width: 120px; height: 120px; border: 6px solid var(--btn-bg); border-right-color: var(--purple); border-radius: 50%; display: grid; place-items: center; }
-      .timer-readout { font: 700 28px Manrope, sans-serif; color: var(--navy); direction: ltr; }
+      .timer-ring { --p: 0; position: relative; width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--purple) calc(var(--p) * 1%), var(--btn-bg) 0); display: grid; place-items: center; }
+      .timer-ring::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--card-bg); }
+      .timer-readout { position: relative; font: 700 28px Manrope, sans-serif; color: var(--navy); direction: ltr; }
       .timer-controls { display: flex; flex-direction: column; gap: 10px; }
       .timer-mode { font-size: 11px; color: var(--slate); margin-bottom: 4px; }
       
@@ -214,14 +206,14 @@
       .course-card h3 { font-size: 15px; line-height: 1.6; color: var(--navy); margin: 14px 0 6px; font-weight: 700;}
       .course-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
       
-      .dialog { width: min(760px, 100%); max-height: min(85vh, 800px); overflow: auto; background: var(--card-bg); border-radius: 24px; box-shadow: 0 30px 90px rgba(0,0,0,0.2); animation: dialog-in 0.3s; }
+      .dialog { width: min(760px, 100%); max-height: min(85vh, 800px); overflow: auto; background: var(--card-bg); border-radius: 24px; box-shadow: 0 30px 90px rgba(0,0,0,0.2); animation: dialog-in 0.3s; display:flex; flex-direction: column; }
       @keyframes dialog-in { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-      .dialog-head { padding: 24px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
+      .dialog-head { padding: 24px 28px; border-bottom: 1px solid var(--line); display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; position: sticky; top: 0; background: var(--card-bg); z-index: 10; flex: none; }
       .dialog-head h2 { font-size: 20px; color: var(--navy); margin: 0; font-weight: 800;}
       .dialog-head p { font-size: 12px; color: var(--slate); margin: 6px 0 0; }
       .close-btn { width: 38px; height: 38px; border: 1px solid var(--line); background: transparent; border-radius: 12px; color: var(--slate); display: grid; place-items: center; transition: 0.2s;}
       .close-btn:hover { background: var(--btn-bg); color: var(--navy); }
-      .dialog-body { padding: 24px 28px 32px; }
+      .dialog-body { padding: 24px 28px 32px; flex: 1; overflow-y: auto; }
       
       .resource-group { margin-bottom: 28px; }
       .resource-group h3 { display: flex; align-items: center; gap: 10px; color: var(--navy); font-size: 15px; margin: 0 0 14px; font-weight: 700;}
@@ -234,15 +226,16 @@
       .tiny-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--slate); border-radius: 10px; padding: 9px 14px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;}
       .tiny-btn:hover { color: var(--purple); border-color: var(--purple); }
       
+      .toast { background: var(--navy); color: var(--white); padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); animation: toast-in 0.3s, toast-out 0.3s 4s forwards; }
+      @keyframes toast-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+      @keyframes toast-out { to { opacity:0; transform:translateY(10px); } }
+      
       footer { background: #0b1526; color: #a2aac0; padding: 40px 0; }
       .footer-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; }
       .footer-brand { display: flex; align-items: center; gap: 14px; color: #d6dae5;}
       .footer-logo { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
       
-      @media (min-width: 850px) { 
-        .notice-strip { grid-template-columns: 1fr; }
-      }
-      
+      @media (min-width: 850px) { .notice-strip { grid-template-columns: 1fr; } }
       @media (max-width: 850px) {
         .course-shell { grid-template-columns: 100%; gap: 24px; }
         .category-list { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
@@ -250,7 +243,6 @@
         .category-btn.active { background: var(--purple); color: #fff;}
         .tools-grid { grid-template-columns: 1fr 1fr; }
       }
-      
       @media (max-width: 620px) {
         .wrap { width: calc(100% - 40px); } 
         .topbar { height: 68px; }
@@ -413,7 +405,7 @@
               <p class="section-desc" id="courseDesc">اختر مساقاً للوصول إلى مواده الدراسية.</p>
             </div>
             <div class="head-side">
-              <div class="exam-ring" id="countdownBox" style="display:none;">
+              <div class="exam-ring" id="countdownBox" style="display:none;" role="button" tabindex="0" aria-label="عرض جدول الامتحانات">
                 <div class="ring-wrap">
                   <svg viewBox="0 0 44 44" aria-hidden="true">
                     <circle class="ring-bg" cx="22" cy="22" r="19"></circle>
@@ -424,6 +416,7 @@
                 <div class="ring-text">
                   <small>الامتحان القادم</small>
                   <b id="countdownLbl">امتحان</b>
+                  <small id="countdownMore" style="color:var(--purple); display:none;">اضغط لعرض الكل</small>
                 </div>
               </div>
               <span id="courseCount" style="font-size:12px; font-weight:600; color:var(--slate);">— مساق</span>
@@ -443,13 +436,25 @@
       </section>
     </main>
     
+    <!-- نافذة المساقات (المواد) -->
     <div class="resource-modal" id="resourceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
       <section class="dialog">
         <header class="dialog-head">
           <div><h2 id="resourceTitle">مواد المساق</h2><p id="resourceSubtitle"></p></div>
-          <button class="close-btn" data-close="resourceModal"><i data-lucide="x" width="18"></i></button>
+          <button class="close-btn" data-close="resourceModal" aria-label="إغلاق"><i data-lucide="x" width="18"></i></button>
         </header>
         <div class="dialog-body" id="resourceBody"></div>
+      </section>
+    </div>
+    
+    <!-- نافذة جدول الامتحانات -->
+    <div class="resource-modal" id="examModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
+      <section class="dialog" style="max-width:500px;">
+        <header class="dialog-head">
+          <div><h2>جدول الامتحانات</h2><p>قائمة بالامتحانات الأكاديمية القادمة</p></div>
+          <button class="close-btn" data-close="examModal" aria-label="إغلاق"><i data-lucide="x" width="18"></i></button>
+        </header>
+        <div class="dialog-body" id="examBody"></div>
       </section>
     </div>
     
@@ -457,7 +462,7 @@
     
     <footer>
       <div class="wrap footer-row">
-        <div class="footer-brand"><img src="logo.jpeg" class="footer-logo" /><span>المنصة الأكاديمية - VetCommitto</span></div>
+        <div class="footer-brand"><img src="logo.jpeg" class="footer-logo" alt="" /><span>المنصة الأكاديمية - VetCommitto</span></div>
         <span class="latin">JUST · JORDAN</span>
       </div>
     </footer>
@@ -519,32 +524,43 @@
           const data = snap.docs.map(i => ({ id: i.id, ...i.data() }));
           await DB.save(key, data); return data;
         },
-        countdown: async () => {
-          if (!App.db) return null;
-          const key = "countdown", hit = await DB.cached(key); if (hit) return hit;
+        // تعديل: لا نخزّن النتيجة بالكاش إذا صار خطأ بالقراءة، ونجرّب الـ fallback القديم بشكل مستقل
+        exams: async () => {
+          if (!App.db) return [];
+          const key = "exams", hit = await DB.cached(key); if (hit) return hit;
+          let data = [], failed = false;
           try {
-            const s = await getDoc(doc(App.db, "acad_settings", "exam"));
-            const data = s.exists() ? s.data() : null;
-            await DB.save(key, data); return data;
-          } catch { return null; }
+            const snap = await getDocs(collection(App.db, "acad_exams"));
+            data = snap.docs.map(i => ({ id: i.id, ...i.data() }));
+          } catch { failed = true; }
+          if (!data.length) {
+            try {
+              const s = await getDoc(doc(App.db, "acad_settings", "exam"));
+              if (s.exists() && s.data().date) data = [{ id: "exam", ...s.data() }];
+            } catch { failed = true; }
+          }
+          if (!failed) await DB.save(key, data);
+          return data;
         }
       };
 
       const App = {
-        app: null, db: null, courses: [], favorites: [],
+        app: null, db: null, courses: [], favorites: [], exams: [],
         activeCategory: "year-1", semester: "all", search: "",
         async init() {
           UI.bind(); UI.icons(); UI.loadTheme();
-          this.favorites = JSON.parse(localStorage.getItem("vet_favorites") || "[]");
+          try { this.favorites = JSON.parse(localStorage.getItem("vet_favorites") || "[]"); } catch { this.favorites = []; }
           try {
             this.app = initializeApp(firebaseConfig); this.db = getFirestore(this.app);
-            const [courses, announcements, links, recents, countd] = await Promise.all([ 
-              DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links"), DB.recent(), DB.countdown() 
+            const [courses, announcements, links, recents, exams] = await Promise.all([ 
+              DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links"), DB.recent(), DB.exams() 
             ]);
-            this.courses = courses; 
+            this.courses = courses; this.exams = exams;
             UI.renderAnnouncement(announcements.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))[0]); 
-            UI.renderLinks(links); UI.renderRecent(recents); UI.renderCountdown(countd);
+            UI.renderLinks(links); UI.renderRecent(recents); UI.renderCountdown();
             UI.renderCategories(); UI.renderSemesters(); UI.renderCourses(); UI.renderTools();
+            // تحديث العدّاد كل ساعة إذا بقيت الصفحة مفتوحة
+            setInterval(() => UI.renderCountdown(), 3600000);
           } catch (error) { console.error(error); }
         },
         toggleFavorite(id, e) {
@@ -560,6 +576,12 @@
         el: (id) => document.getElementById(id),
         esc: (val) => String(val ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]),
         icons: () => window.lucide && window.lucide.createIcons(),
+        toast(msg) {
+          const t = document.createElement("div"); t.className = "toast";
+          t.innerHTML = `<i data-lucide="bell" width="18"></i><span>${this.esc(msg)}</span>`;
+          this.el("toastRegion").append(t); this.icons(); setTimeout(() => t.remove(), 4500);
+        },
+        closeModal(id) { this.el(id).style.display = "none"; document.body.style.overflow = ""; },
         
         loadTheme() {
           const isDark = localStorage.getItem("vet_theme") === "dark";
@@ -592,13 +614,43 @@
             const f = e.target.closest(".fav-btn"); if (f) return App.toggleFavorite(f.dataset.id, e);
             const c = e.target.closest("[data-course-id]"); if (c) this.openResources(c.dataset.courseId);
           });
-          document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => { this.el(b.dataset.close).style.display = "none"; document.body.style.overflow = ""; }));
+
+          // إغلاق النوافذ: زر X، الضغط على الخلفية، أو Escape
+          document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => this.closeModal(b.dataset.close)));
+          ["resourceModal", "examModal"].forEach((id) => this.el(id).addEventListener("click", (e) => { if (e.target === e.currentTarget) this.closeModal(id); }));
+          document.addEventListener("keydown", (e) => { if (e.key === "Escape") { this.closeModal("resourceModal"); this.closeModal("examModal"); } });
+
+          // جديد المنصة (بدل onclick المباشر)
+          this.el("recentAddsList").addEventListener("click", (e) => {
+            const a = e.target.closest("[data-recent-course]"); if (!a) return;
+            const s = this.el("courseSearch"); s.value = a.dataset.recentCourse;
+            s.dispatchEvent(new Event("input"));
+          });
+
+          // عدّاد الامتحان (يعمل بالماوس والكيبورد)
+          const cb = this.el("countdownBox");
+          cb.addEventListener("click", () => this.renderExamsModal());
+          cb.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.renderExamsModal(); } });
+
+          // زر "ذكّرني" داخل نافذة الامتحانات (بدل onclick المباشر)
+          this.el("examBody").addEventListener("click", (e) => {
+            const b = e.target.closest("[data-ics]"); if (b) this.downloadICS(b.dataset.ics);
+          });
           
           // Tools Bindings
           this.el("addGpaCourse").addEventListener("click", () => this.addGpaCourse());
           this.el("gpaRows").addEventListener("input", () => this.calculateGpa());
           this.el("gpaRows").addEventListener("click", (e) => { const r = e.target.closest("[data-remove-gpa]"); if (r) { this.saveGpaCourses(this.getGpaCourses().filter(c => c.id !== r.dataset.removeGpa)); this.renderGpaCourses(); this.calculateGpa(); } });
           this.el("todoForm").addEventListener("submit", (e) => { e.preventDefault(); const text = this.el("todoInput").value.trim(); if (!text) return; const todos = this.getTodos(); todos.push({ id: crypto.randomUUID(), text, done: false }); this.saveTodos(todos); this.el("todoInput").value = ""; this.renderTodos(); });
+          // إصلاح المهام: حذف + تأشير
+          this.el("todoList").addEventListener("click", (e) => {
+            const del = e.target.closest("[data-delete-todo]");
+            if (del) { this.saveTodos(this.getTodos().filter(t => t.id !== del.dataset.deleteTodo)); this.renderTodos(); }
+          });
+          this.el("todoList").addEventListener("change", (e) => {
+            const cb = e.target.closest("[data-toggle-todo]");
+            if (cb) { this.saveTodos(this.getTodos().map(t => t.id === cb.dataset.toggleTodo ? { ...t, done: cb.checked } : t)); this.renderTodos(); }
+          });
           this.el("timerToggle").addEventListener("click", () => this.toggleTimer());
           this.el("timerReset").addEventListener("click", () => this.resetTimer());
         },
@@ -642,7 +694,7 @@
               return `<div class="course-card ${isFav ? 'favorite' : ''}" data-course-id="${this.esc(c.id)}">
                 <span class="course-card-top">
                   <span class="course-code">${this.esc(c.code || "")}</span>
-                  <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${this.esc(c.id)}"><i data-lucide="star" width="16" fill="${isFav ? 'currentColor' : 'none'}"></i></button>
+                  <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${this.esc(c.id)}" aria-label="مفضلة"><i data-lucide="star" width="16" fill="${isFav ? 'currentColor' : 'none'}"></i></button>
                 </span>
                 <div>
                   <h3>${this.esc(c.name || c.title || "مساق")}</h3>
@@ -656,24 +708,29 @@
         
         async openResources(id) {
           const c = App.courses.find(x => x.id === id); if (!c) return;
-          this.el("resourceTitle").textContent = c.name || c.title || ""; this.el("resourceSubtitle").textContent = c.code || "";
+          this.el("resourceTitle").textContent = c.name || c.title || ""; 
+          this.el("resourceSubtitle").textContent = c.code || "";
+          
           this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:var(--slate);">جارٍ تحميل المواد...</div>`;
           this.el("resourceModal").style.display = "flex"; document.body.style.overflow = "hidden";
+          
           try {
             const res = await DB.resources(id);
             const groups = [ ["lectures", "محاضرات وسلايدات", "presentation"], ["records", "تسجيلات صوتية", "headphones"], ["summaries", "ملخصات وامتحانات", "notebook-tabs"], ["other", "مواد ومصادر أخرى", "files"] ];
-            if (!res.length) { this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:var(--slate);">لا توجد مواد مضافة لهذا المساق بعد.</div>`; return; }
-            this.el("resourceBody").innerHTML = groups.map(([key, lbl, ico]) => {
-                const sub = res.filter(r => {
-                    const t = (r.type || "other").toLowerCase();
-                    if(key === 'lectures') return t.includes('lec') || t.includes('slide');
-                    if(key === 'records') return t.includes('rec') || t.includes('audio');
-                    if(key === 'summaries') return t.includes('sum') || t.includes('exam');
-                    return t === 'other';
-                });
-                if (!sub.length) return "";
-                return `<section class="resource-group"><h3><i data-lucide="${ico}" width="18"></i>${lbl}</h3>${sub.map((item) => `<article class="resource-item"><span class="resource-symbol"><i data-lucide="${ico}" width="18"></i></span><div class="resource-meta"><b>${this.esc(item.title)}</b><small>${this.esc(item.url ? "رابط خارجي" : "")}</small></div><a class="tiny-btn" href="${this.esc(item.url)}" target="_blank"><i data-lucide="external-link" width="14"></i>فتح</a></article>`).join("")}</section>`;
-              }).join("");
+            if (!res.length) { this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:var(--slate);">لا توجد مواد مضافة لهذا المساق بعد.</div>`; }
+            else {
+              this.el("resourceBody").innerHTML = groups.map(([key, lbl, ico]) => {
+                  const sub = res.filter(r => {
+                      const t = (r.type || "other").toLowerCase();
+                      if(key === 'lectures') return t.includes('lec') || t.includes('slide');
+                      if(key === 'records') return t.includes('rec') || t.includes('audio');
+                      if(key === 'summaries') return t.includes('sum') || t.includes('exam');
+                      return !(t.includes('lec') || t.includes('slide') || t.includes('rec') || t.includes('audio') || t.includes('sum') || t.includes('exam'));
+                  });
+                  if (!sub.length) return "";
+                  return `<section class="resource-group"><h3><i data-lucide="${ico}" width="18"></i>${lbl}</h3>${sub.map((item) => `<article class="resource-item"><span class="resource-symbol"><i data-lucide="${ico}" width="18"></i></span><div class="resource-meta"><b>${this.esc(item.title)}</b><small>${this.esc(item.url ? "رابط خارجي" : "")}</small></div><a class="tiny-btn" href="${this.esc(item.url)}" target="_blank" rel="noopener noreferrer"><i data-lucide="external-link" width="14"></i>فتح</a></article>`).join("")}</section>`;
+                }).join("");
+            }
             this.icons();
           } catch { this.el("resourceBody").innerHTML = `<div style="text-align:center; padding:40px; color:red;">تعذر التحميل</div>`; }
         },
@@ -688,56 +745,128 @@
           const target = this.el("navDropdownLinks"); 
           if (!target || !links.length) return;
           this.el("linksSection").hidden = false;
-          target.innerHTML = links.map(l => `<a href="${this.esc(l.url)}" target="_blank"><i data-lucide="${this.esc(l.icon || "external-link")}" width="15"></i>${this.esc(l.title || l.name)}</a>`).join("");
+          target.innerHTML = links.map(l => `<a href="${this.esc(l.url)}" target="_blank" rel="noopener noreferrer"><i data-lucide="${this.esc(l.icon || "external-link")}" width="15"></i>${this.esc(l.title || l.name)}</a>`).join("");
           this.icons();
         },
 
+        // تعديل: استخدام data attribute بدل onclick لتجنب كسر الزر مع علامات الاقتباس
         renderRecent(recents) {
           if (!recents || !recents.length) return;
           this.el("recentAddsSection").style.display = "block";
           this.el("recentAddsList").innerHTML = recents.map(r => {
              const c = App.courses.find(x => x.id === r.courseId);
              const cName = c ? (c.name || c.title) : "مساق عام";
-             return `<a href="#courses" onclick="document.getElementById('courseSearch').value='${cName}'; document.getElementById('courseSearch').dispatchEvent(new Event('input'));" class="recent-item"><b>${this.esc(r.title)}</b><small>${this.esc(cName)}</small></a>`;
+             return `<a href="#courses" class="recent-item" data-recent-course="${this.esc(cName)}"><b>${this.esc(r.title)}</b><small>${this.esc(cName)}</small></a>`;
           }).join("");
         },
 
-        renderCountdown(countd) {
-          if (!countd || !countd.date) return;
-          const target = new Date(countd.date).getTime();
-          if (isNaN(target)) return;
-
+        renderCountdown() {
+          const exams = App.exams || [];
+          if (!exams.length) { this.el("countdownBox").style.display = "none"; return; }
+          
+          let upcoming = [];
+          exams.forEach(ex => {
+            const target = new Date(ex.date).getTime();
+            if (isNaN(target)) return;
+            const diff = Math.ceil((target - Date.now()) / 86400000);
+            if (diff >= 0 && diff <= 60) upcoming.push({ ...ex, diff });
+          });
+          
+          if (!upcoming.length) { this.el("countdownBox").style.display = "none"; return; }
+          upcoming.sort((a,b) => a.diff - b.diff);
+          
+          const ex = upcoming[0];
+          const diff = ex.diff;
           const box = this.el("countdownBox");
           const WINDOW = 60;
 
-          const update = () => {
+          this.el("countdownLbl").textContent = ex.title || "امتحان";
+          this.el("countdownVal").textContent = diff === 0 ? "اليوم" : diff;
+          this.el("ringUnit").style.display = diff === 0 ? "none" : "";
+          
+          const moreText = this.el("countdownMore");
+          if(moreText) moreText.style.display = upcoming.length > 1 ? "block" : "none";
+
+          box.classList.toggle("urgent", diff <= 4);
+          box.classList.toggle("warn", diff > 4 && diff <= 14);
+          box.style.display = "flex";
+
+          const progress = 1 - diff / WINDOW;
+          const C = 2 * Math.PI * 19;
+          requestAnimationFrame(() => { this.el("ringFg").style.strokeDashoffset = C * (1 - progress); });
+        },
+
+        renderExamsModal() {
+          const exams = App.exams || [];
+          let upcoming = [];
+          exams.forEach(ex => {
+            const target = new Date(ex.date).getTime();
+            if (isNaN(target)) return;
             const diff = Math.ceil((target - Date.now()) / 86400000);
-            if (diff < 0 || diff > WINDOW) { box.style.display = "none"; return; }
+            if (diff >= 0) upcoming.push({ ...ex, diff, target });
+          });
+          
+          upcoming.sort((a,b) => a.diff - b.diff);
+          
+          if (!upcoming.length) { this.el("examBody").innerHTML = `<div style="text-align:center; padding:40px; color:var(--slate);">لا توجد امتحانات قادمة.</div>`; }
+          else {
+            const dtf = new Intl.DateTimeFormat("ar-JO", {weekday:"long", day:"numeric", month:"long"});
+            this.el("examBody").innerHTML = upcoming.map(ex => {
+              const c = ex.courseId ? App.courses.find(x => x.id === ex.courseId) : null;
+              const dateStr = dtf.format(new Date(ex.date));
+              const badgeColor = ex.diff <= 4 ? "#e5484d" : ex.diff <= 14 ? "var(--gold)" : "var(--violet)";
+              const meta = [ex.time && `الوقت: ${ex.time}`, ex.place && `المكان: ${ex.place}`].filter(Boolean).join(" · ");
+              return `
+                <article class="resource-item" style="align-items:flex-start; position:relative; overflow:hidden;">
+                  <div style="position:absolute; top:0; right:0; background:${badgeColor}; color:#fff; font-size:10px; padding:2px 8px; border-radius:0 0 0 8px; font-weight:bold;">${ex.diff===0?'اليوم':`بعد ${ex.diff} يوم`}</div>
+                  <div class="resource-meta" style="margin-top:8px;">
+                    <b style="font-size:15px; margin-bottom:4px;">${this.esc(ex.title)}</b>
+                    ${c ? `<small style="color:var(--purple); margin-bottom:4px;">${this.esc(c.name || c.title)}</small>` : ''}
+                    <div style="font-size:12px; color:var(--navy); margin-bottom:2px;"><i data-lucide="calendar" width="12" style="display:inline; margin-left:4px;"></i>${dateStr}</div>
+                    ${meta ? `<div style="font-size:11px; color:var(--slate);"><i data-lucide="map-pin" width="12" style="display:inline; margin-left:4px;"></i>${this.esc(meta)}</div>` : ''}
+                  </div>
+                  <button class="tiny-btn" style="margin-top:12px;" data-ics="${this.esc(ex.id)}"><i data-lucide="bell-plus" width="14"></i> ذكّرني</button>
+                </article>
+              `;
+            }).join("");
+          }
+          this.el("examModal").style.display = "flex"; document.body.style.overflow = "hidden"; this.icons();
+        },
 
-            this.el("countdownLbl").textContent = countd.title || "امتحان";
-            this.el("countdownVal").textContent = diff === 0 ? "اليوم" : diff;
-            this.el("ringUnit").style.display = diff === 0 ? "none" : "";
-
-            box.classList.toggle("urgent", diff <= 4);
-            box.classList.toggle("warn", diff > 4 && diff <= 14);
-            box.style.display = "flex";
-
-            const progress = 1 - diff / WINDOW;
-            const C = 2 * Math.PI * 19;
-            requestAnimationFrame(() => {
-              this.el("ringFg").style.strokeDashoffset = C * (1 - progress);
-            });
-          };
-
-          update();
-          setInterval(update, 3600000);
+        makeICS(examId) {
+          const exam = App.exams.find(e => e.id === examId); if(!exam) return;
+          const d = String(exam.date).replace(/-/g, "");
+          // تعديل: حساب اليوم التالي بالـ UTC لتجنب مشكلة فرق التوقيت (الأردن UTC+3)
+          const [y, m, dd] = String(exam.date).split("-").map(Number);
+          const dEnd = new Date(Date.UTC(y, m - 1, dd + 1)).toISOString().slice(0, 10).replace(/-/g, "");
+          const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+          const title = (exam.title || "امتحان").replace(/[,;\n]/g, " ");
+          const desc = [exam.time && `الوقت: ${exam.time}`, exam.place && `المكان: ${exam.place}`].filter(Boolean).join(" - ").replace(/[,;\n]/g, " ");
+          return [
+            "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//VetCommitto//AR//", "CALSCALE:GREGORIAN",
+            "BEGIN:VEVENT", `UID:${crypto.randomUUID()}@vetcommitto`, `DTSTAMP:${stamp}`,
+            `DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${dEnd}`, `SUMMARY:${title}`,
+            desc ? `DESCRIPTION:${desc}` : "",
+            "BEGIN:VALARM", "TRIGGER:-P3D", "ACTION:DISPLAY", `DESCRIPTION:بعد 3 أيام: ${title}`, "END:VALARM",
+            "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", `DESCRIPTION:غداً: ${title}`, "END:VALARM",
+            "END:VEVENT", "END:VCALENDAR"
+          ].filter(Boolean).join("\r\n");
+        },
+        downloadICS(examId) {
+          const str = this.makeICS(examId); if(!str) return;
+          const blob = new Blob([str], { type: "text/calendar;charset=utf-8" });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob); a.download = "exam.ics";
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+          this.toast("تم تجهيز التذكير، افتح الملف لإضافته إلى تقويمك");
         },
 
         getGpaCourses() { try { return JSON.parse(localStorage.getItem("just-vet-gpa-courses") || "[]"); } catch { return []; } },
         saveGpaCourses(items) { localStorage.setItem("just-vet-gpa-courses", JSON.stringify(items)); },
         renderGpaCourses() {
           const courses = this.getGpaCourses();
-          this.el("gpaRows").innerHTML = courses.map((c) => `<div style="display:flex; gap:6px; margin-bottom:8px;" data-gpa-row="${this.esc(c.id)}"><input class="field" style="flex:2" type="text" placeholder="المساق" value="${this.esc(c.name)}" data-gpa-field="name"><input class="field" style="flex:1" type="number" step="0.5" placeholder="ساعات" value="${this.esc(c.hours)}" data-gpa-field="hours"><input class="field" style="flex:1" type="number" step="0.01" placeholder="نقاط" value="${this.esc(c.grade)}" data-gpa-field="grade"><button style="background:transparent; border:none; color:var(--slate);" data-remove-gpa="${this.esc(c.id)}"><i data-lucide="x" width="16"></i></button></div>`).join("");
+          this.el("gpaRows").innerHTML = courses.map((c) => `<div style="display:flex; gap:6px; margin-bottom:8px;" data-gpa-row="${this.esc(c.id)}"><input class="field" style="flex:2" type="text" placeholder="المساق" value="${this.esc(c.name)}" data-gpa-field="name"><input class="field" style="flex:1" type="number" step="0.5" placeholder="ساعات" value="${this.esc(c.hours)}" data-gpa-field="hours"><input class="field" style="flex:1" type="number" step="0.01" placeholder="نقاط" value="${this.esc(c.grade)}" data-gpa-field="grade"><button style="background:transparent; border:none; color:var(--slate);" data-remove-gpa="${this.esc(c.id)}" aria-label="حذف"><i data-lucide="x" width="16"></i></button></div>`).join("");
           this.icons();
         },
         addGpaCourse() { const courses = this.getGpaCourses(); courses.push({ id: crypto.randomUUID(), name: "", hours: "", grade: "" }); this.saveGpaCourses(courses); this.renderGpaCourses(); this.calculateGpa(); },
@@ -753,12 +882,13 @@
         getTodos() { try { return JSON.parse(localStorage.getItem("just-vet-todos") || "[]"); } catch { return []; } },
         saveTodos(items) { localStorage.setItem("just-vet-todos", JSON.stringify(items)); },
         renderTodos() {
-          this.el("todoList").innerHTML = this.getTodos().map((t) => `<li style="${t.done?'opacity:0.5; text-decoration:line-through':''}"><input type="checkbox" data-toggle-todo="${this.esc(t.id)}" ${t.done ? "checked" : ""}><span>${this.esc(t.text)}</span><button class="todo-delete" data-delete-todo="${this.esc(t.id)}"><i data-lucide="x" width="15"></i></button></li>`).join("");
+          this.el("todoList").innerHTML = this.getTodos().map((t) => `<li style="${t.done?'opacity:0.5; text-decoration:line-through':''}"><input type="checkbox" data-toggle-todo="${this.esc(t.id)}" ${t.done ? "checked" : ""}><span>${this.esc(t.text)}</span><button class="todo-delete" data-delete-todo="${this.esc(t.id)}" aria-label="حذف"><i data-lucide="x" width="15"></i></button></li>`).join("");
           this.icons();
         },
         renderTools() {
           this.renderGpaCourses(); this.calculateGpa(); this.renderTodos();
-          const saved = JSON.parse(localStorage.getItem("just-vet-pomodoro") || '{"seconds":1500,"break":false}');
+          let saved = { seconds: 1500, break: false };
+          try { saved = JSON.parse(localStorage.getItem("just-vet-pomodoro")) || saved; } catch {}
           this.timer = { seconds: saved.seconds || 1500, running: false, break: saved.break || false, interval: null };
           this.paintTimer();
         },
@@ -769,7 +899,8 @@
           this.el("timerMode").textContent = this.timer.break ? "استراحة · 5 دقائق" : "جلسة تركيز · 25 دقيقة";
           this.el("timerToggle").innerHTML = `<i data-lucide="${this.timer.running ? "pause" : "play"}" width="15"></i>${this.timer.running ? "إيقاف" : "ابدأ"}`;
           const duration = this.timer.break ? 300 : 1500, progress = Math.round(((duration - this.timer.seconds) / duration) * 100);
-          this.el("timerRing").style.setProperty("border-image", `conic-gradient(var(--purple) ${progress}%, transparent 0) 1`);
+          // تعديل: حلقة تقدّم دائرية عبر متغيّر CSS
+          this.el("timerRing").style.setProperty("--p", progress);
           this.icons();
         },
         toggleTimer() {
@@ -796,6 +927,7 @@
         }
       };
 
+      window.UI = UI;
       App.init();
     </script>
     <script>
