@@ -203,13 +203,21 @@
 
       <!-- تبويب النظام -->
       <div id="tab-system" class="tab-content">
+        <!-- زر تنظيف التكرار -->
+        <div class="card" style="margin-bottom: 30px; border: 2px dashed #ef4444;">
+          <h3 class="card-title" style="color:#ef4444"><i data-lucide="trash-2"></i> تنظيف التكرار</h3>
+          <p style="font-size:13px; color:var(--slate); margin-bottom:15px;">سيقوم هذا الزر بفحص جميع المساقات وحذف النسخ المكررة وإبقاء نسخة واحدة فقط.</p>
+          <button id="cleanBtn" class="primary-btn" style="background:#ef4444;">تنظيف المواد المكررة الآن</button>
+        </div>
+
         <div class="card" style="margin-bottom: 20px;">
           <h3 class="card-title"><i data-lucide="download-cloud"></i> تصدير البيانات</h3>
           <button id="exportBtn" class="ghost-btn"><i data-lucide="download"></i> تحميل النسخة الاحتياطية (JSON)</button>
         </div>
         <div class="card">
-          <h3 class="card-title"><i data-lucide="upload-cloud"></i> استعادة البيانات (JSON)</h3>
-          <textarea id="jsonInput" class="field" rows="4" placeholder="الصق كود الـ JSON هنا..."></textarea>
+          <h3 class="card-title"><i data-lucide="upload-cloud"></i> استعادة البيانات (JSON ذكي)</h3>
+          <p style="font-size:12px; color:var(--slate);">يدعم هذا الحقل رفع المساقات، أو الامتحانات، وسيقوم تلقائياً بربط الامتحانات بالمساقات بناءً على الاسم.</p>
+          <textarea id="jsonInput" class="field" rows="5" placeholder='الصق كود الـ JSON هنا...'></textarea>
           <button id="importBtn" class="primary-btn">مزامنة ورفع البيانات</button>
         </div>
       </div>
@@ -370,7 +378,7 @@
         } catch(e) { UI.toast("خطأ في جلب البيانات"); }
       }
 
-      // ---------------- ADD FORMS (With Event Listeners to prevent reload completely) ----------------
+      // ---------------- ADD FORMS ----------------
       UI.el("courseForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         await addDoc(collection(db, "acad_courses"), { name: cleanStr(UI.el("cName").value), code: cleanStr(UI.el("cCode").value), year: UI.el("cYear").value, semester: UI.el("cSem").value, category: `year-${UI.el("cYear").value}`, updatedAt: serverTimestamp() });
@@ -402,7 +410,6 @@
       });
 
       // ---------------- EDIT FORMS ----------------
-      // Course Edit
       window.openEditCourse = (id) => {
         const c = state.courses.find(x => x.id === id); if(!c) return;
         UI.el("ecId").value = c.id; UI.el("ecName").value = c.name || ""; UI.el("ecCode").value = c.code || ""; UI.el("ecYear").value = c.year || ""; UI.el("ecSem").value = c.semester || "";
@@ -414,7 +421,6 @@
         UI.bumpMeta(); UI.el("editCourseModal").style.display = "none"; UI.toast("تم التعديل بنجاح"); loadAll();
       });
 
-      // Exam Edit
       window.openEditExam = (id) => {
         const x = state.exams.find(i => i.id === id); if(!x) return;
         UI.el("eeId").value = x.id; UI.el("eeTitle").value = x.title || ""; UI.el("eeDate").value = x.date || ""; UI.el("eeTime").value = x.time || ""; UI.el("eePlace").value = x.place || ""; UI.el("eeCourse").value = x.courseId || "";
@@ -426,7 +432,6 @@
         UI.bumpMeta(); UI.el("editExamModal").style.display = "none"; UI.toast("تم تعديل الامتحان"); loadAll();
       });
 
-      // Ann Edit
       window.openEditAnn = (id) => {
         const x = state.anns.find(i => i.id === id); if(!x) return;
         UI.el("eaId").value = x.id; UI.el("eaTitle").value = x.title || ""; UI.el("eaMsg").value = x.message || "";
@@ -438,7 +443,6 @@
         UI.bumpMeta(); UI.el("editAnnModal").style.display = "none"; UI.toast("تم تعديل الإعلان"); loadAll();
       });
 
-      // Link Edit
       window.openEditLink = (id) => {
         const x = state.links.find(i => i.id === id); if(!x) return;
         UI.el("elId").value = x.id; UI.el("elTitle").value = x.title || ""; UI.el("elUrl").value = x.url || "";
@@ -450,7 +454,6 @@
         UI.bumpMeta(); UI.el("editLinkModal").style.display = "none"; UI.toast("تم تعديل الرابط"); loadAll();
       });
 
-      // Resource Edit
       window.openEditRes = (id) => {
         const x = state.currentResources.find(i => i.id === id); if(!x) return;
         UI.el("erId").value = x.id; UI.el("erCourseId").value = x.courseId; UI.el("erTitle").value = x.title; UI.el("erUrl").value = x.url; UI.el("erType").value = x.type;
@@ -537,17 +540,101 @@
         if(confirm("متأكد من الحذف؟")) { await deleteDoc(doc(db, col, id)); UI.bumpMeta(); loadAll(); }
       };
 
+      // ---------------- SYSTEM TAB (Export, Clean, Import) ----------------
       UI.el("exportBtn").onclick = async () => {
         try {
           const resSnap = await getDocs(collection(db, "acad_resources"));
           const backupData = { courses: state.courses, resources: resSnap.docs.map(d=>({id:d.id, ...d.data()})), exams: state.exams, announcements: state.anns, links: state.links };
           const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(backupData)], { type: "application/json" }));
           a.download = `VetCommitto_Backup_${new Date().toISOString().split("T")[0]}.json`;
-          document.body.appendChild(a); a.click(); a.remove(); UI.toast("تم التصدير!");
+          document.body.appendChild(a); a.click(); a.remove(); UI.toast("تم التصدير بنجاح!");
         } catch (e) { UI.toast("خطأ بالتصدير"); }
       };
       
-      UI.el("importBtn").onclick = async () => { /* نفس كود الاستيراد الذكي موجود واختصرته من هون عشان الوسع */ };
+      UI.el("cleanBtn").onclick = async () => {
+        if(!confirm("هل أنت متأكد من حذف المواد المكررة؟ سيتم الاحتفاظ بنسخة واحدة من كل مادة.")) return;
+        UI.toast("جاري التنظيف... يرجى الانتظار");
+        try {
+          const snap = await getDocs(collection(db, "acad_courses"));
+          const seen = new Set(); 
+          let deleted = 0;
+          for (let d of snap.docs) {
+            const c = d.data();
+            const key = String(c.name || "").trim().toLowerCase(); 
+            if (seen.has(key)) { 
+              await deleteDoc(doc(db, "acad_courses", d.id)); 
+              deleted++; 
+            } else { 
+              seen.add(key); 
+            }
+          }
+          UI.bumpMeta();
+          UI.toast(`تم التنظيف بنجاح! تم مسح ${deleted} مساق مكرر.`); 
+          loadAll(); 
+        } catch(e) { 
+          console.error(e); UI.toast("حدث خطأ أثناء التنظيف."); 
+        }
+      };
+
+      // Smart Import (Handles Courses AND Exams)
+      UI.el("importBtn").onclick = async () => {
+        const val = UI.el("jsonInput").value.trim();
+        if(!val) return UI.toast("المربع فارغ!");
+        try {
+          const parsed = JSON.parse(val);
+          UI.toast("جاري معالجة البيانات...");
+          let addedCourses = 0, updatedCourses = 0, addedExams = 0;
+
+          // 1. استيراد المساقات
+          const courseList = parsed.courses || (Array.isArray(parsed) && parsed[0]?.name ? parsed : []);
+          if(courseList.length > 0) {
+            for (const item of courseList) {
+              const key = String(item.name || "").trim().toLowerCase();
+              const match = state.courses.find(c => String(c.name || "").trim().toLowerCase() === key);
+              if (match) {
+                const updateData = { name: cleanStr(item.name) || match.name, code: cleanStr(item.code) || match.code || "", year: String(item.year || match.year || "1"), semester: String(item.semester || match.semester || "1"), category: `year-${item.year || match.year || "1"}`, updatedAt: serverTimestamp() };
+                await updateDoc(doc(db, "acad_courses", match.id), updateData);
+                updatedCourses++;
+              } else {
+                const cleanItem = { name: cleanStr(item.name) || "بدون اسم", code: cleanStr(item.code) || "", year: String(item.year || "1"), semester: String(item.semester || "1"), category: `year-${item.year || "1"}`, updatedAt: serverTimestamp() };
+                const newDoc = await addDoc(collection(db, "acad_courses"), cleanItem);
+                state.courses.push({ id: newDoc.id, ...cleanItem });
+                addedCourses++;
+              }
+            }
+          }
+
+          // 2. استيراد الامتحانات
+          const examList = parsed.exams || [];
+          if(examList.length > 0) {
+            for (const exam of examList) {
+              let courseId = "";
+              if (exam.courseName) {
+                const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(exam.courseName || "").trim().toLowerCase());
+                if (courseMatch) courseId = courseMatch.id;
+              }
+              const examData = {
+                title: cleanStr(exam.title), date: exam.date || "", time: exam.time || "", place: cleanStr(exam.place), courseId: courseId, updatedAt: serverTimestamp()
+              };
+              await addDoc(collection(db, "acad_exams"), examData);
+              addedExams++;
+            }
+          }
+          
+          if(addedCourses === 0 && updatedCourses === 0 && addedExams === 0) throw new Error("no_data");
+
+          UI.bumpMeta(); 
+          let msg = "تم بنجاح! ";
+          if(addedCourses || updatedCourses) msg += `مساقات: (${addedCourses} جديد، ${updatedCourses} تحديث). `;
+          if(addedExams) msg += `امتحانات: (${addedExams} جديد).`;
+          
+          UI.toast(msg); 
+          UI.el("jsonInput").value = ""; 
+          loadAll();
+        } catch(e) { 
+          console.error(e); UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة.");
+        }
+      };
       
       lucide.createIcons();
     </script>
