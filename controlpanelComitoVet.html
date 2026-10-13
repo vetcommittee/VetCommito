@@ -53,7 +53,6 @@
       
       .primary-btn { border: 0; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
       .primary-btn:hover { opacity: 0.9; }
-      .primary-btn:disabled { opacity: 0.5; cursor: wait; }
       .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
       .ghost-btn:hover { background: var(--btn-bg); }
       .danger-btn { border: 0; background: #fee2e2; color: #dc2626; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: 0.2s; }
@@ -137,7 +136,6 @@
               <option value="all">كل السنوات</option>
               <option value="1">السنة 1</option><option value="2">السنة 2</option><option value="3">السنة 3</option>
               <option value="4">السنة 4</option><option value="5">السنة 5</option><option value="6">السنة 6</option>
-              <option value="elective">اختيارية</option><option value="university">متطلبات جامعة</option>
             </select>
             <select id="filterSem" class="filter-sel">
               <option value="all">كل الفصول</option>
@@ -208,8 +206,8 @@
         <!-- زر تنظيف التكرار -->
         <div class="card" style="margin-bottom: 30px; border: 2px dashed #ef4444;">
           <h3 class="card-title" style="color:#ef4444"><i data-lucide="trash-2"></i> تنظيف التكرار</h3>
-          <p style="font-size:13px; color:var(--slate); margin-bottom:15px;">يفحص المساقات المكررة (بنفس الاسم)، يُبقي النسخة التي عليها أكثر مواد، وينقل إليها مواد وامتحانات النسخ المكررة قبل حذفها.</p>
-          <button id="cleanBtn" class="primary-btn" style="background:#ef4444;">تنظيف المساقات المكررة الآن</button>
+          <p style="font-size:13px; color:var(--slate); margin-bottom:15px;">سيقوم هذا الزر بفحص جميع المساقات وحذف النسخ المكررة وإبقاء نسخة واحدة فقط.</p>
+          <button id="cleanBtn" class="primary-btn" style="background:#ef4444;">تنظيف المواد المكررة الآن</button>
         </div>
 
         <div class="card" style="margin-bottom: 20px;">
@@ -218,7 +216,7 @@
         </div>
         <div class="card">
           <h3 class="card-title"><i data-lucide="upload-cloud"></i> استعادة البيانات (JSON ذكي)</h3>
-          <p style="font-size:12px; color:var(--slate);">يدعم هذا الحقل رفع المساقات، أو الامتحانات، وسيقوم تلقائياً بربط الامتحانات بالمساقات بناءً على الاسم.</p>
+          <p style="font-size:12px; color:var(--slate);">يدعم هذا الحقل رفع المساقات، الامتحانات، أو الروابط والمواد (Resources). وسيقوم تلقائياً بربطها بالمساقات بناءً على الاسم لمنع التكرار.</p>
           <textarea id="jsonInput" class="field" rows="5" placeholder='الصق كود الـ JSON هنا...'></textarea>
           <button id="importBtn" class="primary-btn">مزامنة ورفع البيانات</button>
         </div>
@@ -327,15 +325,13 @@
 
       const UI = {
         el: id => document.getElementById(id),
-        esc: v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]),
         toast(msg) {
           const t = document.createElement("div"); t.className = "toast";
-          t.innerHTML = `<i data-lucide="info" width="18"></i><span>${this.esc(msg)}</span>`;
+          t.innerHTML = `<i data-lucide="info" width="18"></i><span>${msg}</span>`;
           this.el("toastRegion").append(t); lucide.createIcons();
           setTimeout(() => t.remove(), 4500);
         },
-        // تعديل: ترجع Promise عشان نقدر ننتظرها ونلتقط الأخطاء
-        bumpMeta() { return setDoc(doc(db, "acad_settings", "meta"), { v: Date.now().toString() }, { merge: true }); }
+        bumpMeta() { setDoc(doc(db, "acad_settings", "meta"), { v: Date.now().toString() }, { merge:true }); }
       };
 
       let state = { courses: [], exams: [], anns: [], links: [], currentResources: [] };
@@ -376,10 +372,10 @@
           state.links = lk.docs.map(d => ({id:d.id, ...d.data()}));
           renderCourses(); renderExams(); renderAnns(); renderLinks();
           
-          const cOpts = `<option value="">-- غير مرتبط بمساق محدد --</option>` + state.courses.map(c => `<option value="${UI.esc(c.id)}">${UI.esc(c.name)}</option>`).join("");
+          const cOpts = `<option value="">-- غير مرتبط بمساق محدد --</option>` + state.courses.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
           UI.el("exCourse").innerHTML = cOpts; UI.el("eeCourse").innerHTML = cOpts;
           lucide.createIcons();
-        } catch(e) { console.error(e); UI.toast("خطأ في جلب البيانات"); }
+        } catch(e) { UI.toast("خطأ في جلب البيانات"); }
       }
 
       // ---------------- ADD FORMS ----------------
@@ -478,52 +474,42 @@
         UI.el("coursesList").innerHTML = filtered.length ? filtered.map(c => `
           <div class="data-item">
             <div style="flex:1;">
-              <div class="data-meta">${UI.esc(c.name)} <small style="color:var(--slate)">(${UI.esc(c.code || "بدون رمز")})</small></div>
-              <span class="data-sub">السنة ${UI.esc(c.year)} · الفصل ${c.semester==="summer"?"الصيفي":UI.esc(c.semester)}</span>
+              <div class="data-meta">${c.name} <small style="color:var(--slate)">(${c.code || "بدون رمز"})</small></div>
+              <span class="data-sub">السنة ${c.year} · الفصل ${c.semester==="summer"?"الصيفي":c.semester}</span>
             </div>
             <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditCourse('${UI.esc(c.id)}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" style="background:var(--purple); color:#fff;" onclick="window.openResById('${UI.esc(c.id)}')">المواد</button>
-              <button class="danger-btn" onclick="window.delDoc('acad_courses', '${UI.esc(c.id)}')"><i data-lucide="trash" width="14"></i></button>
+              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditCourse('${c.id}')"><i data-lucide="edit-2" width="14"></i></button>
+              <button class="danger-btn" style="background:var(--purple); color:#fff;" onclick="window.openRes('${c.id}', '${c.name}')">المواد</button>
+              <button class="danger-btn" onclick="window.delDoc('acad_courses', '${c.id}')"><i data-lucide="trash" width="14"></i></button>
             </div>
           </div>`).join("") : '<div style="text-align:center; padding:20px; color:var(--slate)">لا توجد مساقات بهذا الفلتر.</div>';
         lucide.createIcons();
       }
       UI.el("filterYear").onchange = renderCourses; UI.el("filterSem").onchange = renderCourses;
 
-      // تعديل: نفتح المواد بالـ id فقط (اسم المساق ممكن يحتوي علامة ' وتكسر onclick)
-      window.openResById = (id) => {
-        const c = state.courses.find(x => x.id === id);
-        window.openRes(id, c ? c.name : "");
-      };
-
       window.openRes = async (cId, cName) => {
         UI.el("rCourseId").value = cId; UI.el("resModalTitle").textContent = "مواد: " + cName;
         UI.el("resModal").style.display = "flex"; UI.el("resList").innerHTML = "جاري التحميل...";
-        try {
-          const snap = await getDocs(query(collection(db, "acad_resources"), where("courseId", "==", cId)));
-          state.currentResources = snap.docs.map(d => ({id:d.id, ...d.data()}));
-          UI.el("resList").innerHTML = state.currentResources.length ? state.currentResources.map(r => `
-            <div class="data-item" style="padding:10px;">
-              <div><div class="data-meta">${UI.esc(r.title)}</div><a href="${UI.esc(r.url)}" target="_blank" rel="noopener noreferrer" class="data-sub">${UI.esc(r.type)}</a></div>
-              <div style="display:flex; gap:6px;">
-                <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditRes('${UI.esc(r.id)}')"><i data-lucide="edit-2" width="12"></i></button>
-                <button class="danger-btn" onclick="window.delRes('${UI.esc(r.id)}', '${UI.esc(cId)}')"><i data-lucide="trash" width="12"></i></button>
-              </div>
-            </div>`).join("") : '<div style="text-align:center; padding:15px; color:var(--slate); font-size:12px;">لا توجد مواد لهذا المساق.</div>';
-        } catch (e) {
-          console.error(e); UI.el("resList").innerHTML = "تعذر تحميل المواد.";
-        }
+        const snap = await getDocs(query(collection(db, "acad_resources"), where("courseId", "==", cId)));
+        state.currentResources = snap.docs.map(d => ({id:d.id, ...d.data()}));
+        UI.el("resList").innerHTML = state.currentResources.map(r => `
+          <div class="data-item" style="padding:10px;">
+            <div><div class="data-meta">${r.title}</div><a href="${r.url}" target="_blank" class="data-sub">${r.type}</a></div>
+            <div style="display:flex; gap:6px;">
+              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditRes('${r.id}')"><i data-lucide="edit-2" width="12"></i></button>
+              <button class="danger-btn" onclick="window.delDoc('acad_resources', '${r.id}'); setTimeout(()=>window.openRes('${cId}', '${cName}'), 500);"><i data-lucide="trash" width="12"></i></button>
+            </div>
+          </div>`).join("");
         lucide.createIcons();
       };
 
       function renderExams() {
         UI.el("examsList").innerHTML = state.exams.map(e => `
           <div class="data-item">
-            <div><div class="data-meta">${UI.esc(e.title)}</div><span class="data-sub">${UI.esc(e.date)} ${e.time?"· "+UI.esc(e.time):""}</span></div>
+            <div><div class="data-meta">${e.title}</div><span class="data-sub">${e.date} ${e.time?"· "+e.time:""}</span></div>
             <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditExam('${UI.esc(e.id)}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_exams', '${UI.esc(e.id)}')"><i data-lucide="trash" width="14"></i></button>
+              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditExam('${e.id}')"><i data-lucide="edit-2" width="14"></i></button>
+              <button class="danger-btn" onclick="window.delDoc('acad_exams', '${e.id}')"><i data-lucide="trash" width="14"></i></button>
             </div>
           </div>`).join("");
       }
@@ -531,10 +517,10 @@
       function renderAnns() {
         UI.el("annsList").innerHTML = state.anns.map(a => `
           <div class="data-item">
-            <div style="flex:1;"><div class="data-meta">${UI.esc(a.title)}</div><span class="data-sub" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;">${UI.esc(a.message)}</span></div>
+            <div style="flex:1;"><div class="data-meta">${a.title}</div><span class="data-sub" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;">${a.message}</span></div>
             <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditAnn('${UI.esc(a.id)}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_announcements', '${UI.esc(a.id)}')"><i data-lucide="trash" width="14"></i></button>
+              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditAnn('${a.id}')"><i data-lucide="edit-2" width="14"></i></button>
+              <button class="danger-btn" onclick="window.delDoc('acad_announcements', '${a.id}')"><i data-lucide="trash" width="14"></i></button>
             </div>
           </div>`).join("");
       }
@@ -542,35 +528,16 @@
       function renderLinks() {
         UI.el("linksList").innerHTML = state.links.map(l => `
           <div class="data-item">
-            <div><div class="data-meta">${UI.esc(l.title)}</div></div>
+            <div><div class="data-meta">${l.title}</div></div>
             <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditLink('${UI.esc(l.id)}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_links', '${UI.esc(l.id)}')"><i data-lucide="trash" width="14"></i></button>
+              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditLink('${l.id}')"><i data-lucide="edit-2" width="14"></i></button>
+              <button class="danger-btn" onclick="window.delDoc('acad_links', '${l.id}')"><i data-lucide="trash" width="14"></i></button>
             </div>
           </div>`).join("");
       }
 
-      // تعديل: حذف مع try/catch، وانتظار النتيجة، ورسالة خطأ واضحة
       window.delDoc = async (col, id) => {
-        if (!confirm("متأكد من الحذف؟")) return false;
-        try {
-          await deleteDoc(doc(db, col, id));
-          await UI.bumpMeta();
-          UI.toast("تم الحذف");
-          await loadAll();
-          return true;
-        } catch (e) {
-          console.error(e);
-          UI.toast("فشل الحذف: " + (e.code || e.message));
-          return false;
-        }
-      };
-
-      // تعديل: حذف مادة داخل مساق (بدون setTimeout)
-      window.delRes = async (id, cId) => {
-        if (await window.delDoc("acad_resources", id)) {
-          window.openRes(cId, UI.el("resModalTitle").textContent.replace("مواد: ", ""));
-        }
+        if(confirm("متأكد من الحذف؟")) { await deleteDoc(doc(db, col, id)); UI.bumpMeta(); loadAll(); }
       };
 
       // ---------------- SYSTEM TAB (Export, Clean, Import) ----------------
@@ -584,58 +551,41 @@
         } catch (e) { UI.toast("خطأ بالتصدير"); }
       };
       
-      // تعديل: نبقي النسخة اللي عليها أكثر مواد، وننقل مواد/امتحانات المكرر إليها قبل الحذف
       UI.el("cleanBtn").onclick = async () => {
-        if(!confirm("هل أنت متأكد من حذف المساقات المكررة؟ سيتم الاحتفاظ بنسخة واحدة من كل مساق ونقل موادها.")) return;
-        const btn = UI.el("cleanBtn"); btn.disabled = true;
+        if(!confirm("هل أنت متأكد من حذف المواد المكررة؟ سيتم الاحتفاظ بنسخة واحدة من كل مادة.")) return;
         UI.toast("جاري التنظيف... يرجى الانتظار");
         try {
-          const [cSnap, rSnap, eSnap] = await Promise.all([
-            getDocs(collection(db, "acad_courses")), getDocs(collection(db, "acad_resources")), getDocs(collection(db, "acad_exams"))
-          ]);
-          const resCount = {};
-          rSnap.docs.forEach(d => { const id = d.data().courseId; resCount[id] = (resCount[id] || 0) + 1; });
-
-          const groups = {};
-          cSnap.docs.forEach(d => {
-            const key = cleanStr(d.data().name).toLowerCase();
-            (groups[key] = groups[key] || []).push(d);
-          });
-
+          const snap = await getDocs(collection(db, "acad_courses"));
+          const seen = new Set(); 
           let deleted = 0;
-          for (const list of Object.values(groups)) {
-            if (list.length < 2) continue;
-            list.sort((a, b) => (resCount[b.id] || 0) - (resCount[a.id] || 0));
-            const keep = list[0];
-            for (const dup of list.slice(1)) {
-              for (const r of rSnap.docs.filter(x => x.data().courseId === dup.id)) {
-                await updateDoc(doc(db, "acad_resources", r.id), { courseId: keep.id });
-              }
-              for (const x of eSnap.docs.filter(x => x.data().courseId === dup.id)) {
-                await updateDoc(doc(db, "acad_exams", x.id), { courseId: keep.id });
-              }
-              await deleteDoc(doc(db, "acad_courses", dup.id));
-              deleted++;
+          for (let d of snap.docs) {
+            const c = d.data();
+            const key = String(c.name || "").trim().toLowerCase(); 
+            if (seen.has(key)) { 
+              await deleteDoc(doc(db, "acad_courses", d.id)); 
+              deleted++; 
+            } else { 
+              seen.add(key); 
             }
           }
-          await UI.bumpMeta();
-          UI.toast(deleted ? `تم التنظيف بنجاح! تم مسح ${deleted} مساق مكرر.` : "لا توجد مساقات مكررة.");
-          await loadAll();
+          UI.bumpMeta();
+          UI.toast(`تم التنظيف بنجاح! تم مسح ${deleted} مساق مكرر.`); 
+          loadAll(); 
         } catch(e) { 
-          console.error(e); UI.toast("حدث خطأ أثناء التنظيف: " + (e.code || e.message));
-        } finally { btn.disabled = false; }
+          console.error(e); UI.toast("حدث خطأ أثناء التنظيف."); 
+        }
       };
 
-      // Smart Import (Handles Courses AND Exams)
+      // Smart Import (Handles Courses, Exams AND Resources)
       UI.el("importBtn").onclick = async () => {
         const val = UI.el("jsonInput").value.trim();
         if(!val) return UI.toast("المربع فارغ!");
         try {
           const parsed = JSON.parse(val);
           UI.toast("جاري معالجة البيانات...");
-          let addedCourses = 0, updatedCourses = 0, addedExams = 0;
+          let addedCourses = 0, updatedCourses = 0, addedExams = 0, addedResources = 0;
 
-          // 1. استيراد المساقات
+          // 1. استيراد المساقات ومنع تكرارها
           const courseList = parsed.courses || (Array.isArray(parsed) && parsed[0]?.name ? parsed : []);
           if(courseList.length > 0) {
             for (const item of courseList) {
@@ -654,7 +604,7 @@
             }
           }
 
-          // 2. استيراد الامتحانات
+          // 2. استيراد الامتحانات ومنع تكرارها
           const examList = parsed.exams || [];
           if(examList.length > 0) {
             for (const exam of examList) {
@@ -663,26 +613,58 @@
                 const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(exam.courseName || "").trim().toLowerCase());
                 if (courseMatch) courseId = courseMatch.id;
               }
-              const examData = {
-                title: cleanStr(exam.title), date: exam.date || "", time: exam.time || "", place: cleanStr(exam.place), courseId: courseId, updatedAt: serverTimestamp()
-              };
-              await addDoc(collection(db, "acad_exams"), examData);
-              addedExams++;
+              const examTitle = cleanStr(exam.title);
+              const isExamExist = state.exams.some(e => e.title === examTitle && e.courseId === courseId);
+              
+              if (!isExamExist) {
+                const examData = { title: examTitle, date: exam.date || "", time: exam.time || "", place: cleanStr(exam.place), courseId: courseId, updatedAt: serverTimestamp() };
+                const newExam = await addDoc(collection(db, "acad_exams"), examData);
+                state.exams.push({ id: newExam.id, ...examData });
+                addedExams++;
+              }
+            }
+          }
+
+          // 3. استيراد الملفات والروابط (Resources)
+          const resourceList = parsed.resources || [];
+          if(resourceList.length > 0) {
+            const resSnap = await getDocs(collection(db, "acad_resources"));
+            const allExistingRes = resSnap.docs.map(d => ({id: d.id, ...d.data()}));
+            
+            for (const res of resourceList) {
+              let courseId = "";
+              if (res.courseName) {
+                const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(res.courseName || "").trim().toLowerCase());
+                if (courseMatch) courseId = courseMatch.id;
+              }
+              
+              const resTitle = cleanStr(res.title);
+              const isResExist = allExistingRes.some(r => r.title === resTitle && r.courseId === courseId);
+              
+              if (!isResExist && courseId !== "") { 
+                const resData = { courseId: courseId, title: resTitle, url: res.url ? res.url.trim() : "", type: res.type || "other", createdAt: serverTimestamp() };
+                await addDoc(collection(db, "acad_resources"), resData);
+                allExistingRes.push(resData); 
+                addedResources++;
+              }
             }
           }
           
-          if(addedCourses === 0 && updatedCourses === 0 && addedExams === 0) throw new Error("no_data");
+          if(addedCourses === 0 && updatedCourses === 0 && addedExams === 0 && addedResources === 0) {
+             UI.toast("لا يوجد أي بيانات جديدة لإضافتها (الكل موجود مسبقاً)."); return;
+          }
 
           UI.bumpMeta(); 
           let msg = "تم بنجاح! ";
           if(addedCourses || updatedCourses) msg += `مساقات: (${addedCourses} جديد، ${updatedCourses} تحديث). `;
-          if(addedExams) msg += `امتحانات: (${addedExams} جديد).`;
+          if(addedExams) msg += `امتحانات: (${addedExams} جديد). `;
+          if(addedResources) msg += `مواد وروابط: (${addedResources} جديد).`;
           
           UI.toast(msg); 
           UI.el("jsonInput").value = ""; 
           loadAll();
         } catch(e) { 
-          console.error(e); UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة.");
+          console.error(e); UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة ومطابقة للهيكل.");
         }
       };
       
