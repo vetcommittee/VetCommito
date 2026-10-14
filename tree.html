@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>الخطة الشجرية | VetCommitto</title>
+    <title>الخطة الشجرية التفاعلية | VetCommitto</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,143 +12,102 @@
 
     <style>
         :root {
-            --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
-            --ink: #1a2233; --slate: #606d85; --paper: #f5f7fa;
-            --line: #e2e6ed; --card-bg: #fff; --card-border: #dfe3ed;
-            --btn-bg: #f0f3f7; --gold: #d1aa5c; --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
+            --navy: #0d1b33; --purple: #1e3f70; --gold: #d1aa5c; --slate: #606d85;
+            --paper: #f5f7fa; --card-bg: #fff; --card-border: #dfe3ed;
+            --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
 
-            /* ألوان الخطوط */
+            /* ألوان الخطة الشجرية */
             --tree-line: #606d85;
             --tree-line-dashed: #a8bcd9;
+            
+            --node-y1: linear-gradient(135deg, #0f172a, #1e293b);
+            --node-y2: linear-gradient(135deg, #311b92, #4338ca);
+            --node-y3: linear-gradient(135deg, #1e3a8a, #2563eb);
         }
+
         [data-theme="dark"] {
-            --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
-            --ink: #e0e5ed; --slate: #949daf; --paper: #0b1120;
-            --line: #334155; --card-bg: #1e293b; --card-border: #334155;
-            --btn-bg: #334155; --nav-bg: #0f172a; --nav-border: #1e293b;
-
-            --tree-line: #949daf;
-            --tree-line-dashed: #475569;
+            --navy: #e0e5ed; --purple: #8baccf; --paper: #0b1120;
+            --card-bg: #1e293b; --card-border: #334155; --nav-bg: #0f172a; --nav-border: #1e293b;
+            --tree-line: #949daf; --tree-line-dashed: #475569;
         }
 
-        * { box-sizing: border-box; }
-        body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow: hidden; }
+        body { margin: 0; background: var(--paper); color: var(--navy); font-family: "IBM Plex Sans Arabic", sans-serif; overflow: hidden; }
         a { color: inherit; text-decoration: none; }
         
-        /* Topbar */
+        /* Topbar & Header */
         .topbar { height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; padding: 0 20px;}
-        .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; max-width: 1200px; margin: 0 auto;}
+        .navrow { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto;}
         .brand { display: flex; align-items: center; gap: 13px; font-weight: 700; color: var(--navy); }
-        .brand-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
-        .back-btn { width: 40px; height: 40px; border: 1px solid var(--line); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s;}
-        
-        /* Header Info */
+        .brand-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); }
+        .back-btn { width: 40px; height: 40px; border: 1px solid var(--card-border); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s; cursor: pointer;}
+        .back-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold);}
+
         .page-header { text-align: center; padding: 20px 10px; z-index: 10; position: relative;}
         .page-header h1 { color: var(--navy); font-size: 22px; margin: 0 0 5px; font-weight: 800; }
         .page-header p { color: var(--slate); font-size: 13px; margin: 0 0 15px; }
 
-        .legend {
-            background: var(--card-bg); padding: 8px 20px; border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: inline-flex; gap: 15px;
-            font-size: 12px; font-weight: 700; color: var(--navy); border: 1px solid var(--card-border);
-        }
+        .controls-row { display: flex; justify-content: center; gap: 15px; align-items: center;}
+        .legend { background: var(--card-bg); padding: 8px 20px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: inline-flex; gap: 15px; font-size: 12px; font-weight: 700; color: var(--navy); border: 1px solid var(--card-border); }
         .legend-item { display: flex; align-items: center; gap: 8px; }
         .legend-line { width: 25px; height: 3px; background: var(--tree-line); border-radius: 2px; }
         .legend-line.dashed { background: transparent; border-bottom: 3px dashed var(--tree-line-dashed); }
+        
+        .reset-btn { background: #fee2e2; color: #dc2626; border: none; padding: 8px 20px; border-radius: 30px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; display: none; align-items: center; gap: 5px; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);}
+        .reset-btn:hover { background: #ef4444; color: #fff; }
 
         /* Container for Pan & Zoom */
-        .map-container {
-            width: 100vw;
-            height: calc(100vh - 180px);
-            overflow: auto; 
-            cursor: grab;
-            position: relative;
-            background: radial-gradient(circle at 50% 50%, rgba(13, 27, 51, 0.03) 0%, transparent 60%);
-        }
+        .map-container { width: 100vw; height: calc(100vh - 180px); overflow: auto; cursor: grab; position: relative; background: radial-gradient(circle at 50% 50%, rgba(13, 27, 51, 0.03) 0%, transparent 60%); }
         .map-container:active { cursor: grabbing; }
 
-        /* Wrapper that scales */
-        .tree-scale-wrapper {
-            position: relative;
-            width: 1400px;  /* تم زيادة العرض لإعطاء مساحة لنصوص السنوات */
-            height: 950px;
-            margin: 20px auto;
-            transform-origin: top center;
-            transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+        /* Scale Wrapper */
+        .tree-scale-wrapper { position: relative; width: 1600px; height: 1000px; margin: 30px auto; transform-origin: top center; transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
 
-        #svg-lines {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
+        #svg-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        
+        /* تأثيرات الخطوط عند التفاعل */
+        path { transition: stroke 0.3s, stroke-width 0.3s, opacity 0.3s; }
+        .path-dimmed { opacity: 0.1 !important; }
+        .path-highlighted { stroke: var(--gold) !important; stroke-width: 3.5px !important; opacity: 1 !important; z-index: 100;}
 
-        /* Y-Axis Labels (أسماء السنوات) */
-        .year-label {
-            position: absolute; right: 0; font-size: 26px; font-weight: 900;
-            color: var(--navy); border-right: 5px solid var(--gold);
-            padding-right: 15px; opacity: 1; width: 140px; text-align: right;
-        }
-        /* تم توسيط النصوص مقابل صفوفها */
-        .yl-1 { top: 95px; } 
-        .yl-2 { top: 335px; } 
-        .yl-3 { top: 695px; } 
+        /* Y-Axis Labels */
+        .year-label { position: absolute; right: 0; font-size: 26px; font-weight: 900; color: var(--navy); border-right: 5px solid var(--gold); padding-right: 15px; width: 140px; text-align: right; transition: opacity 0.3s;}
+        .yl-1 { top: 70px; } .yl-2 { top: 320px; } .yl-3 { top: 620px; }
 
         /* Course Node (البطاقة) */
         .course-node {
-            position: absolute; width: 110px; height: 50px; padding: 5px;
-            border-radius: 10px; text-align: center; font-size: 11px;
+            position: absolute; width: 120px; height: 55px; padding: 5px;
+            border-radius: 12px; text-align: center; font-size: 11px;
             font-weight: 700; line-height: 1.3; color: #fff;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: 0.2s; cursor: pointer; display: flex;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; display: flex;
             flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10; border: 1px solid rgba(255,255,255,0.15);
+            z-index: 10; border: 2px solid transparent;
         }
 
-        .course-node:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            border-color: var(--gold); z-index: 20;
-        }
-
+        .course-node:hover { transform: translateY(-5px) scale(1.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-color: var(--gold); z-index: 50; }
         .course-code { font-size: 9px; opacity: 0.9; margin-bottom: 2px; font-weight: 500; color: #facc15; }
 
-        /* ألوان مخصصة لكل سنة */
-        .y1 { background: linear-gradient(135deg, #0f172a, #1e293b); } /* كحلي غامق */
-        .y2 { background: linear-gradient(135deg, #311b92, #4338ca); } /* بنفسجي ملكي */
-        .y3 { background: linear-gradient(135deg, #1e3a8a, #2563eb); } /* أزرق بحري */
+        .y1 { background: var(--node-y1); }
+        .y2 { background: var(--node-y2); }
+        .y3 { background: var(--node-y3); }
 
-        /* أزرار الزووم (Zoom Controls) */
-        .zoom-controls {
-            position: fixed; bottom: 30px; left: 20px;
-            display: flex; flex-direction: column; gap: 8px; z-index: 500;
-        }
-        .zoom-btn {
-            width: 44px; height: 44px; border-radius: 12px; background: var(--card-bg);
-            border: 1px solid var(--line); color: var(--navy);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.2s;
-        }
-        .zoom-btn:hover { background: var(--btn-bg); color: var(--purple); }
+        /* تأثيرات العقد عند التفاعل */
+        .node-dimmed { opacity: 0.15; filter: grayscale(100%); pointer-events: none; }
+        .node-highlighted { transform: scale(1.1); box-shadow: 0 0 0 4px rgba(209, 170, 92, 0.4); border-color: var(--gold); z-index: 60; opacity: 1;}
+        .node-active { transform: scale(1.15) translateY(-5px); box-shadow: 0 0 0 4px var(--gold), 0 15px 30px rgba(0,0,0,0.4); border-color: #fff; z-index: 70; opacity: 1;}
+
+        /* أزرار الزووم */
+        .zoom-controls { position: fixed; bottom: 30px; left: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 500; }
+        .zoom-btn { width: 44px; height: 44px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--card-border); color: var(--navy); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.2s; }
+        .zoom-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold);}
 
         /* Modal */
-        #detailsModal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); padding: 25px; border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid var(--card-border);
-            z-index: 2000; display: none; width: 300px; color: var(--ink); text-align: center;
-        }
-        #modalOverlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px);
-            z-index: 1999; display: none;
-        }
-        .modal-btn {
-            margin-top: 20px; width: 100%; padding: 12px; background: var(--navy); 
-            color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s;
-        }
-        .req-tag { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; margin-bottom: 5px;}
-        .req-pre { background: #fee2e2; color: #dc2626; }
-        .req-co { background: #fef3c7; color: #d97706; }
-
+        #detailsModal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 10px 50px rgba(0,0,0,0.2); border: 1px solid var(--card-border); z-index: 2000; display: none; width: 320px; color: var(--ink); text-align: center; }
+        #modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1999; display: none; }
+        .modal-btn { margin-top: 20px; width: 100%; padding: 12px; background: var(--navy); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .modal-btn:hover { background: var(--gold); }
+        .req-box { background: var(--paper); border-radius: 8px; padding: 10px; margin-top: 15px; border: 1px dashed var(--card-border); font-size: 12px; font-weight: 600; text-align: right;}
+        .req-title { color: var(--purple); font-size: 11px; margin-bottom: 5px; display: block;}
     </style>
 </head>
 <body>
@@ -159,89 +118,33 @@
           <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
           <span>المنصة الأكاديمية</span>
         </a>
-        <a href="index.html" class="back-btn"><i data-lucide="arrow-left" width="20"></i></a>
+        <button class="back-btn" onclick="window.history.back()"><i data-lucide="arrow-left" width="20"></i></button>
       </div>
     </header>
 
     <div class="page-header">
-        <h1>الخطة الشجرية </h1>
-        <p>تخصص دكتور في الطب البيطري - أول 3 سنوات (خطة 2024)</p>
-        <div class="legend">
-            <div class="legend-item"><div class="legend-line"></div> متطلب سابق</div>
-            <div class="legend-item"><div class="legend-line dashed"></div> متطلب متزامن</div>
+        <h1>الخطة الشجرية التفاعلية</h1>
+        <p>تخصص دكتور في الطب البيطري - (خطة 2024)</p>
+        
+        <div class="controls-row">
+            <div class="legend">
+                <div class="legend-item"><div class="legend-line"></div> متطلب سابق</div>
+                <div class="legend-item"><div class="legend-line dashed"></div> متطلب متزامن</div>
+            </div>
+            <button class="reset-btn" id="resetHighlightBtn" onclick="resetInteractive()"><i data-lucide="refresh-cw" width="14"></i> إعادة ضبط الشجرة</button>
         </div>
     </div>
 
     <!-- حاوية السحب والزوم -->
     <div class="map-container" id="mapContainer">
         <div class="tree-scale-wrapper" id="treeScale">
-            
             <svg id="svg-lines"></svg>
-
-            <!-- عناوين السنوات -->
+            
             <div class="year-label yl-1">السنة الأولى</div>
             <div class="year-label yl-2">السنة الثانية</div>
             <div class="year-label yl-3">السنة الثالثة</div>
 
-            <!-- ================= السنة الأولى ================= -->
-            <div class="course-node y1" id="n_phys" style="top:40px; left:160px;" data-req="لا يوجد"><div class="course-code">ع أ 109 ف</div>الفيزياء الطبية</div>
-            <div class="course-node y1" id="n_chem" style="top:40px; left:290px;" data-req="لا يوجد"><div class="course-code">ع أ 108 ك</div>الكيمياء العضوية</div>
-            <div class="course-node y1" id="n_bio_lab" style="top:40px; left:550px;" data-req="متزامن: بيولوجيا عامة"><div class="course-code">ع أ 107 تح</div>بيولوجيا عملي</div>
-            <div class="course-node y1" id="n_bio" style="top:40px; left:810px;" data-req="لا يوجد"><div class="course-code">ع أ 103 تح</div>بيولوجيا عامة</div>
-            <div class="course-node y1" id="n_bio_dup" style="top:40px; left:1070px;" data-req="-"><div class="course-code">ع أ 107 ع</div>بيولوجيا عامة</div>
-
-            <div class="course-node y1" id="n_hist1_lab" style="top:150px; left:80px;" data-req="متزامن: أنسجة 1"><div class="course-code">122 طب</div>مختبر الأنسجة</div>
-            <div class="course-node y1" id="n_hist1" style="top:150px; left:210px;" data-req="سابق: بيولوجيا عامة"><div class="course-code">114 طب</div>علم الأنسجة 1</div>
-            <div class="course-node y1" id="n_biochem" style="top:150px; left:340px;" data-req="سابق: كيمياء عامة"><div class="course-code">ع أ 262 ك</div>كيمياء حيوية</div>
-            <div class="course-node y1" id="n_safety" style="top:150px; left:470px;" data-req="سابق: بيو عملي"><div class="course-code">118 طب</div>الأمن البيولوجي</div>
-            <div class="course-node y1" id="n_animal_lab" style="top:150px; left:600px;" data-req="متزامن: حقوق حيوان"><div class="course-code">103 طب</div>مختبر حقوق الحيوان</div>
-            <div class="course-node y1" id="n_animal" style="top:150px; left:730px;" data-req="متزامن: بيو عامة"><div class="course-code">101 طب</div>حقوق الحيوان</div>
-            <div class="course-node y1" id="n_breed1" style="top:150px; left:860px;" data-req="سابق: حقوق حيوان"><div class="course-code">102 طب</div>تحسين السلالات</div>
-            <div class="course-node y1" id="n_breed2" style="top:150px; left:990px;" data-req="-"><div class="course-code">102 طب</div>تحسين السلالات</div>
-            <div class="course-node y1" id="n_genetics" style="top:150px; left:1120px;" data-req="سابق: بيو عامة"><div class="course-code">104 طب</div>الوراثة الجزيئية</div>
-
-            <!-- ================= السنة الثانية ================= -->
-            <div class="course-node y2" id="n_anat1_lab" style="top:280px; left:210px;" data-req="متزامن: تشريح 1"><div class="course-code">116 طب</div>مختبر تشريح 1</div>
-            <div class="course-node y2" id="n_hist_sys" style="top:280px; left:470px;" data-req="سابق: أنسجة عام"><div class="course-code">215 طب</div>الأنسجة الجهازي</div>
-            <div class="course-node y2" id="n_embryo" style="top:280px; left:600px;" data-req="سابق: أنسجة جهازي"><div class="course-code">216 طب</div>علم الأجنة</div>
-            <div class="course-node y2" id="n_immuno" style="top:280px; left:730px;" data-req="سابق: بيوكيم + وراثة"><div class="course-code">225 طب</div>علم المناعة</div>
-            <div class="course-node y2" id="n_bact_intro" style="top:280px; left:860px;" data-req="سابق: بيو عامة"><div class="course-code">231 طب</div>مقدمة البكتيريا</div>
-            <div class="course-node y2" id="n_entomo" style="top:280px; left:990px;" data-req="سابق: بيو عامة"><div class="course-code">233 طب</div>علم الحشرات</div>
-            <div class="course-node y2" id="n_anat2" style="top:280px; left:1120px;" data-req="سابق: تشريح 1"><div class="course-code">213 طب</div>تشريح بيطري 2</div>
-
-            <div class="course-node y2" id="n_anat2_lab1" style="top:390px; left:210px;" data-req="متزامن: تشريح 2"><div class="course-code">217 طب</div>مختبر تشريح 2</div>
-            <div class="course-node y2" id="n_sero_lab1" style="top:390px; left:400px;" data-req="متزامن: مناعة"><div class="course-code">227 طب</div>مختبر الامصال</div>
-            <div class="course-node y2" id="n_sero_lab2" style="top:390px; left:530px;" data-req="متزامن: مناعة"><div class="course-code">227 طب</div>مختبر الامصال</div>
-            <div class="course-node y2" id="n_viro" style="top:390px; left:660px;" data-req="سابق: مناعة"><div class="course-code">236 طب</div>علم الفيروسات</div>
-            <div class="course-node y2" id="n_bact_lab" style="top:390px; left:860px;" data-req="متزامن: جراثيم جهازي"><div class="course-code">242 طب</div>مختبر البكتيريا</div>
-            <div class="course-node y2" id="n_hist_sys_lab" style="top:390px; left:990px;" data-req="متزامن: أنسجة جهازي"><div class="course-code">219 طب</div>مختبر الأنسجة الجهازي</div>
-            <div class="course-node y2" id="n_anat2_lab2" style="top:390px; left:1120px;" data-req="متزامن: تشريح 2"><div class="course-code">217 طب</div>مختبر تشريح 2</div>
-
-            <!-- ================= السنة الثالثة ================= -->
-            <div class="course-node y3" id="n_physio_lab" style="top:530px; left:270px;" data-req="متزامن: فسيو 2"><div class="course-code">258 طب</div>مختبر الفسيولوجيا</div>
-            <div class="course-node y3" id="n_physio2" style="top:530px; left:400px;" data-req="سابق: فسيو 1"><div class="course-code">256 طب</div>الفسيولوجيا 2</div>
-            <div class="course-node y3" id="n_path_gen1" style="top:530px; left:530px;" data-req="سابق: أنسجة جهازي + فسيو 2"><div class="course-code">351 طب</div>الامراض العام</div>
-            <div class="course-node y3" id="n_para" style="top:530px; left:660px;" data-req="سابق: حشرات"><div class="course-code">236 طب</div>علم الطفيليات</div>
-            <div class="course-node y3" id="n_path_gen2" style="top:530px; left:790px;" data-req="سابق: أنسجة جهازي + فسيو 2"><div class="course-code">351 طب</div>الامراض العام</div>
-            <div class="course-node y3" id="n_physio1" style="top:530px; left:920px;" data-req="سابق: أنسجة عام"><div class="course-code">255 طب</div>الفسيولوجيا 1</div>
-
-            <div class="course-node y3" id="n_poult" style="top:640px; left:140px;" data-req="سابق: حقوق حيوان"><div class="course-code">363 طب</div>ادارة الدواجن</div>
-            <div class="course-node y3" id="n_meat" style="top:640px; left:270px;" data-req="متزامن: أمراض جهازي"><div class="course-code">362 طب</div>صحة اللحوم</div>
-            <div class="course-node y3" id="n_dairy" style="top:640px; left:400px;" data-req="سابق: مختبر بكتيريا"><div class="course-code">361 طب</div>صحة الالبان</div>
-            <div class="course-node y3" id="n_path_sys" style="top:640px; left:530px;" data-req="سابق: أمراض عام"><div class="course-code">352 طب</div>الامراض الجهازي</div>
-            <div class="course-node y3" id="n_hema" style="top:640px; left:660px;" data-req="متزامن: أمراض عام"><div class="course-code">355 طب</div>علم أمراض الدم</div>
-            <div class="course-node y3" id="n_path_gen_lab" style="top:640px; left:790px;" data-req="متزامن: أمراض عام"><div class="course-code">353 طب</div>مختبر الامراض العام</div>
-            <div class="course-node y3" id="n_path_sys2" style="top:640px; left:920px;" data-req="سابق: أمراض عام"><div class="course-code">352 طب</div>الامراض الجهازي</div>
-            <div class="course-node y3" id="n_pharm_gen" style="top:640px; left:1050px;" data-req="سابق: جراثيم + فسيو + طفيليات"><div class="course-code">341 طب</div>الادوية العام</div>
-
-            <div class="course-node y3" id="n_history" style="top:750px; left:270px;" data-req="متزامن: باطني عام"><div class="course-code">374 طب</div>تاريخ الحالة والفحص</div>
-            <div class="course-node y3" id="n_infect1" style="top:750px; left:400px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">376 طب</div>الامراض المشتركة 1</div>
-            <div class="course-node y3" id="n_int_med1" style="top:750px; left:530px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">372 طب</div>الباطني العام</div>
-            <div class="course-node y3" id="n_int_med2" style="top:750px; left:660px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">372 طب</div>الباطني العام</div>
-            <div class="course-node y3" id="n_path_sys_lab" style="top:750px; left:790px;" data-req="متزامن: أمراض جهازي"><div class="course-code">354 طب</div>مختبر الامراض الجهازي</div>
-            <div class="course-node y3" id="n_clin_lab" style="top:750px; left:920px;" data-req="سابق: مختبرات (أمصال، فيروسات)"><div class="course-code">330 طب</div>العلوم التطبيقية</div>
-
-            <div class="course-node y3" id="n_clin_app" style="top:860px; left:595px;" data-req="سابق: باطني عام + أمراض جهازي"><div class="course-code">300 طب</div>التطبيق السريري</div>
+            <div id="nodes-container"></div>
         </div>
     </div>
 
@@ -256,65 +159,114 @@
     <div id="modalOverlay" onclick="closeModal()"></div>
     <div id="detailsModal">
         <h3 id="m_title" style="margin-top:0; color:var(--navy);"></h3>
-        <p style="font-size:14px; color:var(--slate); margin-bottom: 20px;">الرمز: <strong id="m_code" style="color:var(--purple);"></strong></p>
-        <div id="m_reqs"></div>
-        <button class="modal-btn" onclick="closeModal()">إغلاق</button>
+        <p style="font-size:14px; color:var(--slate); margin-bottom: 10px;">الرمز: <strong id="m_code" style="color:var(--purple);"></strong></p>
+        <div class="req-box">
+            <span class="req-title">المتطلبات:</span>
+            <div id="m_reqs" style="line-height: 1.6;"></div>
+        </div>
+        <button class="modal-btn" onclick="closeModal()">حسناً، فهمت</button>
     </div>
 
     <script>
-        // ضبط المظهر
         const isDark = localStorage.getItem("vet_theme") === "dark";
         document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
-        // ----------------- منطق الزووم والسحب (Pan & Zoom) -----------------
-        const scaleWrapper = document.getElementById('treeScale');
-        const mapContainer = document.getElementById('mapContainer');
-        let currentZoom = 1;
-
-        function adjustZoom(step) {
-            currentZoom += step;
-            if (currentZoom < 0.3) currentZoom = 0.3;
-            if (currentZoom > 2.5) currentZoom = 2.5;
-            scaleWrapper.style.transform = `scale(${currentZoom})`;
-        }
-
-        function resetZoom() {
-            const w = window.innerWidth;
-            if (w < 600) currentZoom = 0.40;
-            else if (w < 1000) currentZoom = 0.60;
-            else currentZoom = 0.85;
+        // ----------------- الداتا الرسمية للمساقات (مصححة حسب الكتالوج) -----------------
+        const coursesData = [
+            // سنة أولى
+            { id: 'c109', code: 'ع أ 109 ف', name: 'الفيزياء الطبية', year: 1, pre: [], co: [], x: 100, y: 50 },
+            { id: 'c108', code: 'ع أ 108 ك', name: 'الكيمياء العامة والعضوية', year: 1, pre: [], co: [], x: 250, y: 50 },
+            { id: 'c103', code: 'ع أ 103 تح', name: 'بيولوجيا عامة', year: 1, pre: [], co: [], x: 800, y: 50 },
+            { id: 'c107', code: 'ع أ 107 تح', name: 'بيولوجيا عامة عملي', year: 1, pre: [], co: ['c103'], x: 950, y: 50 },
             
-            scaleWrapper.style.transform = `scale(${currentZoom})`;
+            { id: 'c262', code: 'ع أ 262 ك', name: 'كيمياء حيوية', year: 1, pre: ['c108'], co: [], x: 250, y: 160 },
+            { id: 'c122', code: '122 طب', name: 'مختبر الأنسجة العام', year: 1, pre: ['c114'], co: [], x: 400, y: 160 },
+            { id: 'c114', code: '114 طب', name: 'علم الأنسجة العام', year: 1, pre: ['c103'], co: ['c112'], x: 550, y: 160 },
+            { id: 'c112', code: '112 طب', name: 'تشريح بيطري 1', year: 1, pre: ['c103'], co: [], x: 700, y: 160 },
+            { id: 'c116', code: '116 طب', name: 'مختبر تشريح بيطري 1', year: 1, pre: [], co: ['c112'], x: 850, y: 160 },
+            { id: 'c101', code: '101 طب', name: 'حقوق وتربية الحيوان', year: 1, pre: [], co: ['c103'], x: 1000, y: 160 },
+            { id: 'c103l', code: '103 طب', name: 'مختبر حقوق الحيوان', year: 1, pre: [], co: ['c101'], x: 1150, y: 160 },
+            { id: 'c102', code: '102 طب', name: 'تحسين سلالات الحيوان', year: 1, pre: ['c101'], co: [], x: 1300, y: 160 },
+            { id: 'c104', code: '104 طب', name: 'الوراثة الجزيئية', year: 1, pre: ['c103'], co: [], x: 1450, y: 160 },
+            { id: 'c118', code: '118 طب', name: 'الأمن والسلامة البيولوجية', year: 1, pre: ['c107'], co: [], x: 950, y: 160 },
+
+            // سنة ثانية
+            { id: 'c227', code: '227 طب', name: 'مختبر الامصال البيطرية', year: 2, pre: [], co: ['c225'], x: 100, y: 300 },
+            { id: 'c225', code: '225 طب', name: 'علم المناعة البيطرية', year: 2, pre: ['c104', 'c262'], co: [], x: 250, y: 300 },
+            { id: 'c219', code: '219 طب', name: 'مختبر الأنسجة الجهازي', year: 2, pre: ['c215'], co: [], x: 400, y: 300 },
+            { id: 'c215', code: '215 طب', name: 'علم الأنسجة الجهازي', year: 2, pre: ['c114', 'c122'], co: [], x: 550, y: 300 },
+            { id: 'c213', code: '213 طب', name: 'تشريح بيطري 2', year: 2, pre: ['c112'], co: [], x: 700, y: 300 },
+            { id: 'c217', code: '217 طب', name: 'مختبر تشريح بيطري 2', year: 2, pre: ['c116'], co: ['c213'], x: 850, y: 300 },
+            { id: 'c231', code: '231 طب', name: 'مقدمة في البكتيريا', year: 2, pre: ['c103'], co: [], x: 1000, y: 300 },
+            { id: 'c233', code: '233 طب', name: 'علم الحشرات البيطرية', year: 2, pre: ['c103'], co: [], x: 1300, y: 300 },
             
-            setTimeout(() => {
-                mapContainer.scrollLeft = (mapContainer.scrollWidth - mapContainer.clientWidth) / 2;
-            }, 300);
-        }
+            { id: 'c236', code: '236 طب', name: 'علم الفيروسات البيطرية', year: 2, pre: ['c225'], co: [], x: 250, y: 420 },
+            { id: 'c216', code: '216 طب', name: 'علم الأجنة', year: 2, pre: ['c215'], co: [], x: 550, y: 420 },
+            { id: 'c242', code: '242 طب', name: 'مختبر البكتيريا والفطريات', year: 2, pre: ['c231'], co: ['c232'], x: 850, y: 420 },
+            { id: 'c232', code: '232 طب', name: 'الجراثيم والفطريات الجهازي', year: 2, pre: ['c231'], co: [], x: 1000, y: 420 },
+            { id: 'c238', code: '238 طب', name: 'مختبر الطفيليات والحشرات', year: 2, pre: ['c233'], co: ['c234'], x: 1150, y: 420 },
+            { id: 'c234', code: '234 طب', name: 'علم الطفيليات البيطرية', year: 2, pre: ['c233'], co: [], x: 1300, y: 420 },
 
-        // سحب الشاشة بالماوس (Drag to Pan)
-        let isDragging = false, startX, startY, scrollLeft, scrollTop;
-        mapContainer.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.pageX - mapContainer.offsetLeft;
-            startY = e.pageY - mapContainer.offsetTop;
-            scrollLeft = mapContainer.scrollLeft;
-            scrollTop = mapContainer.scrollTop;
-        });
-        mapContainer.addEventListener('mouseleave', () => { isDragging = false; });
-        mapContainer.addEventListener('mouseup', () => { isDragging = false; });
-        mapContainer.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            const x = e.pageX - mapContainer.offsetLeft;
-            const y = e.pageY - mapContainer.offsetTop;
-            mapContainer.scrollLeft = scrollLeft - (x - startX) * 1.5;
-            mapContainer.scrollTop = scrollTop - (y - startY) * 1.5;
-        });
+            // سنة ثالثة
+            { id: 'c321', code: '321 طب', name: 'تغذية الحيوان', year: 3, pre: ['c256', 'c262'], co: [], x: 100, y: 570 },
+            { id: 'c337', code: '337 طب', name: 'مختبر الفيروسات البيطرية', year: 3, pre: ['c236'], co: [], x: 250, y: 570 },
+            { id: 'c258', code: '258 طب', name: 'مختبر الفسيولوجيا', year: 3, pre: [], co: ['c256'], x: 400, y: 570 },
+            { id: 'c255', code: '255 طب', name: 'الفسيولوجيا البيطرية 1', year: 3, pre: ['c114', 'c122'], co: [], x: 550, y: 570 },
+            { id: 'c361', code: '361 طب', name: 'صحة الالبان', year: 3, pre: ['c242'], co: [], x: 850, y: 570 },
+            { id: 'c363', code: '363 طب', name: 'ادارة الدواجن', year: 3, pre: ['c101'], co: [], x: 1450, y: 570 },
+            
+            { id: 'c330', code: '330 طب', name: 'مختبر العلوم التطبيقية', year: 3, pre: ['c227', 'c337', 'c242', 'c238'], co: [], x: 250, y: 690 },
+            { id: 'c256', code: '256 طب', name: 'الفسيولوجيا البيطرية 2', year: 3, pre: ['c255'], co: [], x: 550, y: 690 },
+            { id: 'c351', code: '351 طب', name: 'علم الامراض العام', year: 3, pre: ['c215', 'c256'], co: [], x: 700, y: 690 },
+            { id: 'c353', code: '353 طب', name: 'مختبر الامراض العام', year: 3, pre: [], co: ['c351'], x: 850, y: 690 },
+            { id: 'c365', code: '365 طب', name: 'مختبر صحة الألبان', year: 3, pre: [], co: ['c361'], x: 1000, y: 690 },
+            { id: 'c341', code: '341 طب', name: 'علم الادوية العام', year: 3, pre: ['c256', 'c232', 'c234'], co: [], x: 1300, y: 690 },
 
-        // ----------------- رسم الخطوط SVG -----------------
+            { id: 'c357', code: '357 طب', name: 'مختبر علم أمراض الدم', year: 3, pre: [], co: ['c355'], x: 400, y: 810 },
+            { id: 'c355', code: '355 طب', name: 'علم أمراض الدم', year: 3, pre: ['c114', 'c215', 'c225', 'c234', 'c256', 'c122', 'c219', 'c242'], co: ['c351'], x: 550, y: 810 },
+            { id: 'c352', code: '352 طب', name: 'علم الأمراض الجهازي', year: 3, pre: ['c351'], co: [], x: 700, y: 810 },
+            { id: 'c354', code: '354 طب', name: 'مختبر الامراض الجهازي', year: 3, pre: [], co: ['c352'], x: 850, y: 810 },
+            { id: 'c362', code: '362 طب', name: 'صحة وفحوصات اللحوم', year: 3, pre: [], co: ['c352', 'c354'], x: 1000, y: 810 },
+            { id: 'c364', code: '364 طب', name: 'مختبر صحة اللحوم', year: 3, pre: [], co: ['c362'], x: 1150, y: 810 },
+            { id: 'c342', code: '342 طب', name: 'علم الادوية الجهازي', year: 3, pre: ['c341'], co: [], x: 1300, y: 810 },
+
+            { id: 'c376', code: '376 طب', name: 'الامراض المعدية والمشتركة', year: 3, pre: ['c351', 'c341'], co: [], x: 700, y: 930 },
+            { id: 'c372', code: '372 طب', name: 'الطب الباطني العام', year: 3, pre: ['c351', 'c341'], co: ['c374'], x: 850, y: 930 },
+            { id: 'c374', code: '374 طب', name: 'تاريخ الحالة والفحص السريري', year: 3, pre: [], co: ['c372'], x: 1000, y: 930 },
+            { id: 'c300', code: '300 طب', name: 'التطبيق السريري والمفاهيم', year: 3, pre: ['c342', 'c352', 'c372'], co: [], x: 1150, y: 930 }
+        ];
+
+        // ----------------- بناء الشجرة (DOM) -----------------
+        const container = document.getElementById('nodes-container');
         const svg = document.getElementById('svg-lines');
 
-        function createLine(id1, id2, isDashed = false) {
+        coursesData.forEach(c => {
+            const div = document.createElement('div');
+            div.className = `course-node y${c.year}`;
+            div.id = c.id;
+            div.style.left = c.x + 'px';
+            div.style.top = c.y + 'px';
+            div.innerHTML = `<div class="course-code">${c.code}</div>${c.name}`;
+            
+            // Interaction
+            div.onclick = () => activateInteractivePath(c.id);
+            container.appendChild(div);
+        });
+
+        // ----------------- رسم الخطوط -----------------
+        function drawAllLines() {
+            svg.innerHTML = ''; // تفريغ
+            setupMarkers();
+
+            coursesData.forEach(course => {
+                // رسم خطوط المتطلب السابق (Solid)
+                course.pre.forEach(preId => createLine(preId, course.id, false, `${preId}-${course.id}`));
+                // رسم خطوط المتطلب المتزامن (Dashed)
+                course.co.forEach(coId => createLine(coId, course.id, true, `${coId}-${course.id}`));
+            });
+        }
+
+        function createLine(id1, id2, isDashed, lineId) {
             const el1 = document.getElementById(id1);
             const el2 = document.getElementById(id2);
             if (!el1 || !el2) return;
@@ -329,10 +281,14 @@
 
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', pathData);
+            path.setAttribute('id', `line-${lineId}`);
+            path.setAttribute('data-source', id1);
+            path.setAttribute('data-target', id2);
+            
             path.setAttribute('stroke', isDashed ? 'var(--tree-line-dashed)' : 'var(--tree-line)');
-            path.setAttribute('stroke-width', '2');
+            path.setAttribute('stroke-width', '1.5');
             path.setAttribute('fill', 'none');
-            if (isDashed) path.setAttribute('stroke-dasharray', '5,5');
+            if (isDashed) path.setAttribute('stroke-dasharray', '4,4');
             
             const markerId = isDashed ? 'arrowDashed' : 'arrowSolid';
             path.setAttribute('marker-end', `url(#${markerId})`);
@@ -344,94 +300,163 @@
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
             const colorSolid = getComputedStyle(document.documentElement).getPropertyValue('--tree-line').trim();
             const colorDashed = getComputedStyle(document.documentElement).getPropertyValue('--tree-line-dashed').trim();
+            const colorGold = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
 
-            const createMarker = (id, color) => {
+            const createM = (id, color) => {
                 const m = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-                m.setAttribute('id', id);
-                m.setAttribute('viewBox', '0 0 10 10');
+                m.setAttribute('id', id); m.setAttribute('viewBox', '0 0 10 10');
                 m.setAttribute('refX', '5'); m.setAttribute('refY', '5');
-                m.setAttribute('markerWidth', '5'); m.setAttribute('markerHeight', '5');
+                m.setAttribute('markerWidth', '6'); m.setAttribute('markerHeight', '6');
                 m.setAttribute('orient', 'auto-start-reverse');
                 m.innerHTML = `<path d="M 0 0 L 10 5 L 0 10 z" fill="${color}" />`;
                 return m;
             };
 
-            defs.appendChild(createMarker('arrowSolid', colorSolid));
-            defs.appendChild(createMarker('arrowDashed', colorDashed));
+            defs.appendChild(createM('arrowSolid', colorSolid));
+            defs.appendChild(createM('arrowDashed', colorDashed));
+            defs.appendChild(createM('arrowGold', colorGold));
             svg.appendChild(defs);
         }
 
-        window.addEventListener('load', () => {
-            setupMarkers();
+        // ----------------- التفاعل السحري (Interactive Path) -----------------
+        let isInteractiveMode = false;
 
-            createLine('n_chem', 'n_biochem');
-            createLine('n_bio_lab', 'n_safety');
-            createLine('n_bio', 'n_hist1');
-            createLine('n_bio', 'n_genetics');
-            createLine('n_bio_dup', 'n_anat2'); 
-            createLine('n_hist1', 'n_hist_sys');
-            createLine('n_biochem', 'n_immuno');
-            createLine('n_genetics', 'n_immuno');
-            createLine('n_bio', 'n_bact_intro');
-            createLine('n_bio', 'n_entomo');
-            
-            createLine('n_hist_sys', 'n_embryo');
-            createLine('n_immuno', 'n_viro');
-            createLine('n_bact_intro', 'n_bact_lab');
-            createLine('n_entomo', 'n_para');
-            
-            createLine('n_hist_sys', 'n_path_gen1');
-            createLine('n_viro', 'n_path_gen1');
-            createLine('n_para', 'n_pharm_gen');
-            createLine('n_path_gen1', 'n_path_sys');
-            createLine('n_path_sys', 'n_meat');
-            createLine('n_path_gen2', 'n_hema');
-            createLine('n_pharm_gen', 'n_int_med1');
-            createLine('n_pharm_gen', 'n_int_med2');
-            createLine('n_path_sys', 'n_infect1');
-            createLine('n_int_med2', 'n_clin_app');
-            createLine('n_path_sys2', 'n_clin_app');
+        function getCourseById(id) { return coursesData.find(c => c.id === id); }
 
-            createLine('n_hist1', 'n_hist1_lab', true);
-            createLine('n_animal', 'n_animal_lab', true);
-            createLine('n_anat2', 'n_anat2_lab1', true);
-            createLine('n_anat2', 'n_anat2_lab2', true);
-            createLine('n_immuno', 'n_sero_lab1', true);
-            createLine('n_immuno', 'n_sero_lab2', true);
-            createLine('n_hist_sys', 'n_hist_sys_lab', true);
-            createLine('n_physio2', 'n_physio_lab', true);
-            createLine('n_path_gen1', 'n_path_gen_lab', true);
-            createLine('n_path_sys2', 'n_path_sys_lab', true);
-            createLine('n_int_med1', 'n_history', true);
-            createLine('n_dairy', 'n_meat', true); 
+        function getAllPreReqs(courseId, resultSet = new Set(), edgesSet = new Set()) {
+            const course = getCourseById(courseId);
+            if(!course) return;
 
-            resetZoom(); 
-        });
-
-        // نافذة التفاصيل
-        const nodes = document.querySelectorAll('.course-node');
-        nodes.forEach(node => {
-            node.addEventListener('click', () => {
-                document.getElementById('m_title').innerText = node.innerText.replace(node.querySelector('.course-code').innerText, '').trim();
-                document.getElementById('m_code').innerText = node.querySelector('.course-code').innerText;
-                
-                const req = node.getAttribute('data-req');
-                let badge = '';
-                if(req.includes('سابق')) badge = `<span class="req-tag req-pre">${req}</span>`;
-                else if(req.includes('متزامن')) badge = `<span class="req-tag req-co">${req}</span>`;
-                else badge = `<span class="req-tag" style="background:var(--btn-bg); color:var(--slate);">${req}</span>`;
-
-                document.getElementById('m_reqs').innerHTML = badge;
-                
-                document.getElementById('modalOverlay').style.display = 'block';
-                document.getElementById('detailsModal').style.display = 'block';
+            // المتطلبات السابقة
+            course.pre.forEach(preId => {
+                if(!resultSet.has(preId)) {
+                    resultSet.add(preId);
+                    edgesSet.add(`${preId}-${courseId}`);
+                    getAllPreReqs(preId, resultSet, edgesSet); // Recursion
+                }
             });
-        });
+            // المتطلبات المتزامنة (اختياري إضافتها للمسار، سنضيفها للتوضيح)
+            course.co.forEach(coId => {
+                if(!resultSet.has(coId)) {
+                    resultSet.add(coId);
+                    edgesSet.add(`${coId}-${courseId}`);
+                    getAllPreReqs(coId, resultSet, edgesSet);
+                }
+            });
+            return { nodes: Array.from(resultSet), edges: Array.from(edgesSet) };
+        }
+
+        function activateInteractivePath(clickedId) {
+            isInteractiveMode = true;
+            document.getElementById('resetHighlightBtn').style.display = 'flex';
+            
+            const reqs = getAllPreReqs(clickedId);
+            const activeNodes = [clickedId, ...reqs.nodes];
+            const activeEdges = reqs.edges;
+
+            // تحديث العقد (Nodes)
+            document.querySelectorAll('.course-node').forEach(node => {
+                node.classList.remove('node-active', 'node-highlighted', 'node-dimmed');
+                if (node.id === clickedId) {
+                    node.classList.add('node-active');
+                } else if (activeNodes.includes(node.id)) {
+                    node.classList.add('node-highlighted');
+                } else {
+                    node.classList.add('node-dimmed');
+                }
+            });
+
+            // تحديث الخطوط (Lines)
+            document.querySelectorAll('#svg-lines path').forEach(path => {
+                path.classList.remove('path-highlighted', 'path-dimmed');
+                const src = path.getAttribute('data-source');
+                const tgt = path.getAttribute('data-target');
+                
+                if (activeEdges.includes(`${src}-${tgt}`)) {
+                    path.classList.add('path-highlighted');
+                    path.setAttribute('marker-end', 'url(#arrowGold)');
+                } else {
+                    path.classList.add('path-dimmed');
+                    const isDashed = path.getAttribute('stroke-dasharray');
+                    path.setAttribute('marker-end', `url(#${isDashed ? 'arrowDashed' : 'arrowSolid'})`);
+                }
+            });
+
+            // إظهار النافذة المنبثقة
+            showDetailsModal(clickedId);
+        }
+
+        function resetInteractive() {
+            isInteractiveMode = false;
+            document.getElementById('resetHighlightBtn').style.display = 'none';
+            
+            document.querySelectorAll('.course-node').forEach(node => {
+                node.classList.remove('node-active', 'node-highlighted', 'node-dimmed');
+            });
+
+            document.querySelectorAll('#svg-lines path').forEach(path => {
+                path.classList.remove('path-highlighted', 'path-dimmed');
+                const isDashed = path.getAttribute('stroke-dasharray');
+                path.setAttribute('marker-end', `url(#${isDashed ? 'arrowDashed' : 'arrowSolid'})`);
+            });
+        }
+
+        function showDetailsModal(id) {
+            const course = getCourseById(id);
+            document.getElementById('m_title').innerText = course.name;
+            document.getElementById('m_code').innerText = course.code;
+            
+            let reqsHTML = '';
+            if(course.pre.length === 0 && course.co.length === 0) reqsHTML = '<span style="color:var(--slate);">لا يوجد متطلبات</span>';
+            
+            course.pre.forEach(pid => {
+                reqsHTML += `<div style="color:#dc2626; margin-bottom:4px;">سابق: ${getCourseById(pid).name}</div>`;
+            });
+            course.co.forEach(cid => {
+                reqsHTML += `<div style="color:#d97706; margin-bottom:4px;">متزامن: ${getCourseById(cid).name}</div>`;
+            });
+
+            document.getElementById('m_reqs').innerHTML = reqsHTML;
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('detailsModal').style.display = 'block';
+        }
 
         function closeModal() {
             document.getElementById('modalOverlay').style.display = 'none';
             document.getElementById('detailsModal').style.display = 'none';
         }
+
+        // ----------------- Pan & Zoom -----------------
+        const scaleWrapper = document.getElementById('treeScale');
+        const mapContainer = document.getElementById('mapContainer');
+        let currentZoom = 1;
+
+        function adjustZoom(step) {
+            currentZoom += step;
+            if (currentZoom < 0.3) currentZoom = 0.3;
+            if (currentZoom > 2.5) currentZoom = 2.5;
+            scaleWrapper.style.transform = `scale(${currentZoom})`;
+        }
+
+        function resetZoom() {
+            const w = window.innerWidth;
+            if (w < 600) currentZoom = 0.35;
+            else if (w < 1000) currentZoom = 0.60;
+            else currentZoom = 0.85;
+            scaleWrapper.style.transform = `scale(${currentZoom})`;
+            setTimeout(() => { mapContainer.scrollLeft = (mapContainer.scrollWidth - mapContainer.clientWidth) / 2; }, 300);
+        }
+
+        let isDragging = false, startX, startY, scrollLeft, scrollTop;
+        mapContainer.addEventListener('mousedown', (e) => { isDragging = true; startX = e.pageX - mapContainer.offsetLeft; startY = e.pageY - mapContainer.offsetTop; scrollLeft = mapContainer.scrollLeft; scrollTop = mapContainer.scrollTop; });
+        mapContainer.addEventListener('mouseleave', () => { isDragging = false; });
+        mapContainer.addEventListener('mouseup', () => { isDragging = false; });
+        mapContainer.addEventListener('mousemove', (e) => { if (!isDragging) return; e.preventDefault(); const x = e.pageX - mapContainer.offsetLeft; const y = e.pageY - mapContainer.offsetTop; mapContainer.scrollLeft = scrollLeft - (x - startX) * 1.5; mapContainer.scrollTop = scrollTop - (y - startY) * 1.5; });
+
+        window.addEventListener('load', () => {
+            drawAllLines();
+            resetZoom();
+        });
 
         lucide.createIcons();
     </script>
