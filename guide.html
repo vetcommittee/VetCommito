@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1b33" />
+    <title>كيف تستخدم المنصة | VetCommitto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    
+    <style>
+      :root {
+        --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
+        --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
+        --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #fff; --card-border: #dfe3ed; --card-hover: #a8bcd9;
+        --btn-bg: #f0f3f7; --btn-hover: #eef1f6; --text-muted: #8893a4;
+        --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
+      }
+      [data-theme="dark"] {
+        --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
+        --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
+        --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
+        --card-bg: #1e293b; --card-border: #334155; --card-hover: #475569;
+        --btn-bg: #334155; --btn-hover: #475569; --text-muted: #949daf;
+        --nav-bg: #0f172a; --nav-border: #1e293b;
+      }
+      
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 60px;}
+      a { color: inherit; text-decoration: none; }
+      .wrap { width: min(900px, calc(100% - 40px)); margin-inline: auto; }
+      
+      /* Topbar */
+      .topbar { height: 74px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 100; transition: background 0.3s, border 0.3s;}
+      .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%;}
+      .brand { display: flex; align-items: center; gap: 13px; font-weight: 700; color: var(--navy); }
+      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+      .back-btn { width: 44px; height: 44px; border: 1px solid var(--line); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s;}
+      .back-btn:hover { background: var(--btn-bg); }
+      
+      /* Page Header */
+      .page-header { margin: 50px 0 30px; text-align: center; animation: fadein 0.4s; }
+      .page-header h1 { color: var(--navy); font-size: 32px; margin: 0 0 10px; font-weight: 800; }
+      .page-header p { color: var(--slate); font-size: 15px; margin: 0; line-height: 1.6; }
+
+      /* Guide Card */
+      .guide-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s; }
+      .guide-card:hover { border-color: var(--purple); box-shadow: 0 12px 30px rgba(0,0,0,0.05); }
+      
+      .guide-title { font-size: 20px; color: var(--navy); margin: 0 0 15px; font-weight: 800; display: flex; align-items: center; gap: 12px; }
+      .guide-title i { color: var(--gold); background: var(--btn-bg); padding: 8px; border-radius: 12px; width: 38px; height: 38px; display: grid; place-items: center; }
+      
+      .guide-text { font-size: 14px; color: var(--slate); line-height: 1.8; margin: 0; }
+      .guide-text b { color: var(--ink); }
+
+      .feature-list { display: grid; gap: 12px; margin-top: 15px; }
+      .feature-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--slate); }
+      .feature-item i { color: var(--purple); margin-top: 4px; flex-shrink: 0; }
+
+      @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap navrow">
+        <a href="index.html" class="brand">
+          <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
+          <span>المنصة الأكاديمية</span>
+        </a>
+        <a href="index.html" class="back-btn" aria-label="العودة للرئيسية">
+          <i data-lucide="arrow-left" width="20"></i>
+        </a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="page-header">
+        <h1>دليل استخدام المنصة</h1>
+        <p>كل ما تحتاج معرفته لاستغلال ميزات VetCommitto بأفضل طريقة ممكنة طوال مسيرتك الأكاديمية</p>
+      </div>
+
+      <div class="guide-card">
+        <h2 class="guide-title"><i data-lucide="book-open"></i> 1. المساقات والمحاضرات (مصادر الدراسة)</h2>
+        <p class="guide-text">
+          من الصفحة الرئيسية للمنصة، يمكنك اختيار <b>سنتك الدراسية</b> ثم <b>الفصل الدراسي</b> للوصول إلى كافة المواد المتاحة. لكل مادة ستجد:
+        </p>
+        <div class="feature-list">
+          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>سلايدات الدكاترة:</b> الروابط الرسمية المعتمدة للمادة.</span></div>
+          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>تفاريغ اللجنة:</b> الملخصات والمراجعات الورقية الخاصة بلجنتكم.</span></div>
+          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>الشروحات المصورة:</b> قوائم تشغيل يوتيوب والفيديوهات التوضيحية.</span></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <h2 class="guide-title"><i data-lucide="calendar"></i> 2. جدول الامتحانات والتقويم الذكي</h2>
+        <p class="guide-text">
+          عبر الضغط على خيار "جدول الامتحانات" في القائمة الجانبية، ستظهر لك المواعيد القادمة مرتبة تصاعدياً مع حساب الأيام المتبقية لكل امتحان (بالألوان لتنبيهك لضيق الوقت).
+          <br><br>
+          💡 <b>ميزة أضف للتقويم:</b> أسفل كل امتحان، يمكنك النقر على زر <b>"أضف للتقويم"</b> لتحميل ملف تذكير (`.ics`) وإضافته بضغطة زر إلى تقويم هاتفك (Google Calendar أو Apple Calendar) ليعطيك تنبيهات تلقائية قبل الامتحان بيوم و3 أيام!
+        </p>
+      </div>
+
+      <div class="guide-card">
+        <h2 class="guide-title"><i data-lucide="database"></i> 3. بنك الأسئلة والمراجعات</h2>
+        <p class="guide-text">
+          بنك الأسئلة مصمم كأنك تختبر نفسك فعلياً:
+        </p>
+        <div class="feature-list">
+          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>استئناف التقدم:</b> لو خرجت من الاختبار ورجعت لاحقاً، المنصة ستسألك إذا كنت تريد المتابعة من حيث توقفت.</span></div>
+          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>تحديد النجوم (Bookmark):</b> يمكنك الضغط على نجمة السؤال أثناء الحل لحفظه ومراجعته لاحقاً من تبويب "المراجعات".</span></div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <h2 class="guide-title"><i data-lucide="git-branch"></i> 4. الخطة الشجرية التفاعلية</h2>
+        <p class="guide-text">
+          أداة بصرية مذهلة لمعرفة المتطلبات السابقة والمتزامنة للمساقات (خطة 1985). 
+          <br>
+          ببساطة، <b>اضغط على أي مادة</b> في الشجرة، وسترى كيف يضيء لك النظام مسارها كاملاً وصولاً لمواد السنة الأولى، مع إمكانية تكبير وتصغير الخريطة وتحريكها بسلاسة من الهاتف.
+        </p>
+      </div>
+
+      <div class="guide-card">
+        <h2 class="guide-title"><i data-lucide="calculator"></i> 5. حاسبة المعدل التراكمي</h2>
+        <p class="guide-text">
+          أدخل مواد فصلك الحالي وعلاماتك المتوقعة مع الساعات المعتمدة، أو قم بإدخال سجلك السابق (المعدل التراكمي والساعات المقطوعة سابقاً)، وستقوم الحاسبة بحساب معدلك الفصلي والتراكمي بدقة تامة وبحسب نظام علامات الجامعة.
+        </p>
+      </div>
+
+      <div class="guide-card" style="background: linear-gradient(135deg, rgba(29, 63, 112, 0.03), rgba(209, 170, 92, 0.08)); border-color: var(--gold);">
+        <h2 class="guide-title" style="color: var(--navy);"><i data-lucide="smartphone"></i> نصيحة إضافية لتجربة أسرع</h2>
+        <p class="guide-text">
+          لتحويل المنصة إلى "تطبيق هاتفي" حقيقي على شاشتك الرئيسية، افتح الموقع من متصفح هاتفك واختار من خيارات المتصفح <b>"إضافة إلى الشاشة الرئيسية" (Add to Home Screen)</b>، لتفتح معك بشاشة كاملة وبدون متصفح كأنه تطبيق رسمي! 🚀
+        </p>
+      </div>
+    </main>
+
+    <script>
+      // ضبط المظهر (Dark/Light Mode)
+      const isDark = localStorage.getItem("vet_theme") === "dark";
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+      
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
