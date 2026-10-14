@@ -51,6 +51,7 @@
     
     .primary-btn { border: 0; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
     .primary-btn:hover { opacity: 0.9; }
+    .primary-btn:disabled { opacity: 0.6; cursor: not-allowed; background: var(--slate); }
     .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
     .ghost-btn:hover { background: var(--btn-bg); }
     .danger-btn { border: 0; background: #fee2e2; color: #dc2626; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: 0.2s; }
@@ -597,20 +598,29 @@
 
     // Smart Import (Handles Courses, Exams AND Resources)
     UI.el("importBtn").onclick = async () => {
+      const btn = UI.el("importBtn");
       const val = UI.el("jsonInput").value.trim();
       if(!val) return UI.toast("المربع فارغ!");
+      
       try {
         const parsed = JSON.parse(val);
-        UI.toast("جاري معالجة البيانات...");
+        btn.disabled = true;
+        btn.innerText = "جاري تحضير البيانات... الرجاء الانتظار";
+        UI.toast("بدأت عملية الرفع، الرجاء عدم إغلاق الصفحة أو تحديثها.");
+        
         let addedCourses = 0, updatedCourses = 0, addedExams = 0, addedResources = 0;
 
         // 1. استيراد المساقات ومنع تكرارها
         const courseList = parsed.courses || (Array.isArray(parsed) && parsed[0]?.name ? parsed : []);
         if(courseList.length > 0) {
-          for (const item of courseList) {
+          for (let i = 0; i < courseList.length; i++) {
+            const item = courseList[i];
+            btn.innerText = `جاري رفع المساقات... (${i + 1} من ${courseList.length})`;
+            
             const major = item.major || "vet";
             const key = String(item.name || "").trim().toLowerCase();
             const match = state.courses.find(c => String(c.name || "").trim().toLowerCase() === key && (c.major || "vet") === major);
+            
             if (match) {
               const updateData = { major: major, name: cleanStr(item.name) || match.name, code: cleanStr(item.code) || match.code || "", year: String(item.year || match.year || "1"), semester: String(item.semester || match.semester || "1"), category: `year-${item.year || match.year || "1"}`, updatedAt: serverTimestamp() };
               await updateDoc(doc(db, "acad_courses", match.id), updateData);
@@ -627,7 +637,9 @@
         // 2. استيراد الامتحانات ومنع تكرارها
         const examList = parsed.exams || [];
         if(examList.length > 0) {
-          for (const exam of examList) {
+          for (let i = 0; i < examList.length; i++) {
+            const exam = examList[i];
+            btn.innerText = `جاري رفع الامتحانات... (${i + 1} من ${examList.length})`;
             let courseId = "";
             if (exam.courseName) {
               const major = exam.major || "vet";
@@ -652,7 +664,9 @@
           const resSnap = await getDocs(collection(db, "acad_resources"));
           const allExistingRes = resSnap.docs.map(d => ({id: d.id, ...d.data()}));
           
-          for (const res of resourceList) {
+          for (let i = 0; i < resourceList.length; i++) {
+            const res = resourceList[i];
+            btn.innerText = `جاري رفع الروابط... (${i + 1} من ${resourceList.length})`;
             let courseId = "";
             if (res.courseName) {
               const major = res.major || "vet";
@@ -673,7 +687,10 @@
         }
         
         if(addedCourses === 0 && updatedCourses === 0 && addedExams === 0 && addedResources === 0) {
-           UI.toast("لا يوجد أي بيانات جديدة لإضافتها (الكل موجود مسبقاً)."); return;
+           UI.toast("لا يوجد أي بيانات جديدة لإضافتها (الكل موجود مسبقاً)."); 
+           btn.disabled = false;
+           btn.innerText = "مزامنة ورفع البيانات";
+           return;
         }
 
         UI.bumpMeta(); 
@@ -686,11 +703,15 @@
         UI.el("jsonInput").value = ""; 
         loadAll();
       } catch(e) { 
-        console.error(e); UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة ومطابقة للهيكل.");
+        console.error(e); 
+        UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "مزامنة ورفع البيانات";
       }
     };
     
     lucide.createIcons();
   </script>
 </body>
-</html>
+</html>}
