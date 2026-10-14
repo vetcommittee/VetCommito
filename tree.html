@@ -76,8 +76,6 @@
 
         .tree-scale-wrapper { 
             position: relative; 
-            width: 2500px; 
-            height: 1600px; 
             margin: 30px 50px 100px 50px; 
             transform-origin: top right; 
             transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); 
@@ -89,7 +87,7 @@
         .path-dimmed { opacity: 0.1 !important; }
         .path-highlighted { stroke: var(--gold) !important; stroke-width: 3.5px !important; opacity: 1 !important; z-index: 100;}
 
-        /* تنسيق السنوات لحل مشكلة التداخل */
+        /* تنسيق السنوات */
         .year-label { 
             position: absolute; 
             right: 30px; 
@@ -105,12 +103,12 @@
             padding-top: 8px; 
             padding-bottom: 8px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            z-index: 5; /* لتبقى خلف المواد إذا لزم، ولكنها في مساحة آمنة */
+            z-index: 5;
         }
 
         .course-node {
-            position: absolute; width: 125px; height: 55px; padding: 5px;
-            border-radius: 12px; text-align: center; font-size: 11px;
+            position: absolute; width: 130px; height: 60px; padding: 5px;
+            border-radius: 12px; text-align: center; font-size: 11.5px;
             font-weight: 700; line-height: 1.3; color: #fff;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; display: flex;
@@ -119,7 +117,7 @@
         }
 
         .course-node:hover { transform: translateY(-5px) scale(1.08); box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-color: var(--gold); z-index: 50; }
-        .course-code { font-size: 9px; opacity: 0.9; margin-bottom: 2px; font-weight: 500; color: #facc15; direction: rtl;}
+        .course-code { font-size: 9.5px; opacity: 0.9; margin-bottom: 2px; font-weight: 500; color: #facc15; direction: rtl;}
 
         .y1 { background: var(--node-y1); }
         .y2 { background: var(--node-y2); }
@@ -157,7 +155,6 @@
     <div class="page-header">
         <h1>الخطة الشجرية التفاعلية</h1>
         
-        <!-- أزرار التخصص -->
         <div class="major-tabs">
             <button class="major-btn active" data-major="vet">دكتور في الطب البيطري (2024)</button>
             <button class="major-btn" data-major="nursing">التمريض والرعاية البيطرية (2026)</button>
@@ -186,7 +183,7 @@
         <button class="zoom-btn" onclick="adjustZoom(-0.15)" title="تصغير"><i data-lucide="zoom-out" width="20"></i></button>
     </div>
 
-    <div id="modalOverlay" onclick="closeModal()"></div>
+    <div id="modalOverlay"></div>
     <div id="detailsModal">
         <h3 id="m_title" style="margin-top:0; color:var(--navy);"></h3>
         <p style="font-size:14px; color:var(--slate); margin-bottom: 10px;">الرمز: <strong id="m_code" style="color:var(--purple); direction:rtl; display:inline-block;"></strong></p>
@@ -194,7 +191,7 @@
             <span class="req-title">المتطلبات:</span>
             <div id="m_reqs" style="line-height: 1.6;"></div>
         </div>
-        <button class="modal-btn" onclick="closeModal()">حسناً، فهمت</button>
+        <button id="closeModalBtn" class="modal-btn">حسناً، فهمت</button>
     </div>
 
     <script>
@@ -202,7 +199,7 @@
         document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
         // ============================================================================
-        // 1. بيانات خطة الطب البيطري (تمت المحافظة عليها تماماً)
+        // 1. خطة الطب البيطري
         // ============================================================================
         const vetPlan = [
             { id: 'v109', code: 'ع أ 109 ف', name: 'الفيزياء الطبية', year: 1, pre: [], co: [], x: 100, y: 50 },
@@ -266,90 +263,90 @@
         ];
 
         // ============================================================================
-        // 2. بيانات خطة التمريض البيطري (إحداثيات جديدة ومحسنة لتجنب التداخل)
+        // 2. خطة التمريض البيطري (إحداثيات جديدة ومحسنة كلياً لمنع التداخل)
         // ============================================================================
         const nursingPlan = [
             // سنة أولى - فصل أول (Y: 50)
             { id: 'n101', code: 'ع ك 101', name: 'كيمياء عامة (1)', year: 1, pre: [], co: [], x: 150, y: 50 },
-            { id: 'n103', code: 'ع تح 103', name: 'بيولوجيا عامة', year: 1, pre: [], co: [], x: 450, y: 50 },
+            { id: 'n103', code: 'ع تح 103', name: 'بيولوجيا عامة', year: 1, pre: [], co: [], x: 400, y: 50 },
             { id: 'n107', code: 'ع تح 107', name: 'بيولوجيا عامة عملي', year: 1, pre: [], co: ['n103'], x: 650, y: 50 },
-            { id: 'n103v', code: 'ت ر ب 103', name: 'مقدمة في رعاية الحيوان', year: 1, pre: [], co: [], x: 1000, y: 50 },
-            { id: 'n105', code: 'ت ر ب 105', name: 'مقدمة في رعاية الحيوان (عملي)', year: 1, pre: [], co: ['n103v'], x: 1200, y: 50 },
-            { id: 'n101v', code: 'ت ر ب 101', name: 'المصطلحات البيطرية', year: 1, pre: [], co: ['n103v'], x: 1400, y: 50 },
-            { id: 'n107v', code: 'ت ر ب 107', name: 'مبادئ صحة الحيوان ورفاهيته', year: 1, pre: [], co: ['n105'], x: 1600, y: 50 },
-            { id: 'n109', code: 'ت ر ب 109', name: 'سلوك الحيوان والتعامل الآمن', year: 1, pre: [], co: ['n107v'], x: 1850, y: 50 },
-            { id: 'n111', code: 'ت ر ب 111', name: 'سلوك الحيوان (عملي)', year: 1, pre: [], co: ['n109'], x: 2050, y: 50 },
+            { id: 'n101v', code: 'ت ر ب 101', name: 'المصطلحات البيطرية', year: 1, pre: [], co: ['n103v'], x: 900, y: 50 },
+            { id: 'n103v', code: 'ت ر ب 103', name: 'رعاية الحيوان والتمريض', year: 1, pre: [], co: [], x: 1150, y: 50 },
+            { id: 'n105', code: 'ت ر ب 105', name: 'رعاية الحيوان (عملي)', year: 1, pre: [], co: ['n103v'], x: 1400, y: 50 },
+            { id: 'n107v', code: 'ت ر ب 107', name: 'صحة الحيوان ورفاهيته', year: 1, pre: [], co: ['n105'], x: 1650, y: 50 },
+            { id: 'n109', code: 'ت ر ب 109', name: 'سلوك الحيوان', year: 1, pre: [], co: ['n107v'], x: 1900, y: 50 },
+            { id: 'n111', code: 'ت ر ب 111', name: 'سلوك الحيوان (عملي)', year: 1, pre: [], co: ['n109'], x: 2150, y: 50 },
 
-            // سنة أولى - فصل ثاني (Y: 180)
-            { id: 'n102', code: 'ت ر ب 102', name: 'كيمياء حيوية', year: 1, pre: ['n101'], co: [], x: 150, y: 180 },
-            { id: 'n104', code: 'ت ر ب 104', name: 'مقدمة في علم التشريح', year: 1, pre: ['n103'], co: [], x: 350, y: 180 },
-            { id: 'n106', code: 'ت ر ب 106', name: 'علم التشريح (عملي)', year: 1, pre: [], co: ['n104'], x: 550, y: 180 },
-            { id: 'n108', code: 'ت ر ب 108', name: 'علم وظائف الأعضاء', year: 1, pre: ['n103'], co: ['n106'], x: 750, y: 180 },
-            { id: 'n110', code: 'ت ر ب 110', name: 'وظائف الأعضاء (عملي)', year: 1, pre: [], co: ['n108'], x: 950, y: 180 },
-            { id: 'n116', code: 'ت ر ب 116', name: 'التقنيات التطبيقية للتربية', year: 1, pre: ['n103'], co: [], x: 1150, y: 180 },
-            { id: 'n112', code: 'ت ر ب 112', name: 'مبادئ الإحصاء وطرق البحث', year: 1, pre: [], co: [], x: 1850, y: 180 },
-            { id: 'n114', code: 'ت ر ب 114', name: 'مبادئ الإحصاء (عملي)', year: 1, pre: [], co: ['n112'], x: 2050, y: 180 },
+            // سنة أولى - فصل ثاني (Y: 220)
+            { id: 'n102', code: 'ت ر ب 102', name: 'كيمياء حيوية', year: 1, pre: ['n101'], co: [], x: 150, y: 220 },
+            { id: 'n104', code: 'ت ر ب 104', name: 'علم التشريح المقارن', year: 1, pre: ['n103'], co: [], x: 400, y: 220 },
+            { id: 'n106', code: 'ت ر ب 106', name: 'علم التشريح (عملي)', year: 1, pre: [], co: ['n104'], x: 650, y: 220 },
+            { id: 'n108', code: 'ت ر ب 108', name: 'علم وظائف الأعضاء', year: 1, pre: ['n103'], co: ['n106'], x: 900, y: 220 },
+            { id: 'n110', code: 'ت ر ب 110', name: 'وظائف الأعضاء (عملي)', year: 1, pre: [], co: ['n108'], x: 1150, y: 220 },
+            { id: 'n116', code: 'ت ر ب 116', name: 'التقنيات التطبيقية للتربية', year: 1, pre: ['n103'], co: [], x: 1400, y: 220 },
+            { id: 'n112', code: 'ت ر ب 112', name: 'مبادئ الإحصاء وطرق البحث', year: 1, pre: [], co: [], x: 1900, y: 220 },
+            { id: 'n114', code: 'ت ر ب 114', name: 'مبادئ الإحصاء (عملي)', year: 1, pre: [], co: ['n112'], x: 2150, y: 220 },
 
-            // سنة أولى - صيفي (Y: 310)
-            { id: 'n202', code: 'ت ر ب 202', name: 'أساسيات الفحص السريري', year: 1, pre: ['n103'], co: [], x: 450, y: 310 },
-            { id: 'n204', code: 'ت ر ب 204', name: 'الفحص السريري (عملي)', year: 1, pre: [], co: ['n202'], x: 650, y: 310 },
+            // سنة أولى - صيفي (Y: 390)
+            { id: 'n201', code: 'ت ر ب 201', name: 'الصحة والأمن الحيوي', year: 2, pre: ['n103'], co: [], x: 400, y: 390 }, // نقلناها لـ Y=390 للترتيب
+            { id: 'n202', code: 'ت ر ب 202', name: 'أساسيات الفحص السريري', year: 1, pre: ['n103'], co: [], x: 1150, y: 390 },
+            { id: 'n204', code: 'ت ر ب 204', name: 'الفحص السريري (عملي)', year: 1, pre: [], co: ['n202'], x: 1400, y: 390 },
 
-            // سنة ثانية - فصل أول (Y: 440)
-            { id: 'n201', code: 'ت ر ب 201', name: 'الصحة والأمن الحيوي', year: 2, pre: ['n103'], co: [], x: 150, y: 440 },
-            { id: 'n203', code: 'ت ر ب 203', name: 'مقدمة الأحياء الدقيقة', year: 2, pre: ['n103'], co: [], x: 350, y: 440 },
-            { id: 'n205', code: 'ت ر ب 205', name: 'الأحياء الدقيقة (عملي)', year: 2, pre: [], co: ['n203'], x: 550, y: 440 },
-            { id: 'n207', code: 'ت ر ب 207', name: 'مقدمة علم الأدوية', year: 2, pre: ['n108'], co: [], x: 750, y: 440 },
-            { id: 'n209', code: 'ت ر ب 209', name: 'علم الأدوية (عملي)', year: 2, pre: [], co: ['n207'], x: 950, y: 440 },
-            { id: 'n211', code: 'ت ر ب 211', name: 'مهارات التمريض العامة', year: 2, pre: ['n105', 'n204'], co: [], x: 1150, y: 440 },
-            { id: 'n213', code: 'ت ر ب 213', name: 'مقدمة علم الأنسجة', year: 2, pre: ['n106', 'n110'], co: [], x: 1350, y: 440 },
-            { id: 'n215', code: 'ت ر ب 215', name: 'مقدمة علم الأنسجة (عملي)', year: 2, pre: [], co: ['n213'], x: 1550, y: 440 },
-            { id: 'n217', code: 'ت ر ب 217', name: 'تقنيات التصوير التشخيصي', year: 2, pre: ['n104', 'n202'], co: [], x: 1750, y: 440 },
-            { id: 'n219', code: 'ت ر ب 219', name: 'إدارة السجلات والاستقبال', year: 2, pre: ['n202'], co: [], x: 1950, y: 440 },
-            { id: 'n221', code: 'ت ر ب 221', name: 'إدارة السجلات (عملي)', year: 2, pre: [], co: ['n219'], x: 2150, y: 440 },
+            // سنة ثانية - فصل أول (Y: 560)
+            { id: 'n207', code: 'ت ر ب 207', name: 'مقدمة علم الأدوية', year: 2, pre: ['n108'], co: [], x: 150, y: 560 },
+            { id: 'n209', code: 'ت ر ب 209', name: 'علم الأدوية (عملي)', year: 2, pre: [], co: ['n207'], x: 400, y: 560 },
+            { id: 'n203', code: 'ت ر ب 203', name: 'مقدمة الأحياء الدقيقة', year: 2, pre: ['n103'], co: [], x: 650, y: 560 },
+            { id: 'n205', code: 'ت ر ب 205', name: 'الأحياء الدقيقة (عملي)', year: 2, pre: [], co: ['n203'], x: 900, y: 560 },
+            { id: 'n213', code: 'ت ر ب 213', name: 'مقدمة علم الأنسجة', year: 2, pre: ['n106', 'n110'], co: [], x: 1150, y: 560 },
+            { id: 'n215', code: 'ت ر ب 215', name: 'علم الأنسجة (عملي)', year: 2, pre: [], co: ['n213'], x: 1400, y: 560 },
+            { id: 'n217', code: 'ت ر ب 217', name: 'تقنيات التصوير', year: 2, pre: ['n104', 'n202'], co: [], x: 1650, y: 560 },
+            { id: 'n211', code: 'ت ر ب 211', name: 'مهارات التمريض العامة', year: 2, pre: ['n105', 'n204'], co: [], x: 1900, y: 560 },
+            { id: 'n219', code: 'ت ر ب 219', name: 'إدارة السجلات والاستقبال', year: 2, pre: ['n202'], co: [], x: 2150, y: 560 },
+            { id: 'n221', code: 'ت ر ب 221', name: 'إدارة السجلات (عملي)', year: 2, pre: [], co: ['n219'], x: 2400, y: 560 },
 
-            // سنة ثانية - فصل ثاني (Y: 570)
-            { id: 'n206', code: 'ت ر ب 206', name: 'تغذية الحيوان', year: 2, pre: ['n108'], co: [], x: 150, y: 570 },
-            { id: 'n208', code: 'ت ر ب 208', name: 'تقنيات المختبر التشخيصي', year: 2, pre: ['n205'], co: [], x: 550, y: 570 },
-            { id: 'n212', code: 'ت ر ب 212', name: 'الإدارة التمريضية للعيادات', year: 2, pre: ['n103'], co: [], x: 750, y: 570 },
-            { id: 'n301', code: 'ت ر ب 301', name: 'مقدمة في الصحة الواحدة', year: 2, pre: [], co: [], x: 950, y: 570 },
-            { id: 'n216', code: 'ت ر ب 216', name: 'تربية ورعاية المختبر', year: 2, pre: ['n105', 'n109'], co: [], x: 1150, y: 570 },
-            { id: 'n218', code: 'ت ر ب 218', name: 'حيوانات المختبر (عملي)', year: 2, pre: [], co: ['n216'], x: 1350, y: 570 },
-            { id: 'n210', code: 'ت ر ب 210', name: 'ميداني(1) صغيرة', year: 2, pre: ['n202'], co: [], x: 1750, y: 570 },
+            // سنة ثانية - فصل ثاني (Y: 730)
+            { id: 'n206', code: 'ت ر ب 206', name: 'تغذية الحيوان', year: 2, pre: ['n108'], co: [], x: 150, y: 730 },
+            { id: 'n208', code: 'ت ر ب 208', name: 'تقنيات المختبر', year: 2, pre: ['n205'], co: [], x: 900, y: 730 },
+            { id: 'n301', code: 'ت ر ب 301', name: 'مقدمة في الصحة الواحدة', year: 2, pre: [], co: [], x: 1150, y: 730 },
+            { id: 'n212', code: 'ت ر ب 212', name: 'الإدارة التمريضية', year: 2, pre: ['n103'], co: [], x: 1400, y: 730 },
+            { id: 'n216', code: 'ت ر ب 216', name: 'تربية حيوانات المختبر', year: 2, pre: ['n105', 'n109'], co: [], x: 1650, y: 730 },
+            { id: 'n218', code: 'ت ر ب 218', name: 'حيوانات المختبر (عملي)', year: 2, pre: [], co: ['n216'], x: 1900, y: 730 },
+            { id: 'n210', code: 'ت ر ب 210', name: 'ميداني(1) صغيرة', year: 2, pre: ['n202'], co: [], x: 2150, y: 730 },
 
-            // سنة ثانية - صيفي (Y: 700)
-            { id: 'n214', code: 'ت ر ب 214', name: 'ميداني(2) كبيرة', year: 2, pre: ['n210'], co: [], x: 1750, y: 700 },
+            // سنة ثانية - صيفي (Y: 900)
+            { id: 'n214', code: 'ت ر ب 214', name: 'ميداني(2) كبيرة', year: 2, pre: ['n210'], co: [], x: 2150, y: 900 },
 
-            // سنة ثالثة - فصل أول (Y: 830)
-            { id: 'n311', code: 'ت ر ب 311', name: 'المناعة والأمراض المعدية', year: 3, pre: ['n203'], co: [], x: 150, y: 830 },
-            { id: 'n313', code: 'ت ر ب 313', name: 'المناعة والأمراض (عملي)', year: 3, pre: [], co: ['n311'], x: 350, y: 830 },
-            { id: 'n303', code: 'ت ر ب 303', name: 'التخدير والمراقبة', year: 3, pre: ['n207', 'n202'], co: [], x: 750, y: 830 },
-            { id: 'n305', code: 'ت ر ب 305', name: 'التخدير والمراقبة (عملي)', year: 3, pre: [], co: ['n303'], x: 950, y: 830 },
-            { id: 'n319', code: 'ت ر ب 319', name: 'التشريح المرضي والعينات', year: 3, pre: ['n211'], co: [], x: 1150, y: 830 },
-            { id: 'n307', code: 'ت ر ب 307', name: 'رعاية الطيور والأسماك', year: 3, pre: ['n107', 'n103'], co: [], x: 1350, y: 830 },
-            { id: 'n309', code: 'ت ر ب 309', name: 'رعاية الطيور (عملي)', year: 3, pre: [], co: ['n307'], x: 1550, y: 830 },
-            { id: 'n315', code: 'ت ر ب 315', name: 'السلوك التطبيقي', year: 3, pre: ['n103', 'n107', 'n109'], co: [], x: 1750, y: 830 },
-            { id: 'n317', code: 'ت ر ب 317', name: 'السلوك التطبيقي (عملي)', year: 3, pre: [], co: ['n315'], x: 1950, y: 830 },
+            // سنة ثالثة - فصل أول (Y: 1070)
+            { id: 'n311', code: 'ت ر ب 311', name: 'المناعة والأمراض المعدية', year: 3, pre: ['n203'], co: [], x: 650, y: 1070 },
+            { id: 'n313', code: 'ت ر ب 313', name: 'المناعة (عملي)', year: 3, pre: [], co: ['n311'], x: 900, y: 1070 },
+            { id: 'n319', code: 'ت ر ب 319', name: 'التشريح المرضي والعينات', year: 3, pre: ['n211'], co: [], x: 1150, y: 1070 },
+            { id: 'n303', code: 'ت ر ب 303', name: 'التخدير والمراقبة', year: 3, pre: ['n207', 'n202'], co: [], x: 1400, y: 1070 },
+            { id: 'n305', code: 'ت ر ب 305', name: 'التخدير (عملي)', year: 3, pre: [], co: ['n303'], x: 1650, y: 1070 },
+            { id: 'n307', code: 'ت ر ب 307', name: 'رعاية الطيور والأسماك', year: 3, pre: ['n107', 'n103'], co: [], x: 1900, y: 1070 },
+            { id: 'n309', code: 'ت ر ب 309', name: 'رعاية الطيور (عملي)', year: 3, pre: [], co: ['n307'], x: 2150, y: 1070 },
+            { id: 'n315', code: 'ت ر ب 315', name: 'السلوك التطبيقي', year: 3, pre: ['n103', 'n107', 'n109'], co: [], x: 2400, y: 1070 },
+            { id: 'n317', code: 'ت ر ب 317', name: 'السلوك التطبيقي (عملي)', year: 3, pre: [], co: ['n315'], x: 2600, y: 1070 },
 
-            // سنة ثالثة - فصل ثاني (Y: 960)
-            { id: 'n302', code: 'ت ر ب 302', name: 'تمريض العمليات الجراحية', year: 3, pre: ['n211'], co: [], x: 150, y: 960 },
-            { id: 'n304', code: 'ت ر ب 304', name: 'تمريض العمليات (عملي)', year: 3, pre: [], co: ['n302'], x: 350, y: 960 },
-            { id: 'n312', code: 'ت ر ب 312', name: 'إدارة اللوازم والمعدات', year: 3, pre: ['n211'], co: [], x: 550, y: 960 },
-            { id: 'n310', code: 'ت ر ب 310', name: 'التشريعات وأخلاقيات المهنة', year: 3, pre: ['n301'], co: [], x: 950, y: 960 },
-            { id: 'n306', code: 'ت ر ب 306', name: 'إدارة المزارع الذكية للإنتاج', year: 3, pre: ['n214'], co: [], x: 1750, y: 960 },
-            { id: 'n308', code: 'ت ر ب 308', name: 'إدارة المزارع الذكية (عملي)', year: 3, pre: [], co: ['n306'], x: 1950, y: 960 },
+            // سنة ثالثة - فصل ثاني (Y: 1240)
+            { id: 'n302', code: 'ت ر ب 302', name: 'تمريض العمليات الجراحية', year: 3, pre: ['n211'], co: [], x: 1150, y: 1240 },
+            { id: 'n304', code: 'ت ر ب 304', name: 'تمريض العمليات (عملي)', year: 3, pre: [], co: ['n302'], x: 1400, y: 1240 },
+            { id: 'n310', code: 'ت ر ب 310', name: 'التشريعات وأخلاقيات', year: 3, pre: ['n301'], co: [], x: 1650, y: 1240 },
+            { id: 'n312', code: 'ت ر ب 312', name: 'إدارة اللوازم والمعدات', year: 3, pre: ['n211'], co: [], x: 1900, y: 1240 },
+            { id: 'n306', code: 'ت ر ب 306', name: 'إدارة المزارع الذكية', year: 3, pre: ['n214'], co: [], x: 2150, y: 1240 },
+            { id: 'n308', code: 'ت ر ب 308', name: 'المزارع الذكية (عملي)', year: 3, pre: [], co: ['n306'], x: 2400, y: 1240 },
 
-            // سنة ثالثة - صيفي (Y: 1090)
-            { id: 'n314', code: 'ت ر ب 314', name: 'التدريب الميداني المتقدم', year: 3, pre: ['n214'], co: [], x: 1750, y: 1090 },
+            // سنة ثالثة - صيفي (Y: 1410)
+            { id: 'n314', code: 'ت ر ب 314', name: 'التدريب الميداني المتقدم', year: 3, pre: ['n214'], co: [], x: 2150, y: 1410 },
 
-            // سنة رابعة - فصل أول (Y: 1220)
-            { id: 'n403', code: 'ت ر ب 403', name: 'تقنيات التطعيم والصحة', year: 4, pre: ['n311'], co: [], x: 150, y: 1220 },
-            { id: 'n401', code: 'ت ر ب 401', name: 'سريري1 تمريض كبيرة', year: 4, pre: ['n314'], co: [], x: 1750, y: 1220 },
+            // سنة رابعة - فصل أول (Y: 1580)
+            { id: 'n403', code: 'ت ر ب 403', name: 'تقنيات التطعيم والصحة', year: 4, pre: ['n311'], co: [], x: 650, y: 1580 },
+            { id: 'n401', code: 'ت ر ب 401', name: 'سريري 1 تمريض كبيرة', year: 4, pre: ['n314'], co: [], x: 2150, y: 1580 },
 
-            // سنة رابعة - فصل ثاني (Y: 1350)
-            { id: 'n406', code: 'ت ر ب 406', name: 'سلامة الغذاء ومراقبة الجودة', year: 4, pre: ['n301'], co: [], x: 750, y: 1350 },
-            { id: 'n408', code: 'ت ر ب 408', name: 'سلامة الغذاء (عملي)', year: 4, pre: [], co: ['n406'], x: 950, y: 1350 },
-            { id: 'n404', code: 'ت ر ب 404', name: 'مشروع التخرج', year: 4, pre: ['n401'], co: [], x: 1550, y: 1350 },
-            { id: 'n402', code: 'ت ر ب 402', name: 'سريري2 تمريض صغيرة', year: 4, pre: ['n401'], co: [], x: 1750, y: 1350 }
+            // سنة رابعة - فصل ثاني (Y: 1750)
+            { id: 'n406', code: 'ت ر ب 406', name: 'سلامة الغذاء', year: 4, pre: ['n301'], co: [], x: 1650, y: 1750 },
+            { id: 'n408', code: 'ت ر ب 408', name: 'سلامة الغذاء (عملي)', year: 4, pre: [], co: ['n406'], x: 1900, y: 1750 },
+            { id: 'n404', code: 'ت ر ب 404', name: 'مشروع التخرج', year: 4, pre: ['n401'], co: [], x: 2150, y: 1750 },
+            { id: 'n402', code: 'ت ر ب 402', name: 'سريري 2 تمريض صغيرة', year: 4, pre: ['n401'], co: [], x: 2400, y: 1750 }
         ];
 
         let currentPlan = vetPlan;
@@ -365,19 +362,17 @@
             container.innerHTML = '';
             svg.innerHTML = '';
             
-            // تحديد مساحة العمل ومواقع السنوات
+            // إعداد مساحة الخطة ومواقع عناوين السنوات
             if(isNursing) {
-                // للتمريض (الارتفاع والعرض أكبر لتجنب التداخل)
-                scaleWrapper.style.width = '2400px';
-                scaleWrapper.style.height = '1500px';
+                scaleWrapper.style.width = '2800px';
+                scaleWrapper.style.height = '1900px';
                 labelsContainer.innerHTML = `
                     <div class="year-label yl-1" style="top: 150px;">السنة الأولى</div>
-                    <div class="year-label yl-2" style="top: 500px;">السنة الثانية</div>
-                    <div class="year-label yl-3" style="top: 900px;">السنة الثالثة</div>
-                    <div class="year-label yl-4" style="top: 1280px;">السنة الرابعة</div>
+                    <div class="year-label yl-2" style="top: 550px;">السنة الثانية</div>
+                    <div class="year-label yl-3" style="top: 1100px;">السنة الثالثة</div>
+                    <div class="year-label yl-4" style="top: 1600px; position:absolute; right:30px; font-size:26px; font-weight:900; color:var(--navy); border-right:6px solid var(--gold); padding-right:15px; width:180px; text-align:right; background:var(--card-bg); border-radius:12px; padding-top:8px; padding-bottom:8px; box-shadow:0 4px 15px rgba(0,0,0,0.05); z-index:5;">السنة الرابعة</div>
                 `;
             } else {
-                // للطب البيطري (الأصلي)
                 scaleWrapper.style.width = '2000px';
                 scaleWrapper.style.height = '1100px';
                 labelsContainer.innerHTML = `
@@ -387,6 +382,7 @@
                 `;
             }
 
+            // رسم الكروت
             planData.forEach(c => {
                 const div = document.createElement('div');
                 div.className = `course-node y${c.year}`;
@@ -398,6 +394,7 @@
                 container.appendChild(div);
             });
 
+            // رسم الخطوط
             setupMarkers();
             planData.forEach(course => {
                 course.pre.forEach(preId => createLine(preId, course.id, false, `${preId}-${course.id}`));
@@ -557,6 +554,14 @@
             document.getElementById('detailsModal').style.display = 'block';
         }
 
+        // --- إصلاح زر حسناً فهمت ---
+        window.closeModal = function() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('detailsModal').style.display = 'none';
+        };
+        document.getElementById('closeModalBtn').addEventListener('click', window.closeModal);
+        document.getElementById('modalOverlay').addEventListener('click', window.closeModal);
+
         function adjustZoom(step) {
             currentZoom += step;
             if (currentZoom < 0.25) currentZoom = 0.25;
@@ -568,7 +573,7 @@
             const w = window.innerWidth;
             if (w < 600) currentZoom = 0.35;
             else if (w < 1000) currentZoom = 0.55;
-            else currentZoom = 0.80; // زووم أولي مناسب
+            else currentZoom = 0.75; 
             scaleWrapper.style.transform = `scale(${currentZoom})`;
             setTimeout(() => { mapContainer.scrollLeft = 0; }, 200);
         }
