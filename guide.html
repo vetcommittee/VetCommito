@@ -1,150 +1,239 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0d1b33" />
-    <title>كيف تستخدم المنصة | VetCommitto</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    
-    <style>
-      :root {
-        --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
-        --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
-        --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
-        --card-bg: #fff; --card-border: #dfe3ed; --card-hover: #a8bcd9;
-        --btn-bg: #f0f3f7; --btn-hover: #eef1f6; --text-muted: #8893a4;
-        --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
-      }
-      [data-theme="dark"] {
-        --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
-        --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
-        --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
-        --card-bg: #1e293b; --card-border: #334155; --card-hover: #475569;
-        --btn-bg: #334155; --btn-hover: #475569; --text-muted: #949daf;
-        --nav-bg: #0f172a; --nav-border: #1e293b;
-      }
-      
-      * { box-sizing: border-box; }
-      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 60px;}
-      a { color: inherit; text-decoration: none; }
-      .wrap { width: min(900px, calc(100% - 40px)); margin-inline: auto; }
-      
-      /* Topbar */
-      .topbar { height: 74px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 100; transition: background 0.3s, border 0.3s;}
-      .navrow { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%;}
-      .brand { display: flex; align-items: center; gap: 13px; font-weight: 700; color: var(--navy); }
-      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
-      .back-btn { width: 44px; height: 44px; border: 1px solid var(--line); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s;}
-      .back-btn:hover { background: var(--btn-bg); }
-      
-      /* Page Header */
-      .page-header { margin: 50px 0 30px; text-align: center; animation: fadein 0.4s; }
-      .page-header h1 { color: var(--navy); font-size: 32px; margin: 0 0 10px; font-weight: 800; }
-      .page-header p { color: var(--slate); font-size: 15px; margin: 0; line-height: 1.6; }
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d1b33" />
+<title>كيف تستخدم المنصة | VetCommitto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--nav:#fbfbfd}
+[data-theme=dark],.dk{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--card:#1e293b;--cb:#334155;--btn:#334155;--nav:#0f172a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",sans-serif;transition:.3s;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1080px,calc(100% - 32px));margin-inline:auto}
+.top{height:68px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center;position:sticky;top:0;z-index:50;padding-top:env(safe-area-inset-top,0)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--navy);font-size:14px}
+.brand img{width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);object-fit:cover}
+.ib{width:42px;height:42px;border:1px solid var(--line);background:var(--card);border-radius:12px;display:grid;place-items:center;color:var(--navy);cursor:pointer;font-size:17px}
+.acts{display:flex;gap:8px}
+.hero{background:linear-gradient(160deg,#0d1b33,#1e3f70);color:#fff;padding:64px 0 70px;text-align:center;border-bottom:4px solid var(--gold)}
+.hero h1{font-size:clamp(30px,6vw,52px);margin:0 0 12px;line-height:1.3}
+.hero p{max-width:600px;margin:0 auto;color:#c9d6eb;line-height:1.9;font-size:15px}
+.chips{position:sticky;top:68px;z-index:40;background:var(--nav);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.chips .wrap{display:flex;gap:8px;padding:10px 0;width:max-content;min-width:min(1080px,calc(100% - 32px))}
+.chips a{white-space:nowrap;font-size:12px;font-weight:600;padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--slate)}
+.chips a:hover{color:var(--purple);border-color:var(--purple)}
+section.sec{display:grid;grid-template-columns:1fr 330px;gap:40px;align-items:center;padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:120px}
+section.sec:nth-of-type(even){direction:ltr}section.sec:nth-of-type(even)>*{direction:rtl}
+.txt h2{font-size:26px;color:var(--navy);margin:0 0 10px}
+.txt p{color:var(--slate);line-height:1.9;font-size:14px;margin:0 0 14px}
+.txt ul{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.txt li{font-size:13.5px;color:var(--slate);line-height:1.7;padding-inline-start:22px;position:relative}
+.txt li:before{content:"";position:absolute;inset-inline-start:0;top:9px;width:9px;height:9px;border-radius:3px;background:var(--gold)}
+.txt li b{color:var(--ink)}
+.path{display:inline-block;background:var(--btn);border:1px dashed var(--purple);color:var(--purple);border-radius:10px;padding:7px 12px;font-size:12px;font-weight:600;margin-bottom:14px}
+.demo{display:flex;flex-direction:column;align-items:center;gap:12px}
+.phone{width:290px;height:520px;border:8px solid #0d1b33;border-radius:38px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);box-shadow:0 30px 60px rgba(13,27,51,.25);transition:background .4s}
+.phone:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:16px;background:#0d1b33;border-radius:0 0 12px 12px;z-index:30}
+.scr{position:absolute;inset:0;padding:30px 12px 12px;display:none;flex-direction:column;gap:8px}.scr.on{display:flex}
+.bar{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--navy);padding:4px 2px}
+.b{background:var(--btn);border:1px solid var(--line);border-radius:9px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--purple);display:inline-grid;place-items:center}
+.sk{height:44px;border-radius:12px;background:var(--btn)}.sk.h{height:90px;background:linear-gradient(135deg,#0d1b33,#2b5696)}
+.sb{background:var(--card);border:1px solid var(--cb);border-radius:12px;padding:11px;font-size:11px;color:var(--slate)}
+.cc{background:var(--card);border:1px solid var(--cb);border-radius:13px;padding:11px;font-size:12px;display:flex;flex-direction:column;gap:4px;position:relative;transition:.3s}
+.cc small{font:700 9px Manrope;color:var(--purple)}.cc b{font-size:12px;color:var(--navy)}
+.cc.fav{border-color:var(--gold);background:rgba(209,170,92,.1)}.cc.gone{display:none}
+.star{position:absolute;left:10px;top:9px;font-size:15px;color:var(--gold)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.ov{position:absolute;inset:0;background:rgba(5,10,20,.55);opacity:0;pointer-events:none;transition:.3s;z-index:20}.ov.op{opacity:1}
+.dr{position:absolute;top:0;bottom:0;right:0;width:78%;background:var(--card);z-index:25;transform:translateX(100%);transition:.35s;padding:30px 10px 10px;display:flex;flex-direction:column;gap:4px}.dr.op{transform:none}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);z-index:25;border-radius:20px 20px 0 0;padding:14px;transform:translateY(105%);transition:.35s;display:flex;flex-direction:column;gap:7px;font-size:12px}.sheet.op{transform:none}
+.it{padding:10px;border-radius:10px;font-size:12px;color:var(--navy);display:flex;gap:8px;align-items:center;background:var(--btn)}
+.dr .it{background:none}.sw{margin-inline-start:auto;width:32px;height:18px;border-radius:99px;background:var(--line);position:relative;transition:.3s}.sw:after{content:"";position:absolute;top:3px;right:3px;width:12px;height:12px;border-radius:50%;background:#fff;transition:.3s}.dk .sw{background:var(--violet)}.dk .sw:after{transform:translateX(-14px)}
+.rg{width:92px;height:92px;transform:rotate(-90deg);align-self:center}.rg circle{fill:none;stroke-width:3.5}.rg .bg{stroke:var(--btn)}.rg .fg{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:119.4;stroke-dashoffset:119.4;transition:stroke-dashoffset 1.2s,stroke .4s}.rg.red .fg{stroke:#e5484d}
+.rw{position:relative;align-self:center;cursor:pointer}.rn{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font:800 24px Manrope;color:var(--gold)}.rn small{font:500 9px "IBM Plex Sans Arabic";color:var(--slate)}
+.opt{border:2px solid var(--line);border-radius:11px;padding:9px;font-size:11.5px;display:flex;gap:8px;align-items:center;background:var(--card);transition:.3s}.opt i{font-style:normal;font-weight:800;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:var(--btn);font-size:11px}
+.opt.ok{background:#dcfce7;border-color:#22c55e;color:#166534}.opt.no{background:#fee2e2;border-color:#ef4444;color:#991b1b}
+.exp{display:none;background:var(--btn);border-right:3px solid var(--gold);padding:9px;border-radius:9px;font-size:11px;line-height:1.6}.exp.op{display:block}
+.pb{height:6px;border-radius:9px;background:var(--line);overflow:hidden}.pb i{display:block;height:100%;width:30%;background:var(--gold);transition:.5s}
+.big{font:800 34px Manrope;color:var(--purple);text-align:center}
+.tg{position:absolute;bottom:14px;left:12px;right:12px;background:var(--navy);color:var(--paper);border-radius:11px;padding:10px;font-size:11px;z-index:40;opacity:0;transform:translateY(10px);transition:.3s}.tg.op{opacity:1;transform:none}
+.cur{position:absolute;z-index:50;width:30px;height:30px;border-radius:50%;background:rgba(209,170,92,.45);border:2px solid var(--gold);left:50%;top:92%;transition:left .7s cubic-bezier(.3,.8,.3,1),top .7s cubic-bezier(.3,.8,.3,1);pointer-events:none;margin:-15px 0 0 -15px}
+.cur.tap{animation:tp .45s}@keyframes tp{50%{transform:scale(.6);background:rgba(209,170,92,.9)}}
+.cap{min-height:44px;width:290px;text-align:center;font-size:13px;font-weight:600;color:var(--navy);line-height:1.6}
+.re{border:1px solid var(--line);background:var(--card);color:var(--purple);border-radius:10px;padding:8px 16px;font:600 12px inherit;font-family:inherit;cursor:pointer}
+ul.tl{margin:0;padding:0;list-style:none;font-size:11px;display:grid;gap:4px}.tl li{background:var(--btn);padding:6px 8px;border-radius:8px}.tl li.d{text-decoration:line-through;opacity:.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:56px 0 20px}
+.gc{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:18px}.gc h3{margin:6px 0;font-size:15px;color:var(--navy)}.gc p{margin:0;font-size:12.5px;color:var(--slate);line-height:1.8}.gc .e{font-size:24px}
+.sh{font-size:24px;color:var(--navy);margin:50px 0 0}
+footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
+@media(max-width:860px){section.sec,section.sec:nth-of-type(even){grid-template-columns:1fr;direction:rtl;gap:26px;padding:40px 0}.demo{order:2}.hero{padding:44px 0 50px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a href="index.html" class="brand"><img src="logo.jpeg" alt="شعار"/><span>المنصة الأكاديمية</span></a>
+  <div class="acts"><button class="ib" id="tt" aria-label="تبديل المظهر">🌙</button><a class="ib" href="index.html" aria-label="الرئيسية">←</a></div>
+</div></header>
 
-      /* Guide Card */
-      .guide-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: 0.3s; }
-      .guide-card:hover { border-color: var(--purple); box-shadow: 0 12px 30px rgba(0,0,0,0.05); }
-      
-      .guide-title { font-size: 20px; color: var(--navy); margin: 0 0 15px; font-weight: 800; display: flex; align-items: center; gap: 12px; }
-      .guide-title i { color: var(--gold); background: var(--btn-bg); padding: 8px; border-radius: 12px; width: 38px; height: 38px; display: grid; place-items: center; }
-      
-      .guide-text { font-size: 14px; color: var(--slate); line-height: 1.8; margin: 0; }
-      .guide-text b { color: var(--ink); }
+<div class="hero"><div class="wrap">
+  <h1>دليلك الكامل للمنصة</h1>
+  <p>شاهد كل ميزة وهي تعمل خطوة بخطوة، ثم جرّبها بنفسك. الشروحات التالية تتحرك تلقائياً أول ما تصل إليها، ويمكنك إعادتها بأي وقت.</p>
+</div></div>
 
-      .feature-list { display: grid; gap: 12px; margin-top: 15px; }
-      .feature-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--slate); }
-      .feature-item i { color: var(--purple); margin-top: 4px; flex-shrink: 0; }
+<nav class="chips"><div class="wrap">
+  <a href="#menu">القائمة والمظهر</a><a href="#courses">المساقات</a><a href="#tools">الأدوات اليومية</a><a href="#exams">الامتحانات</a><a href="#qbank">بنك الأسئلة</a><a href="#gpa">حاسبة المعدل</a><a href="#more">ميزات أخرى</a>
+</div></nav>
 
-      @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    </style>
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="wrap navrow">
-        <a href="index.html" class="brand">
-          <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
-          <span>المنصة الأكاديمية</span>
-        </a>
-        <a href="index.html" class="back-btn" aria-label="العودة للرئيسية">
-          <i data-lucide="arrow-left" width="20"></i>
-        </a>
-      </div>
-    </header>
+<main class="wrap">
 
-    <main class="wrap">
-      <div class="page-header">
-        <h1>دليل استخدام المنصة</h1>
-        <p>كل ما تحتاج معرفته لاستغلال ميزات VetCommitto بأفضل طريقة ممكنة طوال مسيرتك الأكاديمية</p>
-      </div>
+<section class="sec" id="menu">
+  <div class="txt"><span class="path">الصفحة الرئيسية ← زر ☰ أعلى اليسار</span>
+    <h2>القائمة الجانبية والوضع الداكن</h2>
+    <p>كل صفحات المنصة تبدأ من القائمة. تفتح من الجهة اليمنى وتغلق بالضغط على الخلفية أو زر ✕ أو مفتاح Esc.</p>
+    <ul>
+      <li><b>عن اللجنة:</b> فرق اللجنة وإنجازاتها وروابط التواصل.</li>
+      <li><b>الخطة الشجرية:</b> متطلبات كل مساق على شكل شجرة تفاعلية.</li>
+      <li><b>جدول الامتحانات، بنك الأسئلة، حاسبة المعدل:</b> الصفحات المخصصة لكل أداة.</li>
+      <li><b>روابط مفيدة:</b> قسم يظهر أسفل القائمة تلقائياً عندما تضيف اللجنة روابط جديدة.</li>
+      <li><b>الوضع الداكن:</b> يتذكره المتصفح ويطبّق على كل الصفحات.</li>
+    </ul></div>
+  <div class="demo" id="d-menu"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
 
-      <div class="guide-card">
-        <h2 class="guide-title"><i data-lucide="book-open"></i> 1. المساقات والمحاضرات (مصادر الدراسة)</h2>
-        <p class="guide-text">
-          من الصفحة الرئيسية للمنصة، يمكنك اختيار <b>سنتك الدراسية</b> ثم <b>الفصل الدراسي</b> للوصول إلى كافة المواد المتاحة. لكل مادة ستجد:
-        </p>
-        <div class="feature-list">
-          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>سلايدات الدكاترة:</b> الروابط الرسمية المعتمدة للمادة.</span></div>
-          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>تفاريغ اللجنة:</b> الملخصات والمراجعات الورقية الخاصة بلجنتكم.</span></div>
-          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>الشروحات المصورة:</b> قوائم تشغيل يوتيوب والفيديوهات التوضيحية.</span></div>
-        </div>
-      </div>
+<section class="sec" id="courses">
+  <div class="txt"><span class="path">الرئيسية ← مكتبة المساقات</span>
+    <h2>البحث والمساقات والمفضلة</h2>
+    <p>اكتب في خانة البحث أعلى الصفحة باسم المساق أو رمزه، أو تصفّح حسب التصنيف الأكاديمي والفصل.</p>
+    <ul>
+      <li><b>التصنيف:</b> السنوات من الأولى إلى السادسة، المواد الاختيارية، ومتطلبات الجامعة، وبجانب كل تصنيف عدد مساقاته.</li>
+      <li><b>الفصل:</b> الأول، الثاني، أو الصيفي، أو كل الفصول.</li>
+      <li><b>النجمة ⭐:</b> تثبّت المساق في أول القائمة وتبقى محفوظة على جهازك.</li>
+      <li><b>داخل المساق:</b> محاضرات وسلايدات، تسجيلات صوتية، ملخصات وامتحانات، ومصادر أخرى. زر «فتح» يوصلك للرابط.</li>
+    </ul></div>
+  <div class="demo" id="d-courses"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
 
-      <div class="guide-card">
-        <h2 class="guide-title"><i data-lucide="calendar"></i> 2. جدول الامتحانات والتقويم الذكي</h2>
-        <p class="guide-text">
-          عبر الضغط على خيار "جدول الامتحانات" في القائمة الجانبية، ستظهر لك المواعيد القادمة مرتبة تصاعدياً مع حساب الأيام المتبقية لكل امتحان (بالألوان لتنبيهك لضيق الوقت).
-          <br><br>
-          💡 <b>ميزة أضف للتقويم:</b> أسفل كل امتحان، يمكنك النقر على زر <b>"أضف للتقويم"</b> لتحميل ملف تذكير (`.ics`) وإضافته بضغطة زر إلى تقويم هاتفك (Google Calendar أو Apple Calendar) ليعطيك تنبيهات تلقائية قبل الامتحان بيوم و3 أيام!
-        </p>
-      </div>
+<section class="sec" id="tools">
+  <div class="txt"><span class="path">الرئيسية ← أدوات تساعدك على التقدّم</span>
+    <h2>حاسبة سريعة، مؤقّت تركيز، ومهام</h2>
+    <p>ثلاث أدوات صغيرة محفوظة على جهازك فقط، فلا يراها أحد غيرك.</p>
+    <ul>
+      <li><b>حاسبة المعدل:</b> أضف مساقاً بساعاته ونقاطه (من 0 إلى 4) فيظهر المعدل فوراً.</li>
+      <li><b>مؤقّت التركيز:</b> جلسة 25 دقيقة ثم استراحة 5 دقائق، وحلقة تقدّم تتعبّى مع الوقت. يحفظ مكانك لو خرجت.</li>
+      <li><b>قائمة المهام:</b> اكتب مهمة واضغط +، علّم المنجز بالمربع، واحذف بـ ✕.</li>
+    </ul></div>
+  <div class="demo" id="d-tools"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
 
-      <div class="guide-card">
-        <h2 class="guide-title"><i data-lucide="database"></i> 3. بنك الأسئلة والمراجعات</h2>
-        <p class="guide-text">
-          بنك الأسئلة مصمم كأنك تختبر نفسك فعلياً:
-        </p>
-        <div class="feature-list">
-          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>استئناف التقدم:</b> لو خرجت من الاختبار ورجعت لاحقاً، المنصة ستسألك إذا كنت تريد المتابعة من حيث توقفت.</span></div>
-          <div class="feature-item"><i data-lucide="check-circle-2" width="16"></i> <span><b>تحديد النجوم (Bookmark):</b> يمكنك الضغط على نجمة السؤال أثناء الحل لحفظه ومراجعته لاحقاً من تبويب "المراجعات".</span></div>
-        </div>
-      </div>
+<section class="sec" id="exams">
+  <div class="txt"><span class="path">الرئيسية ← حلقة «الامتحان القادم» فوق المساقات</span>
+    <h2>عدّاد الامتحانات والتذكير</h2>
+    <p>تظهر الحلقة فقط عندما يكون هناك امتحان خلال 60 يوماً. اضغط عليها لعرض الجدول كاملاً.</p>
+    <ul>
+      <li><b>الألوان:</b> بنفسجي في الوضع العادي، ذهبي إذا بقي 14 يوماً أو أقل، وأحمر نابض إذا بقي 4 أيام أو أقل.</li>
+      <li><b>الجدول:</b> التاريخ والوقت والمكان واسم المساق لكل امتحان، مرتّبة من الأقرب.</li>
+      <li><b>ذكّرني:</b> يحمّل ملف تقويم (.ics) افتحه فيُضاف الامتحان إلى تقويم هاتفك مع تنبيه قبل 3 أيام ويوم واحد.</li>
+    </ul></div>
+  <div class="demo" id="d-exams"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
 
-      <div class="guide-card">
-        <h2 class="guide-title"><i data-lucide="git-branch"></i> 4. الخطة الشجرية التفاعلية</h2>
-        <p class="guide-text">
-          أداة بصرية مذهلة لمعرفة المتطلبات السابقة والمتزامنة للمساقات (خطة 1985). 
-          <br>
-          ببساطة، <b>اضغط على أي مادة</b> في الشجرة، وسترى كيف يضيء لك النظام مسارها كاملاً وصولاً لمواد السنة الأولى، مع إمكانية تكبير وتصغير الخريطة وتحريكها بسلاسة من الهاتف.
-        </p>
-      </div>
+<section class="sec" id="qbank">
+  <div class="txt"><span class="path">القائمة ← بنك الأسئلة</span>
+    <h2>بنك الأسئلة خطوة بخطوة</h2>
+    <p>اختر السنة ثم الفصل ثم المادة ثم البنك، وابدأ الاختبار. الأسئلة تُخلط عشوائياً في كل مرة.</p>
+    <ul>
+      <li><b>الإجابة:</b> تظهر الصحيحة بالأخضر وإجابتك الخاطئة بالأحمر مع التفسير مباشرة، ولا يمكن تغييرها بعد الاختيار.</li>
+      <li><b>المؤقّت وشريط التقدّم:</b> يعدّان وقتك وموقعك من البنك.</li>
+      <li><b>النجمة ⭐:</b> احفظ السؤال الصعب، وتجده لاحقاً بزر النجمة أعلى الصفحة (المراجعات).</li>
+      <li><b>استئناف:</b> لو خرجت قبل النهاية سيسألك عن المتابعة من نفس السؤال أو البدء من جديد.</li>
+      <li><b>البحث العام:</b> ابحث بكلمة داخل أسئلة كل البنوك وشاهد الإجابة الصحيحة فوراً.</li>
+      <li><b>النتيجة:</b> درجتك والوقت المستغرق بعد آخر سؤال.</li>
+    </ul></div>
+  <div class="demo" id="d-qbank"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
 
-      <div class="guide-card">
-        <h2 class="guide-title"><i data-lucide="calculator"></i> 5. حاسبة المعدل التراكمي</h2>
-        <p class="guide-text">
-          أدخل مواد فصلك الحالي وعلاماتك المتوقعة مع الساعات المعتمدة، أو قم بإدخال سجلك السابق (المعدل التراكمي والساعات المقطوعة سابقاً)، وستقوم الحاسبة بحساب معدلك الفصلي والتراكمي بدقة تامة وبحسب نظام علامات الجامعة.
-        </p>
-      </div>
+<section class="sec" id="gpa">
+  <div class="txt"><span class="path">القائمة ← حاسبة المعدل</span>
+    <h2>حاسبة المعدل الفصلي والتراكمي</h2>
+    <p>تعمل بنظام علامات الجامعة من A+ (4.20) إلى F (0.50)، والحد الأدنى للنجاح D- (1.50).</p>
+    <ul>
+      <li><b>الفصل الحالي:</b> اكتب اسم المادة (اختياري)، اختر العلامة المتوقعة والساعات، ثم أضفها. تستطيع حذف مادة أو مسح الكل.</li>
+      <li><b>بيانات الفصول السابقة:</b> أدخل معدلك التراكمي وساعاتك المقطوعة مرة واحدة، فيُحسب التراكمي الجديد تلقائياً.</li>
+      <li><b>الشاشتان العلويتان:</b> المعدل الفصلي والتراكمي مع شريط يوضح قربك من 4.20.</li>
+    </ul></div>
+  <div class="demo" id="d-gpa"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
 
-      <div class="guide-card" style="background: linear-gradient(135deg, rgba(29, 63, 112, 0.03), rgba(209, 170, 92, 0.08)); border-color: var(--gold);">
-        <h2 class="guide-title" style="color: var(--navy);"><i data-lucide="smartphone"></i> نصيحة إضافية لتجربة أسرع</h2>
-        <p class="guide-text">
-          لتحويل المنصة إلى "تطبيق هاتفي" حقيقي على شاشتك الرئيسية، افتح الموقع من متصفح هاتفك واختار من خيارات المتصفح <b>"إضافة إلى الشاشة الرئيسية" (Add to Home Screen)</b>، لتفتح معك بشاشة كاملة وبدون متصفح كأنه تطبيق رسمي! 🚀
-        </p>
-      </div>
-    </main>
+<h2 class="sh" id="more">وميزات أخرى تستحق المعرفة</h2>
+<div class="grid">
+  <div class="gc"><div class="e">📢</div><h3>الإعلانات الرسمية</h3><p>شريط أعلى الرئيسية يعرض آخر إعلان للجنة مع تاريخه.</p></div>
+  <div class="gc"><div class="e">✨</div><h3>جديد المنصة هذا الأسبوع</h3><p>آخر 5 مواد أُضيفت. اضغط أي بطاقة لينتقل البحث إلى مساقها مباشرة.</p></div>
+  <div class="gc"><div class="e">🌳</div><h3>الخطة الشجرية</h3><p>اضغط أي مادة لتضيء المتطلبات السابقة والمتزامنة، وكبّر الخريطة وحرّكها بإصبعين.</p></div>
+  <div class="gc"><div class="e">👥</div><h3>عن اللجنة</h3><p>أفرقة اللجنة بالأرقام، وأزرار فيسبوك وانستغرام ومنصة X.</p></div>
+  <div class="gc"><div class="e">📲</div><h3>ثبّتها كتطبيق</h3><p>من متصفح هاتفك اختر «إضافة إلى الشاشة الرئيسية» لتفتح بشاشة كاملة.</p></div>
+  <div class="gc"><div class="e">💾</div><h3>بياناتك على جهازك</h3><p>المفضلة والمهام والمؤقّت والمعدل والتقدّم في الاختبارات تُحفظ في متصفحك، فلا تنسخها لجهاز آخر تلقائياً.</p></div>
+</div>
+</main>
+<footer>المنصة الأكاديمية - VetCommitto · لجنة الطب والجراحة البيطرية</footer>
 
-    <script>
-      // ضبط المظهر (Dark/Light Mode)
-      const isDark = localStorage.getItem("vet_theme") === "dark";
-      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-      
-      lucide.createIcons();
-    </script>
-  </body>
+<script>
+const $=(d,s)=>d.querySelector(s),sl=ms=>new Promise(r=>setTimeout(r,ms));
+const O=on=>d=>d.querySelectorAll('.dr,.ov,.sheet').forEach(e=>e.classList.toggle('op',on));
+const show=n=>d=>{d.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.dataset.n===n))};
+const toast=t=>d=>{const e=$(d,'.tg');e.textContent=t;e.classList.add('op')};
+const type=async(d,s,t)=>{const e=$(d,s);e.textContent='';for(const c of t){e.textContent+=c;await sl(140)}};
+const bar=t=>`<div class="bar"><b>${t}</b><span class="b">☰</span></div>`;
+const CUR='<i class="cur"></i>';
+
+const DEMOS={
+'d-menu':{html:`<div class="scr on" data-n="a"><div class="bar"><b>المنصة الأكاديمية</b><span class="b" id="m">☰</span></div><div class="sk h"></div><div class="sk"></div><div class="sk"></div></div><div class="ov"></div><div class="dr"><div class="bar"><b>القائمة</b><span class="b" id="x">✕</span></div><div class="it" id="lk">ℹ️ عن اللجنة</div><div class="it">🌳 الخطة الشجرية</div><div class="it">📅 جدول الامتحانات</div><div class="it">🗂️ بنك الأسئلة</div><div class="it">🧮 حاسبة المعدل</div><div class="it">❓ كيف تستخدم المنصة</div><div class="it" id="th">🌙 الوضع الداكن<i class="sw"></i></div></div>`,
+steps:[['#m',O(true),'اضغط زر القائمة ☰'],['#lk',null,'من هنا تصل إلى كل صفحات المنصة'],['#th',d=>$(d,'.phone').classList.add('dk'),'فعّل الوضع الداكن، ويُحفظ لزيارتك القادمة'],['#x',O(false),'أغلق القائمة بزر ✕ أو بالضغط على الخلفية']]},
+
+'d-courses':{html:`<div class="scr on" data-n="a">${bar('مكتبة المساقات')}<div class="sb" id="s"><span id="ty">🔍 ابحث بالاسم أو الرمز...</span></div><div class="cc" id="c1"><small>VET 101</small><b>علم التشريح العام</b><span class="star" id="st">☆</span></div><div class="cc" id="c2"><small>VET 102</small><b>علم الأنسجة</b><span class="star">☆</span></div><div class="cc" id="c3"><small>VET 103</small><b>الفسيولوجيا</b><span class="star">☆</span></div></div><div class="ov"></div><div class="sheet"><b>علم التشريح العام</b><div class="it">📑 محاضرات وسلايدات<span class="b" style="margin-inline-start:auto">فتح</span></div><div class="it">🎧 تسجيلات صوتية</div><div class="it">📝 ملخصات وامتحانات</div></div>`,
+steps:[['#s',d=>type(d,'#ty','تشريح'),'اكتب اسم المساق أو رمزه'],[null,d=>{$(d,'#c2').classList.add('gone');$(d,'#c3').classList.add('gone')},'تتصفّى النتائج فوراً أثناء الكتابة'],['#st',d=>{$(d,'#st').textContent='★';$(d,'#c1').classList.add('fav')},'النجمة تثبّت المساق في أول القائمة'],['#c1',O(true),'اضغط المساق لتظهر محاضراته وتسجيلاته وملخصاته']]},
+
+'d-tools':{html:`<div class="scr on" data-n="a">${bar('أدواتي')}<div class="cc"><div class="row"><b>🧮 حاسبة المعدل</b><b id="gr" class="b">—</b></div><small id="gh">أضف مساقاً</small></div><div class="cc"><div class="row"><b>⏱ مؤقّت التركيز</b><span class="b" id="ts">ابدأ</span></div><div class="big" id="tm">25:00</div><div class="pb"><i id="tb" style="width:0"></i></div></div><div class="cc"><div class="row"><b>✅ مهامي</b><span class="b" id="ta">+ مهمة</span></div><ul class="tl" id="tl"></ul></div></div>`,
+steps:[['#gr',d=>{$(d,'#gr').textContent='3.42';$(d,'#gh').textContent='9 ساعات'},'أدخل الساعات والنقاط ويظهر المعدل مباشرة'],['#ts',async d=>{$(d,'#ts').textContent='إيقاف';for(let i=1;i<=4;i++){$(d,'#tm').textContent='24:'+String(60-i).padStart(2,'0');$(d,'#tb').style.width=i*6+'%';await sl(450)}},'ابدأ جلسة تركيز 25 دقيقة، ثم استراحة 5 دقائق'],['#ta',d=>{$(d,'#tl').innerHTML='<li>مراجعة محاضرة الأنسجة</li><li>حل بنك التشريح</li>'},'اكتب مهمتك وأضفها'],[null,d=>{$(d,'#tl li').classList.add('d')},'علّم المنجز بالمربع وتتحول إلى مشطوبة']]},
+
+'d-exams':{html:`<div class="scr on" data-n="a">${bar('مكتبة المساقات')}<div class="rw" id="rw"><svg class="rg" id="rg" viewBox="0 0 44 44"><circle class="bg" cx="22" cy="22" r="19"/><circle class="fg" id="fg" cx="22" cy="22" r="19"/></svg><div class="rn"><span id="rv">--</span><small>يوم</small></div></div><div style="text-align:center;font-size:12px"><small style="color:var(--slate)">الامتحان القادم</small><br><b>الفسيولوجيا · نصفي</b></div><div class="sk"></div><div class="sk"></div></div><div class="ov"></div><div class="sheet"><b>جدول الامتحانات</b><div class="cc"><b>الفسيولوجيا · نصفي</b><small>الأحد 19 تشرين الأول · 10:00 · قاعة 3</small><span class="b" id="rm" style="align-self:flex-start;margin-top:4px">🔔 ذكّرني</span></div></div><div class="tg"></div>`,
+steps:[['#rw',d=>{$(d,'#rv').textContent='5';$(d,'#fg').style.strokeDashoffset=119.4*0.08*1.9},'تعرض الحلقة الأيام المتبقية للامتحان القادم'],[null,d=>{$(d,'#rv').textContent='3';$(d,'#rg').classList.add('red');$(d,'#fg').style.strokeDashoffset=6},'تتحول للأحمر عندما يبقى 4 أيام أو أقل'],['#rw',O(true),'اضغط عليها لعرض كل الامتحانات بمواعيدها'],['#rm',toast('تم تجهيز التذكير، افتح الملف لإضافته إلى تقويمك'),'«ذكّرني» يحمّل ملفاً يضيف الامتحان لتقويم هاتفك']]},
+
+'d-qbank':{html:`<div class="scr on" data-n="y">${bar('السنوات الأكاديمية')}<div class="cc" id="yr"><b>🗂️ السنة 1</b><small>24 مادة متاحة</small></div><div class="cc"><b>🗂️ السنة 2</b><small>22 مادة متاحة</small></div><div class="cc"><b>🗂️ السنة 3</b><small>20 مادة متاحة</small></div></div><div class="scr" data-n="q"><div class="row"><span class="b" id="fl">☆ حفظ</span><span class="b">03:41</span></div><div class="pb"><i style="width:40%"></i></div><b style="font-size:12px;line-height:1.7">ما الخلايا المسؤولة عن نقل الأكسجين في الدم؟</b><div class="opt" id="oa"><i>A</i>كريات الدم البيضاء</div><div class="opt" id="ob"><i>B</i>كريات الدم الحمراء</div><div class="opt"><i>C</i>الصفائح الدموية</div><div class="exp" id="ex"><b>التفسير:</b> الهيموغلوبين داخل الكريات الحمراء يحمل الأكسجين.</div><span class="b" id="nx" style="align-self:flex-end;margin-top:auto">التالي</span></div><div class="scr" data-n="r" style="justify-content:center;align-items:center"><div style="font-size:42px">✅</div><b>اكتملت المراجعة!</b><div class="big">8 / 10</div><small>الوقت 04:12</small></div>`,
+steps:[['#yr',show('q'),'اختر السنة والفصل والمادة والبنك، ثم يبدأ الاختبار'],['#oa',d=>{$(d,'#oa').classList.add('no');$(d,'#ob').classList.add('ok');$(d,'#ex').classList.add('op')},'اخترت خطأ؟ تظهر الإجابة الصحيحة والتفسير فوراً'],['#fl',d=>{$(d,'#fl').textContent='★ محفوظ'},'احفظ الأسئلة الصعبة بالنجمة لمراجعتها لاحقاً'],['#nx',show('r'),'في النهاية تظهر درجتك والوقت المستغرق']]},
+
+'d-gpa':{html:`<div class="scr on" data-n="a">${bar('حاسبة المعدل')}<div class="row" style="gap:8px"><div class="cc" style="flex:1;text-align:center"><small>المعدل الفصلي</small><div class="big" id="sg" style="font-size:26px">0.00</div></div><div class="cc" style="flex:1;text-align:center;border-color:var(--gold)"><small>المعدل التراكمي</small><div class="big" id="cg" style="font-size:26px;color:var(--gold)">0.00</div></div></div><div class="row"><span class="b" id="pv" style="flex:1">الفصول السابقة</span><span class="b" style="flex:1">الفصل الحالي</span></div><div class="row" style="gap:6px"><div class="sb" id="g" style="flex:2">العلامة: اختر...</div><div class="sb" id="h" style="flex:1">3</div></div><span class="b" id="ad" style="padding:9px">＋ إضافة المادة</span><ul class="tl" id="tl"></ul></div>`,
+steps:[['#g',d=>{$(d,'#g').textContent='العلامة: A (4.00)'},'اختر العلامة المتوقعة للمادة'],['#h',d=>{$(d,'#h').textContent='3 ساعات'},'حدّد عدد الساعات المعتمدة'],['#ad',d=>{$(d,'#tl').innerHTML='<li>مادة بدون اسم · 3 ساعات · A</li>';$(d,'#sg').textContent='4.00'},'أضفها لتظهر في الجدول ويتحدّث المعدل الفصلي'],['#pv',d=>{$(d,'#pv').textContent='3.50 · 60 ساعة';$(d,'#cg').textContent='3.52'},'أدخل معدلك وساعاتك السابقة ليُحسب التراكمي']]}
+};
+
+async function run(d){
+  if(d._r)return;d._r=1;const ph=$(d,'.phone'),cap=$(d,'.cap'),cfg=DEMOS[d.id];
+  ph.className='phone'+(document.documentElement.dataset.theme==='dark'?'':'');ph.innerHTML=cfg.html+CUR;
+  const cur=$(d,'.cur'),first=ph.querySelector('.scr');first&&first.classList.add('on');
+  for(const [sel,fn,txt] of cfg.steps){
+    if(!d._v){break}
+    cap.textContent=txt;const el=sel?$(d,sel):null;
+    if(el){const p=ph.getBoundingClientRect(),r=el.getBoundingClientRect();cur.style.left=(r.left-p.left+r.width/2-8)+'px';cur.style.top=(r.top-p.top+r.height/2-8)+'px';await sl(850);cur.classList.add('tap');await sl(200)}
+    if(fn)await fn(d);cur.classList.remove('tap');await sl(1700);
+  }
+  d._r=0;if(d._v)setTimeout(()=>run(d),1800);
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{const d=e.target;d._v=e.isIntersecting;if(d._v)run(d)}),{threshold:.55});
+document.querySelectorAll('.demo').forEach(d=>{
+  const c=DEMOS[d.id];$(d,'.phone').innerHTML=c.html+CUR;
+  $(d,'.re').onclick=()=>{d._r=0;run(d)};io.observe(d);
+});
+
+const root=document.documentElement,tt=document.getElementById('tt');
+const setT=t=>{root.dataset.theme=t;tt.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('vet_theme',t)};
+setT(localStorage.getItem('vet_theme')==='dark'?'dark':'light');
+tt.onclick=()=>setT(root.dataset.theme==='dark'?'light':'dark');
+</script>
+</body>
 </html>
