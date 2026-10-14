@@ -103,6 +103,20 @@ section.sec:nth-of-type(even){direction:ltr}section.sec:nth-of-type(even)>*{dire
 .tg{position:absolute;bottom:18px;left:16px;right:16px;background:var(--navy);color:var(--paper);border-radius:12px;padding:12px 14px;font-size:12px;z-index:55;opacity:0;transform:translateY(10px);transition:.3s}.tg.op{opacity:1;transform:none}
 .cur{position:absolute;z-index:70;width:30px;height:30px;border-radius:50%;background:rgba(209,170,92,.45);border:2px solid var(--gold);left:50%;top:92%;transition:left .7s cubic-bezier(.3,.8,.3,1),top .7s cubic-bezier(.3,.8,.3,1);pointer-events:none;margin:-15px 0 0 -15px}
 .cur.tap{animation:tp .45s}@keyframes tp{50%{transform:scale(.6);background:rgba(209,170,92,.9)}}
+.tsw{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px}.tsw button{border:0;background:none;color:var(--slate);font:600 12px "IBM Plex Sans Arabic";padding:8px 18px;border-radius:99px;cursor:pointer}.tsw button.on{background:var(--navy);color:var(--paper)}
+.bw{position:absolute;left:0;right:0;overflow:hidden;background:var(--paper)}
+.stb{position:absolute;top:0;left:0;right:0;height:40px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 28px 6px;font:700 13px Manrope;color:var(--navy);z-index:12;background:var(--nav);direction:ltr}
+.sbr{position:absolute;left:0;right:0;bottom:0;height:92px;background:var(--nav);border-top:1px solid var(--line);padding:10px 16px;display:flex;flex-direction:column;gap:12px;z-index:12}
+.adr{display:flex;align-items:center;gap:8px;background:var(--btn);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--navy);justify-content:center}
+.ico5{display:flex;justify-content:space-around;color:var(--purple)}
+.cbr{position:absolute;top:40px;left:0;right:0;height:56px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 12px;z-index:12;color:var(--navy)}.cbr .adr{flex:1;border-radius:99px;justify-content:flex-start}
+.ws{background:linear-gradient(160deg,#2b5696,#0d1b33 70%)}.ws .stb{background:none;color:#fff}
+.ag{display:grid;grid-template-columns:repeat(4,1fr);gap:26px 8px;padding:70px 22px 0;text-align:center;color:#fff;font-size:11px}
+.ap{display:flex;flex-direction:column;align-items:center;gap:7px;transition:.5s}.ap>i{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;overflow:hidden}.ap>i img{width:100%;height:100%;object-fit:cover}.ap.hid{opacity:0;transform:scale(.4)}
+.shr{display:flex;justify-content:space-between;align-items:center;padding:15px 4px;border-bottom:1px solid var(--line);font-size:14px;color:var(--navy)}
+.dlg2{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:28px 28px 0 0;z-index:46;transform:translateY(105%);transition:.4s;padding:22px 22px 30px;color:var(--navy)}.dlg2.op{transform:none}
+.dtp{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--slate);margin-bottom:18px}.dtp b{color:var(--navy)}.dtp .go{color:var(--purple);font-weight:800}
+.dbd{display:flex;gap:14px;align-items:center;margin-bottom:12px}.dbd img{width:60px;height:60px;border-radius:14px;object-fit:cover}.dbd .f{flex:1}
 .cap{min-height:44px;width:290px;text-align:center;font-size:13px;font-weight:600;color:var(--navy);line-height:1.6}
 .re{border:1px solid var(--line);background:var(--card);color:var(--purple);border-radius:10px;padding:8px 16px;font:600 12px inherit;font-family:inherit;cursor:pointer}
 ul.tl{margin:0;padding:0;list-style:none;font-size:11px;display:grid;gap:4px}.tl li{background:var(--btn);padding:6px 8px;border-radius:8px}.tl li.d{text-decoration:line-through;opacity:.5}
@@ -126,7 +140,7 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
 </div></div>
 
 <nav class="chips"><div class="wrap">
-  <a href="#menu">القائمة والمظهر</a><a href="#courses">المساقات</a><a href="#tools">الأدوات اليومية</a><a href="#exams">الامتحانات</a><a href="#qbank">بنك الأسئلة</a><a href="#gpa">حاسبة المعدل</a><a href="#more">ميزات أخرى</a>
+  <a href="#menu">القائمة والمظهر</a><a href="#courses">المساقات</a><a href="#tools">الأدوات اليومية</a><a href="#exams">الامتحانات</a><a href="#qbank">بنك الأسئلة</a><a href="#gpa">حاسبة المعدل</a><a href="#pwa">ثبّتها كتطبيق</a><a href="#more">ميزات أخرى</a>
 </div></nav>
 
 <main class="wrap">
@@ -209,13 +223,26 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
   <div class="demo" id="d-gpa"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
 </section>
 
+<section class="sec" id="pwa">
+  <div class="txt"><span class="path">متصفح الهاتف ← زر المشاركة أو القائمة ⋮</span>
+    <h2>ثبّت المنصة كتطبيق على هاتفك</h2>
+    <p>تتحول المنصة إلى أيقونة على شاشتك الرئيسية، وتفتح بشاشة كاملة بدون شريط المتصفح وبسرعة أي تطبيق. اختر نوع هاتفك من الأعلى لتشاهد خطواته.</p>
+    <ul>
+      <li><b>iPhone:</b> افتح الموقع من Safari، اضغط زر المشاركة، ثم «إضافة إلى الشاشة الرئيسية»، ثم «إضافة».</li>
+      <li><b>Android:</b> افتح الموقع من Chrome، اضغط ⋮، ثم «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»، ثم أكّد.</li>
+      <li><b>التحديثات:</b> التطبيق هو نفس الموقع، فكل مادة تُضاف تظهر عندك تلقائياً دون تحديث يدوي.</li>
+      <li><b>بياناتك:</b> المفضلة والمهام والمعدل تُحفظ في المتصفح. على iPhone قد يبدأ التطبيق المثبّت بحفظ منفصل عن Safari، فأعد إضافة مفضلتك إن لم تجدها.</li>
+    </ul></div>
+  <div class="demo" id="d-pwa" data-k="pwa-ios"><div class="tsw"><button class="on" data-k="pwa-ios">iPhone</button><button data-k="pwa-and">Android</button></div><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
+
 <h2 class="sh" id="more">وميزات أخرى تستحق المعرفة</h2>
 <div class="grid">
   <div class="gc"><div class="e">📢</div><h3>الإعلانات الرسمية</h3><p>شريط أعلى الرئيسية يعرض آخر إعلان للجنة مع تاريخه.</p></div>
   <div class="gc"><div class="e">✨</div><h3>جديد المنصة هذا الأسبوع</h3><p>آخر 5 مواد أُضيفت. اضغط أي بطاقة لينتقل البحث إلى مساقها مباشرة.</p></div>
   <div class="gc"><div class="e">🌳</div><h3>الخطة الشجرية</h3><p>اضغط أي مادة لتضيء المتطلبات السابقة والمتزامنة، وكبّر الخريطة وحرّكها بإصبعين.</p></div>
   <div class="gc"><div class="e">👥</div><h3>عن اللجنة</h3><p>أفرقة اللجنة بالأرقام، وأزرار فيسبوك وانستغرام ومنصة X.</p></div>
-  <div class="gc"><div class="e">📲</div><h3>ثبّتها كتطبيق</h3><p>من متصفح هاتفك اختر «إضافة إلى الشاشة الرئيسية» لتفتح بشاشة كاملة.</p></div>
+  <div class="gc"><div class="e">📲</div><h3>ثبّتها كتطبيق</h3><p>أيقونة على شاشتك وفتح بشاشة كاملة. <a href="#pwa" style="color:var(--purple);font-weight:600">شاهد الشرح</a></p></div>
   <div class="gc"><div class="e">💾</div><h3>بياناتك على جهازك</h3><p>المفضلة والمهام والمؤقّت والمعدل والتقدّم في الاختبارات تُحفظ في متصفحك، فلا تنسخها لجهاز آخر تلقائياً.</p></div>
 </div>
 </main>
@@ -244,6 +271,22 @@ const QTB=x=>`<div class="tb">${LG.replace('المنصة الأكاديمية - 
 const ring=`<div class="rw2" id="rg"><svg viewBox="0 0 44 44"><circle class="bg" cx="22" cy="22" r="19"/><circle class="fg" id="fg" cx="22" cy="22" r="19"/></svg><div class="rn2"><b id="rv">--</b><small>يوم</small></div></div>`;
 const fill=(d,s,t)=>{const e=$(d,s);e.textContent=t;e.classList.add('v')};
 
+const DL=on=>d=>$(d,'.dlg2').classList.toggle('op',on);
+const PAGE=`${TB}<div class="pg">${HERO}${NT}</div>`;
+const STB=`<div class="stb"><span>9:41</span><span>100%</span></div>`;
+const SITE=`<span dir="ltr">your-site.github.io</span>`;
+const PWA=ios=>{
+const ch=ios?`${STB}<div class="bw" style="top:40px;bottom:92px">${PAGE}</div><div class="sbr"><div class="adr">${I('lock',13)}${SITE}${I('rotate-cw',13)}</div><div class="ico5"><span>${I('chevron-right',22)}</span><span>${I('chevron-left',22)}</span><span id="sh">${I('share',22)}</span><span>${I('book-open',22)}</span><span>${I('copy',22)}</span></div></div>`
+:`${STB}<div class="cbr"><span>${I('home',20)}</span><div class="adr">${I('lock',13)}${SITE}</div><span id="kb">${I('more-vertical',22)}</span></div><div class="bw" style="top:96px;bottom:0">${PAGE}</div>`;
+const rows=ios?`<div class="shr">نسخ الرابط${I('copy')}</div><div class="shr">إضافة إلى المفضلة${I('star')}</div><div class="shr">بحث في الصفحة${I('search')}</div><div class="shr" id="ah" style="color:var(--purple);font-weight:700">إضافة إلى الشاشة الرئيسية${I('square-plus')}</div>`
+:`<div class="shr">علامة تبويب جديدة${I('plus')}</div><div class="shr">السجل${I('history')}</div><div class="shr">التنزيلات${I('download')}</div><div class="shr" id="ah" style="color:var(--purple);font-weight:700">تثبيت التطبيق${I('smartphone')}</div>`;
+const ic=[['phone','الهاتف','#34c759'],['message-circle','الرسائل','#30b0c7'],['camera','الكاميرا','#8e8e93'],['map','الخرائط','#ff9500'],['music','الموسيقى','#ff375f'],['settings','الإعدادات','#636366'],['mail','البريد','#0a84ff']].map(([i,t,c])=>`<div class="ap"><i style="background:${c}">${I(i,28)}</i><span>${t}</span></div>`).join('');
+return{html:`<div class="scr on" data-n="a">${ch}</div>
+<div class="scr ws" data-n="h">${STB}<div class="ag">${ic}<div class="ap hid" id="app"><i><img src="logo.jpeg" alt=""></i><span>المنصة الأكاديمية</span></div></div></div>
+<div class="scr" data-n="o">${STB}<div class="bw" style="top:40px;bottom:0">${PAGE}</div></div>
+<div class="ov"></div><div class="sheet"><div class="sh1"><div><h2>المنصة الأكاديمية</h2><p style="direction:ltr;text-align:right">your-site.github.io</p></div><span class="xb">${I('x')}</span></div><div class="sb1">${rows}</div></div>
+<div class="dlg2"><div class="dtp"><span>إلغاء</span><b>${ios?'إضافة إلى الشاشة الرئيسية':'تثبيت التطبيق؟'}</b><span class="go" id="ad2">${ios?'إضافة':'تثبيت'}</span></div><div class="dbd"><img src="logo.jpeg" alt=""><div class="f v">المنصة الأكاديمية</div></div><small style="color:var(--slate);font-size:12px">سيظهر كأيقونة على شاشتك الرئيسية ويفتح بشاشة كاملة.</small></div>`,
+steps:[[ios?'#sh':'#kb',O(true),ios?'افتح المنصة من متصفح Safari، ثم اضغط زر المشاركة':'افتح المنصة من متصفح Chrome، ثم اضغط زر القائمة ⋮'],['#ah',async d=>{O(false)(d);await sl(450);DL(true)(d)},ios?'اختر «إضافة إلى الشاشة الرئيسية» من القائمة':'اختر «تثبيت التطبيق» (أو «إضافة إلى الشاشة الرئيسية»)'],['#ad2',async d=>{DL(false)(d);await sl(300);show('h')(d);await sl(500);$(d,'#app').classList.remove('hid')},ios?'اضغط «إضافة»، وتظهر أيقونة المنصة على شاشتك':'اضغط «تثبيت»، وتظهر أيقونة المنصة على شاشتك'],['#app',show('o'),'افتحها كأي تطبيق: شاشة كاملة وبدون شريط المتصفح']]}};
 const DEMOS={
 'd-menu':{html:`<div class="scr on">${TB}<div class="pg">${HERO}${NT}</div></div>${DR}`,
 steps:[['#m',O(true),'اضغط زر القائمة ☰'],['#lk',null,'من هنا تصل إلى كل صفحات المنصة'],['#th',d=>$(d,'.phone').classList.add('dk'),'فعّل الوضع الداكن، ويُحفظ لزيارتك القادمة'],['#x',O(false),'أغلق القائمة بزر ✕ أو بالضغط على الخلفية']]},
@@ -273,24 +316,26 @@ steps:[['#yr',show('q'),'اختر السنة ثم الفصل والمادة وا
 steps:[['#g',d=>fill(d,'#g','A (4.00)'),'اختر العلامة المتوقعة للمادة'],['#ad',d=>{$(d,'#sl').innerHTML=`<div class="si"><div><b>مادة بدون اسم</b><small>3 ساعات · 4.00 نقطة</small></div><span class="gbd">A</span></div>`;$(d,'#sg').textContent='4.00'},'أضفها فيظهر المعدل الفصلي فوراً'],['#pv',d=>{$(d,'#tc').classList.add('hid');$(d,'#tp').classList.remove('hid');$(d,'#tb1').classList.remove('on');$(d,'#pv').classList.add('on')},'افتح بيانات الفصول السابقة'],['#og',d=>{fill(d,'#og','3.50');fill(d,'#oh','60')},'أدخل معدلك وساعاتك المقطوعة'],['#sv',d=>{$(d,'#cg').textContent='3.52'},'احفظ، ويُحسب لك المعدل التراكمي الجديد']]}
 };
 
+DEMOS['pwa-ios']=PWA(true);DEMOS['pwa-and']=PWA(false);
 async function run(d){
-  if(d._r)return;d._r=1;const ph=$(d,'.phone'),cap=$(d,'.cap'),cfg=DEMOS[d.id];
+  if(d._r)return;d._r=1;const T=d._t=(d._t||0)+1;const ph=$(d,'.phone'),cap=$(d,'.cap'),cfg=DEMOS[d.dataset.k||d.id];
   ph.className='phone'+(document.documentElement.dataset.theme==='dark'?'':'');ph.innerHTML='<div class="vp">'+cfg.html+'</div>'+CUR;lucide.createIcons();
   const cur=$(d,'.cur'),first=ph.querySelector('.scr');first&&first.classList.add('on');
   for(const [sel,fn,txt] of cfg.steps){
-    if(!d._v){break}
+    if(!d._v||d._t!==T){break}
     cap.textContent=txt;const el=sel?$(d,sel):null;
     if(el){const p=ph.getBoundingClientRect(),r=el.getBoundingClientRect();cur.style.left=(r.left-p.left+r.width/2-8)+'px';cur.style.top=(r.top-p.top+r.height/2-8)+'px';await sl(850);cur.classList.add('tap');await sl(200)}
-    if(fn)await fn(d);cur.classList.remove('tap');await sl(1700);
+    if(d._t!==T)break;if(fn)await fn(d);cur.classList.remove('tap');await sl(1700);
   }
-  d._r=0;if(d._v)setTimeout(()=>run(d),1800);
+  d._r=0;if(d._v&&d._t===T)setTimeout(()=>run(d),1800);
 }
 const io=new IntersectionObserver(es=>es.forEach(e=>{const d=e.target;d._v=e.isIntersecting;if(d._v)run(d)}),{threshold:.55});
 document.querySelectorAll('.demo').forEach(d=>{
-  const c=DEMOS[d.id];$(d,'.phone').innerHTML='<div class="vp">'+c.html+'</div>'+CUR;
+  const c=DEMOS[d.dataset.k||d.id];$(d,'.phone').innerHTML='<div class="vp">'+c.html+'</div>'+CUR;
   $(d,'.re').onclick=()=>{d._r=0;run(d)};io.observe(d);
 });
 
+document.querySelectorAll('.tsw button').forEach(b=>b.onclick=()=>{const d=document.getElementById('d-pwa');d.dataset.k=b.dataset.k;b.parentNode.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));d._r=0;run(d)});
 lucide.createIcons();
 const root=document.documentElement,tt=document.getElementById('tt');
 const setT=t=>{root.dataset.theme=t;tt.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('vet_theme',t)};
