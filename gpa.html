@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة المعدل التراكمي | VetCommitto</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --navy: #0d1b33; --purple: #1e3f70; --gold: #d1aa5c; --slate: #606d85;
+      --paper: #f5f7fa; --card-bg: #fff; --card-border: #dfe3ed;
+      --nav-bg: #fbfbfd; --nav-border: #e8eaf1; --btn-bg: #f0f3f7;
+      --danger: #dc2626; --danger-bg: #fee2e2;
+      --success: #10b981; --success-bg: #dcfce7;
+    }
+
+    [data-theme="dark"] {
+      --navy: #e0e5ed; --purple: #8baccf; --paper: #0b1120;
+      --card-bg: #1e293b; --card-border: #334155; --nav-bg: #0f172a; --nav-border: #1e293b;
+      --btn-bg: #334155; --danger-bg: #451a1a; --success-bg: #064e3b;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--navy); font-family: "IBM Plex Sans Arabic", sans-serif; transition: 0.3s; padding-bottom: 60px; }
+    a { color: inherit; text-decoration: none; }
+    
+    /* Topbar */
+    .topbar { height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; padding: 0 20px;}
+    .navrow { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 800px; margin: 0 auto;}
+    .brand { display: flex; align-items: center; gap: 13px; font-weight: 700; color: var(--navy); }
+    .brand-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); }
+    .nav-actions { display: flex; gap: 10px; }
+    .icon-btn { width: 40px; height: 40px; border: 1px solid var(--card-border); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s; cursor: pointer;}
+    .icon-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold);}
+
+    .wrap { width: min(800px, calc(100% - 30px)); margin-inline: auto; margin-top: 30px;}
+
+    .page-header { text-align: center; margin-bottom: 30px; animation: fadein 0.4s; }
+    .page-header h1 { font-size: 28px; font-weight: 800; margin: 0 0 10px; color: var(--navy); }
+    .page-header p { font-size: 14px; color: var(--slate); margin: 0; }
+
+    /* Cards Grid */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;}
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+    
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+    
+    .gpa-box { text-align: center; }
+    .gpa-title { font-size: 14px; color: var(--slate); margin-bottom: 10px; font-weight: 600;}
+    .gpa-value { font-size: 46px; font-weight: 800; color: var(--purple); margin: 0; line-height: 1;}
+    .gpa-hours { font-size: 12px; color: var(--slate); margin-top: 10px; }
+    
+    .progress-bg { height: 8px; background: var(--btn-bg); border-radius: 10px; margin-top: 15px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gold); transition: width 0.5s ease; border-radius: 10px;}
+
+    /* Tabs */
+    .tabs { display: flex; border-bottom: 2px solid var(--line); margin-bottom: 20px; }
+    .tab-btn { flex: 1; text-align: center; padding: 12px; background: none; border: none; font-family: inherit; font-size: 15px; font-weight: 700; color: var(--slate); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: 0.2s;}
+    .tab-btn.active { color: var(--purple); border-bottom-color: var(--purple); }
+    .tab-content { display: none; animation: fadein 0.3s; }
+    .tab-content.active { display: block; }
+
+    /* Forms & Fields */
+    .field-group { margin-bottom: 15px; }
+    .field-label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .field { width: 100%; background: var(--paper); border: 1px solid var(--card-border); padding: 12px 15px; border-radius: 12px; font-family: inherit; font-size: 14px; color: var(--navy); outline: none; transition: 0.2s; }
+    .field:focus { border-color: var(--purple); background: var(--card-bg); }
+    
+    .row { display: flex; gap: 15px; }
+    .row > * { flex: 1; }
+
+    .primary-btn { width: 100%; background: var(--navy); color: #fff; border: none; padding: 14px; border-radius: 12px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px;}
+    .primary-btn:hover { background: var(--purple); }
+    
+    /* Subjects List */
+    .subject-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px;}
+    .subject-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; transition: 0.2s;}
+    .subject-item:hover { border-color: var(--purple); }
+    .subj-info { display: flex; flex-direction: column; gap: 4px; }
+    .subj-name { font-weight: 700; font-size: 14px; color: var(--navy); }
+    .subj-meta { font-size: 12px; color: var(--slate); }
+    
+    .grade-badge { display: inline-flex; align-items: center; justify-content: center; background: var(--btn-bg); color: var(--navy); font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 8px; min-width: 45px;}
+    .grade-badge.a { background: var(--success-bg); color: var(--success); }
+    .grade-badge.f { background: var(--danger-bg); color: var(--danger); }
+
+    .del-btn { background: none; border: none; color: var(--slate); cursor: pointer; padding: 5px; transition: 0.2s;}
+    .del-btn:hover { color: var(--danger); }
+
+    /* Legend */
+    .scale-legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 15px;}
+    .scale-item { background: var(--btn-bg); padding: 8px; border-radius: 8px; text-align: center; font-size: 12px; font-weight: 700; color: var(--navy); border: 1px solid var(--card-border);}
+
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy); color: #fff; padding: 12px 25px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- الترويسة العلوية -->
+  <header class="topbar">
+    <div class="navrow">
+      <a href="index.html" class="brand">
+        <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
+        <span>المنصة الأكاديمية</span>
+      </a>
+      <div class="nav-actions">
+        <button onclick="toggleTheme()" class="icon-btn" title="تغيير المظهر"><i data-lucide="moon" width="20"></i></button>
+        <a href="index.html" class="icon-btn" title="الرئيسية"><i data-lucide="arrow-left" width="20"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-header">
+      <h1>حاسبة المعدل التراكمي</h1>
+      <p>أداة دقيقة لحساب المعدل الفصلي والتراكمي حسب نظام جامعة العلوم والتكنولوجيا</p>
+    </div>
+
+    <!-- شاشات عرض المعدل -->
+    <div class="grid-2">
+      <div class="card gpa-box">
+        <div class="gpa-title">المعدل الفصلي</div>
+        <div class="gpa-value" id="sem-gpa">0.00</div>
+        <div class="gpa-hours">الساعات الفصلية المسجلة: <span id="sem-hrs">0</span></div>
+        <div class="progress-bg"><div class="progress-fill" id="sem-bar" style="width: 0%;"></div></div>
+      </div>
+      
+      <div class="card gpa-box" style="border-color: var(--gold);">
+        <div class="gpa-title">المعدل التراكمي</div>
+        <div class="gpa-value" id="cum-gpa" style="color: var(--gold);">0.00</div>
+        <div class="gpa-hours">إجمالي الساعات المقطوعة: <span id="cum-hrs">0</span></div>
+        <div class="progress-bg"><div class="progress-fill" id="cum-bar" style="width: 0%; background: var(--navy);"></div></div>
+      </div>
+    </div>
+
+    <!-- منطقة الإدخال -->
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('current')">الفصل الحالي</button>
+        <button class="tab-btn" onclick="switchTab('prev')">بيانات الفصول السابقة</button>
+      </div>
+
+      <div style="padding: 25px;">
+        <!-- تبويب الفصل الحالي -->
+        <div id="tab-current" class="tab-content active">
+          <form id="add-form">
+            <div class="field-group">
+              <label class="field-label">اسم المادة (اختياري)</label>
+              <input type="text" id="sub-name" class="field" placeholder="مثال: علم الأنسجة الجهازي">
+            </div>
+            <div class="row">
+              <div class="field-group">
+                <label class="field-label">العلامة المتوقعة</label>
+                <select id="sub-grade" class="field" required>
+                  <option value="" disabled selected>اختر...</option>
+                  <option value="A+">A+ (4.20)</option>
+                  <option value="A">A (4.00)</option>
+                  <option value="A-">A- (3.75)</option>
+                  <option value="B+">B+ (3.50)</option>
+                  <option value="B">B (3.25)</option>
+                  <option value="B-">B- (3.00)</option>
+                  <option value="C+">C+ (2.75)</option>
+                  <option value="C">C (2.50)</option>
+                  <option value="C-">C- (2.25)</option>
+                  <option value="D+">D+ (2.00)</option>
+                  <option value="D">D (1.75)</option>
+                  <option value="D-">D- (1.50)</option>
+                  <option value="F">F (0.50)</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label">الساعات</label>
+                <input type="number" id="sub-hrs" class="field" min="1" max="6" value="3" required>
+              </div>
+            </div>
+            <button type="submit" class="primary-btn"><i data-lucide="plus-circle" width="18"></i> إضافة المادة للجدول</button>
+          </form>
+        </div>
+
+        <!-- تبويب الفصول السابقة -->
+        <div id="tab-prev" class="tab-content">
+          <form id="prev-form">
+            <div class="row">
+              <div class="field-group">
+                <label class="field-label">المعدل التراكمي السابق</label>
+                <input type="number" id="old-gpa" class="field" step="0.01" min="0" max="4.2" placeholder="مثال: 3.50">
+              </div>
+              <div class="field-group">
+                <label class="field-label">الساعات المقطوعة سابقاً</label>
+                <input type="number" id="old-hrs" class="field" min="0" placeholder="مثال: 60">
+              </div>
+            </div>
+            <button type="submit" class="primary-btn" style="background:var(--gold); color:var(--navy);"><i data-lucide="save" width="18"></i> حفظ السجل السابق</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- قائمة المواد المضافة -->
+    <h3 style="margin-bottom: 10px; color: var(--navy); display:flex; justify-content:space-between;">
+      <span>المواد المسجلة للفصل الحالي</span>
+      <button onclick="clearAllSubjects()" style="background:none; border:none; color:var(--danger); font-size:12px; font-weight:700; cursor:pointer;">حذف الكل</button>
+    </h3>
+    <div id="subjects-container" class="subject-list">
+      <!-- المواد تظهر هنا -->
+    </div>
+
+    <!-- جدول الرموز -->
+    <div class="card" style="margin-top: 30px;">
+      <h3 style="margin:0 0 10px; font-size:15px; color:var(--navy);"><i data-lucide="info" width="16" style="vertical-align:middle; color:var(--gold);"></i> مفتاح الدرجات (خطة التكنو)</h3>
+      <div class="scale-legend">
+        <div class="scale-item">A+ (4.20)</div>
+        <div class="scale-item">A (4.00)</div>
+        <div class="scale-item">A- (3.75)</div>
+        <div class="scale-item">B+ (3.50)</div>
+        <div class="scale-item">B (3.25)</div>
+        <div class="scale-item">B- (3.00)</div>
+        <div class="scale-item">C+ (2.75)</div>
+        <div class="scale-item">C (2.50)</div>
+        <div class="scale-item">C- (2.25)</div>
+        <div class="scale-item">D+ (2.00)</div>
+        <div class="scale-item">D (1.75)</div>
+        <div class="scale-item">D- (1.50)</div>
+        <div class="scale-item" style="color:var(--danger)">F (0.50)</div>
+      </div>
+      <p style="font-size:11px; color:var(--slate); margin:10px 0 0; text-align:center;">* الحد الأدنى للنجاح في المساق هو (1.50) D-</p>
+    </div>
+
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // إعداد الثيم
+    const isDark = localStorage.getItem("vet_theme") === "dark";
+    document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('vet_theme', next);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // التبديل بين التبويبات
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // المنطق الرياضي والبيانات
+    const gradePoints = {
+      'A+': 4.20, 'A': 4.00, 'A-': 3.75,
+      'B+': 3.50, 'B': 3.25, 'B-': 3.00,
+      'C+': 2.75, 'C': 2.50, 'C-': 2.25,
+      'D+': 2.00, 'D': 1.75, 'D-': 1.50,
+      'F': 0.50
+    };
+
+    let subjects = JSON.parse(localStorage.getItem('vet_gpa_subjects') || '[]');
+    let prevData = JSON.parse(localStorage.getItem('vet_gpa_prev') || '{"gpa":0, "hours":0}');
+
+    // إعداد النموذج المسبق
+    document.getElementById('old-gpa').value = prevData.gpa || '';
+    document.getElementById('old-hrs').value = prevData.hours || '';
+
+    // حفظ الفصول السابقة
+    document.getElementById('prev-form').onsubmit = (e) => {
+      e.preventDefault();
+      const gpa = parseFloat(document.getElementById('old-gpa').value) || 0;
+      const hrs = parseInt(document.getElementById('old-hrs').value) || 0;
+      
+      if (gpa < 0 || gpa > 4.2) return showToast('الرجاء إدخال معدل منطقي بين 0 و 4.2');
+      
+      prevData = { gpa, hours: hrs };
+      localStorage.setItem('vet_gpa_prev', JSON.stringify(prevData));
+      showToast('تم حفظ السجل السابق بنجاح');
+      calculateAndRender();
+    };
+
+    // إضافة مادة للفصل الحالي
+    document.getElementById('add-form').onsubmit = (e) => {
+      e.preventDefault();
+      const name = document.getElementById('sub-name').value.trim() || 'مادة بدون اسم';
+      const grade = document.getElementById('sub-grade').value;
+      const hrs = parseInt(document.getElementById('sub-hrs').value) || 0;
+
+      subjects.push({ id: Date.now(), name, grade, hours: hrs });
+      localStorage.setItem('vet_gpa_subjects', JSON.stringify(subjects));
+      
+      document.getElementById('sub-name').value = '';
+      document.getElementById('sub-grade').value = '';
+      document.getElementById('sub-hrs').value = '3';
+      
+      showToast('تم إضافة المادة للجدول');
+      calculateAndRender();
+    };
+
+    // حذف مادة
+    function deleteSubject(id) {
+      subjects = subjects.filter(s => s.id !== id);
+      localStorage.setItem('vet_gpa_subjects', JSON.stringify(subjects));
+      calculateAndRender();
+    }
+
+    // مسح الكل
+    function clearAllSubjects() {
+      if(!confirm("هل أنت متأكد من مسح جميع مواد الفصل الحالي؟")) return;
+      subjects = [];
+      localStorage.setItem('vet_gpa_subjects', JSON.stringify(subjects));
+      calculateAndRender();
+    }
+
+    // الحصول على فئة اللون للحرف
+    function getGradeClass(grade) {
+      if(grade.startsWith('A')) return 'a';
+      if(grade.startsWith('F')) return 'f';
+      return '';
+    }
+
+    // الحساب والرسم
+    function calculateAndRender() {
+      // 1. حساب المعدل الفصلي
+      let semPoints = 0;
+      let semHours = 0;
+      
+      subjects.forEach(s => {
+        semPoints += gradePoints[s.grade] * s.hours;
+        semHours += s.hours;
+      });
+      
+      const semGPA = semHours > 0 ? (semPoints / semHours) : 0;
+
+      // 2. حساب المعدل التراكمي
+      let cumPoints = (prevData.gpa * prevData.hours) + semPoints;
+      let cumHours = prevData.hours + semHours;
+      
+      const cumGPA = cumHours > 0 ? (cumPoints / cumHours) : 0;
+
+      // 3. تحديث واجهة الأرقام
+      document.getElementById('sem-gpa').innerText = semGPA.toFixed(2);
+      document.getElementById('sem-hrs').innerText = semHours;
+      document.getElementById('sem-bar').style.width = `${Math.min((semGPA/4.2)*100, 100)}%`;
+
+      document.getElementById('cum-gpa').innerText = cumGPA.toFixed(2);
+      document.getElementById('cum-hrs').innerText = cumHours;
+      document.getElementById('cum-bar').style.width = `${Math.min((cumGPA/4.2)*100, 100)}%`;
+
+      // 4. رسم قائمة المواد
+      const container = document.getElementById('subjects-container');
+      if (subjects.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:30px; border:1px dashed var(--line); border-radius:16px; color:var(--slate); font-size:13px;">لم تقم بإضافة أي مواد للفصل الحالي بعد.</div>`;
+      } else {
+        container.innerHTML = subjects.map(s => `
+          <div class="subject-item">
+            <div class="subj-info">
+              <span class="subj-name">${s.name}</span>
+              <span class="subj-meta">${s.hours} ساعات · ${gradePoints[s.grade].toFixed(2)} نقطة</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:15px;">
+              <span class="grade-badge ${getGradeClass(s.grade)}">${s.grade}</span>
+              <button class="del-btn" onclick="deleteSubject(${s.id})"><i data-lucide="x-circle" width="20"></i></button>
+            </div>
+          </div>
+        `).join('');
+        lucide.createIcons();
+      }
+    }
+
+    // التشغيل الأولي
+    window.addEventListener('load', () => {
+      lucide.createIcons();
+      calculateAndRender();
+    });
+  </script>
+</body>
+</html>
