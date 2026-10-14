@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0d1b33" />
     <title>المنصة الأكاديمية | لجنة الطب والجراحة البيطرية</title>
-    <meta name="description" content="المنصة الأكاديمية الرسمية للجنة الطب والجراحة البيطرية في جامعة العلوم والتكنولوجيا الأردنية. بنوك أسئلة، خطة دراسية،  وحاسبة معدل." />
+    <meta name="description" content="المنصة الأكاديمية الرسمية للجنة الطب والجراحة البيطرية في جامعة العلوم والتكنولوجيا الأردنية. بنوك أسئلة، خطة دراسية، وحاسبة معدل." />
     <meta name="keywords" content="طب بيطري, جامعة العلوم والتكنولوجيا, Vetcommitto, vetcommitto, لجنة الطب البيطري, بنك أسئلة بيطري, JUST, Veterinary, منصة بيطرية" />
     
     <!-- PWA Setup -->
@@ -99,12 +99,6 @@
       .searchbox input { border: 0; outline: 0; background: transparent; color: #fff; width: 100%; font-size: 14px; }
       .searchbox input::placeholder { color: #b5c3d9; }
 
-      /* Major Tabs (أزرار التخصص) */
-      .major-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-      .major-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; }
-      .major-btn:hover { background: rgba(255,255,255,0.2); }
-      .major-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); }
-      
       .notice-strip { position: relative; z-index: 3; margin-top: -25px; display: grid; gap: 16px; grid-template-columns: 1fr; }
       .notice-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 12px 34px rgba(0,0,0,0.05); min-height: 75px; transition: 0.3s;}
       .notice-icon { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; background: var(--btn-bg); color: var(--purple); flex: none; }
@@ -189,6 +183,12 @@
       .course-aside { padding: 18px 0; }
       .course-aside h3 { font-size: 14px; color: var(--navy); margin: 0 0 16px; }
       
+      /* Major Tabs (أزرار التخصص) */
+      .major-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+      .major-btn { background: var(--card-bg); border: 1px solid var(--line); color: var(--slate); padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+      .major-btn:hover { border-color: var(--purple); color: var(--purple); }
+      .major-btn.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+
       .category-list { display: flex; flex-direction: column; gap: 6px; }
       .category-btn { border: 0; text-align: right; background: transparent; color: var(--slate); padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: 0.2s;}
       .category-btn.active, .category-btn:hover { background: var(--card-bg); color: var(--purple); box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-weight: 600;}
@@ -315,8 +315,7 @@
         </video>
         <div class="wrap hero-inner">
           <div class="hero-content">
-            <!-- الترحيب الذكي -->
-            <div class="eyebrow" id="smartGreeting">كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</div>
+            <div class="eyebrow">كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</div>
             <h1>معرفةٌ أقرب،<br /><span>ورعايةٌ تبدأ من هنا.</span></h1>
             <p class="hero-copy">مساحتك الأكاديمية للعثور على مواد المساقات، متابعة الإعلانات الرسمية، وتنظيم رحلة تعلّمك في الكلية.</p>
             
@@ -324,12 +323,6 @@
               <i data-lucide="search" width="20"></i>
               <input id="courseSearch" type="search" placeholder="ابحث عن أي مساق بالاسم أو الرمز..." autocomplete="off" />
             </label>
-            
-            <!-- أزرار التخصص -->
-            <div class="major-tabs">
-              <button class="major-btn active" data-major="vet">دكتور في الطب البيطري</button>
-              <button class="major-btn" data-major="nursing">التمريض والرعاية البيطرية</button>
-            </div>
           </div>
         </div>
       </section>
@@ -443,6 +436,13 @@
               <span id="courseCount" style="font-size:12px; font-weight:600; color:var(--slate);">— مساق</span>
             </div>
           </div>
+
+          <!-- أزرار التخصص -->
+          <div class="major-tabs">
+            <button class="major-btn active" data-major="vet">دكتور في الطب البيطري</button>
+            <button class="major-btn" data-major="nursing">التمريض والرعاية البيطرية</button>
+          </div>
+
           <div class="course-shell">
             <aside class="course-aside">
               <h3>التصنيف الأكاديمي</h3>
@@ -566,17 +566,16 @@
 
       const App = {
         app: null, db: null, courses: [], favorites: [], exams: [],
-        activeMajor: "vet", // التخصص الافتراضي
+        activeMajor: "vet",
         activeCategory: "year-1", semester: "all", search: "",
         async init() {
-          UI.bind(); UI.icons(); UI.loadTheme(); UI.setSmartGreeting();
+          UI.bind(); UI.icons(); UI.loadTheme();
           try { this.favorites = JSON.parse(localStorage.getItem("vet_favorites") || "[]"); } catch { this.favorites = []; }
           try {
             this.app = initializeApp(firebaseConfig); this.db = getFirestore(this.app);
             const [courses, announcements, links, recents, exams] = await Promise.all([ 
               DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links"), DB.recent(), DB.exams() 
             ]);
-            // إعطاء تخصص "الطب البيطري" للمواد القديمة التي ليس لها تخصص
             this.courses = courses.map(c => ({...c, major: c.major || "vet"})); 
             this.exams = exams;
             
@@ -617,26 +616,16 @@
           localStorage.setItem("vet_theme", isDark ? "light" : "dark");
           this.loadTheme();
         },
-        
-        setSmartGreeting() {
-          const hr = new Date().getHours();
-          let msg = "";
-          if (hr >= 5 && hr < 12) msg = "صباح الخير يا دكتور، يومك مليان إنجاز ☕";
-          else if (hr >= 12 && hr < 18) msg = "يعطيك العافية دكتور، هانت ☀️";
-          else msg = "مساء الخير، دراسة موفقة 🌙";
-          this.el("smartGreeting").textContent = msg;
-        },
 
         bind() {
           this.el("themeToggle").addEventListener("click", () => this.toggleTheme());
           
-          // أزرار اختيار التخصص
           document.querySelectorAll(".major-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
               document.querySelectorAll(".major-btn").forEach(b => b.classList.remove("active"));
               btn.classList.add("active");
               App.activeMajor = btn.dataset.major;
-              this.renderCourses(); // إعادة فلترة المواد
+              this.renderCourses();
             });
           });
 
@@ -666,7 +655,6 @@
             const a = e.target.closest("[data-recent-course]"); if (!a) return;
             const s = this.el("courseSearch"); s.value = a.dataset.recentCourse;
             s.dispatchEvent(new Event("input"));
-            // التأكد من أن التخصص يطابق المادة المبحوث عنها
             const c = App.courses.find(x => x.name === a.dataset.recentCourse || x.title === a.dataset.recentCourse);
             if(c && c.major !== App.activeMajor) {
               document.querySelector(`.major-btn[data-major="${c.major}"]`).click();
@@ -710,11 +698,9 @@
           this.el("semesterRow").innerHTML = all.map(s => `<button class="semester-pill ${App.semester === s.id ? "active" : ""}" data-semester="${s.id}">${s.label}</button>`).join("");
         },
         renderCourses() {
-          // تحديث عدادات الأقسام بناء على التخصص المختار
           this.renderCategories();
 
           let filtered = App.courses.filter(c => {
-            // التصفية حسب التخصص أولاً (إذا لم يكن في وضع البحث العام جداً)
             if (c.major !== App.activeMajor && !App.search) return false;
 
             if (App.search) return `${c.name || ""} ${c.title || ""} ${c.code || ""}`.toLowerCase().includes(App.search) && c.major === App.activeMajor;
