@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0d1b33" />
     <title>المنصة الأكاديمية | لجنة الطب والجراحة البيطرية</title>
-    <meta name="description" content="البوابة الأكاديمية لطلبة الطب البيطري في جامعة العلوم والتكنولوجيا الأردنية" />
     <meta name="description" content="المنصة الأكاديمية الرسمية للجنة الطب والجراحة البيطرية في جامعة العلوم والتكنولوجيا الأردنية. بنوك أسئلة، خطة دراسية، وحاسبة معدل." />
     <meta name="keywords" content="طب بيطري, جامعة العلوم والتكنولوجيا, Vetcommitto, vetcommitto, لجنة الطب البيطري, بنك أسئلة بيطري, JUST, Veterinary, منصة بيطرية" />
     
@@ -89,17 +88,22 @@
       .hero-inner { position: relative; z-index: 2; padding-block: 68px 74px; }
       .hero-content { max-width: 700px; }
       
-      .eyebrow { display: flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: 0.03em; color: #c9d6eb; margin-bottom: 20px; }
-      .eyebrow:before { content: ""; width: 29px; height: 1px; background: var(--gold); }
+      .eyebrow { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; color: var(--gold); margin-bottom: 20px; }
       .hero h1 { font-size: clamp(32px, 6vw, 58px); line-height: 1.35; letter-spacing: -0.035em; margin: 0 0 14px; font-weight: 700; max-width: 670px; }
       .hero h1 span { color: #b3c5e8; }
       .hero-copy { font-size: 15px; line-height: 1.8; color: #d1d9e6; max-width: 510px; margin: 0 0 27px; }
       
-      .searchbox { height: 61px; display: flex; align-items: center; gap: 14px; padding: 7px 19px; border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; background: rgba(255,255,255,0.08); backdrop-filter: blur(14px); max-width: 585px; width: 100%; transition: 0.3s; }
+      .searchbox { height: 61px; display: flex; align-items: center; gap: 14px; padding: 7px 19px; border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; background: rgba(255,255,255,0.08); backdrop-filter: blur(14px); max-width: 585px; width: 100%; transition: 0.3s; margin-bottom: 20px;}
       .searchbox:focus-within { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.12); }
       .searchbox i { color: #d0daeb; flex: none; }
       .searchbox input { border: 0; outline: 0; background: transparent; color: #fff; width: 100%; font-size: 14px; }
       .searchbox input::placeholder { color: #b5c3d9; }
+
+      /* Major Tabs (أزرار التخصص) */
+      .major-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+      .major-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; }
+      .major-btn:hover { background: rgba(255,255,255,0.2); }
+      .major-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); }
       
       .notice-strip { position: relative; z-index: 3; margin-top: -25px; display: grid; gap: 16px; grid-template-columns: 1fr; }
       .notice-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 18px 24px; display: flex; align-items: flex-start; gap: 16px; box-shadow: 0 12px 34px rgba(0,0,0,0.05); min-height: 75px; transition: 0.3s;}
@@ -164,7 +168,7 @@
       .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 11px 16px; border-radius: 10px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: 0.2s;}
       .ghost-btn:hover { background: var(--btn-bg); }
       
-      /* مؤقّت: حلقة تقدّم دائرية (conic-gradient) */
+      /* مؤقّت */
       .timer { display: flex; align-items: center; justify-content: center; gap: 20px; }
       .timer-ring { --p: 0; position: relative; width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--purple) calc(var(--p) * 1%), var(--btn-bg) 0); display: grid; place-items: center; }
       .timer-ring::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--card-bg); }
@@ -284,17 +288,14 @@
         <button class="close-btn" id="drawerClose" aria-label="إغلاق"><i data-lucide="x" width="18"></i></button>
       </div>
       <div class="drawer-body">
-        <!-- Drawer Navigation -->
-<nav class="drawer-nav">
-  <a href="about.html" class="drawer-item"><i data-lucide="info" width="18"></i>عن اللجنة</a>
-  <a href="tree.html" class="drawer-item"><i data-lucide="git-branch" width="18"></i>الخطة الشجرية</a>
-  <a href="exams.html" class="drawer-item"><i data-lucide="calendar" width="18"></i>جدول الامتحانات</a>
-  <a href="Qsbank.html" class="drawer-item"><i data-lucide="database" width="18"></i>بنك الأسئلة</a>
-  <a href="gpa.html" class="drawer-item"><i data-lucide="calculator" width="18"></i>حاسبة المعدل</a>
-  <a href="guide.html" class="drawer-item"><i data-lucide="help-circle" width="18"></i>كيف تستخدم المنصة</a>
-
-</nav>
-
+        <nav class="drawer-nav">
+          <a href="about.html" class="drawer-item"><i data-lucide="info" width="18"></i>عن اللجنة</a>
+          <a href="tree.html" class="drawer-item"><i data-lucide="git-branch" width="18"></i>الخطة الشجرية</a>
+          <a href="exams.html" class="drawer-item"><i data-lucide="calendar" width="18"></i>جدول الامتحانات</a>
+          <a href="Qsbank.html" class="drawer-item"><i data-lucide="database" width="18"></i>بنك الأسئلة</a>
+          <a href="gpa.html" class="drawer-item"><i data-lucide="calculator" width="18"></i>حاسبة المعدل</a>
+          <a href="guide.html" class="drawer-item"><i data-lucide="help-circle" width="18"></i>كيف تستخدم المنصة</a>
+        </nav>
         <div class="drawer-section" id="linksSection" hidden>
           <div class="drawer-label">روابط مفيدة</div>
           <div id="navDropdownLinks"></div>
@@ -314,13 +315,21 @@
         </video>
         <div class="wrap hero-inner">
           <div class="hero-content">
-            <div class="eyebrow">كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</div>
+            <!-- الترحيب الذكي -->
+            <div class="eyebrow" id="smartGreeting">كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</div>
             <h1>معرفةٌ أقرب،<br /><span>ورعايةٌ تبدأ من هنا.</span></h1>
-            <p class="hero-copy">مساحتك الأكاديمية للعثور على مواد المساقات، متابعة الإعلانات الرسمية، وتنظيم رحلة تعلّمك في الطب البيطري.</p>
+            <p class="hero-copy">مساحتك الأكاديمية للعثور على مواد المساقات، متابعة الإعلانات الرسمية، وتنظيم رحلة تعلّمك في الكلية.</p>
+            
             <label class="searchbox" for="courseSearch">
               <i data-lucide="search" width="20"></i>
               <input id="courseSearch" type="search" placeholder="ابحث عن أي مساق بالاسم أو الرمز..." autocomplete="off" />
             </label>
+            
+            <!-- أزرار التخصص -->
+            <div class="major-tabs">
+              <button class="major-btn active" data-major="vet">دكتور في الطب البيطري</button>
+              <button class="major-btn" data-major="nursing">التمريض والرعاية البيطرية</button>
+            </div>
           </div>
         </div>
       </section>
@@ -448,7 +457,7 @@
       </section>
     </main>
     
-    <!-- نافذة المساقات (المواد) -->
+    <!-- نافذة المساقات -->
     <div class="resource-modal" id="resourceModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(5px);">
       <section class="dialog">
         <header class="dialog-head">
@@ -536,7 +545,6 @@
           const data = snap.docs.map(i => ({ id: i.id, ...i.data() }));
           await DB.save(key, data); return data;
         },
-        // تعديل: لا نخزّن النتيجة بالكاش إذا صار خطأ بالقراءة، ونجرّب الـ fallback القديم بشكل مستقل
         exams: async () => {
           if (!App.db) return [];
           const key = "exams", hit = await DB.cached(key); if (hit) return hit;
@@ -558,20 +566,23 @@
 
       const App = {
         app: null, db: null, courses: [], favorites: [], exams: [],
+        activeMajor: "vet", // التخصص الافتراضي
         activeCategory: "year-1", semester: "all", search: "",
         async init() {
-          UI.bind(); UI.icons(); UI.loadTheme();
+          UI.bind(); UI.icons(); UI.loadTheme(); UI.setSmartGreeting();
           try { this.favorites = JSON.parse(localStorage.getItem("vet_favorites") || "[]"); } catch { this.favorites = []; }
           try {
             this.app = initializeApp(firebaseConfig); this.db = getFirestore(this.app);
             const [courses, announcements, links, recents, exams] = await Promise.all([ 
               DB.list("acad_courses"), DB.list("acad_announcements"), DB.list("acad_links"), DB.recent(), DB.exams() 
             ]);
-            this.courses = courses; this.exams = exams;
+            // إعطاء تخصص "الطب البيطري" للمواد القديمة التي ليس لها تخصص
+            this.courses = courses.map(c => ({...c, major: c.major || "vet"})); 
+            this.exams = exams;
+            
             UI.renderAnnouncement(announcements.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))[0]); 
             UI.renderLinks(links); UI.renderRecent(recents); UI.renderCountdown();
             UI.renderCategories(); UI.renderSemesters(); UI.renderCourses(); UI.renderTools();
-            // تحديث العدّاد كل ساعة إذا بقيت الصفحة مفتوحة
             setInterval(() => UI.renderCountdown(), 3600000);
           } catch (error) { console.error(error); }
         },
@@ -606,9 +617,29 @@
           localStorage.setItem("vet_theme", isDark ? "light" : "dark");
           this.loadTheme();
         },
+        
+        setSmartGreeting() {
+          const hr = new Date().getHours();
+          let msg = "";
+          if (hr >= 5 && hr < 12) msg = "صباح الخير يا دكتور، يومك مليان إنجاز ☕";
+          else if (hr >= 12 && hr < 18) msg = "يعطيك العافية دكتور، هانت ☀️";
+          else msg = "مساء الخير، دراسة موفقة 🌙";
+          this.el("smartGreeting").textContent = msg;
+        },
 
         bind() {
           this.el("themeToggle").addEventListener("click", () => this.toggleTheme());
+          
+          // أزرار اختيار التخصص
+          document.querySelectorAll(".major-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+              document.querySelectorAll(".major-btn").forEach(b => b.classList.remove("active"));
+              btn.classList.add("active");
+              App.activeMajor = btn.dataset.major;
+              this.renderCourses(); // إعادة فلترة المواد
+            });
+          });
+
           this.el("courseSearch").addEventListener("input", (e) => { 
             App.search = e.target.value.trim().toLowerCase(); 
             if(App.search) { App.activeCategory = ""; App.semester = "all"; this.renderCategories(); this.renderSemesters(); }
@@ -627,34 +658,33 @@
             const c = e.target.closest("[data-course-id]"); if (c) this.openResources(c.dataset.courseId);
           });
 
-          // إغلاق النوافذ: زر X، الضغط على الخلفية، أو Escape
           document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => this.closeModal(b.dataset.close)));
           ["resourceModal", "examModal"].forEach((id) => this.el(id).addEventListener("click", (e) => { if (e.target === e.currentTarget) this.closeModal(id); }));
           document.addEventListener("keydown", (e) => { if (e.key === "Escape") { this.closeModal("resourceModal"); this.closeModal("examModal"); } });
 
-          // جديد المنصة (بدل onclick المباشر)
           this.el("recentAddsList").addEventListener("click", (e) => {
             const a = e.target.closest("[data-recent-course]"); if (!a) return;
             const s = this.el("courseSearch"); s.value = a.dataset.recentCourse;
             s.dispatchEvent(new Event("input"));
+            // التأكد من أن التخصص يطابق المادة المبحوث عنها
+            const c = App.courses.find(x => x.name === a.dataset.recentCourse || x.title === a.dataset.recentCourse);
+            if(c && c.major !== App.activeMajor) {
+              document.querySelector(`.major-btn[data-major="${c.major}"]`).click();
+            }
           });
 
-          // عدّاد الامتحان (يعمل بالماوس والكيبورد)
           const cb = this.el("countdownBox");
           cb.addEventListener("click", () => this.renderExamsModal());
           cb.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.renderExamsModal(); } });
 
-          // زر "ذكّرني" داخل نافذة الامتحانات (بدل onclick المباشر)
           this.el("examBody").addEventListener("click", (e) => {
             const b = e.target.closest("[data-ics]"); if (b) this.downloadICS(b.dataset.ics);
           });
           
-          // Tools Bindings
           this.el("addGpaCourse").addEventListener("click", () => this.addGpaCourse());
           this.el("gpaRows").addEventListener("input", () => this.calculateGpa());
           this.el("gpaRows").addEventListener("click", (e) => { const r = e.target.closest("[data-remove-gpa]"); if (r) { this.saveGpaCourses(this.getGpaCourses().filter(c => c.id !== r.dataset.removeGpa)); this.renderGpaCourses(); this.calculateGpa(); } });
           this.el("todoForm").addEventListener("submit", (e) => { e.preventDefault(); const text = this.el("todoInput").value.trim(); if (!text) return; const todos = this.getTodos(); todos.push({ id: crypto.randomUUID(), text, done: false }); this.saveTodos(todos); this.el("todoInput").value = ""; this.renderTodos(); });
-          // إصلاح المهام: حذف + تأشير
           this.el("todoList").addEventListener("click", (e) => {
             const del = e.target.closest("[data-delete-todo]");
             if (del) { this.saveTodos(this.getTodos().filter(t => t.id !== del.dataset.deleteTodo)); this.renderTodos(); }
@@ -673,15 +703,21 @@
             { id: "year-4", name: "السنة الرابعة" }, { id: "year-5", name: "السنة الخامسة" }, { id: "year-6", name: "السنة السادسة" },
             { id: "elective", name: "مواد اختيارية" }, { id: "university", name: "متطلبات جامعة" }
           ];
-          this.el("categoryList").innerHTML = cats.map(c => `<button class="category-btn ${App.activeCategory === c.id ? "active" : ""}" data-category="${c.id}">${c.name}<small>${App.courses.filter(x => x.category === c.id || x.year == c.id.replace('year-','')).length}</small></button>`).join("");
+          this.el("categoryList").innerHTML = cats.map(c => `<button class="category-btn ${App.activeCategory === c.id ? "active" : ""}" data-category="${c.id}">${c.name}<small>${App.courses.filter(x => (x.major === App.activeMajor) && (x.category === c.id || x.year == c.id.replace('year-',''))).length}</small></button>`).join("");
         },
         renderSemesters() {
           const all = [ { id: "all", label: "كل الفصول" }, { id: "1", label: "الفصل الأول" }, { id: "2", label: "الفصل الثاني" }, { id: "summer", label: "الصيفي" } ];
           this.el("semesterRow").innerHTML = all.map(s => `<button class="semester-pill ${App.semester === s.id ? "active" : ""}" data-semester="${s.id}">${s.label}</button>`).join("");
         },
         renderCourses() {
+          // تحديث عدادات الأقسام بناء على التخصص المختار
+          this.renderCategories();
+
           let filtered = App.courses.filter(c => {
-            if (App.search) return `${c.name || ""} ${c.title || ""} ${c.code || ""}`.toLowerCase().includes(App.search);
+            // التصفية حسب التخصص أولاً (إذا لم يكن في وضع البحث العام جداً)
+            if (c.major !== App.activeMajor && !App.search) return false;
+
+            if (App.search) return `${c.name || ""} ${c.title || ""} ${c.code || ""}`.toLowerCase().includes(App.search) && c.major === App.activeMajor;
             const cat = c.category || (c.year ? `year-${c.year}` : ""); const sem = String(c.semester || "");
             const matchCat = cat === App.activeCategory || c.year == App.activeCategory.replace('year-','');
             const matchSem = App.semester === "all" || (App.semester === "summer" ? sem.includes("summer") || sem.includes("صيف") : sem === App.semester || sem.includes(App.semester === "1" ? "الأول" : "الثاني"));
@@ -761,7 +797,6 @@
           this.icons();
         },
 
-        // تعديل: استخدام data attribute بدل onclick لتجنب كسر الزر مع علامات الاقتباس
         renderRecent(recents) {
           if (!recents || !recents.length) return;
           this.el("recentAddsSection").style.display = "block";
@@ -848,7 +883,6 @@
         makeICS(examId) {
           const exam = App.exams.find(e => e.id === examId); if(!exam) return;
           const d = String(exam.date).replace(/-/g, "");
-          // تعديل: حساب اليوم التالي بالـ UTC لتجنب مشكلة فرق التوقيت (الأردن UTC+3)
           const [y, m, dd] = String(exam.date).split("-").map(Number);
           const dEnd = new Date(Date.UTC(y, m - 1, dd + 1)).toISOString().slice(0, 10).replace(/-/g, "");
           const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
@@ -911,7 +945,6 @@
           this.el("timerMode").textContent = this.timer.break ? "استراحة · 5 دقائق" : "جلسة تركيز · 25 دقيقة";
           this.el("timerToggle").innerHTML = `<i data-lucide="${this.timer.running ? "pause" : "play"}" width="15"></i>${this.timer.running ? "إيقاف" : "ابدأ"}`;
           const duration = this.timer.break ? 300 : 1500, progress = Math.round(((duration - this.timer.seconds) / duration) * 100);
-          // تعديل: حلقة تقدّم دائرية عبر متغيّر CSS
           this.el("timerRing").style.setProperty("--p", progress);
           this.icons();
         },
