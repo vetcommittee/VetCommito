@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCommitto | بنك الأسئلة - لوحة الإدارة</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
+      --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
+      --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
+      --card-bg: #fff; --card-border: #dfe3ed;
+      --btn-bg: #f0f3f7; --text-muted: #8893a4;
+      --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
+    }
+    [data-theme="dark"] {
+      --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
+      --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
+      --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
+      --card-bg: #1e293b; --card-border: #334155;
+      --btn-bg: #334155; --text-muted: #949daf;
+      --nav-bg: #0f172a; --nav-border: #1e293b;
+    }
+    
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; padding-bottom: 80px;}
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    
+    .wrap { width: min(1000px, calc(100% - 30px)); margin-inline: auto; }
+    
+    .topbar { background: var(--card-bg); border-bottom: 1px solid var(--line); padding: 15px 0; position: sticky; top: 0; z-index: 100; }
+    .navrow { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
+    
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .card-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--navy); margin: 0 0 20px; }
+    
+    .field { width: 100%; border: 1px solid var(--card-border); background: var(--paper); padding: 12px 14px; border-radius: 10px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s; margin-bottom: 15px;}
+    .field:focus { border-color: var(--purple); background: var(--card-bg);}
+    
+    .primary-btn { border: 0; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
+    .primary-btn:hover { background: var(--purple); }
+    .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
+    .ghost-btn:hover { background: var(--btn-bg); }
+    
+    .flex-col { display: flex; flex-direction: column; gap: 15px; }
+    .grid-col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px;}
+    
+    .list-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); margin-bottom: 10px; font-size: 13px; font-weight: 600;}
+    .list-item-meta { display: flex; flex-direction: column; gap: 4px; }
+    .list-item-meta small { font-size: 11px; color: var(--slate); font-weight: 500;}
+    
+    .action-btn { background: var(--card-bg); border: 1px solid var(--line); color: var(--navy); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; transition: 0.2s;}
+    .action-btn:hover { background: var(--btn-bg); }
+    .action-btn.danger { color: #dc2626; border-color: #fca5a5; background: #fef2f2;}
+    .action-btn.danger:hover { background: #fee2e2; }
+
+    .toast { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 3000; opacity: 0; transform: translateY(20px); transition: 0.3s; pointer-events: none;}
+    .toast.show { opacity: 1; transform: translateY(0); }
+    
+    #loginOverlay { position: fixed; inset: 0; background: var(--card-bg); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .login-box { max-width: 400px; width: 100%; text-align: center; }
+
+    /* Modals */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-backdrop.flex { display: flex; }
+    .modal-card { background: var(--card-bg); border-radius: 16px; padding: 25px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--card-border); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  
+  <div id="loginOverlay">
+    <div class="login-box card">
+      <h2 style="color:var(--navy); margin-bottom:10px;">إدارة بنك الأسئلة</h2>
+      <p style="color:var(--slate); font-size:13px; margin-bottom:20px;">الرجاء إدخال بيانات حساب فايربيس (vet-bank)</p>
+      <input type="email" id="authEmail" class="field" placeholder="البريد الإلكتروني" />
+      <input type="password" id="authPass" class="field" placeholder="كلمة المرور" />
+      <button class="primary-btn" id="loginBtn" style="margin-bottom:10px;">دخول آمن</button>
+      <div id="loginErr" style="color:#dc2626; font-size:12px; display:none;">بيانات غير صحيحة.</div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap navrow">
+      <div class="brand">
+        <i data-lucide="database" width="24" style="color:var(--gold)"></i>
+        <span>لوحة إدارة بنوك الأسئلة</span>
+      </div>
+      <button id="logoutBtn" class="action-btn" style="display:none;"><i data-lucide="log-out" width="14" style="vertical-align:middle"></i> خروج</button>
+    </div>
+  </header>
+
+  <main class="wrap" style="display:none; margin-top:30px;" id="mainContent">
+    
+    <div class="grid-col-2">
+      <!-- إدارة المواد -->
+      <div class="card">
+        <div class="card-title" style="justify-content:space-between">
+          <span><i data-lucide="book-open"></i> المواد الأكاديمية</span>
+          <button onclick="openSubjectModal()" class="action-btn"><i data-lucide="plus" width="14"></i> إضافة مادة</button>
+        </div>
+        <div class="flex-col">
+          <div style="display:flex; gap:10px;">
+            <select id="filterYear" class="field" style="margin:0;" onchange="renderAdmin()"><option value="all">كل السنوات</option><option value="1">السنة 1</option><option value="2">السنة 2</option><option value="3">السنة 3</option><option value="4">السنة 4</option><option value="5">السنة 5</option><option value="6">السنة 6</option></select>
+            <select id="filterSem" class="field" style="margin:0;" onchange="renderAdmin()"><option value="all">كل الفصول</option><option value="الفصل الأول">الفصل الأول</option><option value="الفصل الثاني">الفصل الثاني</option><option value="الفصل الصيفي">الصيفي</option></select>
+          </div>
+          <div id="admin-subject-list" style="max-height:300px; overflow-y:auto; padding-right:5px;"></div>
+        </div>
+      </div>
+
+      <!-- إدارة البنوك -->
+      <div class="card">
+        <div class="card-title" style="justify-content:space-between">
+          <span><i data-lucide="folder-check"></i> بنوك الأسئلة</span>
+          <button onclick="openBankModal()" class="action-btn"><i data-lucide="plus" width="14"></i> إضافة بنك</button>
+        </div>
+        <div id="admin-bank-list" style="max-height:350px; overflow-y:auto; padding-right:5px;"></div>
+      </div>
+    </div>
+
+    <!-- إدارة الأسئلة للبنك المحدد -->
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between">
+        <div>
+          <span><i data-lucide="list"></i> أسئلة البنك</span>
+          <div id="selected-bank-caption" style="font-size:12px; color:var(--slate); margin-top:5px; font-weight:500;">يرجى اختيار بنك لعرض الأسئلة...</div>
+        </div>
+        <button onclick="openQuestionModal()" class="primary-btn" style="width:auto;"><i data-lucide="plus" width="14"></i> سؤال جديد</button>
+      </div>
+      <input type="search" id="question-search" class="field" placeholder="ابحث في الأسئلة..." oninput="renderQuestions()">
+      <div id="admin-question-table" style="max-height:400px; overflow-y:auto; overflow-x:auto;"></div>
+    </div>
+
+    <!-- الاستيراد الجماعي -->
+    <div class="card">
+      <h3 class="card-title"><i data-lucide="upload-cloud"></i> استيراد أسئلة جماعي (نص)</h3>
+      <form id="import-form">
+        <select id="import-bank" class="field" required></select>
+        <textarea id="import-text" class="field" rows="6" dir="ltr" placeholder="1. Question text&#10;A) Option A&#10;B) Option B&#10;C) Option C&#10;D) Option D&#10;Answer: B" required></textarea>
+        <button type="submit" class="ghost-btn">معاينة الاستيراد</button>
+      </form>
+      <div id="import-preview" style="display:none; background:var(--paper); padding:15px; border-radius:12px; margin-top:15px; border:1px solid var(--line);">
+        <p id="import-preview-summary" style="font-weight:700; color:var(--purple); margin:0 0 10px;"></p>
+        <ul id="import-errors" style="font-size:12px; color:#dc2626; margin:0 0 15px; padding-right:20px;"></ul>
+        <button id="confirm-import-button" onclick="confirmImport()" class="primary-btn" style="background:#10b981;">تأكيد وحفظ الاستيراد</button>
+      </div>
+    </div>
+    
+    <!-- النسخ الاحتياطي -->
+    <div class="grid-col-2">
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="download"></i> أخذ نسخة احتياطية</h3>
+        <textarea id="backup-export" readonly class="field" rows="4"></textarea>
+        <button onclick="copyBackup()" class="ghost-btn">نسخ النص</button>
+      </div>
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="upload"></i> استعادة البيانات</h3>
+        <textarea id="backup-import" class="field" rows="4" placeholder="الصق النسخة الاحتياطية هنا..."></textarea>
+        <button onclick="restoreBackup()" class="primary-btn" style="background:#f59e0b;">استعادة ومزامنة</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== Modals ==================== -->
+  
+  <!-- Subject Modal -->
+  <div id="modal-subject" class="modal-backdrop">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; color:var(--navy);">مادة دراسية</h3>
+        <button onclick="closeModals()" style="background:none; border:none; color:var(--slate); cursor:pointer;"><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-subject">
+        <input type="hidden" id="subj-id">
+        <select id="subj-year" class="field" required>
+          <option value="1">السنة الأولى</option><option value="2">السنة الثانية</option>
+          <option value="3">السنة الثالثة</option><option value="4">السنة الرابعة</option>
+          <option value="5">السنة الخامسة</option><option value="6">السنة السادسة</option>
+        </select>
+        <select id="subj-sem" class="field" required>
+          <option value="الفصل الأول">الفصل الأول</option><option value="الفصل الثاني">الفصل الثاني</option><option value="الفصل الصيفي">الصيفي</option>
+        </select>
+        <input type="text" id="subj-name" class="field" placeholder="اسم المادة" required>
+        <button type="submit" class="primary-btn">حفظ المادة</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bank Modal -->
+  <div id="modal-bank" class="modal-backdrop">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; color:var(--navy);">بنك أسئلة</h3>
+        <button onclick="closeModals()" style="background:none; border:none; color:var(--slate); cursor:pointer;"><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-bank">
+        <input type="hidden" id="bank-id">
+        <select id="bank-subject-id" class="field" required></select>
+        <input type="text" id="bank-name" class="field" placeholder="اسم البنك (مثال: فاينل 2023)" required>
+        <input type="text" id="bank-author" class="field" placeholder="إعداد (اختياري)">
+        <button type="submit" class="primary-btn">حفظ البنك</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Question Modal -->
+  <div id="modal-question" class="modal-backdrop">
+    <div class="modal-card" style="max-width:600px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; color:var(--navy);">سؤال جديد / تعديل</h3>
+        <button onclick="closeModals()" style="background:none; border:none; color:var(--slate); cursor:pointer;"><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-question">
+        <input type="hidden" id="q-uid">
+        <select id="q-bank-id" class="field" required></select>
+        <textarea id="q-text" class="field" rows="3" placeholder="نص السؤال..." required></textarea>
+        
+        <div style="background:var(--paper); border:1px dashed var(--line); padding:15px; border-radius:12px; margin-bottom:15px;">
+          <div style="font-size:12px; font-weight:700; color:var(--purple); margin-bottom:10px;">إضافة صورة (اختياري)</div>
+          <input type="file" id="q-img-upload" accept="image/*" class="field" style="margin-bottom:10px; background:#fff;">
+          <input type="url" id="q-img-url" class="field" dir="ltr" placeholder="أو رابط الصورة المباشر" style="margin-bottom:10px;">
+          <div id="q-img-preview-box" style="display:none; text-align:center;">
+            <img id="q-img-preview" style="max-height:120px; border-radius:8px; border:1px solid var(--line);">
+            <div style="margin-top:5px;"><button type="button" onclick="clearQImage()" style="background:none; border:none; color:#dc2626; font-size:11px; cursor:pointer; font-weight:bold;">إزالة الصورة</button></div>
+          </div>
+        </div>
+
+        <div class="grid-col-2">
+          <input type="text" id="q-opt-a" class="field" placeholder="الخيار A" required>
+          <input type="text" id="q-opt-b" class="field" placeholder="الخيار B" required>
+          <input type="text" id="q-opt-c" class="field" placeholder="الخيار C" required>
+          <input type="text" id="q-opt-d" class="field" placeholder="الخيار D" required>
+        </div>
+        
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:15px;">
+          <div style="font-weight:700; font-size:13px; color:var(--navy); white-space:nowrap;">الإجابة الصحيحة:</div>
+          <select id="q-correct" class="field" style="margin:0;" required>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+          </select>
+        </div>
+        
+        <textarea id="q-exp" class="field" rows="2" placeholder="التفسير (اختياري)"></textarea>
+        <button type="submit" class="primary-btn" id="btn-save-q">حفظ السؤال</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"><i data-lucide="info" width="18"></i><span id="toast-msg"></span></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, getDoc, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyA6iPiGcx_PK7J7xwF7NGlUmCjeIpBbO4Y",
+      authDomain: "vet-bank.firebaseapp.com",
+      projectId: "vet-bank",
+      storageBucket: "vet-bank.firebasestorage.app",
+      messagingSenderId: "190618109307",
+      appId: "1:190618109307:web:f09f9d13851ff068fba9de"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const appState = {
+      records: [], adminSubjectId: "", adminBankId: "", pendingImport: []
+    };
+
+    const $ = id => document.getElementById(id);
+    const esc = v => String(v||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const records = type => appState.records.filter(r => r.type === type);
+    const parseQs = bank => { try{ const q=JSON.parse(bank.questions_json||"[]"); return Array.isArray(q)?q:[]; }catch{return[];} };
+
+    window.toast = (msg) => {
+      $("toast-msg").innerText = msg;
+      $("toast").classList.add("show");
+      setTimeout(() => $("toast").classList.remove("show"), 3000);
+    };
+
+    // ================= Auth =================
+    onAuthStateChanged(auth, user => {
+      if(user) {
+        $("loginOverlay").style.display = "none";
+        $("mainContent").style.display = "block";
+        $("logoutBtn").style.display = "inline-flex";
+        loadData();
+      } else {
+        $("loginOverlay").style.display = "flex";
+        $("mainContent").style.display = "none";
+        $("logoutBtn").style.display = "none";
+      }
+    });
+
+    $("loginBtn").onclick = async () => {
+      try {
+        $("loginBtn").innerText = "جاري...";
+        await signInWithEmailAndPassword(auth, $("authEmail").value, $("authPass").value);
+        $("loginErr").style.display = "none";
+      } catch(e) {
+        $("loginErr").style.display = "block";
+      }
+      $("loginBtn").innerText = "دخول آمن";
+    };
+
+    $("logoutBtn").onclick = () => signOut(auth);
+
+    // ================= Data Loading =================
+    async function loadData() {
+      try {
+        const snap = await getDocs(collection(db, "vet_records"));
+        appState.records = snap.docs.map(d => {
+          let r = d.data();
+          r._uid = r._uid || d.id;
+          r.__backendId = d.id;
+          r.type = String(r.type || r.Type || r.TYPE || "").toLowerCase();
+          if(!r.type && r.bank_name) r.type = "bank";
+          if(!r.type && r.subject_name) r.type = "subject";
+          return r;
+        }).filter(r => r.type === "subject" || r.type === "bank");
+        
+        $("backup-export").value = JSON.stringify(appState.records);
+        renderAdmin();
+      } catch (e) { toast("خطأ في جلب البيانات من فايربيس"); }
+    }
+
+    async function loadBankQs(bankId) {
+      const b = appState.records.find(r => r._uid === bankId);
+      if(b && !b.questions_loaded) {
+        try {
+          const docSnap = await getDoc(doc(db, "vet_questions", bankId));
+          if(docSnap.exists()) {
+            b.questions_json = docSnap.data().questions_json || "[]";
+          } else {
+            b.questions_json = "[]";
+          }
+          if(b.questions_json === "[]" && b.questions_json_old && b.questions_json_old.length > 10) {
+            b.questions_json = b.questions_json_old;
+            await setDoc(doc(db, "vet_questions", bankId), {questions_json: b.questions_json}, {merge:true});
+            await setDoc(doc(db, "vet_records", bankId), {questions_json: "[]"}, {merge:true});
+          }
+          b.questions_loaded = true;
+        } catch(e){}
+      }
+    }
+
+    // ================= Rendering =================
+    window.renderAdmin = () => {
+      const fy = $("filterYear").value;
+      const fs = $("filterSem").value;
+      let subs = records("subject");
+      
+      if(fy !== "all") subs = subs.filter(s => String(s.year) === fy);
+      if(fs !== "all") subs = subs.filter(s => s.semester === fs);
+      
+      if(!subs.some(s => s._uid === appState.adminSubjectId) && subs[0]) appState.adminSubjectId = subs[0]._uid;
+      else if(subs.length === 0) appState.adminSubjectId = "";
+
+      const bks = records("bank").filter(b => b.subject_id === appState.adminSubjectId);
+      if(!bks.some(b => b._uid === appState.adminBankId)) appState.adminBankId = bks[0] ? bks[0]._uid : "";
+
+      $("admin-subject-list").innerHTML = subs.length ? subs.map(s => `
+        <div class="list-item" style="${s._uid === appState.adminSubjectId ? 'border-color:var(--purple); background:var(--btn-bg);' : ''}">
+          <div class="list-item-meta" style="cursor:pointer; flex:1;" onclick="selectSub('${s._uid}')">
+            <span>${esc(s.subject_name)}</span>
+            <small>السنة ${s.year} - ${esc(s.semester)}</small>
+          </div>
+          <div style="display:flex; gap:5px;">
+            <button onclick="openSubjectModal('${s._uid}')" class="action-btn"><i data-lucide="edit-2" width="12"></i></button>
+            <button onclick="delDoc('subject', '${s._uid}')" class="action-btn danger"><i data-lucide="trash" width="12"></i></button>
+          </div>
+        </div>`).join("") : `<div style="text-align:center; color:var(--slate); font-size:12px;">لا توجد مواد</div>`;
+
+      $("admin-bank-list").innerHTML = bks.length ? bks.map(b => `
+        <div class="list-item" style="${b._uid === appState.adminBankId ? 'border-color:var(--purple); background:var(--btn-bg);' : ''}">
+          <div class="list-item-meta" style="cursor:pointer; flex:1;" onclick="selectBank('${b._uid}')">
+            <span>${esc(b.bank_name)}</span>
+            <small>${b.questions_loaded ? parseQs(b).length + ' سؤال' : 'اضغط لجلب الأسئلة'}</small>
+          </div>
+          <div style="display:flex; gap:5px;">
+            <button onclick="openBankModal('${b._uid}')" class="action-btn"><i data-lucide="edit-2" width="12"></i></button>
+            <button onclick="delDoc('bank', '${b._uid}')" class="action-btn danger"><i data-lucide="trash" width="12"></i></button>
+          </div>
+        </div>`).join("") : `<div style="text-align:center; color:var(--slate); font-size:12px;">اختر مادة لعرض بنوكها</div>`;
+
+      // تحديث قوائم الاختيار في الـ Forms
+      const bkOpts = bks.length ? bks.map(b => `<option value="${b._uid}">${esc(b.bank_name)}</option>`).join("") : `<option value="">لا توجد بنوك هنا</option>`;
+      if($("q-bank-id")) { $("q-bank-id").innerHTML = bkOpts; $("q-bank-id").value = appState.adminBankId; }
+      if($("import-bank")) { $("import-bank").innerHTML = bkOpts; $("import-bank").value = appState.adminBankId; }
+      
+      const subOpts = subs.map(s => `<option value="${s._uid}">${esc(s.subject_name)}</option>`).join("");
+      if($("bank-subject-id")) $("bank-subject-id").innerHTML = subOpts;
+
+      renderQuestions();
+      lucide.createIcons();
+    };
+
+    window.selectSub = (id) => { appState.adminSubjectId = id; appState.adminBankId = ""; renderAdmin(); };
+    window.selectBank = async (id) => { 
+      appState.adminBankId = id; 
+      await loadBankQs(id); 
+      renderAdmin(); 
+    };
+
+    window.renderQuestions = () => {
+      const b = records("bank").find(x => x._uid === appState.adminBankId);
+      $("selected-bank-caption").innerText = b ? b.bank_name : "اختر بنك لعرض أسئلته.";
+      if(!b || !b.questions_loaded) {
+        $("admin-question-table").innerHTML = `<div style="text-align:center; padding:30px; color:var(--slate); font-size:13px; border:1px dashed var(--line); border-radius:12px;">انقر على البنك لجلب وعرض أسئلته.</div>`;
+        return;
+      }
+      const term = $("question-search").value.trim().toLowerCase();
+      const qs = parseQs(b).filter(q => !term || [q.question_text, q.option_a, q.option_b, q.option_c, q.option_d].join(" ").toLowerCase().includes(term));
+      
+      if(!qs.length) {
+        $("admin-question-table").innerHTML = `<div style="text-align:center; padding:30px; color:var(--slate); font-size:13px; border:1px dashed var(--line); border-radius:12px;">لا توجد أسئلة.</div>`;
+        return;
+      }
+      
+      $("admin-question-table").innerHTML = `<table style="width:100%; border-collapse:collapse; text-align:right; font-size:12px;">
+        <thead style="background:var(--btn-bg); color:var(--navy);">
+          <tr><th style="padding:10px; border-radius:0 8px 8px 0;">#</th><th style="padding:10px;">نص السؤال</th><th style="padding:10px;">الإجابة</th><th style="padding:10px; border-radius:8px 0 0 0;">إجراء</th></tr>
+        </thead>
+        <tbody>
+          ${qs.map((q, i) => `
+            <tr style="border-bottom:1px solid var(--line);">
+              <td style="padding:10px;">${i+1}</td>
+              <td style="padding:10px; font-weight:600; color:var(--navy); max-width:300px;">${esc(q.question_text)}</td>
+              <td style="padding:10px; color:#10b981; font-weight:800;">${q.correct_answer}</td>
+              <td style="padding:10px; white-space:nowrap;">
+                <button onclick="openQuestionModal('${q._uid}')" class="action-btn"><i data-lucide="edit-2" width="12"></i></button>
+                <button onclick="delQ('${q._uid}')" class="action-btn danger"><i data-lucide="trash" width="12"></i></button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>`;
+      lucide.createIcons();
+    };
+
+    // ================= Modals Logic =================
+    window.closeModals = () => { document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.remove("flex")); };
+
+    window.openSubjectModal = (id=null) => {
+      closeModals();
+      const s = id ? records("subject").find(x => x._uid === id) : null;
+      $("subj-id").value = s ? s._uid : "";
+      $("subj-year").value = s ? s.year : "1";
+      $("subj-sem").value = s ? s.semester : "الفصل الأول";
+      $("subj-name").value = s ? s.subject_name : "";
+      $("modal-subject").classList.add("flex");
+    };
+
+    $("form-subject").onsubmit = async (e) => {
+      e.preventDefault();
+      const id = $("subj-id").value;
+      const data = { type: "subject", year: $("subj-year").value, semester: $("subj-sem").value, subject_name: $("subj-name").value.trim() };
+      await saveRecord(data, id);
+      closeModals();
+    };
+
+    window.openBankModal = (id=null) => {
+      closeModals();
+      if(!records("subject").length) return toast("أضف مادة أولاً");
+      const b = id ? records("bank").find(x => x._uid === id) : null;
+      $("bank-id").value = b ? b._uid : "";
+      $("bank-subject-id").value = b ? b.subject_id : appState.adminSubjectId;
+      $("bank-name").value = b ? b.bank_name : "";
+      $("bank-author").value = b ? (b.author_name || "") : "";
+      $("modal-bank").classList.add("flex");
+    };
+
+    $("form-bank").onsubmit = async (e) => {
+      e.preventDefault();
+      const id = $("bank-id").value;
+      const data = { type: "bank", subject_id: $("bank-subject-id").value, bank_name: $("bank-name").value.trim(), author_name: $("bank-author").value.trim(), questions_json: "[]" };
+      await saveRecord(data, id);
+      closeModals();
+    };
+
+    // --- Questions Form ---
+    window.openQuestionModal = (uid=null) => {
+      closeModals();
+      if(!records("bank").length) return toast("أضف بنك أولاً");
+      
+      const b = records("bank").find(x => x._uid === appState.adminBankId);
+      const q = uid ? parseQs(b).find(x => x._uid === uid) : null;
+      
+      $("q-uid").value = q ? q._uid : "";
+      $("q-text").value = q ? q.question_text : "";
+      $("q-opt-a").value = q ? q.option_a : "";
+      $("q-opt-b").value = q ? q.option_b : "";
+      $("q-opt-c").value = q ? q.option_c : "";
+      $("q-opt-d").value = q ? q.option_d : "";
+      $("q-correct").value = q ? q.correct_answer : "A";
+      $("q-exp").value = q ? (q.explanation||"") : "";
+      
+      clearQImage();
+      if(q && q.image_url) {
+        $("q-img-url").value = q.image_url;
+        updatePreviewFromUrl();
+      }
+      
+      $("modal-question").classList.add("flex");
+    };
+
+    window.clearQImage = () => {
+      $("q-img-upload").value = ""; $("q-img-url").value = "";
+      $("q-img-preview").src = ""; $("q-img-preview-box").style.display = "none";
+    };
+
+    window.updatePreviewFromUrl = () => {
+      const u = $("q-img-url").value.trim();
+      if(u) { $("q-img-preview").src = u; $("q-img-preview-box").style.display = "block"; $("q-img-upload").value = ""; }
+      else if(!$("q-img-upload").files.length) clearQImage();
+    };
+
+    $("q-img-upload").onchange = (e) => {
+      if(e.target.files[0]) {
+        $("q-img-url").value = "";
+        const r = new FileReader();
+        r.onload = ev => { $("q-img-preview").src = ev.target.result; $("q-img-preview-box").style.display = "block"; };
+        r.readAsDataURL(e.target.files[0]);
+      }
+    };
+
+    async function compressImage(file) {
+      return new Promise(res => {
+        const r = new FileReader(); r.readAsDataURL(file);
+        r.onload = ev => {
+          const img = new Image(); img.src = ev.target.result;
+          img.onload = () => {
+            const cvs = document.createElement('canvas');
+            const scale = 900 / img.width;
+            let w = img.width, h = img.height;
+            if(scale < 1) { w *= scale; h *= scale; }
+            cvs.width = w; cvs.height = h;
+            const ctx = cvs.getContext('2d');
+            ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
+            cvs.toBlob(blob => res(blob), 'image/jpeg', 0.6);
+          };
+        };
+      });
+    }
+
+    async function uploadToImgBB(blob) {
+      const fd = new FormData(); fd.append("image", blob, "q_img.jpg");
+      try {
+        const res = await fetch("https://api.imgbb.com/1/upload?key=a590777d9f69147c384eb9a15c4ee481", { method: "POST", body: fd });
+        const d = await res.json();
+        if(d.success) return d.data.url;
+      } catch(e) {}
+      return null;
+    }
+
+    $("form-question").onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = $("btn-save-q"); btn.disabled = true;
+      const bankId = $("q-bank-id").value;
+      const bank = records("bank").find(x => x._uid === bankId);
+      
+      let imgUrl = $("q-img-url").value.trim();
+      const fileInp = $("q-img-upload");
+      if(fileInp.files.length > 0) {
+        btn.innerText = "جاري رفع الصورة...";
+        const comp = await compressImage(fileInp.files[0]);
+        const up = await uploadToImgBB(comp);
+        if(up) imgUrl = up;
+        else { toast("فشل رفع الصورة"); btn.disabled = false; btn.innerText = "حفظ السؤال"; return; }
+      }
+      
+      btn.innerText = "جاري الحفظ...";
+      const uid = $("q-uid").value || "q-" + Date.now();
+      const newQ = {
+        _uid: uid, question_text: $("q-text").value.trim(), image_url: imgUrl,
+        option_a: $("q-opt-a").value.trim(), option_b: $("q-opt-b").value.trim(),
+        option_c: $("q-opt-c").value.trim(), option_d: $("q-opt-d").value.trim(),
+        correct_answer: $("q-correct").value, explanation: $("q-exp").value.trim()
+      };
+      
+      const qs = parseQs(bank);
+      const idx = qs.findIndex(x => x._uid === uid);
+      if(idx >= 0) qs[idx] = newQ; else qs.push(newQ);
+      
+      try {
+        const str = JSON.stringify(qs);
+        await setDoc(doc(db, "vet_questions", bankId), {questions_json: str}, {merge:true});
+        bank.questions_json = str;
+        await setDoc(doc(db, "vet_records", bankId), {questions_json: "[]"}, {merge:true}); // ترحيل وتفريغ
+        toast("تم حفظ السؤال");
+        closeModals();
+        renderAdmin();
+      } catch(er) { toast("خطأ بالحفظ"); }
+      
+      btn.disabled = false; btn.innerText = "حفظ السؤال";
+    };
+
+    // ================= CRUD Logic =================
+    async function saveRecord(data, existingId) {
+      try {
+        const id = existingId || "rec_" + Date.now() + Math.random().toString(36).slice(2,8);
+        data._uid = id; data.__backendId = id;
+        await setDoc(doc(db, "vet_records", id), data, {merge:true});
+        
+        const idx = appState.records.findIndex(x => x._uid === id);
+        if(idx >= 0) appState.records[idx] = {...appState.records[idx], ...data};
+        else appState.records.push(data);
+        
+        toast("تم الحفظ بنجاح");
+        renderAdmin();
+      } catch(e) { toast("خطأ في الحفظ"); }
+    }
+
+    window.delDoc = async (type, id) => {
+      if(!confirm("هل أنت متأكد من الحذف النهائي؟")) return;
+      try {
+        if(type === "subject") {
+          const bks = records("bank").filter(b => b.subject_id === id);
+          for(const b of bks) {
+            await deleteDoc(doc(db, "vet_records", b._uid));
+            await deleteDoc(doc(db, "vet_questions", b._uid));
+          }
+          await deleteDoc(doc(db, "vet_records", id));
+          appState.records = appState.records.filter(r => r._uid !== id && r.subject_id !== id);
+        } else if(type === "bank") {
+          await deleteDoc(doc(db, "vet_records", id));
+          await deleteDoc(doc(db, "vet_questions", id));
+          appState.records = appState.records.filter(r => r._uid !== id);
+        }
+        toast("تم الحذف"); renderAdmin();
+      } catch(e) { toast("خطأ بالحذف"); }
+    };
+
+    window.delQ = async (uid) => {
+      if(!confirm("حذف هذا السؤال؟")) return;
+      try {
+        const bankId = appState.adminBankId;
+        const bank = records("bank").find(x => x._uid === bankId);
+        const qs = parseQs(bank).filter(x => x._uid !== uid);
+        const str = JSON.stringify(qs);
+        await setDoc(doc(db, "vet_questions", bankId), {questions_json: str}, {merge:true});
+        bank.questions_json = str;
+        toast("تم حذف السؤال"); renderAdmin();
+      } catch(e) { toast("خطأ بالحذف"); }
+    };
+
+    // ================= Bulk Import =================
+    $("import-form").onsubmit = (e) => {
+      e.preventDefault();
+      const txt = $("import-text").value.replace(/\r\n/g,"\n").split("\n");
+      const acc = [], err = []; let cq = null, cnt = 0;
+      
+      const pushQ = () => {
+        if(!cq) return; cnt++;
+        const qtxt = cq.q.replace(/^[?؟\d\s\.\-\)]+/,"").trim(), m = [];
+        if(!qtxt) m.push("النص"); if(!cq.a.trim()) m.push("A"); if(!cq.b.trim()) m.push("B"); if(!cq.c.trim()) m.push("C"); if(!cq.d.trim()) m.push("D"); if(!["A","B","C","D"].includes(cq.ans)) m.push("الإجابة");
+        if(m.length) err.push(`سؤال ${cnt}: نقص (${m.join(",")})`);
+        else acc.push({_uid:"imp-"+Date.now()+"-"+cnt, question_text:qtxt, option_a:cq.a.trim(), option_b:cq.b.trim(), option_c:cq.c.trim(), option_d:cq.d.trim(), correct_answer:cq.ans, explanation:cq.exp.trim(), image_url:""});
+      };
+
+      txt.forEach(l => {
+        const line = l.trim(); if(!line) return;
+        const isA = /^A\s*[\)\.\:\-]/i.test(line), isB = /^B\s*[\)\.\:\-]/i.test(line), isC = /^C\s*[\)\.\:\-]/i.test(line), isD = /^D\s*[\)\.\:\-]/i.test(line);
+        const isAns = /^(?:Answer|الإجابة)\s*[:：\-]/i.test(line), isExp = /^(?:Explanation|التفسير|الشرح)\s*[:：\-]/i.test(line);
+        const isNew = /^\d+\s*[\.\-\)]/.test(line);
+        
+        if(isNew && cq && (cq.s==="ans"||cq.s==="exp")) { pushQ(); cq = null; }
+        if(isA||isB||isC||isD||isAns||isExp) {
+          if(!cq) cq = {q:"",a:"",b:"",c:"",d:"",ans:"",exp:"",s:"q"};
+          if(isA){ cq.s="a"; cq.a+=line.replace(/^A\s*[\)\.\:\-]\s*/i,"")+" "; }
+          else if(isB){ cq.s="b"; cq.b+=line.replace(/^B\s*[\)\.\:\-]\s*/i,"")+" "; }
+          else if(isC){ cq.s="c"; cq.c+=line.replace(/^C\s*[\)\.\:\-]\s*/i,"")+" "; }
+          else if(isD){ cq.s="d"; cq.d+=line.replace(/^D\s*[\)\.\:\-]\s*/i,"")+" "; }
+          else if(isAns){ cq.s="ans"; const mt=line.match(/(?:Answer|الإجابة)\s*[:：\-]\s*([ABCD])/i); if(mt) cq.ans=mt[1].toUpperCase(); }
+          else if(isExp){ cq.s="exp"; cq.exp+=line.replace(/^(?:Explanation|التفسير|الشرح)\s*[:：\-]\s*/i,"")+" "; }
+        } else {
+          if(cq && (cq.s==="ans"||cq.s==="exp")) { pushQ(); cq = null; }
+          if(!cq) cq = {q:"",a:"",b:"",c:"",d:"",ans:"",exp:"",s:"q"};
+          if(cq.s==="q") cq.q+=line+" "; else if(cq[cq.s]!==undefined) cq[cq.s]+=line+" ";
+        }
+      });
+      if(cq) pushQ();
+      
+      appState.pendingImport = acc;
+      $("import-preview").style.display = "block";
+      $("import-preview-summary").innerText = `تم استخراج ${acc.length} سؤال جاهز للحفظ.`;
+      $("import-errors").innerHTML = err.map(x=>`<li>${esc(x)}</li>`).join("");
+      $("confirm-import-button").style.display = acc.length ? "inline-flex" : "none";
+    };
+
+    window.confirmImport = async () => {
+      const bankId = $("import-bank").value;
+      const bank = records("bank").find(x => x._uid === bankId);
+      if(!bank || !appState.pendingImport.length) return;
+      
+      $("confirm-import-button").innerText = "جاري الحفظ...";
+      try {
+        await loadBankQs(bankId);
+        const qs = parseQs(bank);
+        appState.pendingImport.forEach(q => qs.push(q));
+        const str = JSON.stringify(qs);
+        await setDoc(doc(db, "vet_questions", bankId), {questions_json: str}, {merge:true});
+        bank.questions_json = str;
+        
+        $("import-preview").style.display = "none";
+        $("import-text").value = "";
+        appState.pendingImport = [];
+        toast("تم الاستيراد بنجاح");
+        renderAdmin();
+      } catch(e) { toast("خطأ بالاستيراد"); }
+      $("confirm-import-button").innerText = "تأكيد وحفظ الاستيراد";
+    };
+
+    // ================= Backup & Restore =================
+    window.copyBackup = () => {
+      try { navigator.clipboard.writeText($("backup-export").value); toast("تم النسخ!"); }
+      catch{ $("backup-export").select(); document.execCommand("copy"); toast("تم النسخ!"); }
+    };
+    
+    window.restoreBackup = async () => {
+      try {
+        const items = JSON.parse($("backup-import").value);
+        if(!Array.isArray(items)) throw new Error();
+        let cnt = 0;
+        for(const itm of items) {
+          const id = itm._uid || itm.__backendId;
+          if(!id) continue;
+          await setDoc(doc(db, "vet_records", id), itm, {merge:true});
+          cnt++;
+        }
+        toast(`تمت استعادة ${cnt} سجل`);
+        setTimeout(() => window.location.reload(), 1500);
+      } catch(e) { toast("صيغة النسخة غير صحيحة"); }
+    };
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
