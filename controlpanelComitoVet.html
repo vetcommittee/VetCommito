@@ -1,674 +1,696 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0d1b33" />
-    <title>VetCommitto | بوابة الإدارة</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCommitto | بوابة الإدارة</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
+      --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
+      --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
+      --card-bg: #fff; --card-border: #dfe3ed;
+      --btn-bg: #f0f3f7; --text-muted: #8893a4;
+      --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
+    }
+    [data-theme="dark"] {
+      --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
+      --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
+      --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
+      --card-bg: #1e293b; --card-border: #334155;
+      --btn-bg: #334155; --text-muted: #949daf;
+      --nav-bg: #0f172a; --nav-border: #1e293b;
+    }
     
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <style>
-      :root {
-        --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
-        --ink: #1a2233; --slate: #606d85; --muted: #edf0f5; --paper: #f5f7fa;
-        --line: #e2e6ed; --white: #fff; --teal: #b8d7d2; --gold: #d1aa5c;
-        --card-bg: #fff; --card-border: #dfe3ed;
-        --btn-bg: #f0f3f7; --text-muted: #8893a4;
-      }
-      [data-theme="dark"] {
-        --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
-        --ink: #e0e5ed; --slate: #949daf; --muted: #1e293b; --paper: #0b1120;
-        --line: #334155; --white: #0f172a; --teal: #b8d7d2; --gold: #d1aa5c;
-        --card-bg: #1e293b; --card-border: #334155;
-        --btn-bg: #334155; --text-muted: #949daf;
-      }
-      
-      * { box-sizing: border-box; }
-      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; padding-bottom: 80px;}
-      button, input, select, textarea { font: inherit; }
-      button { cursor: pointer; }
-      a { color: inherit; text-decoration: none; }
-      
-      .wrap { width: min(1000px, calc(100% - 30px)); margin-inline: auto; }
-      
-      .topbar { background: var(--card-bg); border-bottom: 1px solid var(--line); padding: 15px 0; position: sticky; top: 0; z-index: 100; }
-      .navrow { display: flex; align-items: center; justify-content: space-between; }
-      .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
-      
-      .tab-bar { display: flex; gap: 10px; margin-top: 30px; border-bottom: 1px solid var(--line); padding-bottom: 15px; overflow-x: auto;}
-      .tab-btn { background: transparent; border: none; padding: 8px 16px; font-size: 14px; color: var(--slate); font-weight: 600; border-radius: 8px; transition: 0.2s; white-space: nowrap;}
-      .tab-btn.active { background: var(--btn-bg); color: var(--purple); }
-      .tab-content { display: none; margin-top: 30px; animation: fadein 0.3s; }
-      .tab-content.active { display: block; }
-      @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-      
-      .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-      .card-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--navy); margin: 0 0 20px; }
-      
-      .field { width: 100%; border: 1px solid var(--card-border); background: var(--paper); padding: 12px 14px; border-radius: 10px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s; margin-bottom: 15px;}
-      .field:focus { border-color: var(--purple); background: var(--card-bg);}
-      
-      .primary-btn { border: 0; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
-      .primary-btn:hover { opacity: 0.9; }
-      .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
-      .ghost-btn:hover { background: var(--btn-bg); }
-      .danger-btn { border: 0; background: #fee2e2; color: #dc2626; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: 0.2s; }
-      
-      .data-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-      .data-item { display: flex; align-items: center; justify-content: space-between; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); gap: 15px;}
-      .data-meta { font-size: 13px; color: var(--navy); font-weight: 600; line-height: 1.4;}
-      .data-sub { font-size: 11px; color: var(--slate); margin-top: 4px; display: block;}
-      
-      .filters-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: var(--btn-bg); padding: 10px; border-radius: 12px;}
-      .filter-sel { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); border-radius: 8px; padding: 6px 10px; font-size: 12px; outline: none;}
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; padding-bottom: 80px;}
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    
+    .wrap { width: min(1000px, calc(100% - 30px)); margin-inline: auto; }
+    
+    .topbar { background: var(--card-bg); border-bottom: 1px solid var(--line); padding: 15px 0; position: sticky; top: 0; z-index: 100; }
+    .navrow { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
+    
+    .tab-bar { display: flex; gap: 10px; margin-top: 30px; border-bottom: 1px solid var(--line); padding-bottom: 15px; overflow-x: auto;}
+    .tab-btn { background: transparent; border: none; padding: 8px 16px; font-size: 14px; color: var(--slate); font-weight: 600; border-radius: 8px; transition: 0.2s; white-space: nowrap;}
+    .tab-btn.active { background: var(--btn-bg); color: var(--purple); }
+    .tab-content { display: none; margin-top: 30px; animation: fadein 0.3s; }
+    .tab-content.active { display: block; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .card-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--navy); margin: 0 0 20px; }
+    
+    .field { width: 100%; border: 1px solid var(--card-border); background: var(--paper); padding: 12px 14px; border-radius: 10px; outline: none; color: var(--ink); font-size: 13px; transition: 0.2s; margin-bottom: 15px;}
+    .field:focus { border-color: var(--purple); background: var(--card-bg);}
+    
+    .primary-btn { border: 0; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
+    .primary-btn:hover { opacity: 0.9; }
+    .ghost-btn { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.2s; }
+    .ghost-btn:hover { background: var(--btn-bg); }
+    .danger-btn { border: 0; background: #fee2e2; color: #dc2626; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: 0.2s; }
+    
+    .data-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+    .data-item { display: flex; align-items: center; justify-content: space-between; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); gap: 15px;}
+    .data-meta { font-size: 13px; color: var(--navy); font-weight: 600; line-height: 1.4;}
+    .data-sub { font-size: 11px; color: var(--slate); margin-top: 4px; display: block;}
+    
+    .filters-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: var(--btn-bg); padding: 10px; border-radius: 12px;}
+    .filter-sel { border: 1px solid var(--line); background: var(--card-bg); color: var(--navy); border-radius: 8px; padding: 6px 10px; font-size: 12px; outline: none;}
 
-      .toast { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 3000; animation: toast-in 0.3s, toast-out 0.3s 4s forwards; }
-      @keyframes toast-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
-      @keyframes toast-out { to { opacity:0; transform:translateY(10px); } }
-      
-      #loginOverlay { position: fixed; inset: 0; background: var(--card-bg); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-      .login-box { max-width: 400px; width: 100%; text-align: center; }
-    </style>
-  </head>
-  <body>
+    .toast { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 3000; animation: toast-in 0.3s, toast-out 0.3s 4s forwards; }
+    @keyframes toast-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+    @keyframes toast-out { to { opacity:0; transform:translateY(10px); } }
     
-    <div id="loginOverlay">
-      <div class="login-box card">
-        <h2 style="color:var(--navy); margin-bottom:10px;">تسجيل الدخول</h2>
-        <p style="color:var(--slate); font-size:13px; margin-bottom:20px;">بوابة الإدارة خاصة بأعضاء اللجنة فقط.</p>
-        <input type="email" id="authEmail" class="field" placeholder="البريد الإلكتروني" />
-        <input type="password" id="authPass" class="field" placeholder="كلمة المرور" />
-        <button class="primary-btn" id="loginBtn" style="margin-bottom:10px;">تسجيل الدخول</button>
-        <div id="loginErr" style="color:#dc2626; font-size:12px; display:none;">بيانات غير صحيحة.</div>
+    #loginOverlay { position: fixed; inset: 0; background: var(--card-bg); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .login-box { max-width: 400px; width: 100%; text-align: center; }
+  </style>
+</head>
+<body>
+  
+  <div id="loginOverlay">
+    <div class="login-box card">
+      <h2 style="color:var(--navy); margin-bottom:10px;">تسجيل الدخول</h2>
+      <p style="color:var(--slate); font-size:13px; margin-bottom:20px;">بوابة الإدارة خاصة بأعضاء اللجنة فقط.</p>
+      <input type="email" id="authEmail" class="field" placeholder="البريد الإلكتروني" />
+      <input type="password" id="authPass" class="field" placeholder="كلمة المرور" />
+      <button class="primary-btn" id="loginBtn" style="margin-bottom:10px;">تسجيل الدخول</button>
+      <div id="loginErr" style="color:#dc2626; font-size:12px; display:none;">بيانات غير صحيحة.</div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap navrow">
+      <div class="brand">
+        <i data-lucide="shield-check" width="24" style="color:var(--gold)"></i>
+        <span>VetCommitto | بوابة الإدارة</span>
       </div>
+      <button id="logoutBtn" style="border:none; background:transparent; color:var(--slate); font-size:12px; display:none;"><i data-lucide="log-out" width="16" style="vertical-align:middle"></i> خروج</button>
+    </div>
+  </header>
+
+  <main class="wrap" style="display:none;" id="mainContent">
+    <div class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-tab="tab-courses">المساقات والمواد</button>
+      <button class="tab-btn" data-tab="tab-exams">الامتحانات</button>
+      <button class="tab-btn" data-tab="tab-announcements">الإعلانات</button>
+      <button class="tab-btn" data-tab="tab-links">الروابط</button>
+      <button class="tab-btn" data-tab="tab-system">بيانات النظام</button>
     </div>
 
-    <header class="topbar">
-      <div class="wrap navrow">
-        <div class="brand">
-          <i data-lucide="shield-check" width="24" style="color:var(--gold)"></i>
-          <span>VetCommitto | بوابة الإدارة</span>
-        </div>
-        <button id="logoutBtn" style="border:none; background:transparent; color:var(--slate); font-size:12px; display:none;"><i data-lucide="log-out" width="16" style="vertical-align:middle"></i> خروج</button>
-      </div>
-    </header>
-
-    <main class="wrap" style="display:none;" id="mainContent">
-      <div class="tab-bar" id="tabBar">
-        <button class="tab-btn active" data-tab="tab-courses">المساقات والمواد</button>
-        <button class="tab-btn" data-tab="tab-exams">الامتحانات</button>
-        <button class="tab-btn" data-tab="tab-announcements">الإعلانات</button>
-        <button class="tab-btn" data-tab="tab-links">الروابط</button>
-        <button class="tab-btn" data-tab="tab-system">بيانات النظام</button>
-      </div>
-
-      <!-- تبويب المساقات -->
-      <div id="tab-courses" class="tab-content active">
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="folder-plus"></i> إضافة مساق جديد</h3>
-          <form id="courseForm" onsubmit="event.preventDefault();">
-            <input type="text" id="cName" class="field" placeholder="اسم المساق (مثال: علم أمراض الدم)" required />
-            <input type="text" id="cCode" class="field" placeholder="الرمز (مثال: طب 355)" />
-            <div style="display:flex; gap:10px;">
-              <select id="cYear" class="field" required>
-                <option value="" disabled selected>السنة...</option>
-                <option value="1">السنة الأولى</option><option value="2">السنة الثانية</option>
-                <option value="3">السنة الثالثة</option><option value="4">السنة الرابعة</option>
-                <option value="5">السنة الخامسة</option><option value="6">السنة السادسة</option>
-                <option value="elective">مواد اختيارية</option><option value="university">متطلبات جامعة</option>
-              </select>
-              <select id="cSem" class="field" required>
-                <option value="" disabled selected>الفصل...</option>
-                <option value="1">الأول</option><option value="2">الثاني</option><option value="summer">صيفي</option>
-              </select>
-            </div>
-            <button type="submit" class="primary-btn">إضافة مساق</button>
-          </form>
-        </div>
-
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="book-open"></i> إدارة المساقات</h3>
-          <div class="filters-row">
-            <select id="filterYear" class="filter-sel">
-              <option value="all">كل السنوات</option>
-              <option value="1">السنة 1</option><option value="2">السنة 2</option><option value="3">السنة 3</option>
-              <option value="4">السنة 4</option><option value="5">السنة 5</option><option value="6">السنة 6</option>
-            </select>
-            <select id="filterSem" class="filter-sel">
-              <option value="all">كل الفصول</option>
-              <option value="1">الفصل الأول</option><option value="2">الفصل الثاني</option><option value="summer">الصيفي</option>
-            </select>
-          </div>
-          <div class="data-list" id="coursesList">جاري التحميل...</div>
-        </div>
-      </div>
-
-      <!-- تبويب الامتحانات -->
-      <div id="tab-exams" class="tab-content">
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="calendar-plus"></i> إضافة امتحان</h3>
-          <form id="examForm" onsubmit="event.preventDefault();">
-            <input type="text" id="exTitle" class="field" placeholder="اسم الامتحان (مثال: فاينل - باثولوجي)" required />
-            <input type="date" id="exDate" class="field" required />
-            <div style="display:flex; gap:10px;">
-              <input type="time" id="exTime" class="field" />
-              <input type="text" id="exPlace" class="field" placeholder="القاعة (اختياري)" />
-            </div>
-            <select id="exCourse" class="field">
-              <option value="">غير مرتبط بمساق محدد</option>
-            </select>
-            <button type="submit" class="primary-btn">إضافة امتحان</button>
-          </form>
-        </div>
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="calendar"></i> الامتحانات المجدولة</h3>
-          <div class="data-list" id="examsList">جاري التحميل...</div>
-        </div>
-      </div>
-
-      <!-- تبويب الإعلانات -->
-      <div id="tab-announcements" class="tab-content">
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="megaphone"></i> إضافة إعلان</h3>
-          <form id="annForm" onsubmit="event.preventDefault();">
-            <input type="text" id="aTitle" class="field" placeholder="عنوان الإعلان" required />
-            <textarea id="aMsg" class="field" rows="3" placeholder="نص الإعلان..." required></textarea>
-            <button type="submit" class="primary-btn">نشر الإعلان</button>
-          </form>
-        </div>
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="list"></i> الإعلانات السابقة</h3>
-          <div class="data-list" id="annsList"></div>
-        </div>
-      </div>
-
-      <!-- تبويب الروابط -->
-      <div id="tab-links" class="tab-content">
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="link"></i> إضافة رابط (للقائمة الجانبية)</h3>
-          <form id="linkForm" onsubmit="event.preventDefault();">
-            <input type="text" id="lTitle" class="field" placeholder="اسم الرابط (مثال: بنك الأسئلة)" required />
-            <input type="url" id="lUrl" class="field" placeholder="https://..." required />
-            <button type="submit" class="primary-btn">إضافة رابط</button>
-          </form>
-        </div>
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="list"></i> الروابط الحالية</h3>
-          <div class="data-list" id="linksList"></div>
-        </div>
-      </div>
-
-      <!-- تبويب النظام -->
-      <div id="tab-system" class="tab-content">
-        <!-- زر تنظيف التكرار -->
-        <div class="card" style="margin-bottom: 30px; border: 2px dashed #ef4444;">
-          <h3 class="card-title" style="color:#ef4444"><i data-lucide="trash-2"></i> تنظيف التكرار</h3>
-          <p style="font-size:13px; color:var(--slate); margin-bottom:15px;">سيقوم هذا الزر بفحص جميع المساقات وحذف النسخ المكررة وإبقاء نسخة واحدة فقط.</p>
-          <button id="cleanBtn" class="primary-btn" style="background:#ef4444;">تنظيف المواد المكررة الآن</button>
-        </div>
-
-        <div class="card" style="margin-bottom: 20px;">
-          <h3 class="card-title"><i data-lucide="download-cloud"></i> تصدير البيانات</h3>
-          <button id="exportBtn" class="ghost-btn"><i data-lucide="download"></i> تحميل النسخة الاحتياطية (JSON)</button>
-        </div>
-        <div class="card">
-          <h3 class="card-title"><i data-lucide="upload-cloud"></i> استعادة البيانات (JSON ذكي)</h3>
-          <p style="font-size:12px; color:var(--slate);">يدعم هذا الحقل رفع المساقات، الامتحانات، أو الروابط والمواد (Resources). وسيقوم تلقائياً بربطها بالمساقات بناءً على الاسم لمنع التكرار.</p>
-          <textarea id="jsonInput" class="field" rows="5" placeholder='الصق كود الـ JSON هنا...'></textarea>
-          <button id="importBtn" class="primary-btn">مزامنة ورفع البيانات</button>
-        </div>
-      </div>
-    </main>
-
-    <div id="toastRegion"></div>
-
-    <!-- Modals (النوافذ المنبثقة للتعديل والمواد) -->
-    <div id="resModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px;">
-      <div class="card" style="width:100%; max-width:500px; max-height:90vh; overflow-y:auto;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);" id="resModalTitle">مواد المساق</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('resModal').style.display='none'"><i data-lucide="x"></i></button></div>
-        <form id="resForm" style="background:var(--paper); padding:15px; border-radius:12px; margin-bottom:15px;" onsubmit="event.preventDefault();">
-          <input type="hidden" id="rCourseId" />
-          <input type="text" id="rTitle" class="field" placeholder="اسم الملف/الرابط (مثال: سلايدات الفاينل)" required />
-          <input type="url" id="rUrl" class="field" placeholder="رابط جوجل درايف أو الموقع" required />
-          <select id="rType" class="field" required>
-            <option value="lecture">محاضرة / سلايد</option><option value="records">تسجيل صوتي</option>
-            <option value="exam">ملخص / سنوات</option><option value="other">أخرى</option>
-          </select>
-          <button type="submit" class="primary-btn" style="background:var(--purple)">إضافة مادة</button>
-        </form>
-        <div class="data-list" id="resList"></div>
-      </div>
-    </div>
-
-    <!-- Edit Course Modal -->
-    <div id="editCourseModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
-      <div class="card" style="width:100%; max-width:500px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل المساق</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editCourseModal').style.display='none'"><i data-lucide="x"></i></button></div>
-        <form id="editCourseForm" onsubmit="event.preventDefault();">
-          <input type="hidden" id="ecId" /><input type="text" id="ecName" class="field" required /><input type="text" id="ecCode" class="field" />
+    <!-- تبويب المساقات -->
+    <div id="tab-courses" class="tab-content active">
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="folder-plus"></i> إضافة مساق جديد</h3>
+        <form id="courseForm" onsubmit="event.preventDefault();">
           <div style="display:flex; gap:10px;">
-            <select id="ecYear" class="field"><option value="1">السنة الأولى</option><option value="2">السنة الثانية</option><option value="3">السنة الثالثة</option><option value="4">السنة الرابعة</option><option value="5">السنة الخامسة</option><option value="6">السنة السادسة</option><option value="elective">مواد اختيارية</option><option value="university">متطلبات جامعة</option></select>
-            <select id="ecSem" class="field"><option value="1">الأول</option><option value="2">الثاني</option><option value="summer">صيفي</option></select>
+              <select id="cMajor" class="field" required>
+                <option value="vet" selected>تخصص دكتور في الطب البيطري</option>
+                <option value="nursing">تخصص الرعاية والتمريض البيطري</option>
+              </select>
           </div>
-          <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+          <input type="text" id="cName" class="field" placeholder="اسم المساق (مثال: علم أمراض الدم)" required />
+          <input type="text" id="cCode" class="field" placeholder="الرمز (مثال: طب 355)" />
+          <div style="display:flex; gap:10px;">
+            <select id="cYear" class="field" required>
+              <option value="" disabled selected>السنة...</option>
+              <option value="1">السنة الأولى</option><option value="2">السنة الثانية</option>
+              <option value="3">السنة الثالثة</option><option value="4">السنة الرابعة</option>
+              <option value="5">السنة الخامسة</option><option value="6">السنة السادسة</option>
+              <option value="elective">مواد اختيارية</option><option value="university">متطلبات جامعة</option>
+            </select>
+            <select id="cSem" class="field" required>
+              <option value="" disabled selected>الفصل...</option>
+              <option value="1">الأول</option><option value="2">الثاني</option><option value="summer">صيفي</option>
+            </select>
+          </div>
+          <button type="submit" class="primary-btn">إضافة مساق</button>
         </form>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="book-open"></i> إدارة المساقات</h3>
+        <div class="filters-row">
+          <select id="filterMajor" class="filter-sel">
+            <option value="all">كل التخصصات</option>
+            <option value="vet" selected>الطب البيطري</option>
+            <option value="nursing">التمريض البيطري</option>
+          </select>
+          <select id="filterYear" class="filter-sel">
+            <option value="all">كل السنوات</option>
+            <option value="1">السنة 1</option><option value="2">السنة 2</option><option value="3">السنة 3</option>
+            <option value="4">السنة 4</option><option value="5">السنة 5</option><option value="6">السنة 6</option>
+          </select>
+          <select id="filterSem" class="filter-sel">
+            <option value="all">كل الفصول</option>
+            <option value="1">الفصل الأول</option><option value="2">الفصل الثاني</option><option value="summer">الصيفي</option>
+          </select>
+        </div>
+        <div class="data-list" id="coursesList">جاري التحميل...</div>
       </div>
     </div>
 
-    <!-- Edit Exam Modal -->
-    <div id="editExamModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
-      <div class="card" style="width:100%; max-width:500px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الامتحان</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editExamModal').style.display='none'"><i data-lucide="x"></i></button></div>
-        <form id="editExamForm" onsubmit="event.preventDefault();">
-          <input type="hidden" id="eeId" /><input type="text" id="eeTitle" class="field" required /><input type="date" id="eeDate" class="field" required />
-          <div style="display:flex; gap:10px;"><input type="time" id="eeTime" class="field" /><input type="text" id="eePlace" class="field" placeholder="القاعة (اختياري)" /></div>
-          <select id="eeCourse" class="field"><option value="">غير مرتبط بمساق محدد</option></select>
-          <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+    <!-- تبويب الامتحانات -->
+    <div id="tab-exams" class="tab-content">
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="calendar-plus"></i> إضافة امتحان</h3>
+        <form id="examForm" onsubmit="event.preventDefault();">
+          <input type="text" id="exTitle" class="field" placeholder="اسم الامتحان (مثال: فاينل - باثولوجي)" required />
+          <input type="date" id="exDate" class="field" required />
+          <div style="display:flex; gap:10px;">
+            <input type="time" id="exTime" class="field" />
+            <input type="text" id="exPlace" class="field" placeholder="القاعة (اختياري)" />
+          </div>
+          <select id="exCourse" class="field">
+            <option value="">غير مرتبط بمساق محدد</option>
+          </select>
+          <button type="submit" class="primary-btn">إضافة امتحان</button>
         </form>
+      </div>
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="calendar"></i> الامتحانات المجدولة</h3>
+        <div class="data-list" id="examsList">جاري التحميل...</div>
       </div>
     </div>
 
-    <!-- Edit Ann Modal -->
-    <div id="editAnnModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
-      <div class="card" style="width:100%; max-width:500px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الإعلان</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editAnnModal').style.display='none'"><i data-lucide="x"></i></button></div>
-        <form id="editAnnForm" onsubmit="event.preventDefault();">
-          <input type="hidden" id="eaId" /><input type="text" id="eaTitle" class="field" required /><textarea id="eaMsg" class="field" rows="3" required></textarea>
-          <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+    <!-- تبويب الإعلانات -->
+    <div id="tab-announcements" class="tab-content">
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="megaphone"></i> إضافة إعلان</h3>
+        <form id="annForm" onsubmit="event.preventDefault();">
+          <input type="text" id="aTitle" class="field" placeholder="عنوان الإعلان" required />
+          <textarea id="aMsg" class="field" rows="3" placeholder="نص الإعلان..." required></textarea>
+          <button type="submit" class="primary-btn">نشر الإعلان</button>
         </form>
+      </div>
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="list"></i> الإعلانات السابقة</h3>
+        <div class="data-list" id="annsList"></div>
       </div>
     </div>
 
-    <!-- Edit Link Modal -->
-    <div id="editLinkModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
-      <div class="card" style="width:100%; max-width:500px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الرابط</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editLinkModal').style.display='none'"><i data-lucide="x"></i></button></div>
-        <form id="editLinkForm" onsubmit="event.preventDefault();">
-          <input type="hidden" id="elId" /><input type="text" id="elTitle" class="field" required /><input type="url" id="elUrl" class="field" required />
-          <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+    <!-- تبويب الروابط -->
+    <div id="tab-links" class="tab-content">
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="link"></i> إضافة رابط (للقائمة الجانبية)</h3>
+        <form id="linkForm" onsubmit="event.preventDefault();">
+          <input type="text" id="lTitle" class="field" placeholder="اسم الرابط (مثال: بنك الأسئلة)" required />
+          <input type="url" id="lUrl" class="field" placeholder="https://..." required />
+          <button type="submit" class="primary-btn">إضافة رابط</button>
         </form>
       </div>
-    </div>
-    
-    <!-- Edit Resource Modal -->
-    <div id="editResModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2200; align-items:center; justify-content:center; padding:20px;">
-      <div class="card" style="width:100%; max-width:500px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل المادة</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editResModal').style.display='none'"><i data-lucide="x"></i></button></div>
-        <form id="editResForm" onsubmit="event.preventDefault();">
-          <input type="hidden" id="erId" /><input type="hidden" id="erCourseId" /><input type="text" id="erTitle" class="field" required /><input type="url" id="erUrl" class="field" required />
-          <select id="erType" class="field" required><option value="lecture">محاضرة / سلايد</option><option value="records">تسجيل صوتي</option><option value="exam">ملخص / سنوات</option><option value="other">أخرى</option></select>
-          <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
-        </form>
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="list"></i> الروابط الحالية</h3>
+        <div class="data-list" id="linksList"></div>
       </div>
     </div>
 
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-      import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <!-- تبويب النظام -->
+    <div id="tab-system" class="tab-content">
+      <!-- زر تنظيف التكرار -->
+      <div class="card" style="margin-bottom: 30px; border: 2px dashed #ef4444;">
+        <h3 class="card-title" style="color:#ef4444"><i data-lucide="trash-2"></i> تنظيف التكرار</h3>
+        <p style="font-size:13px; color:var(--slate); margin-bottom:15px;">سيقوم هذا الزر بفحص جميع المساقات وحذف النسخ المكررة وإبقاء نسخة واحدة فقط.</p>
+        <button id="cleanBtn" class="primary-btn" style="background:#ef4444;">تنظيف المواد المكررة الآن</button>
+      </div>
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
-        authDomain: "vetcommitto.firebaseapp.com",
-        projectId: "vetcommitto",
-        storageBucket: "vetcommitto.firebasestorage.app",
-        messagingSenderId: "373611992706",
-        appId: "1:373611992706:web:5de16778bb9d9544d0069b"
-      };
+      <div class="card" style="margin-bottom: 20px;">
+        <h3 class="card-title"><i data-lucide="download-cloud"></i> تصدير البيانات</h3>
+        <button id="exportBtn" class="ghost-btn"><i data-lucide="download"></i> تحميل النسخة الاحتياطية (JSON)</button>
+      </div>
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="upload-cloud"></i> استعادة البيانات (JSON ذكي)</h3>
+        <p style="font-size:12px; color:var(--slate);">يدعم رفع المساقات، الامتحانات، أو الروابط. وسيقوم تلقائياً بربطها بالمساقات. إذا لم يُحدد التخصص سيتم اعتباره طب بيطري تلقائياً.</p>
+        <textarea id="jsonInput" class="field" rows="5" placeholder='الصق كود الـ JSON هنا...'></textarea>
+        <button id="importBtn" class="primary-btn">مزامنة ورفع البيانات</button>
+      </div>
+    </div>
+  </main>
 
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
+  <div id="toastRegion"></div>
 
-      const UI = {
-        el: id => document.getElementById(id),
-        toast(msg) {
-          const t = document.createElement("div"); t.className = "toast";
-          t.innerHTML = `<i data-lucide="info" width="18"></i><span>${msg}</span>`;
-          this.el("toastRegion").append(t); lucide.createIcons();
-          setTimeout(() => t.remove(), 4500);
-        },
-        bumpMeta() { setDoc(doc(db, "acad_settings", "meta"), { v: Date.now().toString() }, { merge:true }); }
-      };
+  <!-- Modals (النوافذ المنبثقة للتعديل والمواد) -->
+  <div id="resModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:500px; max-height:90vh; overflow-y:auto;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);" id="resModalTitle">مواد المساق</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('resModal').style.display='none'"><i data-lucide="x"></i></button></div>
+      <form id="resForm" style="background:var(--paper); padding:15px; border-radius:12px; margin-bottom:15px;" onsubmit="event.preventDefault();">
+        <input type="hidden" id="rCourseId" />
+        <input type="text" id="rTitle" class="field" placeholder="اسم الملف/الرابط (مثال: سلايدات الفاينل)" required />
+        <input type="url" id="rUrl" class="field" placeholder="رابط جوجل درايف أو الموقع" required />
+        <select id="rType" class="field" required>
+          <option value="lecture">محاضرة / سلايد</option><option value="records">تسجيل صوتي</option>
+          <option value="exam">ملخص / سنوات</option><option value="other">أخرى</option>
+        </select>
+        <button type="submit" class="primary-btn" style="background:var(--purple)">إضافة مادة</button>
+      </form>
+      <div class="data-list" id="resList"></div>
+    </div>
+  </div>
 
-      let state = { courses: [], exams: [], anns: [], links: [], currentResources: [] };
-      const cleanStr = s => String(s || "").replace(/[\s\t\r\n]+/g, " ").trim();
+  <!-- Edit Course Modal -->
+  <div id="editCourseModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:500px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل المساق</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editCourseModal').style.display='none'"><i data-lucide="x"></i></button></div>
+      <form id="editCourseForm" onsubmit="event.preventDefault();">
+        <input type="hidden" id="ecId" />
+        <select id="ecMajor" class="field" required>
+          <option value="vet">تخصص دكتور في الطب البيطري</option>
+          <option value="nursing">تخصص الرعاية والتمريض البيطري</option>
+        </select>
+        <input type="text" id="ecName" class="field" required />
+        <input type="text" id="ecCode" class="field" />
+        <div style="display:flex; gap:10px;">
+          <select id="ecYear" class="field"><option value="1">السنة الأولى</option><option value="2">السنة الثانية</option><option value="3">السنة الثالثة</option><option value="4">السنة الرابعة</option><option value="5">السنة الخامسة</option><option value="6">السنة السادسة</option><option value="elective">مواد اختيارية</option><option value="university">متطلبات جامعة</option></select>
+          <select id="ecSem" class="field"><option value="1">الأول</option><option value="2">الثاني</option><option value="summer">صيفي</option></select>
+        </div>
+        <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+      </form>
+    </div>
+  </div>
 
-      onAuthStateChanged(auth, user => {
-        if (user) {
-          UI.el("loginOverlay").style.display = "none";
-          UI.el("mainContent").style.display = "block";
-          UI.el("logoutBtn").style.display = "inline-flex";
-          loadAll();
-        } else {
-          UI.el("loginOverlay").style.display = "flex";
-          UI.el("mainContent").style.display = "none";
-          UI.el("logoutBtn").style.display = "none";
-        }
-      });
-      UI.el("loginBtn").onclick = () => { signInWithEmailAndPassword(auth, UI.el("authEmail").value, UI.el("authPass").value).catch(() => UI.el("loginErr").style.display="block"); };
-      UI.el("logoutBtn").onclick = () => signOut(auth);
+  <!-- Edit Exam Modal -->
+  <div id="editExamModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:500px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الامتحان</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editExamModal').style.display='none'"><i data-lucide="x"></i></button></div>
+      <form id="editExamForm" onsubmit="event.preventDefault();">
+        <input type="hidden" id="eeId" /><input type="text" id="eeTitle" class="field" required /><input type="date" id="eeDate" class="field" required />
+        <div style="display:flex; gap:10px;"><input type="time" id="eeTime" class="field" /><input type="text" id="eePlace" class="field" placeholder="القاعة (اختياري)" /></div>
+        <select id="eeCourse" class="field"><option value="">غير مرتبط بمساق محدد</option></select>
+        <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+      </form>
+    </div>
+  </div>
 
-      document.querySelectorAll(".tab-btn").forEach(b => {
-        b.onclick = () => {
-          document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
-          document.querySelectorAll(".tab-content").forEach(x => x.classList.remove("active"));
-          b.classList.add("active"); UI.el(b.dataset.tab).classList.add("active");
-        };
-      });
+  <!-- Edit Ann Modal -->
+  <div id="editAnnModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:500px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الإعلان</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editAnnModal').style.display='none'"><i data-lucide="x"></i></button></div>
+      <form id="editAnnForm" onsubmit="event.preventDefault();">
+        <input type="hidden" id="eaId" /><input type="text" id="eaTitle" class="field" required /><textarea id="eaMsg" class="field" rows="3" required></textarea>
+        <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+      </form>
+    </div>
+  </div>
 
-      async function loadAll() {
-        try {
-          const [cs, ex, an, lk] = await Promise.all([
-            getDocs(collection(db, "acad_courses")), getDocs(collection(db, "acad_exams")),
-            getDocs(collection(db, "acad_announcements")), getDocs(collection(db, "acad_links"))
-          ]);
-          state.courses = cs.docs.map(d => ({id:d.id, ...d.data()}));
-          state.exams = ex.docs.map(d => ({id:d.id, ...d.data()}));
-          state.anns = an.docs.map(d => ({id:d.id, ...d.data()}));
-          state.links = lk.docs.map(d => ({id:d.id, ...d.data()}));
-          renderCourses(); renderExams(); renderAnns(); renderLinks();
-          
-          const cOpts = `<option value="">-- غير مرتبط بمساق محدد --</option>` + state.courses.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
-          UI.el("exCourse").innerHTML = cOpts; UI.el("eeCourse").innerHTML = cOpts;
-          lucide.createIcons();
-        } catch(e) { UI.toast("خطأ في جلب البيانات"); }
+  <!-- Edit Link Modal -->
+  <div id="editLinkModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2100; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:500px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الرابط</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editLinkModal').style.display='none'"><i data-lucide="x"></i></button></div>
+      <form id="editLinkForm" onsubmit="event.preventDefault();">
+        <input type="hidden" id="elId" /><input type="text" id="elTitle" class="field" required /><input type="url" id="elUrl" class="field" required />
+        <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Edit Resource Modal -->
+  <div id="editResModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2200; align-items:center; justify-content:center; padding:20px;">
+    <div class="card" style="width:100%; max-width:500px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل المادة</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editResModal').style.display='none'"><i data-lucide="x"></i></button></div>
+      <form id="editResForm" onsubmit="event.preventDefault();">
+        <input type="hidden" id="erId" /><input type="hidden" id="erCourseId" /><input type="text" id="erTitle" class="field" required /><input type="url" id="erUrl" class="field" required />
+        <select id="erType" class="field" required><option value="lecture">محاضرة / سلايد</option><option value="records">تسجيل صوتي</option><option value="exam">ملخص / سنوات</option><option value="other">أخرى</option></select>
+        <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBisfCjLqOo-4_XU2XI_Ig5RDfCmJ5nx4Q",
+      authDomain: "vetcommitto.firebaseapp.com",
+      projectId: "vetcommitto",
+      storageBucket: "vetcommitto.firebasestorage.app",
+      messagingSenderId: "373611992706",
+      appId: "1:373611992706:web:5de16778bb9d9544d0069b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const UI = {
+      el: id => document.getElementById(id),
+      toast(msg) {
+        const t = document.createElement("div"); t.className = "toast";
+        t.innerHTML = `<i data-lucide="info" width="18"></i><span>${msg}</span>`;
+        this.el("toastRegion").append(t); lucide.createIcons();
+        setTimeout(() => t.remove(), 4500);
+      },
+      bumpMeta() { setDoc(doc(db, "acad_settings", "meta"), { v: Date.now().toString() }, { merge:true }); }
+    };
+
+    let state = { courses: [], exams: [], anns: [], links: [], currentResources: [] };
+    const cleanStr = s => String(s || "").replace(/[\s\t\r\n]+/g, " ").trim();
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        UI.el("loginOverlay").style.display = "none";
+        UI.el("mainContent").style.display = "block";
+        UI.el("logoutBtn").style.display = "inline-flex";
+        loadAll();
+      } else {
+        UI.el("loginOverlay").style.display = "flex";
+        UI.el("mainContent").style.display = "none";
+        UI.el("logoutBtn").style.display = "none";
       }
+    });
+    UI.el("loginBtn").onclick = () => { signInWithEmailAndPassword(auth, UI.el("authEmail").value, UI.el("authPass").value).catch(() => UI.el("loginErr").style.display="block"); };
+    UI.el("logoutBtn").onclick = () => signOut(auth);
 
-      // ---------------- ADD FORMS ----------------
-      UI.el("courseForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await addDoc(collection(db, "acad_courses"), { name: cleanStr(UI.el("cName").value), code: cleanStr(UI.el("cCode").value), year: UI.el("cYear").value, semester: UI.el("cSem").value, category: `year-${UI.el("cYear").value}`, updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.toast("تم الإضافة بنجاح"); UI.el("courseForm").reset(); loadAll();
-      });
-
-      UI.el("resForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await addDoc(collection(db, "acad_resources"), { courseId: UI.el("rCourseId").value, title: cleanStr(UI.el("rTitle").value), url: UI.el("rUrl").value.trim(), type: UI.el("rType").value, createdAt: serverTimestamp() });
-        UI.bumpMeta(); UI.el("resForm").reset(); window.openRes(UI.el("rCourseId").value, UI.el("resModalTitle").textContent.replace("مواد: ",""));
-      });
-
-      UI.el("examForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await addDoc(collection(db, "acad_exams"), { title: cleanStr(UI.el("exTitle").value), date: UI.el("exDate").value, time: UI.el("exTime").value, place: cleanStr(UI.el("exPlace").value), courseId: UI.el("exCourse").value, updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.toast("تم إضافة الامتحان"); UI.el("examForm").reset(); loadAll();
-      });
-
-      UI.el("annForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await addDoc(collection(db, "acad_announcements"), { title: cleanStr(UI.el("aTitle").value), message: cleanStr(UI.el("aMsg").value), createdAt: serverTimestamp() });
-        UI.bumpMeta(); UI.toast("تم النشر"); UI.el("annForm").reset(); loadAll();
-      });
-
-      UI.el("linkForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await addDoc(collection(db, "acad_links"), { title: cleanStr(UI.el("lTitle").value), url: UI.el("lUrl").value.trim(), updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.toast("تم الإضافة"); UI.el("linkForm").reset(); loadAll();
-      });
-
-      // ---------------- EDIT FORMS ----------------
-      window.openEditCourse = (id) => {
-        const c = state.courses.find(x => x.id === id); if(!c) return;
-        UI.el("ecId").value = c.id; UI.el("ecName").value = c.name || ""; UI.el("ecCode").value = c.code || ""; UI.el("ecYear").value = c.year || ""; UI.el("ecSem").value = c.semester || "";
-        UI.el("editCourseModal").style.display = "flex";
+    document.querySelectorAll(".tab-btn").forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll(".tab-btn").forEach(x => x.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); UI.el(b.dataset.tab).classList.add("active");
       };
-      UI.el("editCourseForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await updateDoc(doc(db, "acad_courses", UI.el("ecId").value), { name: cleanStr(UI.el("ecName").value), code: cleanStr(UI.el("ecCode").value), year: UI.el("ecYear").value, semester: UI.el("ecSem").value, category: `year-${UI.el("ecYear").value}`, updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.el("editCourseModal").style.display = "none"; UI.toast("تم التعديل بنجاح"); loadAll();
-      });
+    });
 
-      window.openEditExam = (id) => {
-        const x = state.exams.find(i => i.id === id); if(!x) return;
-        UI.el("eeId").value = x.id; UI.el("eeTitle").value = x.title || ""; UI.el("eeDate").value = x.date || ""; UI.el("eeTime").value = x.time || ""; UI.el("eePlace").value = x.place || ""; UI.el("eeCourse").value = x.courseId || "";
-        UI.el("editExamModal").style.display = "flex";
-      };
-      UI.el("editExamForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await updateDoc(doc(db, "acad_exams", UI.el("eeId").value), { title: cleanStr(UI.el("eeTitle").value), date: UI.el("eeDate").value, time: UI.el("eeTime").value, place: cleanStr(UI.el("eePlace").value), courseId: UI.el("eeCourse").value, updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.el("editExamModal").style.display = "none"; UI.toast("تم تعديل الامتحان"); loadAll();
-      });
-
-      window.openEditAnn = (id) => {
-        const x = state.anns.find(i => i.id === id); if(!x) return;
-        UI.el("eaId").value = x.id; UI.el("eaTitle").value = x.title || ""; UI.el("eaMsg").value = x.message || "";
-        UI.el("editAnnModal").style.display = "flex";
-      };
-      UI.el("editAnnForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await updateDoc(doc(db, "acad_announcements", UI.el("eaId").value), { title: cleanStr(UI.el("eaTitle").value), message: cleanStr(UI.el("eaMsg").value), updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.el("editAnnModal").style.display = "none"; UI.toast("تم تعديل الإعلان"); loadAll();
-      });
-
-      window.openEditLink = (id) => {
-        const x = state.links.find(i => i.id === id); if(!x) return;
-        UI.el("elId").value = x.id; UI.el("elTitle").value = x.title || ""; UI.el("elUrl").value = x.url || "";
-        UI.el("editLinkModal").style.display = "flex";
-      };
-      UI.el("editLinkForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await updateDoc(doc(db, "acad_links", UI.el("elId").value), { title: cleanStr(UI.el("elTitle").value), url: UI.el("elUrl").value.trim(), updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.el("editLinkModal").style.display = "none"; UI.toast("تم تعديل الرابط"); loadAll();
-      });
-
-      window.openEditRes = (id) => {
-        const x = state.currentResources.find(i => i.id === id); if(!x) return;
-        UI.el("erId").value = x.id; UI.el("erCourseId").value = x.courseId; UI.el("erTitle").value = x.title; UI.el("erUrl").value = x.url; UI.el("erType").value = x.type;
-        UI.el("editResModal").style.display = "flex";
-      };
-      UI.el("editResForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        await updateDoc(doc(db, "acad_resources", UI.el("erId").value), { title: cleanStr(UI.el("erTitle").value), url: UI.el("erUrl").value.trim(), type: UI.el("erType").value, updatedAt: serverTimestamp() });
-        UI.bumpMeta(); UI.el("editResModal").style.display = "none"; UI.toast("تم التعديل بنجاح");
-        window.openRes(UI.el("erCourseId").value, UI.el("resModalTitle").textContent.replace("مواد: ",""));
-      });
-
-
-      // ---------------- RENDER FUNCTIONS ----------------
-      function renderCourses() {
-        const yF = UI.el("filterYear").value; const sF = UI.el("filterSem").value;
-        const filtered = state.courses.filter(c => (yF==="all" || c.year===yF) && (sF==="all" || c.semester===sF));
-        UI.el("coursesList").innerHTML = filtered.length ? filtered.map(c => `
-          <div class="data-item">
-            <div style="flex:1;">
-              <div class="data-meta">${c.name} <small style="color:var(--slate)">(${c.code || "بدون رمز"})</small></div>
-              <span class="data-sub">السنة ${c.year} · الفصل ${c.semester==="summer"?"الصيفي":c.semester}</span>
-            </div>
-            <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditCourse('${c.id}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" style="background:var(--purple); color:#fff;" onclick="window.openRes('${c.id}', '${c.name}')">المواد</button>
-              <button class="danger-btn" onclick="window.delDoc('acad_courses', '${c.id}')"><i data-lucide="trash" width="14"></i></button>
-            </div>
-          </div>`).join("") : '<div style="text-align:center; padding:20px; color:var(--slate)">لا توجد مساقات بهذا الفلتر.</div>';
+    async function loadAll() {
+      try {
+        const [cs, ex, an, lk] = await Promise.all([
+          getDocs(collection(db, "acad_courses")), getDocs(collection(db, "acad_exams")),
+          getDocs(collection(db, "acad_announcements")), getDocs(collection(db, "acad_links"))
+        ]);
+        state.courses = cs.docs.map(d => ({id:d.id, ...d.data()}));
+        // التأكد من أن المواد القديمة تأخذ تخصص "الطب البيطري" لعدم ضياعها
+        state.courses.forEach(c => { if(!c.major) c.major = "vet"; });
+        
+        state.exams = ex.docs.map(d => ({id:d.id, ...d.data()}));
+        state.anns = an.docs.map(d => ({id:d.id, ...d.data()}));
+        state.links = lk.docs.map(d => ({id:d.id, ...d.data()}));
+        renderCourses(); renderExams(); renderAnns(); renderLinks();
+        
+        const cOpts = `<option value="">-- غير مرتبط بمساق محدد --</option>` + state.courses.map(c => `<option value="${c.id}">${c.major === 'nursing' ? '[تمريض] ' : ''}${c.name}</option>`).join("");
+        UI.el("exCourse").innerHTML = cOpts; UI.el("eeCourse").innerHTML = cOpts;
         lucide.createIcons();
-      }
-      UI.el("filterYear").onchange = renderCourses; UI.el("filterSem").onchange = renderCourses;
+      } catch(e) { UI.toast("خطأ في جلب البيانات"); }
+    }
 
-      window.openRes = async (cId, cName) => {
-        UI.el("rCourseId").value = cId; UI.el("resModalTitle").textContent = "مواد: " + cName;
-        UI.el("resModal").style.display = "flex"; UI.el("resList").innerHTML = "جاري التحميل...";
-        const snap = await getDocs(query(collection(db, "acad_resources"), where("courseId", "==", cId)));
-        state.currentResources = snap.docs.map(d => ({id:d.id, ...d.data()}));
-        UI.el("resList").innerHTML = state.currentResources.map(r => `
-          <div class="data-item" style="padding:10px;">
-            <div><div class="data-meta">${r.title}</div><a href="${r.url}" target="_blank" class="data-sub">${r.type}</a></div>
-            <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditRes('${r.id}')"><i data-lucide="edit-2" width="12"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_resources', '${r.id}'); setTimeout(()=>window.openRes('${cId}', '${cName}'), 500);"><i data-lucide="trash" width="12"></i></button>
-            </div>
-          </div>`).join("");
-        lucide.createIcons();
-      };
+    // ---------------- ADD FORMS ----------------
+    UI.el("courseForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "acad_courses"), { major: UI.el("cMajor").value, name: cleanStr(UI.el("cName").value), code: cleanStr(UI.el("cCode").value), year: UI.el("cYear").value, semester: UI.el("cSem").value, category: `year-${UI.el("cYear").value}`, updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.toast("تم الإضافة بنجاح"); UI.el("courseForm").reset(); loadAll();
+    });
 
-      function renderExams() {
-        UI.el("examsList").innerHTML = state.exams.map(e => `
-          <div class="data-item">
-            <div><div class="data-meta">${e.title}</div><span class="data-sub">${e.date} ${e.time?"· "+e.time:""}</span></div>
-            <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditExam('${e.id}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_exams', '${e.id}')"><i data-lucide="trash" width="14"></i></button>
-            </div>
-          </div>`).join("");
-      }
+    UI.el("resForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "acad_resources"), { courseId: UI.el("rCourseId").value, title: cleanStr(UI.el("rTitle").value), url: UI.el("rUrl").value.trim(), type: UI.el("rType").value, createdAt: serverTimestamp() });
+      UI.bumpMeta(); UI.el("resForm").reset(); window.openRes(UI.el("rCourseId").value, UI.el("resModalTitle").textContent.replace("مواد: ",""));
+    });
 
-      function renderAnns() {
-        UI.el("annsList").innerHTML = state.anns.map(a => `
-          <div class="data-item">
-            <div style="flex:1;"><div class="data-meta">${a.title}</div><span class="data-sub" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;">${a.message}</span></div>
-            <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditAnn('${a.id}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_announcements', '${a.id}')"><i data-lucide="trash" width="14"></i></button>
-            </div>
-          </div>`).join("");
-      }
-      
-      function renderLinks() {
-        UI.el("linksList").innerHTML = state.links.map(l => `
-          <div class="data-item">
-            <div><div class="data-meta">${l.title}</div></div>
-            <div style="display:flex; gap:6px;">
-              <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditLink('${l.id}')"><i data-lucide="edit-2" width="14"></i></button>
-              <button class="danger-btn" onclick="window.delDoc('acad_links', '${l.id}')"><i data-lucide="trash" width="14"></i></button>
-            </div>
-          </div>`).join("");
-      }
+    UI.el("examForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "acad_exams"), { title: cleanStr(UI.el("exTitle").value), date: UI.el("exDate").value, time: UI.el("exTime").value, place: cleanStr(UI.el("exPlace").value), courseId: UI.el("exCourse").value, updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.toast("تم إضافة الامتحان"); UI.el("examForm").reset(); loadAll();
+    });
 
-      window.delDoc = async (col, id) => {
-        if(confirm("متأكد من الحذف؟")) { await deleteDoc(doc(db, col, id)); UI.bumpMeta(); loadAll(); }
-      };
+    UI.el("annForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "acad_announcements"), { title: cleanStr(UI.el("aTitle").value), message: cleanStr(UI.el("aMsg").value), createdAt: serverTimestamp() });
+      UI.bumpMeta(); UI.toast("تم النشر"); UI.el("annForm").reset(); loadAll();
+    });
 
-      // ---------------- SYSTEM TAB (Export, Clean, Import) ----------------
-      UI.el("exportBtn").onclick = async () => {
-        try {
-          const resSnap = await getDocs(collection(db, "acad_resources"));
-          const backupData = { courses: state.courses, resources: resSnap.docs.map(d=>({id:d.id, ...d.data()})), exams: state.exams, announcements: state.anns, links: state.links };
-          const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(backupData)], { type: "application/json" }));
-          a.download = `VetCommitto_Backup_${new Date().toISOString().split("T")[0]}.json`;
-          document.body.appendChild(a); a.click(); a.remove(); UI.toast("تم التصدير بنجاح!");
-        } catch (e) { UI.toast("خطأ بالتصدير"); }
-      };
-      
-      UI.el("cleanBtn").onclick = async () => {
-        if(!confirm("هل أنت متأكد من حذف المواد المكررة؟ سيتم الاحتفاظ بنسخة واحدة من كل مادة.")) return;
-        UI.toast("جاري التنظيف... يرجى الانتظار");
-        try {
-          const snap = await getDocs(collection(db, "acad_courses"));
-          const seen = new Set(); 
-          let deleted = 0;
-          for (let d of snap.docs) {
-            const c = d.data();
-            const key = String(c.name || "").trim().toLowerCase(); 
-            if (seen.has(key)) { 
-              await deleteDoc(doc(db, "acad_courses", d.id)); 
-              deleted++; 
-            } else { 
-              seen.add(key); 
-            }
-          }
-          UI.bumpMeta();
-          UI.toast(`تم التنظيف بنجاح! تم مسح ${deleted} مساق مكرر.`); 
-          loadAll(); 
-        } catch(e) { 
-          console.error(e); UI.toast("حدث خطأ أثناء التنظيف."); 
-        }
-      };
+    UI.el("linkForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "acad_links"), { title: cleanStr(UI.el("lTitle").value), url: UI.el("lUrl").value.trim(), updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.toast("تم الإضافة"); UI.el("linkForm").reset(); loadAll();
+    });
 
-      // Smart Import (Handles Courses, Exams AND Resources)
-      UI.el("importBtn").onclick = async () => {
-        const val = UI.el("jsonInput").value.trim();
-        if(!val) return UI.toast("المربع فارغ!");
-        try {
-          const parsed = JSON.parse(val);
-          UI.toast("جاري معالجة البيانات...");
-          let addedCourses = 0, updatedCourses = 0, addedExams = 0, addedResources = 0;
+    // ---------------- EDIT FORMS ----------------
+    window.openEditCourse = (id) => {
+      const c = state.courses.find(x => x.id === id); if(!c) return;
+      UI.el("ecId").value = c.id; UI.el("ecMajor").value = c.major || "vet"; UI.el("ecName").value = c.name || ""; UI.el("ecCode").value = c.code || ""; UI.el("ecYear").value = c.year || ""; UI.el("ecSem").value = c.semester || "";
+      UI.el("editCourseModal").style.display = "flex";
+    };
+    UI.el("editCourseForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await updateDoc(doc(db, "acad_courses", UI.el("ecId").value), { major: UI.el("ecMajor").value, name: cleanStr(UI.el("ecName").value), code: cleanStr(UI.el("ecCode").value), year: UI.el("ecYear").value, semester: UI.el("ecSem").value, category: `year-${UI.el("ecYear").value}`, updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.el("editCourseModal").style.display = "none"; UI.toast("تم التعديل بنجاح"); loadAll();
+    });
 
-          // 1. استيراد المساقات ومنع تكرارها
-          const courseList = parsed.courses || (Array.isArray(parsed) && parsed[0]?.name ? parsed : []);
-          if(courseList.length > 0) {
-            for (const item of courseList) {
-              const key = String(item.name || "").trim().toLowerCase();
-              const match = state.courses.find(c => String(c.name || "").trim().toLowerCase() === key);
-              if (match) {
-                const updateData = { name: cleanStr(item.name) || match.name, code: cleanStr(item.code) || match.code || "", year: String(item.year || match.year || "1"), semester: String(item.semester || match.semester || "1"), category: `year-${item.year || match.year || "1"}`, updatedAt: serverTimestamp() };
-                await updateDoc(doc(db, "acad_courses", match.id), updateData);
-                updatedCourses++;
-              } else {
-                const cleanItem = { name: cleanStr(item.name) || "بدون اسم", code: cleanStr(item.code) || "", year: String(item.year || "1"), semester: String(item.semester || "1"), category: `year-${item.year || "1"}`, updatedAt: serverTimestamp() };
-                const newDoc = await addDoc(collection(db, "acad_courses"), cleanItem);
-                state.courses.push({ id: newDoc.id, ...cleanItem });
-                addedCourses++;
-              }
-            }
-          }
+    window.openEditExam = (id) => {
+      const x = state.exams.find(i => i.id === id); if(!x) return;
+      UI.el("eeId").value = x.id; UI.el("eeTitle").value = x.title || ""; UI.el("eeDate").value = x.date || ""; UI.el("eeTime").value = x.time || ""; UI.el("eePlace").value = x.place || ""; UI.el("eeCourse").value = x.courseId || "";
+      UI.el("editExamModal").style.display = "flex";
+    };
+    UI.el("editExamForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await updateDoc(doc(db, "acad_exams", UI.el("eeId").value), { title: cleanStr(UI.el("eeTitle").value), date: UI.el("eeDate").value, time: UI.el("eeTime").value, place: cleanStr(UI.el("eePlace").value), courseId: UI.el("eeCourse").value, updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.el("editExamModal").style.display = "none"; UI.toast("تم تعديل الامتحان"); loadAll();
+    });
 
-          // 2. استيراد الامتحانات ومنع تكرارها
-          const examList = parsed.exams || [];
-          if(examList.length > 0) {
-            for (const exam of examList) {
-              let courseId = "";
-              if (exam.courseName) {
-                const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(exam.courseName || "").trim().toLowerCase());
-                if (courseMatch) courseId = courseMatch.id;
-              }
-              const examTitle = cleanStr(exam.title);
-              const isExamExist = state.exams.some(e => e.title === examTitle && e.courseId === courseId);
-              
-              if (!isExamExist) {
-                const examData = { title: examTitle, date: exam.date || "", time: exam.time || "", place: cleanStr(exam.place), courseId: courseId, updatedAt: serverTimestamp() };
-                const newExam = await addDoc(collection(db, "acad_exams"), examData);
-                state.exams.push({ id: newExam.id, ...examData });
-                addedExams++;
-              }
-            }
-          }
+    window.openEditAnn = (id) => {
+      const x = state.anns.find(i => i.id === id); if(!x) return;
+      UI.el("eaId").value = x.id; UI.el("eaTitle").value = x.title || ""; UI.el("eaMsg").value = x.message || "";
+      UI.el("editAnnModal").style.display = "flex";
+    };
+    UI.el("editAnnForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await updateDoc(doc(db, "acad_announcements", UI.el("eaId").value), { title: cleanStr(UI.el("eaTitle").value), message: cleanStr(UI.el("eaMsg").value), updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.el("editAnnModal").style.display = "none"; UI.toast("تم تعديل الإعلان"); loadAll();
+    });
 
-          // 3. استيراد الملفات والروابط (Resources)
-          const resourceList = parsed.resources || [];
-          if(resourceList.length > 0) {
-            const resSnap = await getDocs(collection(db, "acad_resources"));
-            const allExistingRes = resSnap.docs.map(d => ({id: d.id, ...d.data()}));
-            
-            for (const res of resourceList) {
-              let courseId = "";
-              if (res.courseName) {
-                const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(res.courseName || "").trim().toLowerCase());
-                if (courseMatch) courseId = courseMatch.id;
-              }
-              
-              const resTitle = cleanStr(res.title);
-              const isResExist = allExistingRes.some(r => r.title === resTitle && r.courseId === courseId);
-              
-              if (!isResExist && courseId !== "") { 
-                const resData = { courseId: courseId, title: resTitle, url: res.url ? res.url.trim() : "", type: res.type || "other", createdAt: serverTimestamp() };
-                await addDoc(collection(db, "acad_resources"), resData);
-                allExistingRes.push(resData); 
-                addedResources++;
-              }
-            }
-          }
-          
-          if(addedCourses === 0 && updatedCourses === 0 && addedExams === 0 && addedResources === 0) {
-             UI.toast("لا يوجد أي بيانات جديدة لإضافتها (الكل موجود مسبقاً)."); return;
-          }
+    window.openEditLink = (id) => {
+      const x = state.links.find(i => i.id === id); if(!x) return;
+      UI.el("elId").value = x.id; UI.el("elTitle").value = x.title || ""; UI.el("elUrl").value = x.url || "";
+      UI.el("editLinkModal").style.display = "flex";
+    };
+    UI.el("editLinkForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await updateDoc(doc(db, "acad_links", UI.el("elId").value), { title: cleanStr(UI.el("elTitle").value), url: UI.el("elUrl").value.trim(), updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.el("editLinkModal").style.display = "none"; UI.toast("تم تعديل الرابط"); loadAll();
+    });
 
-          UI.bumpMeta(); 
-          let msg = "تم بنجاح! ";
-          if(addedCourses || updatedCourses) msg += `مساقات: (${addedCourses} جديد، ${updatedCourses} تحديث). `;
-          if(addedExams) msg += `امتحانات: (${addedExams} جديد). `;
-          if(addedResources) msg += `مواد وروابط: (${addedResources} جديد).`;
-          
-          UI.toast(msg); 
-          UI.el("jsonInput").value = ""; 
-          loadAll();
-        } catch(e) { 
-          console.error(e); UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة ومطابقة للهيكل.");
-        }
-      };
-      
+    window.openEditRes = (id) => {
+      const x = state.currentResources.find(i => i.id === id); if(!x) return;
+      UI.el("erId").value = x.id; UI.el("erCourseId").value = x.courseId; UI.el("erTitle").value = x.title; UI.el("erUrl").value = x.url; UI.el("erType").value = x.type;
+      UI.el("editResModal").style.display = "flex";
+    };
+    UI.el("editResForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await updateDoc(doc(db, "acad_resources", UI.el("erId").value), { title: cleanStr(UI.el("erTitle").value), url: UI.el("erUrl").value.trim(), type: UI.el("erType").value, updatedAt: serverTimestamp() });
+      UI.bumpMeta(); UI.el("editResModal").style.display = "none"; UI.toast("تم التعديل بنجاح");
+      window.openRes(UI.el("erCourseId").value, UI.el("resModalTitle").textContent.replace("مواد: ",""));
+    });
+
+
+    // ---------------- RENDER FUNCTIONS ----------------
+    function renderCourses() {
+      const mF = UI.el("filterMajor").value; const yF = UI.el("filterYear").value; const sF = UI.el("filterSem").value;
+      const filtered = state.courses.filter(c => (mF==="all" || c.major===mF) && (yF==="all" || c.year===yF) && (sF==="all" || c.semester===sF));
+      UI.el("coursesList").innerHTML = filtered.length ? filtered.map(c => `
+        <div class="data-item">
+          <div style="flex:1;">
+            <div class="data-meta">${c.name} <small style="color:var(--slate)">(${c.code || "بدون رمز"})</small></div>
+            <span class="data-sub">${c.major === 'nursing' ? '<strong style="color:var(--purple)">تمريض بيطري</strong> · ' : '<strong style="color:var(--navy)">طب بيطري</strong> · '}السنة ${c.year} · الفصل ${c.semester==="summer"?"الصيفي":c.semester}</span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditCourse('${c.id}')"><i data-lucide="edit-2" width="14"></i></button>
+            <button class="danger-btn" style="background:var(--purple); color:#fff;" onclick="window.openRes('${c.id}', '${c.name}')">المواد</button>
+            <button class="danger-btn" onclick="window.delDoc('acad_courses', '${c.id}')"><i data-lucide="trash" width="14"></i></button>
+          </div>
+        </div>`).join("") : '<div style="text-align:center; padding:20px; color:var(--slate)">لا توجد مساقات بهذا الفلتر.</div>';
       lucide.createIcons();
-    </script>
-  </body>
+    }
+    UI.el("filterMajor").onchange = renderCourses; UI.el("filterYear").onchange = renderCourses; UI.el("filterSem").onchange = renderCourses;
+
+    window.openRes = async (cId, cName) => {
+      UI.el("rCourseId").value = cId; UI.el("resModalTitle").textContent = "مواد: " + cName;
+      UI.el("resModal").style.display = "flex"; UI.el("resList").innerHTML = "جاري التحميل...";
+      const snap = await getDocs(query(collection(db, "acad_resources"), where("courseId", "==", cId)));
+      state.currentResources = snap.docs.map(d => ({id:d.id, ...d.data()}));
+      UI.el("resList").innerHTML = state.currentResources.map(r => `
+        <div class="data-item" style="padding:10px;">
+          <div><div class="data-meta">${r.title}</div><a href="${r.url}" target="_blank" class="data-sub">${r.type}</a></div>
+          <div style="display:flex; gap:6px;">
+            <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditRes('${r.id}')"><i data-lucide="edit-2" width="12"></i></button>
+            <button class="danger-btn" onclick="window.delDoc('acad_resources', '${r.id}'); setTimeout(()=>window.openRes('${cId}', '${cName}'), 500);"><i data-lucide="trash" width="12"></i></button>
+          </div>
+        </div>`).join("");
+      lucide.createIcons();
+    };
+
+    function renderExams() {
+      UI.el("examsList").innerHTML = state.exams.map(e => `
+        <div class="data-item">
+          <div><div class="data-meta">${e.title}</div><span class="data-sub">${e.date} ${e.time?"· "+e.time:""}</span></div>
+          <div style="display:flex; gap:6px;">
+            <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditExam('${e.id}')"><i data-lucide="edit-2" width="14"></i></button>
+            <button class="danger-btn" onclick="window.delDoc('acad_exams', '${e.id}')"><i data-lucide="trash" width="14"></i></button>
+          </div>
+        </div>`).join("");
+    }
+
+    function renderAnns() {
+      UI.el("annsList").innerHTML = state.anns.map(a => `
+        <div class="data-item">
+          <div style="flex:1;"><div class="data-meta">${a.title}</div><span class="data-sub" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;">${a.message}</span></div>
+          <div style="display:flex; gap:6px;">
+            <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditAnn('${a.id}')"><i data-lucide="edit-2" width="14"></i></button>
+            <button class="danger-btn" onclick="window.delDoc('acad_announcements', '${a.id}')"><i data-lucide="trash" width="14"></i></button>
+          </div>
+        </div>`).join("");
+    }
+    
+    function renderLinks() {
+      UI.el("linksList").innerHTML = state.links.map(l => `
+        <div class="data-item">
+          <div><div class="data-meta">${l.title}</div></div>
+          <div style="display:flex; gap:6px;">
+            <button class="danger-btn" style="background:#f59e0b; color:#fff;" onclick="window.openEditLink('${l.id}')"><i data-lucide="edit-2" width="14"></i></button>
+            <button class="danger-btn" onclick="window.delDoc('acad_links', '${l.id}')"><i data-lucide="trash" width="14"></i></button>
+          </div>
+        </div>`).join("");
+    }
+
+    window.delDoc = async (col, id) => {
+      if(confirm("متأكد من الحذف؟")) { await deleteDoc(doc(db, col, id)); UI.bumpMeta(); loadAll(); }
+    };
+
+    // ---------------- SYSTEM TAB (Export, Clean, Import) ----------------
+    UI.el("exportBtn").onclick = async () => {
+      try {
+        const resSnap = await getDocs(collection(db, "acad_resources"));
+        const backupData = { courses: state.courses, resources: resSnap.docs.map(d=>({id:d.id, ...d.data()})), exams: state.exams, announcements: state.anns, links: state.links };
+        const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(backupData)], { type: "application/json" }));
+        a.download = `VetCommitto_Backup_${new Date().toISOString().split("T")[0]}.json`;
+        document.body.appendChild(a); a.click(); a.remove(); UI.toast("تم التصدير بنجاح!");
+      } catch (e) { UI.toast("خطأ بالتصدير"); }
+    };
+    
+    UI.el("cleanBtn").onclick = async () => {
+      if(!confirm("هل أنت متأكد من حذف المواد المكررة؟ سيتم الاحتفاظ بنسخة واحدة من كل مادة.")) return;
+      UI.toast("جاري التنظيف... يرجى الانتظار");
+      try {
+        const snap = await getDocs(collection(db, "acad_courses"));
+        const seen = new Set(); 
+        let deleted = 0;
+        for (let d of snap.docs) {
+          const c = d.data();
+          const major = c.major || "vet";
+          const key = major + "_" + String(c.name || "").trim().toLowerCase(); 
+          if (seen.has(key)) { 
+            await deleteDoc(doc(db, "acad_courses", d.id)); 
+            deleted++; 
+          } else { 
+            seen.add(key); 
+          }
+        }
+        UI.bumpMeta();
+        UI.toast(`تم التنظيف بنجاح! تم مسح ${deleted} مساق مكرر.`); 
+        loadAll(); 
+      } catch(e) { 
+        console.error(e); UI.toast("حدث خطأ أثناء التنظيف."); 
+      }
+    };
+
+    // Smart Import (Handles Courses, Exams AND Resources)
+    UI.el("importBtn").onclick = async () => {
+      const val = UI.el("jsonInput").value.trim();
+      if(!val) return UI.toast("المربع فارغ!");
+      try {
+        const parsed = JSON.parse(val);
+        UI.toast("جاري معالجة البيانات...");
+        let addedCourses = 0, updatedCourses = 0, addedExams = 0, addedResources = 0;
+
+        // 1. استيراد المساقات ومنع تكرارها
+        const courseList = parsed.courses || (Array.isArray(parsed) && parsed[0]?.name ? parsed : []);
+        if(courseList.length > 0) {
+          for (const item of courseList) {
+            const major = item.major || "vet";
+            const key = String(item.name || "").trim().toLowerCase();
+            const match = state.courses.find(c => String(c.name || "").trim().toLowerCase() === key && (c.major || "vet") === major);
+            if (match) {
+              const updateData = { major: major, name: cleanStr(item.name) || match.name, code: cleanStr(item.code) || match.code || "", year: String(item.year || match.year || "1"), semester: String(item.semester || match.semester || "1"), category: `year-${item.year || match.year || "1"}`, updatedAt: serverTimestamp() };
+              await updateDoc(doc(db, "acad_courses", match.id), updateData);
+              updatedCourses++;
+            } else {
+              const cleanItem = { major: major, name: cleanStr(item.name) || "بدون اسم", code: cleanStr(item.code) || "", year: String(item.year || "1"), semester: String(item.semester || "1"), category: `year-${item.year || "1"}`, updatedAt: serverTimestamp() };
+              const newDoc = await addDoc(collection(db, "acad_courses"), cleanItem);
+              state.courses.push({ id: newDoc.id, ...cleanItem });
+              addedCourses++;
+            }
+          }
+        }
+
+        // 2. استيراد الامتحانات ومنع تكرارها
+        const examList = parsed.exams || [];
+        if(examList.length > 0) {
+          for (const exam of examList) {
+            let courseId = "";
+            if (exam.courseName) {
+              const major = exam.major || "vet";
+              const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(exam.courseName || "").trim().toLowerCase() && (c.major || "vet") === major);
+              if (courseMatch) courseId = courseMatch.id;
+            }
+            const examTitle = cleanStr(exam.title);
+            const isExamExist = state.exams.some(e => e.title === examTitle && e.courseId === courseId);
+            
+            if (!isExamExist) {
+              const examData = { title: examTitle, date: exam.date || "", time: exam.time || "", place: cleanStr(exam.place), courseId: courseId, updatedAt: serverTimestamp() };
+              const newExam = await addDoc(collection(db, "acad_exams"), examData);
+              state.exams.push({ id: newExam.id, ...examData });
+              addedExams++;
+            }
+          }
+        }
+
+        // 3. استيراد الملفات والروابط (Resources)
+        const resourceList = parsed.resources || [];
+        if(resourceList.length > 0) {
+          const resSnap = await getDocs(collection(db, "acad_resources"));
+          const allExistingRes = resSnap.docs.map(d => ({id: d.id, ...d.data()}));
+          
+          for (const res of resourceList) {
+            let courseId = "";
+            if (res.courseName) {
+              const major = res.major || "vet";
+              const courseMatch = state.courses.find(c => String(c.name || "").trim().toLowerCase() === String(res.courseName || "").trim().toLowerCase() && (c.major || "vet") === major);
+              if (courseMatch) courseId = courseMatch.id;
+            }
+            
+            const resTitle = cleanStr(res.title);
+            const isResExist = allExistingRes.some(r => r.title === resTitle && r.courseId === courseId);
+            
+            if (!isResExist && courseId !== "") { 
+              const resData = { courseId: courseId, title: resTitle, url: res.url ? res.url.trim() : "", type: res.type || "other", createdAt: serverTimestamp() };
+              await addDoc(collection(db, "acad_resources"), resData);
+              allExistingRes.push(resData); 
+              addedResources++;
+            }
+          }
+        }
+        
+        if(addedCourses === 0 && updatedCourses === 0 && addedExams === 0 && addedResources === 0) {
+           UI.toast("لا يوجد أي بيانات جديدة لإضافتها (الكل موجود مسبقاً)."); return;
+        }
+
+        UI.bumpMeta(); 
+        let msg = "تم بنجاح! ";
+        if(addedCourses || updatedCourses) msg += `مساقات: (${addedCourses} جديد، ${updatedCourses} تحديث). `;
+        if(addedExams) msg += `امتحانات: (${addedExams} جديد). `;
+        if(addedResources) msg += `مواد وروابط: (${addedResources} جديد).`;
+        
+        UI.toast(msg); 
+        UI.el("jsonInput").value = ""; 
+        loadAll();
+      } catch(e) { 
+        console.error(e); UI.toast("خطأ: تأكد من أن صيغة JSON صحيحة ومطابقة للهيكل.");
+      }
+    };
+    
+    lucide.createIcons();
+  </script>
+</body>
 </html>
