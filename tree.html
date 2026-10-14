@@ -17,11 +17,9 @@
             --line: #e2e6ed; --card-bg: #fff; --card-border: #dfe3ed;
             --btn-bg: #f0f3f7; --gold: #d1aa5c; --nav-bg: #fbfbfd; --nav-border: #e8eaf1;
 
-            /* ألوان الخطة الشجرية */
+            /* ألوان الخطوط */
             --tree-line: #606d85;
             --tree-line-dashed: #a8bcd9;
-            --node-bg: #0f172a; /* كحلي غامق فخم للبطاقات */
-            --node-text: #f8fafc;
         }
         [data-theme="dark"] {
             --navy: #e0e5ed; --navy2: #8baccf; --purple: #8baccf; --violet: #a8bcd9;
@@ -31,7 +29,6 @@
 
             --tree-line: #949daf;
             --tree-line-dashed: #475569;
-            --node-bg: #1e293b;
         }
 
         * { box-sizing: border-box; }
@@ -63,7 +60,7 @@
         .map-container {
             width: 100vw;
             height: calc(100vh - 180px);
-            overflow: auto; /* Scrollbars for fallback */
+            overflow: auto; 
             cursor: grab;
             position: relative;
             background: radial-gradient(circle at 50% 50%, rgba(13, 27, 51, 0.03) 0%, transparent 60%);
@@ -73,7 +70,7 @@
         /* Wrapper that scales */
         .tree-scale-wrapper {
             position: relative;
-            width: 1200px;  /* عرض مضغوط وأرتب */
+            width: 1400px;  /* تم زيادة العرض لإعطاء مساحة لنصوص السنوات */
             height: 950px;
             margin: 20px auto;
             transform-origin: top center;
@@ -85,35 +82,40 @@
             z-index: 1; pointer-events: none;
         }
 
-        /* Y-Axis Labels */
+        /* Y-Axis Labels (أسماء السنوات) */
         .year-label {
-            position: absolute; right: 0; font-size: 20px; font-weight: 800;
-            color: var(--navy); border-right: 4px solid var(--gold);
-            padding-right: 15px; opacity: 0.8;
+            position: absolute; right: 0; font-size: 26px; font-weight: 900;
+            color: var(--navy); border-right: 5px solid var(--gold);
+            padding-right: 15px; opacity: 1; width: 140px; text-align: right;
         }
-        .yl-1 { top: 60px; }
-        .yl-2 { top: 310px; }
-        .yl-3 { top: 560px; }
+        /* تم توسيط النصوص مقابل صفوفها */
+        .yl-1 { top: 95px; } 
+        .yl-2 { top: 335px; } 
+        .yl-3 { top: 695px; } 
 
-        /* Course Node (البطاقةg) */
+        /* Course Node (البطاقة) */
         .course-node {
             position: absolute; width: 110px; height: 50px; padding: 5px;
             border-radius: 10px; text-align: center; font-size: 11px;
-            font-weight: 700; line-height: 1.3;
-            background: var(--node-bg); color: var(--node-text);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-weight: 700; line-height: 1.3; color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             transition: 0.2s; cursor: pointer; display: flex;
             flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10; border: 1px solid rgba(255,255,255,0.1);
+            z-index: 10; border: 1px solid rgba(255,255,255,0.15);
         }
 
         .course-node:hover {
             transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             border-color: var(--gold); z-index: 20;
         }
 
-        .course-code { font-size: 9px; opacity: 0.8; margin-bottom: 2px; font-weight: 500; color: #facc15; }
+        .course-code { font-size: 9px; opacity: 0.9; margin-bottom: 2px; font-weight: 500; color: #facc15; }
+
+        /* ألوان مخصصة لكل سنة */
+        .y1 { background: linear-gradient(135deg, #0f172a, #1e293b); } /* كحلي غامق */
+        .y2 { background: linear-gradient(135deg, #311b92, #4338ca); } /* بنفسجي ملكي */
+        .y3 { background: linear-gradient(135deg, #1e3a8a, #2563eb); } /* أزرق بحري */
 
         /* أزرار الزووم (Zoom Controls) */
         .zoom-controls {
@@ -162,8 +164,8 @@
     </header>
 
     <div class="page-header">
-        <h1>الخطة الشجرية التفاعلية</h1>
-        <p>تخصص دكتور في الطب البيطري  - أول 3 سنوات (خطة 2024)</p>
+        <h1>الخطة الشجرية </h1>
+        <p>تخصص دكتور في الطب البيطري - أول 3 سنوات (خطة 2024)</p>
         <div class="legend">
             <div class="legend-item"><div class="legend-line"></div> متطلب سابق</div>
             <div class="legend-item"><div class="legend-line dashed"></div> متطلب متزامن</div>
@@ -176,69 +178,70 @@
             
             <svg id="svg-lines"></svg>
 
+            <!-- عناوين السنوات -->
             <div class="year-label yl-1">السنة الأولى</div>
             <div class="year-label yl-2">السنة الثانية</div>
             <div class="year-label yl-3">السنة الثالثة</div>
 
-            <!-- ================= السنة الأولى (Y = 40, 150) ================= -->
-            <div class="course-node y1" id="n_phys" style="top:40px; left:120px;" data-req="لا يوجد"><div class="course-code">ع أ 109 ف</div>الفيزياء الطبية</div>
-            <div class="course-node y1" id="n_chem" style="top:40px; left:250px;" data-req="لا يوجد"><div class="course-code">ع أ 108 ك</div>الكيمياء العضوية</div>
-            <div class="course-node y1" id="n_bio_lab" style="top:40px; left:510px;" data-req="متزامن: بيولوجيا عامة"><div class="course-code">ع أ 107 تح</div>بيولوجيا عملي</div>
-            <div class="course-node y1" id="n_bio" style="top:40px; left:770px;" data-req="لا يوجد"><div class="course-code">ع أ 103 تح</div>بيولوجيا عامة</div>
-            <div class="course-node y1" id="n_bio_dup" style="top:40px; left:1030px;" data-req="-"><div class="course-code">ع أ 107 ع</div>بيولوجيا عامة</div>
+            <!-- ================= السنة الأولى ================= -->
+            <div class="course-node y1" id="n_phys" style="top:40px; left:160px;" data-req="لا يوجد"><div class="course-code">ع أ 109 ف</div>الفيزياء الطبية</div>
+            <div class="course-node y1" id="n_chem" style="top:40px; left:290px;" data-req="لا يوجد"><div class="course-code">ع أ 108 ك</div>الكيمياء العضوية</div>
+            <div class="course-node y1" id="n_bio_lab" style="top:40px; left:550px;" data-req="متزامن: بيولوجيا عامة"><div class="course-code">ع أ 107 تح</div>بيولوجيا عملي</div>
+            <div class="course-node y1" id="n_bio" style="top:40px; left:810px;" data-req="لا يوجد"><div class="course-code">ع أ 103 تح</div>بيولوجيا عامة</div>
+            <div class="course-node y1" id="n_bio_dup" style="top:40px; left:1070px;" data-req="-"><div class="course-code">ع أ 107 ع</div>بيولوجيا عامة</div>
 
-            <div class="course-node y1" id="n_hist1_lab" style="top:150px; left:40px;" data-req="متزامن: أنسجة 1"><div class="course-code">122 طب</div>مختبر الأنسجة العام</div>
-            <div class="course-node y1" id="n_hist1" style="top:150px; left:170px;" data-req="سابق: بيولوجيا عامة"><div class="course-code">114 طب</div>علم الأنسجة العام 1</div>
-            <div class="course-node y1" id="n_biochem" style="top:150px; left:300px;" data-req="سابق: كيمياء عامة"><div class="course-code">ع أ 262 ك</div>كيمياء حيوية</div>
-            <div class="course-node y1" id="n_safety" style="top:150px; left:430px;" data-req="سابق: بيو عملي"><div class="course-code">118 طب</div>الأمن البيولوجي</div>
-            <div class="course-node y1" id="n_animal_lab" style="top:150px; left:560px;" data-req="متزامن: حقوق حيوان"><div class="course-code">103 طب</div>مختبر حقوق الحيوان</div>
-            <div class="course-node y1" id="n_animal" style="top:150px; left:690px;" data-req="متزامن: بيو عامة"><div class="course-code">101 طب</div>حقوق وتربية الحيوان</div>
-            <div class="course-node y1" id="n_breed1" style="top:150px; left:820px;" data-req="سابق: حقوق حيوان"><div class="course-code">102 طب</div>تحسين السلالات</div>
-            <div class="course-node y1" id="n_breed2" style="top:150px; left:950px;" data-req="-"><div class="course-code">102 طب</div>تحسين السلالات</div>
-            <div class="course-node y1" id="n_genetics" style="top:150px; left:1080px;" data-req="سابق: بيو عامة"><div class="course-code">104 طب</div>الوراثة الجزيئية</div>
+            <div class="course-node y1" id="n_hist1_lab" style="top:150px; left:80px;" data-req="متزامن: أنسجة 1"><div class="course-code">122 طب</div>مختبر الأنسجة</div>
+            <div class="course-node y1" id="n_hist1" style="top:150px; left:210px;" data-req="سابق: بيولوجيا عامة"><div class="course-code">114 طب</div>علم الأنسجة 1</div>
+            <div class="course-node y1" id="n_biochem" style="top:150px; left:340px;" data-req="سابق: كيمياء عامة"><div class="course-code">ع أ 262 ك</div>كيمياء حيوية</div>
+            <div class="course-node y1" id="n_safety" style="top:150px; left:470px;" data-req="سابق: بيو عملي"><div class="course-code">118 طب</div>الأمن البيولوجي</div>
+            <div class="course-node y1" id="n_animal_lab" style="top:150px; left:600px;" data-req="متزامن: حقوق حيوان"><div class="course-code">103 طب</div>مختبر حقوق الحيوان</div>
+            <div class="course-node y1" id="n_animal" style="top:150px; left:730px;" data-req="متزامن: بيو عامة"><div class="course-code">101 طب</div>حقوق الحيوان</div>
+            <div class="course-node y1" id="n_breed1" style="top:150px; left:860px;" data-req="سابق: حقوق حيوان"><div class="course-code">102 طب</div>تحسين السلالات</div>
+            <div class="course-node y1" id="n_breed2" style="top:150px; left:990px;" data-req="-"><div class="course-code">102 طب</div>تحسين السلالات</div>
+            <div class="course-node y1" id="n_genetics" style="top:150px; left:1120px;" data-req="سابق: بيو عامة"><div class="course-code">104 طب</div>الوراثة الجزيئية</div>
 
-            <!-- ================= السنة الثانية (Y = 280, 390) ================= -->
-            <div class="course-node y2" id="n_anat1_lab" style="top:280px; left:170px;" data-req="متزامن: تشريح 1"><div class="course-code">116 طب</div>مختبر تشريح 1</div>
-            <div class="course-node y2" id="n_hist_sys" style="top:280px; left:430px;" data-req="سابق: أنسجة عام"><div class="course-code">215 طب</div>علم الأنسجة الجهازي</div>
-            <div class="course-node y2" id="n_embryo" style="top:280px; left:560px;" data-req="سابق: أنسجة جهازي"><div class="course-code">216 طب</div>علم الأجنة</div>
-            <div class="course-node y2" id="n_immuno" style="top:280px; left:690px;" data-req="سابق: بيوكيم + وراثة"><div class="course-code">225 طب</div>علم المناعة البيطرية</div>
-            <div class="course-node y2" id="n_bact_intro" style="top:280px; left:820px;" data-req="سابق: بيو عامة"><div class="course-code">231 طب</div>مقدمة البكتيريا</div>
-            <div class="course-node y2" id="n_entomo" style="top:280px; left:950px;" data-req="سابق: بيو عامة"><div class="course-code">233 طب</div>علم الحشرات</div>
-            <div class="course-node y2" id="n_anat2" style="top:280px; left:1080px;" data-req="سابق: تشريح 1"><div class="course-code">213 طب</div>تشريح بيطري 2</div>
+            <!-- ================= السنة الثانية ================= -->
+            <div class="course-node y2" id="n_anat1_lab" style="top:280px; left:210px;" data-req="متزامن: تشريح 1"><div class="course-code">116 طب</div>مختبر تشريح 1</div>
+            <div class="course-node y2" id="n_hist_sys" style="top:280px; left:470px;" data-req="سابق: أنسجة عام"><div class="course-code">215 طب</div>الأنسجة الجهازي</div>
+            <div class="course-node y2" id="n_embryo" style="top:280px; left:600px;" data-req="سابق: أنسجة جهازي"><div class="course-code">216 طب</div>علم الأجنة</div>
+            <div class="course-node y2" id="n_immuno" style="top:280px; left:730px;" data-req="سابق: بيوكيم + وراثة"><div class="course-code">225 طب</div>علم المناعة</div>
+            <div class="course-node y2" id="n_bact_intro" style="top:280px; left:860px;" data-req="سابق: بيو عامة"><div class="course-code">231 طب</div>مقدمة البكتيريا</div>
+            <div class="course-node y2" id="n_entomo" style="top:280px; left:990px;" data-req="سابق: بيو عامة"><div class="course-code">233 طب</div>علم الحشرات</div>
+            <div class="course-node y2" id="n_anat2" style="top:280px; left:1120px;" data-req="سابق: تشريح 1"><div class="course-code">213 طب</div>تشريح بيطري 2</div>
 
-            <div class="course-node y2" id="n_anat2_lab1" style="top:390px; left:170px;" data-req="متزامن: تشريح 2"><div class="course-code">217 طب</div>مختبر تشريح 2</div>
-            <div class="course-node y2" id="n_sero_lab1" style="top:390px; left:360px;" data-req="متزامن: مناعة"><div class="course-code">227 طب</div>مختبر الامصال</div>
-            <div class="course-node y2" id="n_sero_lab2" style="top:390px; left:490px;" data-req="متزامن: مناعة"><div class="course-code">227 طب</div>مختبر الامصال</div>
-            <div class="course-node y2" id="n_viro" style="top:390px; left:620px;" data-req="سابق: مناعة"><div class="course-code">236 طب</div>علم الفيروسات</div>
-            <div class="course-node y2" id="n_bact_lab" style="top:390px; left:820px;" data-req="متزامن: جراثيم جهازي"><div class="course-code">242 طب</div>مختبر البكتيريا</div>
-            <div class="course-node y2" id="n_hist_sys_lab" style="top:390px; left:950px;" data-req="متزامن: أنسجة جهازي"><div class="course-code">219 طب</div>مختبر الأنسجة الجهازي</div>
-            <div class="course-node y2" id="n_anat2_lab2" style="top:390px; left:1080px;" data-req="متزامن: تشريح 2"><div class="course-code">217 طب</div>مختبر تشريح 2</div>
+            <div class="course-node y2" id="n_anat2_lab1" style="top:390px; left:210px;" data-req="متزامن: تشريح 2"><div class="course-code">217 طب</div>مختبر تشريح 2</div>
+            <div class="course-node y2" id="n_sero_lab1" style="top:390px; left:400px;" data-req="متزامن: مناعة"><div class="course-code">227 طب</div>مختبر الامصال</div>
+            <div class="course-node y2" id="n_sero_lab2" style="top:390px; left:530px;" data-req="متزامن: مناعة"><div class="course-code">227 طب</div>مختبر الامصال</div>
+            <div class="course-node y2" id="n_viro" style="top:390px; left:660px;" data-req="سابق: مناعة"><div class="course-code">236 طب</div>علم الفيروسات</div>
+            <div class="course-node y2" id="n_bact_lab" style="top:390px; left:860px;" data-req="متزامن: جراثيم جهازي"><div class="course-code">242 طب</div>مختبر البكتيريا</div>
+            <div class="course-node y2" id="n_hist_sys_lab" style="top:390px; left:990px;" data-req="متزامن: أنسجة جهازي"><div class="course-code">219 طب</div>مختبر الأنسجة الجهازي</div>
+            <div class="course-node y2" id="n_anat2_lab2" style="top:390px; left:1120px;" data-req="متزامن: تشريح 2"><div class="course-code">217 طب</div>مختبر تشريح 2</div>
 
-            <!-- ================= السنة الثالثة (Y = 530, 640, 750, 860) ================= -->
-            <div class="course-node y3" id="n_physio_lab" style="top:530px; left:230px;" data-req="متزامن: فسيو 2"><div class="course-code">258 طب</div>مختبر الفسيولوجيا</div>
-            <div class="course-node y3" id="n_physio2" style="top:530px; left:360px;" data-req="سابق: فسيو 1"><div class="course-code">256 طب</div>الفسيولوجيا 2</div>
-            <div class="course-node y3" id="n_path_gen1" style="top:530px; left:490px;" data-req="سابق: أنسجة جهازي + فسيو 2"><div class="course-code">351 طب</div>علم الامراض العام</div>
-            <div class="course-node y3" id="n_para" style="top:530px; left:620px;" data-req="سابق: حشرات"><div class="course-code">236 طب</div>علم الطفيليات</div>
-            <div class="course-node y3" id="n_path_gen2" style="top:530px; left:750px;" data-req="سابق: أنسجة جهازي + فسيو 2"><div class="course-code">351 طب</div>علم الامراض العام</div>
-            <div class="course-node y3" id="n_physio1" style="top:530px; left:880px;" data-req="سابق: أنسجة عام"><div class="course-code">255 طب</div>الفسيولوجيا 1</div>
+            <!-- ================= السنة الثالثة ================= -->
+            <div class="course-node y3" id="n_physio_lab" style="top:530px; left:270px;" data-req="متزامن: فسيو 2"><div class="course-code">258 طب</div>مختبر الفسيولوجيا</div>
+            <div class="course-node y3" id="n_physio2" style="top:530px; left:400px;" data-req="سابق: فسيو 1"><div class="course-code">256 طب</div>الفسيولوجيا 2</div>
+            <div class="course-node y3" id="n_path_gen1" style="top:530px; left:530px;" data-req="سابق: أنسجة جهازي + فسيو 2"><div class="course-code">351 طب</div>الامراض العام</div>
+            <div class="course-node y3" id="n_para" style="top:530px; left:660px;" data-req="سابق: حشرات"><div class="course-code">236 طب</div>علم الطفيليات</div>
+            <div class="course-node y3" id="n_path_gen2" style="top:530px; left:790px;" data-req="سابق: أنسجة جهازي + فسيو 2"><div class="course-code">351 طب</div>الامراض العام</div>
+            <div class="course-node y3" id="n_physio1" style="top:530px; left:920px;" data-req="سابق: أنسجة عام"><div class="course-code">255 طب</div>الفسيولوجيا 1</div>
 
-            <div class="course-node y3" id="n_poult" style="top:640px; left:100px;" data-req="سابق: حقوق حيوان"><div class="course-code">363 طب</div>ادارة الدواجن</div>
-            <div class="course-node y3" id="n_meat" style="top:640px; left:230px;" data-req="متزامن: أمراض جهازي"><div class="course-code">362 طب</div>صحة اللحوم</div>
-            <div class="course-node y3" id="n_dairy" style="top:640px; left:360px;" data-req="سابق: مختبر بكتيريا"><div class="course-code">361 طب</div>صحة الالبان</div>
-            <div class="course-node y3" id="n_path_sys" style="top:640px; left:490px;" data-req="سابق: أمراض عام"><div class="course-code">352 طب</div>علم الامراض الجهازي</div>
-            <div class="course-node y3" id="n_hema" style="top:640px; left:620px;" data-req="متزامن: أمراض عام"><div class="course-code">355 طب</div>علم أمراض الدم</div>
-            <div class="course-node y3" id="n_path_gen_lab" style="top:640px; left:750px;" data-req="متزامن: أمراض عام"><div class="course-code">353 طب</div>مختبر الامراض العام</div>
-            <div class="course-node y3" id="n_path_sys2" style="top:640px; left:880px;" data-req="سابق: أمراض عام"><div class="course-code">352 طب</div>علم الامراض الجهازي</div>
-            <div class="course-node y3" id="n_pharm_gen" style="top:640px; left:1010px;" data-req="سابق: جراثيم + فسيو + طفيليات"><div class="course-code">341 طب</div>علم الادوية العام</div>
+            <div class="course-node y3" id="n_poult" style="top:640px; left:140px;" data-req="سابق: حقوق حيوان"><div class="course-code">363 طب</div>ادارة الدواجن</div>
+            <div class="course-node y3" id="n_meat" style="top:640px; left:270px;" data-req="متزامن: أمراض جهازي"><div class="course-code">362 طب</div>صحة اللحوم</div>
+            <div class="course-node y3" id="n_dairy" style="top:640px; left:400px;" data-req="سابق: مختبر بكتيريا"><div class="course-code">361 طب</div>صحة الالبان</div>
+            <div class="course-node y3" id="n_path_sys" style="top:640px; left:530px;" data-req="سابق: أمراض عام"><div class="course-code">352 طب</div>الامراض الجهازي</div>
+            <div class="course-node y3" id="n_hema" style="top:640px; left:660px;" data-req="متزامن: أمراض عام"><div class="course-code">355 طب</div>علم أمراض الدم</div>
+            <div class="course-node y3" id="n_path_gen_lab" style="top:640px; left:790px;" data-req="متزامن: أمراض عام"><div class="course-code">353 طب</div>مختبر الامراض العام</div>
+            <div class="course-node y3" id="n_path_sys2" style="top:640px; left:920px;" data-req="سابق: أمراض عام"><div class="course-code">352 طب</div>الامراض الجهازي</div>
+            <div class="course-node y3" id="n_pharm_gen" style="top:640px; left:1050px;" data-req="سابق: جراثيم + فسيو + طفيليات"><div class="course-code">341 طب</div>الادوية العام</div>
 
-            <div class="course-node y3" id="n_history" style="top:750px; left:230px;" data-req="متزامن: باطني عام"><div class="course-code">374 طب</div>تاريخ الحالة والفحص</div>
-            <div class="course-node y3" id="n_infect1" style="top:750px; left:360px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">376 طب</div>الامراض المشتركة 1</div>
-            <div class="course-node y3" id="n_int_med1" style="top:750px; left:490px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">372 طب</div>الطب الباطني العام</div>
-            <div class="course-node y3" id="n_int_med2" style="top:750px; left:620px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">372 طب</div>الطب الباطني العام</div>
-            <div class="course-node y3" id="n_path_sys_lab" style="top:750px; left:750px;" data-req="متزامن: أمراض جهازي"><div class="course-code">354 طب</div>مختبر الامراض الجهازي</div>
-            <div class="course-node y3" id="n_clin_lab" style="top:750px; left:880px;" data-req="سابق: مختبرات (أمصال، فيروسات)"><div class="course-code">330 طب</div>مختبر العلوم التطبيقية</div>
+            <div class="course-node y3" id="n_history" style="top:750px; left:270px;" data-req="متزامن: باطني عام"><div class="course-code">374 طب</div>تاريخ الحالة والفحص</div>
+            <div class="course-node y3" id="n_infect1" style="top:750px; left:400px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">376 طب</div>الامراض المشتركة 1</div>
+            <div class="course-node y3" id="n_int_med1" style="top:750px; left:530px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">372 طب</div>الباطني العام</div>
+            <div class="course-node y3" id="n_int_med2" style="top:750px; left:660px;" data-req="سابق: أمراض عام + أدوية عام"><div class="course-code">372 طب</div>الباطني العام</div>
+            <div class="course-node y3" id="n_path_sys_lab" style="top:750px; left:790px;" data-req="متزامن: أمراض جهازي"><div class="course-code">354 طب</div>مختبر الامراض الجهازي</div>
+            <div class="course-node y3" id="n_clin_lab" style="top:750px; left:920px;" data-req="سابق: مختبرات (أمصال، فيروسات)"><div class="course-code">330 طب</div>العلوم التطبيقية</div>
 
-            <div class="course-node y3" id="n_clin_app" style="top:860px; left:555px;" data-req="سابق: باطني عام + أمراض جهازي"><div class="course-code">300 طب</div>التطبيق السريري</div>
+            <div class="course-node y3" id="n_clin_app" style="top:860px; left:595px;" data-req="سابق: باطني عام + أمراض جهازي"><div class="course-code">300 طب</div>التطبيق السريري</div>
         </div>
     </div>
 
@@ -276,15 +279,13 @@
         }
 
         function resetZoom() {
-            // ملاءمة ذكية لحجم الشاشة (للموبايل يصغرها تلقائياً)
             const w = window.innerWidth;
-            if (w < 600) currentZoom = 0.45;
-            else if (w < 1000) currentZoom = 0.65;
+            if (w < 600) currentZoom = 0.40;
+            else if (w < 1000) currentZoom = 0.60;
             else currentZoom = 0.85;
             
             scaleWrapper.style.transform = `scale(${currentZoom})`;
             
-            // تمرير للمنتصف
             setTimeout(() => {
                 mapContainer.scrollLeft = (mapContainer.scrollWidth - mapContainer.clientWidth) / 2;
             }, 300);
@@ -310,7 +311,7 @@
             mapContainer.scrollTop = scrollTop - (y - startY) * 1.5;
         });
 
-        // ----------------- رسم الخطوط SVG بذكاء -----------------
+        // ----------------- رسم الخطوط SVG -----------------
         const svg = document.getElementById('svg-lines');
 
         function createLine(id1, id2, isDashed = false) {
@@ -318,7 +319,6 @@
             const el2 = document.getElementById(id2);
             if (!el1 || !el2) return;
 
-            // استخدام offsetLeft لحساب الإحداثيات بدون التأثر بالزووم!
             const x1 = el1.offsetLeft + (el1.offsetWidth / 2);
             const y1 = el1.offsetTop + el1.offsetHeight;
             const x2 = el2.offsetLeft + (el2.offsetWidth / 2);
@@ -364,7 +364,6 @@
         window.addEventListener('load', () => {
             setupMarkers();
 
-            // المتطلبات السابقة (Solid)
             createLine('n_chem', 'n_biochem');
             createLine('n_bio_lab', 'n_safety');
             createLine('n_bio', 'n_hist1');
@@ -393,7 +392,6 @@
             createLine('n_int_med2', 'n_clin_app');
             createLine('n_path_sys2', 'n_clin_app');
 
-            // المتطلبات المتزامنة (Dashed)
             createLine('n_hist1', 'n_hist1_lab', true);
             createLine('n_animal', 'n_animal_lab', true);
             createLine('n_anat2', 'n_anat2_lab1', true);
@@ -407,7 +405,7 @@
             createLine('n_int_med1', 'n_history', true);
             createLine('n_dairy', 'n_meat', true); 
 
-            resetZoom(); // تطبيق الملاءمة التلقائية عند فتح الصفحة
+            resetZoom(); 
         });
 
         // نافذة التفاصيل
