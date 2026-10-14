@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>الخطة الشجرية التفاعلية | VetCommitto</title>
+    <title>الخطة الشجرية التفاعلية | خطة 2024</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,20 +56,39 @@
         .reset-btn:hover { background: #ef4444; color: #fff; }
 
         /* Container for Pan & Zoom */
-        .map-container { width: 100vw; height: calc(100vh - 180px); overflow: auto; cursor: grab; position: relative; background: radial-gradient(circle at 50% 50%, rgba(13, 27, 51, 0.03) 0%, transparent 60%); }
+        .map-container { 
+            width: 100vw; 
+            height: calc(100vh - 180px); 
+            overflow: auto; 
+            cursor: grab; 
+            position: relative; 
+            background: radial-gradient(circle at 50% 50%, rgba(13, 27, 51, 0.03) 0%, transparent 60%); 
+        }
         .map-container:active { cursor: grabbing; }
 
-        /* Scale Wrapper - تم توسعته لمنع تداخل المواد */
-        .tree-scale-wrapper { position: relative; width: 2000px; height: 1100px; margin: 30px auto; transform-origin: top center; transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        /* Custom Scrollbar */
+        .map-container::-webkit-scrollbar { height: 12px; width: 12px; }
+        .map-container::-webkit-scrollbar-track { background: var(--nav-bg); border-radius: 8px; }
+        .map-container::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 8px; border: 2px solid var(--nav-bg); }
+        .map-container::-webkit-scrollbar-thumb:hover { background: var(--purple); }
+
+        /* Scale Wrapper - Fixed transform-origin to top right for RTL to prevent clipping on the left */
+        .tree-scale-wrapper { 
+            position: relative; 
+            width: 2000px; 
+            height: 1100px; 
+            margin: 30px 50px 100px 50px; 
+            transform-origin: top right; /* مفتاح الحل لعدم القص من اليسار في اللغة العربية */
+            transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); 
+        }
 
         #svg-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         
-        /* تأثيرات الخطوط عند التفاعل */
         path { transition: stroke 0.3s, stroke-width 0.3s, opacity 0.3s; }
         .path-dimmed { opacity: 0.1 !important; }
         .path-highlighted { stroke: var(--gold) !important; stroke-width: 3.5px !important; opacity: 1 !important; z-index: 100;}
 
-        /* Y-Axis Labels - تم عزلهم على أقصى اليمين */
+        /* Y-Axis Labels */
         .year-label { position: absolute; right: 50px; font-size: 26px; font-weight: 900; color: var(--navy); border-right: 5px solid var(--gold); padding-right: 15px; width: 160px; text-align: right; background: rgba(255,255,255,0.8); border-radius: 8px; padding-top: 5px; padding-bottom: 5px; backdrop-filter: blur(5px);}
         .yl-1 { top: 90px; } .yl-2 { top: 360px; } .yl-3 { top: 730px; }
 
@@ -91,7 +110,6 @@
         .y2 { background: var(--node-y2); }
         .y3 { background: var(--node-y3); }
 
-        /* تأثيرات العقد عند التفاعل */
         .node-dimmed { opacity: 0.15; filter: grayscale(100%); pointer-events: none; }
         .node-highlighted { transform: scale(1.1); box-shadow: 0 0 0 4px rgba(209, 170, 92, 0.4); border-color: var(--gold); z-index: 60; opacity: 1;}
         .node-active { transform: scale(1.15) translateY(-5px); box-shadow: 0 0 0 4px var(--gold), 0 15px 30px rgba(0,0,0,0.4); border-color: #fff; z-index: 70; opacity: 1;}
@@ -124,7 +142,7 @@
 
     <div class="page-header">
         <h1>الخطة الشجرية التفاعلية</h1>
-        <p>تخصص الطب والجراحة البيطرية - اضغط على أي مادة لرؤية مسارها بوضوح (خطة 1985)</p>
+        <p>تخصص دكتور في الطب البيطري - خطة 2024 (اضغط على أي مادة لرؤية مسارها بوضوح)</p>
         
         <div class="controls-row">
             <div class="legend">
@@ -135,7 +153,7 @@
         </div>
     </div>
 
-    <!-- حاوية السحب والزوم -->
+    <!-- حاوية السحب والزوم مع السكرول -->
     <div class="map-container" id="mapContainer">
         <div class="tree-scale-wrapper" id="treeScale">
             <svg id="svg-lines"></svg>
@@ -171,9 +189,9 @@
         const isDark = localStorage.getItem("vet_theme") === "dark";
         document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
-        // ----------------- الإحداثيات الجديدة لضمان عدم التداخل نهائياً -----------------
+        // ----------------- الداتا الرسمية للمساقات -----------------
         const coursesData = [
-            // سنة أولى (Y = 50 و Y = 170)
+            // سنة أولى
             { id: 'c109', code: 'ع أ 109 ف', name: 'الفيزياء الطبية', year: 1, pre: [], co: [], x: 100, y: 50 },
             { id: 'c108', code: 'ع أ 108 ك', name: 'الكيمياء العامة والعضوية', year: 1, pre: [], co: [], x: 300, y: 50 },
             { id: 'c107', code: 'ع أ 107 تح', name: 'بيولوجيا عامة عملي', year: 1, pre: [], co: ['c103'], x: 600, y: 50 },
@@ -190,7 +208,7 @@
             { id: 'c102', code: '102 طب', name: 'تحسين سلالات الحيوان', year: 1, pre: ['c101'], co: [], x: 1400, y: 170 },
             { id: 'c104', code: '104 طب', name: 'الوراثة الجزيئية', year: 1, pre: ['c103'], co: [], x: 1550, y: 170 },
 
-            // سنة ثانية (Y = 320 و Y = 440)
+            // سنة ثانية
             { id: 'c227', code: '227 طب', name: 'مختبر الامصال البيطرية', year: 2, pre: [], co: ['c225'], x: 100, y: 320 },
             { id: 'c225', code: '225 طب', name: 'علم المناعة البيطرية', year: 2, pre: ['c104', 'c262'], co: [], x: 250, y: 320 },
             { id: 'c219', code: '219 طب', name: 'مختبر الأنسجة الجهازي', year: 2, pre: ['c215'], co: [], x: 400, y: 320 },
@@ -207,7 +225,7 @@
             { id: 'c238', code: '238 طب', name: 'مختبر الطفيليات والحشرات', year: 2, pre: ['c233'], co: ['c234'], x: 1250, y: 440 },
             { id: 'c234', code: '234 طب', name: 'علم الطفيليات البيطرية', year: 2, pre: ['c233'], co: [], x: 1400, y: 440 },
 
-            // سنة ثالثة (Y = 590, 710, 830, 950)
+            // سنة ثالثة
             { id: 'c321', code: '321 طب', name: 'تغذية الحيوان', year: 3, pre: ['c256', 'c262'], co: [], x: 100, y: 590 },
             { id: 'c337', code: '337 طب', name: 'مختبر الفيروسات البيطرية', year: 3, pre: ['c236'], co: [], x: 250, y: 590 },
             { id: 'c258', code: '258 طب', name: 'مختبر الفسيولوجيا', year: 3, pre: [], co: ['c256'], x: 450, y: 590 },
@@ -313,8 +331,6 @@
         }
 
         // ----------------- التفاعل السحري (Interactive Path) -----------------
-        let isInteractiveMode = false;
-
         function getCourseById(id) { return coursesData.find(c => c.id === id); }
 
         function getAllPreReqs(courseId, resultSet = new Set(), edgesSet = new Set()) {
@@ -339,9 +355,7 @@
         }
 
         function activateInteractivePath(clickedId) {
-            isInteractiveMode = true;
             document.getElementById('resetHighlightBtn').style.display = 'flex';
-            
             const reqs = getAllPreReqs(clickedId);
             const activeNodes = [clickedId, ...reqs.nodes];
             const activeEdges = reqs.edges;
@@ -372,13 +386,10 @@
         }
 
         function resetInteractive() {
-            isInteractiveMode = false;
             document.getElementById('resetHighlightBtn').style.display = 'none';
-            
             document.querySelectorAll('.course-node').forEach(node => {
                 node.classList.remove('node-active', 'node-highlighted', 'node-dimmed');
             });
-
             document.querySelectorAll('#svg-lines path').forEach(path => {
                 path.classList.remove('path-highlighted', 'path-dimmed');
                 const isDashed = path.getAttribute('stroke-dasharray');
@@ -426,8 +437,7 @@
             else currentZoom = 0.85;
             scaleWrapper.style.transform = `scale(${currentZoom})`;
             
-            // تمرير لليمين عند فتح الصفحة عشان الطالب يبدأ من السنة الأولى
-            setTimeout(() => { mapContainer.scrollLeft = mapContainer.scrollWidth; }, 300);
+            setTimeout(() => { mapContainer.scrollLeft = 0; }, 200);
         }
 
         let isDragging = false, startX, startY, scrollLeft, scrollTop;
