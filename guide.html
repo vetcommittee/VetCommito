@@ -50,12 +50,13 @@ section.sec:nth-of-type(even){direction:ltr}section.sec:nth-of-type(even)>*{dire
 .bn{font-size:13px;font-weight:700;color:var(--navy);line-height:1.45}.bn small{display:block;color:var(--slate);font-size:9.5px;font-weight:500}
 .mb,.ibb{width:44px;height:44px;border:1px solid var(--line);background:var(--card);border-radius:12px;display:grid;place-items:center;color:var(--navy)}.ibb{width:38px;height:38px}.ia{display:flex;gap:8px}.ibb.on{color:var(--gold)}.ibb.on svg{fill:currentColor}
 .hr{background:linear-gradient(90deg,#0d1b33,#1e3f70);color:#fff;padding:34px 22px 60px}
-.ey{display:flex;align-items:center;gap:10px;font-size:11px;color:#c9d6eb;margin-bottom:16px}.ey:before{content:"";width:29px;height:1px;background:var(--gold)}
+.ey{font-size:12px;font-weight:600;color:var(--gold);margin-bottom:16px}
 .hr h1{font-size:28px;line-height:1.4;margin:0 0 22px}.hr h1 span{color:#b3c5e8}
 .sbx{height:58px;display:flex;align-items:center;gap:12px;padding:0 18px;border:1px solid rgba(255,255,255,.25);border-radius:15px;background:rgba(255,255,255,.1);color:#d0daeb;font-size:13px}
 .nt{margin:-26px 20px 0;position:relative;background:var(--card);border:1px solid var(--cb);border-radius:15px;padding:16px 18px;display:flex;gap:14px;box-shadow:0 12px 34px rgba(0,0,0,.06)}
 .ni{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--btn);color:var(--purple);flex:none}.nt b{font-size:14px;color:var(--navy)}.nt p{margin:2px 0 0;font-size:12px;color:var(--slate)}
 .cs{padding:34px 20px 10px}.kk{font:700 10px Manrope;letter-spacing:.16em;color:var(--purple)}.cs h2{margin:4px 0;font-size:24px;color:var(--navy)}.cdsc{margin:0 0 16px;font-size:13px;color:var(--slate)}
+.mtabs{display:flex;gap:6px;margin-bottom:14px}.mj{white-space:nowrap;padding:9px 13px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--card);border:1px solid var(--line);color:var(--slate);transition:.3s}.mj.on{background:var(--purple);border-color:var(--purple);color:#fff}
 .cats,.pills{display:flex;gap:6px;overflow:hidden;margin-bottom:12px}.cat{white-space:nowrap;padding:11px 14px;border-radius:12px;font-size:12.5px;background:var(--card);border:1px solid var(--line);color:var(--slate);display:flex;gap:8px;align-items:center}.cat small{font:11px Manrope;background:var(--btn);padding:2px 8px;border-radius:20px}.cat.on{background:var(--purple);color:#fff}
 .pl{white-space:nowrap;padding:9px 16px;border-radius:99px;font-size:12px;background:var(--card);border:1px solid var(--line);color:var(--slate)}.pl.on{background:var(--navy);color:var(--paper)}
 .ck{border:1px solid var(--cb);border-radius:16px;background:var(--card);padding:18px;min-height:132px;display:flex;flex-direction:column;justify-content:space-between;margin-bottom:14px;transition:.3s}.ck.fav{border-color:var(--gold);background:rgba(209,170,92,.08)}.ck.gone{display:none}
@@ -117,11 +118,35 @@ section.sec:nth-of-type(even){direction:ltr}section.sec:nth-of-type(even)>*{dire
 .dlg2{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:28px 28px 0 0;z-index:46;transform:translateY(105%);transition:.4s;padding:22px 22px 30px;color:var(--navy)}.dlg2.op{transform:none}
 .dtp{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--slate);margin-bottom:18px}.dtp b{color:var(--navy)}.dtp .go{color:var(--purple);font-weight:800}
 .dbd{display:flex;gap:14px;align-items:center;margin-bottom:12px}.dbd img{width:60px;height:60px;border-radius:14px;object-fit:cover}.dbd .f{flex:1}
+.vp{--tl:#606d85;--tld:#a8bcd9}[data-theme=dark] .vp,.dk .vp{--tl:#949daf;--tld:#475569}
+.trh{position:absolute;top:80px;left:0;right:0;text-align:center;padding:12px 10px 0;z-index:6;background:var(--paper)}.trh h1{font-size:22px;margin:0 0 4px;color:var(--navy);font-weight:800}
+.trm{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px}.trm .mj{font-size:12px}
+.trc{display:flex;justify-content:center;gap:10px;align-items:center;padding-bottom:8px}
+.trl{background:var(--card);padding:8px 16px;border-radius:30px;box-shadow:0 4px 15px rgba(0,0,0,.05);display:inline-flex;gap:14px;font-size:11px;font-weight:700;color:var(--navy);border:1px solid var(--cb)}
+.ln{display:inline-block;width:22px;height:3px;background:var(--tl);border-radius:2px;margin-inline-end:7px;vertical-align:middle}.ln.d{background:none;border-bottom:3px dashed var(--tld);height:0}
+.trr{background:#fee2e2;color:#dc2626;padding:8px 14px;border-radius:30px;font-size:11px;font-weight:700;display:none;align-items:center;gap:5px;box-shadow:0 4px 10px rgba(220,38,38,.2)}.trr.on{display:inline-flex}
+.mpc{position:absolute;left:0;right:0;top:262px;bottom:0;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(13,27,51,.04) 0%,transparent 60%)}
+.trw{position:absolute;left:0;top:0;transform-origin:0 0;transition:transform .9s cubic-bezier(.3,.8,.3,1)}.trw.off{display:none}
+.trs{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.tpa{fill:none;stroke:var(--tl);stroke-width:1.5;transition:stroke .3s,opacity .3s}.tpa.dsh{stroke:var(--tld);stroke-dasharray:4 4}.tpa.pd{opacity:.1}.tpa.ph{stroke:var(--gold)!important;stroke-width:3.5px;opacity:1;stroke-dasharray:none}
+.cn{position:absolute;width:130px;height:60px;padding:5px;border-radius:12px;text-align:center;font-size:11.5px;font-weight:700;line-height:1.3;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.15);display:flex;flex-direction:column;justify-content:center;align-items:center;border:2px solid transparent;transition:all .3s;z-index:10}
+.cn small{font-size:9.5px;opacity:.9;margin-bottom:2px;font-weight:500;color:#facc15}
+.cy1{background:linear-gradient(135deg,#0f172a,#1e293b)}.cy2{background:linear-gradient(135deg,#311b92,#4338ca)}.cy3{background:linear-gradient(135deg,#1e3a8a,#2563eb)}.cy4{background:linear-gradient(135deg,#065f46,#047857)}
+.cn.dim{opacity:.15;filter:grayscale(100%)}.cn.hl{transform:scale(1.1);box-shadow:0 0 0 4px rgba(209,170,92,.4);border-color:var(--gold);z-index:60}.cn.act{transform:scale(1.15) translateY(-5px);box-shadow:0 0 0 4px var(--gold),0 15px 30px rgba(0,0,0,.4);border-color:#fff;z-index:70}
+.yl{position:absolute;right:30px;font-size:26px;font-weight:900;color:var(--navy);border-right:6px solid var(--gold);padding:8px 15px 8px 0;width:180px;text-align:right;background:var(--card);border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.05);z-index:5}
+.zc{position:absolute;left:16px;bottom:24px;display:flex;flex-direction:column;gap:8px;z-index:30}
+.zb{width:44px;height:44px;border-radius:12px;background:var(--card);border:1px solid var(--cb);display:grid;place-items:center;color:var(--navy);box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.tov{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:40;opacity:0;pointer-events:none;transition:.3s}.tov.op{opacity:1}
+.tmd{position:absolute;top:50%;left:50%;width:320px;transform:translate(-50%,-50%) scale(.92);background:var(--card);padding:25px;border-radius:16px;border:1px solid var(--cb);z-index:41;text-align:center;opacity:0;pointer-events:none;transition:.3s}.tmd.op{opacity:1;transform:translate(-50%,-50%)}
+.tmd h3{margin:0 0 6px;color:var(--navy);font-size:17px}.tmd p{font-size:14px;color:var(--slate);margin:0 0 10px}.tmd p b{color:var(--purple)}
+.rq{background:var(--paper);border-radius:8px;padding:10px;border:1px dashed var(--cb);font-size:12px;font-weight:600;text-align:right;line-height:1.6}.rq span{display:block;color:var(--purple);font-size:11px;margin-bottom:5px}
+.mbt{margin-top:20px;padding:12px;background:var(--navy);color:#fff;border-radius:8px;font-weight:700;font-size:14px}
 .cap{min-height:44px;width:290px;text-align:center;font-size:13px;font-weight:600;color:var(--navy);line-height:1.6}
 .re{border:1px solid var(--line);background:var(--card);color:var(--purple);border-radius:10px;padding:8px 16px;font:600 12px inherit;font-family:inherit;cursor:pointer}
 ul.tl{margin:0;padding:0;list-style:none;font-size:11px;display:grid;gap:4px}.tl li{background:var(--btn);padding:6px 8px;border-radius:8px}.tl li.d{text-decoration:line-through;opacity:.5}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:56px 0 20px}
 .gc{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:18px}.gc h3{margin:6px 0;font-size:15px;color:var(--navy)}.gc p{margin:0;font-size:12.5px;color:var(--slate);line-height:1.8}.gc .e{font-size:24px}
+.gc.wide{grid-column:1/-1;border-color:var(--gold)}.gc .rl{margin:10px 0;padding-inline-start:18px;font-size:12.5px;color:var(--slate);line-height:1.9}.gc .rl b,.gc p b{color:var(--ink)}.gc a.more{color:var(--purple);font-weight:700;font-size:12.5px}
 .sh{font-size:24px;color:var(--navy);margin:50px 0 0}
 footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
 @media(max-width:860px){section.sec,section.sec:nth-of-type(even){grid-template-columns:1fr;direction:rtl;gap:26px;padding:40px 0}.demo{order:2}.hero{padding:44px 0 50px}}
@@ -140,7 +165,7 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
 </div></div>
 
 <nav class="chips"><div class="wrap">
-  <a href="#menu">القائمة والمظهر</a><a href="#courses">المساقات</a><a href="#tools">الأدوات اليومية</a><a href="#exams">الامتحانات</a><a href="#qbank">بنك الأسئلة</a><a href="#gpa">حاسبة المعدل</a><a href="#pwa">ثبّتها كتطبيق</a><a href="#more">ميزات أخرى</a>
+  <a href="#menu">القائمة والمظهر</a><a href="#courses">المساقات</a><a href="#tools">الأدوات اليومية</a><a href="#exams">الامتحانات</a><a href="#qbank">بنك الأسئلة</a><a href="#gpa">حاسبة المعدل</a><a href="#tree">الخطة الشجرية</a><a href="#pwa">ثبّتها كتطبيق</a><a href="#more">ميزات أخرى</a>
 </div></nav>
 
 <main class="wrap">
@@ -153,6 +178,7 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
       <li><b>عن اللجنة:</b> فرق اللجنة وإنجازاتها وروابط التواصل.</li>
       <li><b>الخطة الشجرية:</b> متطلبات كل مساق على شكل شجرة تفاعلية.</li>
       <li><b>جدول الامتحانات، بنك الأسئلة، حاسبة المعدل:</b> الصفحات المخصصة لكل أداة.</li>
+      <li><b>نظام الـ 87 ساعة:</b> شرح شرط الانتقال من مرحلة الـ Basic إلى العيادات (تفاصيله أسفل الصفحة).</li>
       <li><b>روابط مفيدة:</b> قسم يظهر أسفل القائمة تلقائياً عندما تضيف اللجنة روابط جديدة.</li>
       <li><b>الوضع الداكن:</b> يتذكره المتصفح ويطبّق على كل الصفحات.</li>
     </ul></div>
@@ -164,6 +190,7 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
     <h2>البحث والمساقات والمفضلة</h2>
     <p>اكتب في خانة البحث أعلى الصفحة باسم المساق أو رمزه، أو تصفّح حسب التصنيف الأكاديمي والفصل.</p>
     <ul>
+      <li><b>التخصص:</b> زرّان أعلى المكتبة للتبديل بين «دكتور في الطب البيطري» و«التمريض والرعاية البيطرية»، وتتغير المساقات وأعدادها حسب التخصص.</li>
       <li><b>التصنيف:</b> السنوات من الأولى إلى السادسة، المواد الاختيارية، ومتطلبات الجامعة، وبجانب كل تصنيف عدد مساقاته.</li>
       <li><b>الفصل:</b> الأول، الثاني، أو الصيفي، أو كل الفصول.</li>
       <li><b>النجمة ⭐:</b> تثبّت المساق في أول القائمة وتبقى محفوظة على جهازك.</li>
@@ -223,6 +250,23 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
   <div class="demo" id="d-gpa"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
 </section>
 
+<section class="sec" id="tree">
+  <div class="txt"><span class="path">القائمة ← الخطة الشجرية</span>
+    <h2>الخطة الشجرية التفاعلية</h2>
+    <p>خريطة بصرية لمواد الخطة، ترى فيها ما يجب إنهاؤه قبل كل مادة وما يمكن دراسته معها، فتسجّل موادك دون مفاجآت.</p>
+    <ul>
+      <li><b>التخصصان:</b> بدّل من أعلى الصفحة بين «دكتور في الطب البيطري (2024)» و«التمريض والرعاية البيطرية (2026)».</li>
+      <li><b>ألوان السنوات:</b> مواد كل سنة بلون: الأولى كحلي داكن، الثانية بنفسجي، الثالثة أزرق، والرابعة (في التمريض) أخضر.</li>
+      <li><b>الخط المتصل:</b> متطلب سابق، أي مادة يجب أن تنجح بها قبل تسجيل المادة التالية.</li>
+      <li><b>الخط المتقطع:</b> متطلب متزامن، أي مادة تدرسها في نفس الفصل مع المادة المرتبطة بها.</li>
+      <li><b>اضغط أي مادة:</b> يضيء مسار متطلباتها بالذهبي وتخفت باقي المواد، وتظهر نافذة بأسماء المتطلبات: السابقة بالأحمر والمتزامنة بالبرتقالي.</li>
+      <li><b>إلغاء التحديد:</b> زر أحمر يظهر أعلى الخريطة بعد أي ضغط ليعيدها كما كانت.</li>
+      <li><b>التكبير والتحريك:</b> أزرار التكبير والملاءمة والتصغير أسفل يسار الشاشة، وحرّك الخريطة بإصبعك أو بسحب الماوس.</li>
+    </ul></div>
+  
+<div class="demo" id="d-tree"><div class="phone"></div><div class="cap"></div><button class="re">↻ أعد الشرح</button></div>
+</section>
+
 <section class="sec" id="pwa">
   <div class="txt"><span class="path">متصفح الهاتف ← زر المشاركة أو القائمة ⋮</span>
     <h2>ثبّت المنصة كتطبيق على هاتفك</h2>
@@ -239,11 +283,14 @@ footer{text-align:center;color:var(--slate);font-size:12px;padding:40px 0 60px}
 <h2 class="sh" id="more">وميزات أخرى تستحق المعرفة</h2>
 <div class="grid">
   <div class="gc"><div class="e">📢</div><h3>الإعلانات الرسمية</h3><p>شريط أعلى الرئيسية يعرض آخر إعلان للجنة مع تاريخه.</p></div>
-  <div class="gc"><div class="e">✨</div><h3>جديد المنصة هذا الأسبوع</h3><p>آخر 5 مواد أُضيفت. اضغط أي بطاقة لينتقل البحث إلى مساقها مباشرة.</p></div>
-  <div class="gc"><div class="e">🌳</div><h3>الخطة الشجرية</h3><p>اضغط أي مادة لتضيء المتطلبات السابقة والمتزامنة، وكبّر الخريطة وحرّكها بإصبعين.</p></div>
+  <div class="gc"><div class="e">✨</div><h3>جديد المنصة هذا الأسبوع</h3><p>آخر 5 مواد أُضيفت. اضغط أي بطاقة لينتقل البحث إلى مساقها، ويتبدّل التخصص تلقائياً إن كان المساق في التخصص الآخر.</p></div>
+  <div class="gc"><div class="e">🌳</div><h3>الخطة الشجرية</h3><p>اضغط أي مادة لتضيء المتطلبات السابقة والمتزامنة، وكبّر الخريطة بالأزرار وحرّكها بإصبعك. <a href="#tree" style="color:var(--purple);font-weight:600">شاهد الشرح</a></p></div>
   <div class="gc"><div class="e">👥</div><h3>عن اللجنة</h3><p>أفرقة اللجنة بالأرقام، وأزرار فيسبوك وانستغرام ومنصة X.</p></div>
   <div class="gc"><div class="e">📲</div><h3>ثبّتها كتطبيق</h3><p>أيقونة على شاشتك وفتح بشاشة كاملة. <a href="#pwa" style="color:var(--purple);font-weight:600">شاهد الشرح</a></p></div>
   <div class="gc"><div class="e">💾</div><h3>بياناتك على جهازك</h3><p>المفضلة والمهام والمؤقّت والمعدل والتقدّم في الاختبارات تُحفظ في متصفحك، فلا تنسخها لجهاز آخر تلقائياً.</p></div>
+  <div class="gc wide" id="rules"><div class="e">🛡️</div><h3>نظام الـ 87 ساعة</h3><p>لطلاب الخطة الجديدة (دفعة 2019 فما بعد) في تخصص دكتور في الطب البيطري. هو نقطة الفصل بين مرحلة <b>Basic</b> (السنوات 1 إلى 3) ومرحلة <b>Clinic</b> (السنوات 4 إلى 6).</p>
+  <ul class="rl"><li><b>شرط الانتقال للسنة الرابعة:</b> النجاح في كل المساقات الإجبارية للسنوات الثلاث (87 ساعة) بمعدل تراكمي لا يقل عن 2.0.</li><li><b>العلوم الأساسية محسوبة:</b> مثل البيولوجيا ومختبرها والكيمياء 108 والفيزياء الطبية، فلا تؤجلها.</li><li><b>إعادة المواد:</b> أعد أي مادة راسب بها خلال سنواتك الثلاث الأولى، وإلا تأخر تخرجك سنة كاملة لإعادة مواد الـ Basic.</li><li><b>الاستثناء:</b> الرسوب في مادة أو مادتين فقط من السنة الثالثة يتيح لك امتحاناً تكميلياً، بشرط أن يكون الرسوب أكاديمياً، لا بسبب الحرمان (ف ح)، ولا بإسقاط المادة أو تأجيلها.</li></ul>
+  <a class="more" href="rules.html">اقرأ الشرح الكامل ←</a></div>
 </div>
 </main>
 <footer>المنصة الأكاديمية - VetCommitto · لجنة الطب والجراحة البيطرية</footer>
@@ -262,9 +309,12 @@ const TB=`<div class="tb">${LG}<span class="mb" id="m"><svg viewBox="0 0 24 24" 
 const HERO=`<div class="hr"><div class="ey">كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</div><h1>معرفةٌ أقرب،<br><span>ورعايةٌ تبدأ من هنا.</span></h1><div class="sbx" id="s">${I('search',20)}<span id="ty">ابحث عن أي مساق بالاسم أو الرمز...</span></div></div>`;
 const NT=`<div class="nt"><span class="ni">${I('megaphone')}</span><div><b>الإعلانات الأكاديمية</b><p>آخر إعلان رسمي من اللجنة يظهر هنا</p></div></div>`;
 const DI=(i,t,x='')=>`<div class="di"${x}>${I(i)}${t}</div>`;
-const DR=`<div class="ov"></div><div class="dr"><div class="dh"><b>القائمة</b><span class="xb" id="x">${I('x')}</span></div><div class="db">${DI('info','عن اللجنة',' id="lk"')}${DI('git-branch','الخطة الشجرية')}${DI('calendar','جدول الامتحانات')}${DI('database','بنك الأسئلة')}${DI('calculator','حاسبة المعدل')}${DI('help-circle','كيف تستخدم المنصة')}</div><div class="df"><div class="di" id="th">${I('moon')}الوضع الداكن<span class="sw"></span></div></div></div>`;
+const DR=`<div class="ov"></div><div class="dr"><div class="dh"><b>القائمة</b><span class="xb" id="x">${I('x')}</span></div><div class="db">${DI('info','عن اللجنة',' id="lk"')}${DI('git-branch','الخطة الشجرية')}${DI('calendar','جدول الامتحانات')}${DI('database','بنك الأسئلة')}${DI('calculator','حاسبة المعدل')}${DI('shield-alert','نظام الـ 87 ساعة')}${DI('help-circle','كيف تستخدم المنصة')}</div><div class="df"><div class="di" id="th">${I('moon')}الوضع الداكن<span class="sw"></span></div></div></div>`;
 const CARD=(id,c,n,y)=>`<div class="ck" id="${id}"><div class="ct"><span class="cd">${c}</span><span class="fv" id="${id}s">${I('star',16)}</span></div><div><h3>${n}</h3><p>${y}</p></div></div>`;
-const CS=`<div class="cs" id="cs"><div class="kk">دليلك الأكاديمي</div><h2>مكتبة المساقات</h2><p class="cdsc" id="cdesc">اختر مساقاً للوصول إلى مواده الدراسية.</p><div class="cats"><span class="cat on">السنة الأولى<small>8</small></span><span class="cat">السنة الثانية<small>9</small></span><span class="cat">السنة الثالثة<small>7</small></span></div><div class="pills"><span class="pl on">كل الفصول</span><span class="pl">الفصل الأول</span><span class="pl">الفصل الثاني</span></div>${CARD('c1','VET 101','علم التشريح العام','السنة 1 · الفصل الأول')}${CARD('c2','VET 102','علم الأنسجة','السنة 1 · الفصل الأول')}${CARD('c3','VET 103','الفسيولوجيا','السنة 1 · الفصل الثاني')}</div>`;
+const NUR=`${CARD('c1','NUR 101','أساسيات التمريض البيطري','السنة 1 · الفصل الأول')}${CARD('c2','NUR 102','علم التشريح للتمريض','السنة 1 · الفصل الأول')}${CARD('c3','NUR 103','رعاية الحيوانات','السنة 1 · الفصل الثاني')}`;
+const VETC=`${CARD('c1','VET 101','علم التشريح العام','السنة 1 · الفصل الأول')}${CARD('c2','VET 102','علم الأنسجة','السنة 1 · الفصل الأول')}${CARD('c3','VET 103','الفسيولوجيا','السنة 1 · الفصل الثاني')}`;
+const sw=(d,k)=>{$(d,'#mj1').classList.toggle('on',k===1);$(d,'#mj2').classList.toggle('on',k===2);$(d,'#cl').innerHTML=k===1?VETC:NUR;lucide.createIcons()};
+const CS=`<div class="cs" id="cs"><div class="kk">دليلك الأكاديمي</div><h2>مكتبة المساقات</h2><p class="cdsc" id="cdesc">اختر مساقاً للوصول إلى مواده الدراسية.</p><div class="mtabs"><span class="mj on" id="mj1">دكتور في الطب البيطري</span><span class="mj" id="mj2">التمريض والرعاية البيطرية</span></div><div class="cats"><span class="cat on">السنة الأولى<small>8</small></span><span class="cat">السنة الثانية<small>9</small></span><span class="cat">السنة الثالثة<small>7</small></span></div><div class="pills"><span class="pl on">كل الفصول</span><span class="pl">الفصل الأول</span><span class="pl">الفصل الثاني</span></div><div id="cl">${VETC}</div></div>`;
 const RES=`<div class="ov"></div><div class="sheet"><div class="sh1"><div><h2>علم التشريح العام</h2><p>VET 101</p></div><span class="xb">${I('x')}</span></div><div class="sb1"><div class="rg1"><h3>${I('presentation')}محاضرات وسلايدات</h3><div class="ri"><span class="rs">${I('presentation')}</span><div class="rm"><b>المحاضرة 1 - مقدمة</b><small>رابط خارجي</small></div><span class="tb2">${I('external-link',14)}فتح</span></div></div><div class="rg1"><h3>${I('headphones')}تسجيلات صوتية</h3><div class="ri"><span class="rs">${I('headphones')}</span><div class="rm"><b>تسجيل المحاضرة 1</b><small>رابط خارجي</small></div><span class="tb2">${I('external-link',14)}فتح</span></div></div><div class="rg1"><h3>${I('notebook-tabs')}ملخصات وامتحانات</h3></div></div></div>`;
 const TH=(i,t,s)=>`<div class="th"><span class="ti">${I(i,20)}</span><div><strong>${t}</strong><small>${s}</small></div></div>`;
 const QTB=x=>`<div class="tb">${LG.replace('المنصة الأكاديمية - VetCommitto<small>لجنة الطب والجراحة البيطرية</small>','المنصة الأكاديمية')}<div class="ia">${x}<span class="ibb">${I('moon')}</span><span class="ibb">${I('arrow-left')}</span></div></div>`;
@@ -292,7 +342,7 @@ const DEMOS={
 steps:[['#m',O(true),'اضغط زر القائمة ☰'],['#lk',null,'من هنا تصل إلى كل صفحات المنصة'],['#th',d=>$(d,'.phone').classList.add('dk'),'فعّل الوضع الداكن، ويُحفظ لزيارتك القادمة'],['#x',O(false),'أغلق القائمة بزر ✕ أو بالضغط على الخلفية']]},
 
 'd-courses':{html:`<div class="scr on">${TB}<div class="pg">${HERO}${NT}${CS}</div></div>${RES}`,
-steps:[['#s',d=>type(d,'#ty','تشريح'),'اكتب اسم المساق أو رمزه في خانة البحث'],[null,d=>{sc('#cs')(d);$(d,'#c2').classList.add('gone');$(d,'#c3').classList.add('gone');$(d,'#cdesc').innerHTML='نتائج البحث عن: <b>تشريح</b>'},'تتصفّى المكتبة فوراً'],['#c1s',d=>{$(d,'#c1s').classList.add('on');$(d,'#c1').classList.add('fav')},'النجمة تثبّت المساق في أول القائمة'],['#c1',O(true),'اضغط المساق لتظهر محاضراته وتسجيلاته وملخصاته']]},
+steps:[[null,sc('#cs'),'في مكتبة المساقات، اختر تخصصك أولاً'],['#mj2',d=>sw(d,2),'بدّل بين التخصصين فتتغير المساقات والتصنيفات'],['#mj1',d=>sw(d,1),'وارجع لتخصصك بنفس السهولة'],[null,d=>{$(d,'.pg').style.transform=''},'الآن جرّب البحث'],['#s',d=>type(d,'#ty','تشريح'),'اكتب اسم المساق أو رمزه، والبحث يعمل داخل تخصصك المختار'],[null,d=>{sc('#cs')(d);$(d,'#c2').classList.add('gone');$(d,'#c3').classList.add('gone');$(d,'#cdesc').innerHTML='نتائج البحث عن: <b>تشريح</b>'},'تتصفّى المكتبة فوراً'],['#c1s',d=>{$(d,'#c1s').classList.add('on');$(d,'#c1').classList.add('fav')},'النجمة تثبّت المساق في أول القائمة'],['#c1',O(true),'اضغط المساق لتظهر محاضراته وتسجيلاته وملخصاته']]},
 
 'd-tools':{html:`<div class="scr on">${TB}<div class="pg"><div class="cs" style="padding-bottom:16px"><div class="kk">مساحتك اليومية</div><h2>أدوات تساعدك على التقدّم</h2><p class="cdsc" style="margin:0">أدواتك محفوظة على هذا الجهاز فقط.</p></div>
 <div class="tcd" id="t1">${TH('chart-no-axes-column-increasing','حاسبة المعدل','أدخل الساعات والنقاط')}<div class="gr"><span class="f" style="flex:2" id="gn">المساق</span><span class="f" id="gh">ساعات</span><span class="f" id="gp">نقاط</span></div><div class="tf"><span class="gb">${I('plus',14)}مساق</span><span id="gt">0 ساعة</span></div><div class="tf"><span class="tr" id="gres">أضف مساقاً</span><span>المعدل</span></div></div>
@@ -316,6 +366,27 @@ steps:[['#yr',show('q'),'اختر السنة ثم الفصل والمادة وا
 steps:[['#g',d=>fill(d,'#g','A (4.00)'),'اختر العلامة المتوقعة للمادة'],['#ad',d=>{$(d,'#sl').innerHTML=`<div class="si"><div><b>مادة بدون اسم</b><small>3 ساعات · 4.00 نقطة</small></div><span class="gbd">A</span></div>`;$(d,'#sg').textContent='4.00'},'أضفها فيظهر المعدل الفصلي فوراً'],['#pv',d=>{$(d,'#tc').classList.add('hid');$(d,'#tp').classList.remove('hid');$(d,'#tb1').classList.remove('on');$(d,'#pv').classList.add('on')},'افتح بيانات الفصول السابقة'],['#og',d=>{fill(d,'#og','3.50');fill(d,'#oh','60')},'أدخل معدلك وساعاتك المقطوعة'],['#sv',d=>{$(d,'#cg').textContent='3.52'},'احفظ، ويُحسب لك المعدل التراكمي الجديد']]}
 };
 
+const mkp=a=>a.map(([id,code,name,year,pre,co,x,y])=>({id,code,name,year,pre,co,x,y}));
+const VET=mkp([['v109','ع أ 109 ف','الفيزياء الطبية',1,[],[],100,50],['v108','ع أ 108 ك','الكيمياء العضوية',1,[],[],300,50],['v107','ع أ 107 تح','بيولوجيا عملي',1,[],['v103'],600,50],['v103','ع أ 103 تح','بيولوجيا عامة',1,[],[],900,50],['v262','ع أ 262 ك','كيمياء حيوية',1,['v108'],[],200,170],['v122','122 طب','مختبر الأنسجة العام',1,['v114'],[],350,170],['v114','114 طب','علم الأنسجة العام',1,['v103'],['v112'],500,170],['v112','112 طب','تشريح بيطري 1',1,['v103'],[],650,170],['v116','116 طب','مختبر تشريح 1',1,[],['v112'],800,170],['v118','118 طب','الأمن البيولوجي',1,['v107'],[],950,170],['v219','219 طب','مختبر الأنسجة الجهازي',2,['v215'],[],400,320],['v215','215 طب','الأنسجة الجهازي',2,['v114','v122'],[],550,320],['v213','213 طب','تشريح بيطري 2',2,['v112'],[],700,320],['v217','217 طب','مختبر تشريح 2',2,['v116'],['v213'],850,320],['v216','216 طب','علم الأجنة',2,['v215'],[],550,440],['v258','258 طب','مختبر الفسيولوجيا',3,[],['v256'],450,590],['v255','255 طب','الفسيولوجيا 1',3,['v114','v122'],[],600,590],['v256','256 طب','الفسيولوجيا 2',3,['v255'],[],550,710],['v351','351 طب','علم الامراض العام',3,['v215','v256'],[],700,710],['v353','353 طب','مختبر الامراض العام',3,[],['v351'],850,710]]);
+const NPL=mkp([['n101','ع ك 101','كيمياء عامة (1)',1,[],[],150,50],['n103','ع تح 103','بيولوجيا عامة',1,[],[],450,50],['n107','ع تح 107','بيولوجيا عامة عملي',1,[],['n103'],650,50],['n103v','ت ر ب 103','رعاية الحيوان والتمريض',1,[],[],1000,50],['n101v','ت ر ب 101','المصطلحات البيطرية',1,[],['n103v'],1200,50],['n105','ت ر ب 105','رعاية الحيوان (عملي)',1,[],['n103v'],1400,50],['n102','ت ر ب 102','كيمياء حيوية',1,['n101'],[],150,220],['n104','ت ر ب 104','علم التشريح المقارن',1,['n103'],[],350,220],['n106','ت ر ب 106','علم التشريح (عملي)',1,[],['n104'],550,220],['n108','ت ر ب 108','علم وظائف الأعضاء',1,['n103'],['n106'],750,220],['n110','ت ر ب 110','وظائف الأعضاء (عملي)',1,[],['n108'],950,220]]);
+const TW=(id,pl,W,H,labs,off)=>{const g={};pl.forEach(c=>g[c.id]=c);let p='',n='';pl.forEach(c=>{[...c.pre.map(i=>[i,0]),...c.co.map(i=>[i,1])].forEach(([i,ds])=>{const a=g[i];if(!a)return;const x1=a.x+65,y1=a.y+60,x2=c.x+65,y2=c.y,m=(y1+y2)/2;p+=`<path class="tpa${ds?' dsh':''}" data-e="${i}-${c.id}" d="M${x1} ${y1}C${x1} ${m},${x2} ${m},${x2} ${y2}" marker-end="url(#${ds?'mkd':'mks'})"/>`})});pl.forEach(c=>{n+=`<div class="cn cy${c.year}" id="${c.id}" style="left:${c.x}px;top:${c.y}px"><small>${c.code}</small>${c.name}</div>`});return`<div class="trw${off?' off':''}" id="${id}" style="width:${W}px;height:${H}px"><svg class="trs">${p}</svg>${labs}${n}</div>`};
+const YL=(t,y)=>`<div class="yl" style="top:${y}px">${t}</div>`;
+const tanc=(pl,id,nodes=new Set(),edges=new Set())=>{const c=pl.find(x=>x.id===id);[...c.pre,...c.co].forEach(i=>{if(!nodes.has(i)){nodes.add(i);edges.add(i+'-'+id);tanc(pl,i,nodes,edges)}});return{nodes,edges}};
+const tsel=(d,pl,w,id)=>{const r=tanc(pl,id),act=new Set([id,...r.nodes]);d.querySelectorAll(`#${w} .cn`).forEach(n=>{n.classList.remove('act','hl','dim');n.classList.add(n.id===id?'act':act.has(n.id)?'hl':'dim')});d.querySelectorAll(`#${w} .tpa`).forEach(p=>{const on=r.edges.has(p.dataset.e);p.classList.toggle('ph',on);p.classList.toggle('pd',!on);p.setAttribute('marker-end',`url(#${on?'mkg':p.classList.contains('dsh')?'mkd':'mks'})`)});$(d,'#rs').classList.add('on');const c=pl.find(x=>x.id===id);$(d,'#mt').textContent=c.name;$(d,'#mc').textContent=c.code;$(d,'#mr').innerHTML=c.pre.map(i=>`<div style="color:#dc2626;margin-bottom:4px">سابق: ${pl.find(x=>x.id===i).name}</div>`).join('')+c.co.map(i=>`<div style="color:#d97706;margin-bottom:4px">متزامن: ${pl.find(x=>x.id===i).name}</div>`).join('')};
+const tclr=d=>{$(d,'#rs').classList.remove('on');d.querySelectorAll('.cn').forEach(n=>n.classList.remove('act','hl','dim'));d.querySelectorAll('.tpa').forEach(p=>{p.classList.remove('ph','pd');p.setAttribute('marker-end',`url(#${p.classList.contains('dsh')?'mkd':'mks'})`)})};
+const tmod=on=>d=>{$(d,'.tov').classList.toggle('op',on);$(d,'.tmd').classList.toggle('op',on)};
+const tv=(w,cx,cy,s)=>d=>{$(d,'#'+w).style.transform=`translate(${195-cx*s}px,${229-cy*s}px) scale(${s})`};
+const tinit=(w,cx,cy,s)=>`transform:translate(${195-cx*s}px,${229-cy*s}px) scale(${s})`;
+const TREE=()=>{const lb1=YL('السنة الأولى',110)+YL('السنة الثانية',380)+YL('السنة الثالثة',710);
+const html=`<div class="tb">${LG.replace('المنصة الأكاديمية - VetCommitto<small>لجنة الطب والجراحة البيطرية</small>','المنصة الأكاديمية')}<span class="ibb">${I('arrow-left',20)}</span></div>
+<div class="scr on"><svg width="0" height="0" style="position:absolute"><defs><marker id="mks" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--tl)"/></marker><marker id="mkd" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--tld)"/></marker><marker id="mkg" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--gold)"/></marker></defs></svg>
+<div class="mpc" id="mpc">${TW('tw1',VET,1300,830,lb1,false).replace('<div class="trw"','<div class="trw" ')}${TW('tw2',NPL,1600,340,YL('السنة الأولى',150),true)}</div>
+<div class="trh"><h1>الخطة الشجرية التفاعلية</h1><div class="trm"><span class="mj on" id="tm1">دكتور في الطب البيطري (2024)</span><span class="mj" id="tm2">التمريض والرعاية البيطرية (2026)</span></div><div class="trc"><div class="trl"><span><i class="ln"></i>متطلب سابق</span><span><i class="ln d"></i>متطلب متزامن</span></div><span class="trr" id="rs">${I('refresh-cw',14)}إلغاء التحديد</span></div></div>
+<div class="zc"><span class="zb" id="zin">${I('zoom-in',20)}</span><span class="zb" id="zfit">${I('maximize',20)}</span><span class="zb">${I('zoom-out',20)}</span></div></div>
+<div class="tov"></div><div class="tmd"><h3 id="mt"></h3><p>الرمز: <b id="mc"></b></p><div class="rq"><span>المتطلبات:</span><div id="mr"></div></div><div class="mbt" id="mbt">حسناً، فهمت</div></div>`;
+return{html:html.replace('id="tw1" style="','id="tw1" style="'+tinit('tw1',743,415,.35)+';'),
+steps:[[null,null,'تفتح الخريطة مصغّرة لتشمل الخطة كلها، وكل سنة بلون مختلف'],['#zin',tv('tw1',743,415,.5),'كبّر الخريطة بزر التكبير'],['#zin',tv('tw1',743,415,.65),'ومرة أخرى حتى تقرأ أسماء المواد'],['#mpc',tv('tw1',650,520,.65),'حرّك الخريطة بإصبعك للوصول للمادة'],['#v351',async d=>{tsel(d,VET,'tw1','v351');await sl(600);tmod(true)(d)},'اضغط أي مادة: يضيء مسار متطلباتها بالذهبي وتظهر نافذة بتفاصيلها'],['#mbt',tmod(false),'أغلق النافذة، ويبقى المسار مضيئاً أمامك'],['#rs',tclr,'«إلغاء التحديد» يعيد الخريطة كما كانت'],['#tm2',d=>{$(d,'#tm1').classList.remove('on');$(d,'#tm2').classList.add('on');$(d,'#tw1').classList.add('off');$(d,'#tw2').classList.remove('off');tv('tw2',1050,190,.4)(d)},'بدّل إلى خطة التمريض والرعاية البيطرية (2026)']]}};
+DEMOS['d-tree']=TREE();
 DEMOS['pwa-ios']=PWA(true);DEMOS['pwa-and']=PWA(false);
 async function run(d){
   if(d._r)return;d._r=1;const T=d._t=(d._t||0)+1;const ph=$(d,'.phone'),cap=$(d,'.cap'),cfg=DEMOS[d.dataset.k||d.id];
