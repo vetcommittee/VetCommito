@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1b33" />
+    <title>دليل النظام الأكاديمي | VetCommitto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+    <style>
+        :root {
+            --navy: #0d1b33; --purple: #1e3f70; --gold: #d1aa5c; --slate: #606d85;
+            --paper: #f5f7fa; --card-bg: #fff; --card-border: #dfe3ed;
+            --nav-bg: #fbfbfd; --nav-border: #e8eaf1; --ink: #1a2233;
+            --danger-bg: #fee2e2; --danger-text: #dc2626;
+            --warning-bg: #fef3c7; --warning-text: #d97706;
+        }
+
+        [data-theme="dark"] {
+            --navy: #e0e5ed; --purple: #8baccf; --paper: #0b1120;
+            --card-bg: #1e293b; --card-border: #334155; --nav-bg: #0f172a; --nav-border: #1e293b; --ink: #e0e5ed;
+            --danger-bg: #451a1a; --danger-text: #f87171;
+            --warning-bg: #422a14; --warning-text: #fbbf24;
+        }
+
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 60px;}
+        a { color: inherit; text-decoration: none; }
+        
+        .wrap { width: min(900px, calc(100% - 40px)); margin-inline: auto; }
+
+        .topbar { height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; transition: 0.3s;}
+        .navrow { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px;}
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
+        .brand-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); }
+        .back-btn { width: 40px; height: 40px; border: 1px solid var(--card-border); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s; cursor: pointer;}
+        .back-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold);}
+
+        .page-header { text-align: center; padding: 40px 0 30px; }
+        .page-kicker { font-size: 12px; color: var(--purple); font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        .page-header h1 { color: var(--navy); font-size: 28px; margin: 0 0 10px; font-weight: 800; line-height: 1.4; }
+        .page-header p { color: var(--slate); font-size: 15px; margin: 0; max-width: 600px; margin-inline: auto; line-height: 1.6;}
+
+        .alert-box { background: var(--danger-bg); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 16px; padding: 20px; display: flex; gap: 15px; align-items: flex-start; margin-bottom: 30px; }
+        .alert-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(220, 38, 38, 0.1); color: var(--danger-text); display: grid; place-items: center; flex: none; }
+        .alert-content h3 { margin: 0 0 5px; color: var(--danger-text); font-size: 15px; font-weight: 700; }
+        .alert-content p { margin: 0; color: var(--danger-text); font-size: 13px; line-height: 1.6; opacity: 0.9;}
+
+        .rules-grid { display: grid; gap: 20px; }
+        .rule-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; gap: 18px; align-items: flex-start; transition: 0.3s;}
+        .rule-card:hover { border-color: var(--purple); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.05);}
+        .rule-icon { width: 46px; height: 46px; border-radius: 12px; background: var(--nav-bg); border: 1px solid var(--card-border); color: var(--purple); display: grid; place-items: center; flex: none; }
+        .rule-text h3 { margin: 0 0 8px; color: var(--navy); font-size: 16px; font-weight: 700; }
+        .rule-text p { margin: 0; color: var(--slate); font-size: 14px; line-height: 1.7; }
+        .rule-text ul { margin: 10px 0 0; padding-inline-start: 20px; color: var(--slate); font-size: 14px; line-height: 1.7; }
+        .rule-text li { margin-bottom: 6px; }
+        .rule-text strong { color: var(--navy); }
+
+        .note-box { background: var(--warning-bg); border-radius: 12px; padding: 15px 20px; margin-top: 30px; display: flex; align-items: center; gap: 12px; border: 1px dashed rgba(217, 119, 6, 0.3);}
+        .note-box i { color: var(--warning-text); flex: none; }
+        .note-box p { margin: 0; font-size: 13px; color: var(--warning-text); line-height: 1.6; font-weight: 600;}
+
+        @media (max-width: 600px) {
+            .page-header h1 { font-size: 22px; }
+            .rule-card { flex-direction: column; gap: 15px; padding: 20px;}
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="navrow">
+            <a href="index.html" class="brand">
+                <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
+                <span>المنصة الأكاديمية</span>
+            </a>
+            <button class="back-btn" onclick="window.history.back()"><i data-lucide="arrow-left" width="20"></i></button>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <div class="page-header">
+            <span class="page-kicker">دليلك الأكاديمي</span>
+            <h1>شرح نظام الـ 87 ساعة</h1>
+            <p>هذا القرار ينطبق على جميع طلاب الخطة الجديدة (دفعة 2019 فما بعد) في تخصص دكتور في الطب البيطري. إياك وتجاهل هذه التعليمات لتجنب التأخر الدراسي.</p>
+        </div>
+
+        <div class="alert-box">
+            <div class="alert-icon"><i data-lucide="alert-triangle" width="22"></i></div>
+            <div class="alert-content">
+                <h3>تنبيه هام ومصيري</h3>
+                <p>الرسوب في مادة أو تأجيل تنزيلها بدون سبب قاهر قد يكون السبب في تأخرك سنة دراسية كاملة. التزم دائماً بساعات خطتك، خاصة مواد التخصص الإجبارية.</p>
+            </div>
+        </div>
+
+        <div class="rules-grid">
+            <article class="rule-card">
+                <div class="rule-icon"><i data-lucide="layers" width="22"></i></div>
+                <div class="rule-text">
+                    <h3>مراحل التخصص (Basic & Clinic)</h3>
+                    <p>سنوات تخصص الطب البيطري تُقسم إلى مرحلتين أساسيتين:</p>
+                    <ul>
+                        <li><strong>مرحلة الـ Basic:</strong> أول ثلاث سنوات دراسية (أولى، ثانية، ثالثة).</li>
+                        <li><strong>مرحلة الـ Clinic:</strong> آخر ثلاث سنوات دراسية (رابعة، خامسة، سادسة).</li>
+                    </ul>
+                    <p style="margin-top:8px;"><em>قرار الـ 87 ساعة يُعتبر نقطة الفصل بين المرحلتين، ولا ينتقل الطالب للعيادات إلا بعد إتمام شروطه.</em></p>
+                </div>
+            </article>
+
+            <article class="rule-card">
+                <div class="rule-icon"><i data-lucide="check-circle-2" width="22"></i></div>
+                <div class="rule-text">
+                    <h3>شرط الانتقال للعيادات (إتمام 87 ساعة)</h3>
+                    <p>يُشترط للترفيع لسنة رابعة (العيادات) <strong>النجاح في جميع المساقات الإجبارية للكلية</strong> في السنوات (الأولى والثانية والثالثة)، والتي تعادل <strong>87 ساعة تخصص</strong>، وبمعدل تراكمي لا يقل عن 2.0.</p>
+                </div>
+            </article>
+
+            <article class="rule-card">
+                <div class="rule-icon"><i data-lucide="microscope" width="22"></i></div>
+                <div class="rule-text">
+                    <h3>مواد العلوم الأساسية محسوبة</h3>
+                    <p>المواد العلمية المشتركة مثل (البيولوجيا ومختبرها، الكيمياء 108، والفيزياء الطبية) <strong>تُعتبر متطلبات إجبارية كلية</strong>، ومحسوبة ضمن شرط الـ 87 ساعة، فيجب النجاح بها وعدم تأجيلها.</p>
+                </div>
+            </article>
+
+            <article class="rule-card">
+                <div class="rule-icon"><i data-lucide="rotate-ccw" width="22"></i></div>
+                <div class="rule-text">
+                    <h3>إعادة المواد في حال الرسوب</h3>
+                    <p>أي طالب يرسب أو يتأخر بمادة معينة، يجب عليه إعادتها والنجاح بها خلال سنواته الثلاث الأولى:</p>
+                    <ul>
+                        <li>إذا رسبت بمادة سنة أولى، يجب إعادتها بأقرب فرصة في سنة ثانية.</li>
+                        <li>إذا رسبت بمادة سنة ثانية، أعدها في سنة ثالثة أو في الفصل الصيفي (إذا تم طرحها).</li>
+                        <li><strong>عدا ذلك:</strong> لن تتمكن من التسجيل لمواد سنة رابعة، وستضطر لتأخير تخرجك سنة كاملة لإعادة ما تبقى من مواد الـ Basic.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="rule-card" style="border-color: var(--gold); background: rgba(209, 170, 92, 0.03);">
+                <div class="rule-icon" style="color: var(--gold); border-color: var(--gold);"><i data-lucide="file-badge-2" width="22"></i></div>
+                <div class="rule-text">
+                    <h3>الاستثناء: الامتحان التكميلي</h3>
+                    <p>الطالب الذي يُنهي الثلاث سنوات ويرسب في <strong>مادة أو مادتين فقط من مواد سنة ثالثة</strong>، يحق له التقدم لاختبار تكميلي (بالمادة كاملة) كفرصة أخيرة للنجاح واللحاق بسنة رابعة.</p>
+                    <strong>شروط التكميلي:</strong>
+                    <ul>
+                        <li>أن يكون الرسوب أكاديمياً (بسبب العلامات).</li>
+                        <li>أن <strong>لا</strong> يكون الرسوب بسبب الحرمان لتجاوز غيابات (ف ح).</li>
+                        <li>أن <strong>لا</strong> يكون الطالب قد أسقط المادة أو أجل تنزيلها.</li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+
+        <div class="note-box">
+            <i data-lucide="info" width="20"></i>
+            <p>التزم دائماً بالخطة الاسترشادية للكلية، وتأكد من تسجيل المواد في أوقاتها الصحيحة لتجنب تعارض المتطلبات السابقة لاحقاً.</p>
+        </div>
+
+    </main>
+
+    <script>
+        const isDark = localStorage.getItem("vet_theme") === "dark";
+        document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+        lucide.createIcons();
+    </script>
+</body>
+</html>
