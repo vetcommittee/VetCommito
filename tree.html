@@ -87,7 +87,6 @@
         .path-dimmed { opacity: 0.1 !important; }
         .path-highlighted { stroke: var(--gold) !important; stroke-width: 3.5px !important; opacity: 1 !important; z-index: 100;}
 
-        /* تنسيق السنوات */
         .year-label { 
             position: absolute; 
             right: 30px; 
@@ -183,7 +182,6 @@
         <button class="zoom-btn" onclick="adjustZoom(-0.15)" title="تصغير"><i data-lucide="zoom-out" width="20"></i></button>
     </div>
 
-    <!-- إصلاح المودال والزر -->
     <div id="modalOverlay" onclick="closeModal()"></div>
     <div id="detailsModal">
         <h3 id="m_title" style="margin-top:0; color:var(--navy);"></h3>
@@ -479,17 +477,18 @@
             const course = getCourseById(courseId);
             if(!course) return;
 
+            // التعديل هنا: تسجيل جميع الحواف حتى للمواد المزارة مسبقاً
             course.pre.forEach(preId => {
+                edgesSet.add(`${preId}-${courseId}`);
                 if(!resultSet.has(preId)) {
                     resultSet.add(preId);
-                    edgesSet.add(`${preId}-${courseId}`);
                     getAllPreReqs(preId, resultSet, edgesSet);
                 }
             });
             course.co.forEach(coId => {
+                edgesSet.add(`${coId}-${courseId}`);
                 if(!resultSet.has(coId)) {
                     resultSet.add(coId);
-                    edgesSet.add(`${coId}-${courseId}`);
                     getAllPreReqs(coId, resultSet, edgesSet);
                 }
             });
@@ -555,7 +554,6 @@
             document.getElementById('detailsModal').style.display = 'block';
         }
 
-        // --- إصلاح زر حسناً فهمت ---
         window.closeModal = function() {
             document.getElementById('modalOverlay').style.display = 'none';
             document.getElementById('detailsModal').style.display = 'none';
