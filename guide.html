@@ -413,5 +413,15 @@ const setT=t=>{root.dataset.theme=t;tt.textContent=t==='dark'?'☀️':'🌙';lo
 setT(localStorage.getItem('vet_theme')==='dark'?'dark':'light');
 tt.onclick=()=>setT(root.dataset.theme==='dark'?'light':'dark');
 </script>
+  <!-- كود تسجيل الـ Service Worker (الأوفلاين) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(registration => console.log('ServiceWorker registered!'))
+            .catch(err => console.log('ServiceWorker failed: ', err));
+        });
+      }
+    </script>
 </body>
 </html>
