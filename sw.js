@@ -9,6 +9,7 @@ const urlsToCache = [
   '/guide.html',
   '/rules.html',
   '/about.html',
+  '/hero.mp4',
   '/manifest.json',
   '/logo.jpeg'
 ];
