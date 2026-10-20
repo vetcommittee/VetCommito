@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1b33" />
+    <title>أعضاء هيئة التدريس | VetCommitto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+    <style>
+        :root {
+            --navy: #0d1b33; --purple: #1e3f70; --gold: #d1aa5c; --slate: #606d85;
+            --paper: #f5f7fa; --card-bg: #fff; --card-border: #dfe3ed;
+            --nav-bg: #fbfbfd; --nav-border: #e8eaf1; --ink: #1a2233;
+            --btn-bg: #f0f3f7; --btn-hover: #eef1f6;
+        }
+
+        [data-theme="dark"] {
+            --navy: #e0e5ed; --purple: #8baccf; --paper: #0b1120;
+            --card-bg: #1e293b; --card-border: #334155; --nav-bg: #0f172a; --nav-border: #1e293b; --ink: #e0e5ed;
+            --btn-bg: #334155; --btn-hover: #475569;
+        }
+
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 60px;}
+        a { color: inherit; text-decoration: none; }
+        button, input, select { font: inherit; }
+        
+        .wrap { width: min(1000px, calc(100% - 40px)); margin-inline: auto; }
+
+        .topbar { height: 70px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; transition: 0.3s;}
+        .navrow { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 20px;}
+        .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
+        .brand-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); }
+        .back-btn { width: 40px; height: 40px; border: 1px solid var(--card-border); background: var(--card-bg); border-radius: 12px; display: grid; place-items: center; color: var(--navy); transition: 0.2s; cursor: pointer;}
+        .back-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold);}
+
+        .page-header { text-align: center; padding: 40px 0 30px; }
+        .page-kicker { font-size: 12px; color: var(--purple); font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        .page-header h1 { color: var(--navy); font-size: 28px; margin: 0 0 10px; font-weight: 800; line-height: 1.4; }
+        .page-header p { color: var(--slate); font-size: 15px; margin: 0; max-width: 600px; margin-inline: auto; line-height: 1.6;}
+
+        /* Controls: Search & Filter */
+        .controls { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .search-box { flex: 1; min-width: 250px; position: relative; }
+        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--slate); }
+        .field { width: 100%; border: 1px solid var(--card-border); background: var(--card-bg); padding: 14px 45px 14px 15px; border-radius: 12px; outline: none; color: var(--ink); font-size: 14px; transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+        .field:focus { border-color: var(--purple); }
+        .filter-sel { flex: none; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--navy); border-radius: 12px; padding: 14px 20px; font-size: 14px; font-weight: 600; outline: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02); min-width: 220px;}
+
+        /* Doctors Grid */
+        .doctors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .doc-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; transition: 0.3s; position: relative; overflow: hidden;}
+        .doc-card:hover { border-color: var(--purple); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.06);}
+        .doc-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gold); opacity: 0; transition: 0.3s;}
+        .doc-card:hover::before { opacity: 1; }
+        
+        .doc-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .doc-avatar { width: 50px; height: 50px; border-radius: 14px; background: var(--btn-bg); color: var(--purple); display: grid; place-items: center; flex: none; font-size: 20px; font-weight: 800; font-family: Manrope, sans-serif;}
+        .doc-info { flex: 1; min-width: 0; }
+        .doc-name { margin: 0 0 4px; font-size: 16px; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .doc-title { margin: 0; font-size: 12px; color: var(--slate); font-weight: 600; }
+        
+        .doc-dept { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--purple); background: var(--btn-bg); padding: 6px 12px; border-radius: 8px; margin-bottom: 20px; width: fit-content; }
+        
+        .doc-actions { display: flex; gap: 10px; margin-top: auto; border-top: 1px solid var(--line); padding-top: 15px;}
+        .btn-mail { flex: 1; background: var(--purple); color: #fff; border: none; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.2s;}
+        .btn-mail:hover { opacity: 0.9; transform: translateY(-2px);}
+        .btn-copy { flex: 1; background: var(--card-bg); color: var(--navy); border: 1px solid var(--card-border); padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.2s;}
+        .btn-copy:hover { background: var(--btn-bg); border-color: var(--purple); color: var(--purple);}
+
+        /* Toast */
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 3000; animation: toast-in 0.3s forwards, toast-out 0.3s 3s forwards; }
+        @keyframes toast-in { from { opacity:0; bottom: 0; } to { opacity:1; bottom: 20px; } }
+        @keyframes toast-out { to { opacity:0; bottom: -20px; } }
+
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: var(--slate); font-size: 15px; }
+
+        @media (max-width: 600px) {
+            .page-header h1 { font-size: 24px; }
+            .filter-sel { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="navrow">
+            <a href="index.html" class="brand">
+                <img src="logo.jpeg" class="brand-logo" alt="شعار" /> 
+                <span>المنصة الأكاديمية</span>
+            </a>
+            <button class="back-btn" onclick="window.history.back()"><i data-lucide="arrow-left" width="20"></i></button>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <div class="page-header">
+            <span class="page-kicker">تواصل مع كليتك</span>
+            <h1>أعضاء هيئة التدريس</h1>
+            <p>دليل شامل للبريد الإلكتروني لأعضاء هيئة التدريس في كلية الطب البيطري مرتبة حسب الأقسام الأكاديمية.</p>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <i data-lucide="search" width="18"></i>
+                <input type="text" id="searchInput" class="field" placeholder="ابحث عن دكتور بالاسم..." />
+            </div>
+            <select id="deptFilter" class="filter-sel">
+                <option value="all">جميع الأقسام</option>
+                <option value="العلوم الطبية البيطرية الأساسية">قسم العلوم الأساسية</option>
+                <option value="علم الأمراض البيطرية والصحة العامة">قسم علم الأمراض والصحة العامة</option>
+                <option value="العلوم الطبية البيطرية الإكلينيكية">القسم الإكلينيكي</option>
+            </select>
+        </div>
+
+        <div class="doctors-grid" id="doctorsGrid">
+            <!-- سيتم توليد البطاقات هنا بواسطة الجافاسكربت -->
+        </div>
+    </main>
+
+    <script>
+        const isDark = localStorage.getItem("vet_theme") === "dark";
+        document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+
+        // قاعدة بيانات الدكاترة مدمجة لسرعة الوصول (أوفلاين)
+        const doctorsData = [
+            { name: "ابراهيم الزهير", title: "رئيس قسم - استاذ مشارك", email: "imalzuheir@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "احمد المجالي", title: "استاذ", email: "almajali@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "ايهاب ابو باشا", title: "استاذ", email: "abubasha@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "فلاح شديفات", title: "استاذ", email: "falah@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "محمد برهان الزغول", title: "استاذ", email: "alzghoul@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "محمد غرايبه", title: "استاذ", email: "mhgharaibeh@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "محمد خليفه", title: "استاذ", email: "mskn@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "مصطفى عبابنه", title: "استاذ", email: "ababnem@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "رامي مقبل", title: "استاذ", email: "rmmukbel@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "محمد السبع", title: "استاذ مشارك", email: "mnalsabi@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "انس المخزومي", title: "استاذ مساعد", email: "akalmakhzoomil@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "عبد الرحمن نصر", title: "محاضر متفرغ", email: "atnasr@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "جهينه عبابنه", title: "محاضر متفرغ", email": "oaababneh0@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "علا عبابنه", title: "محاضر متفرغ", email": "jsababneh@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "سيف هندم", title: "محاضر متفرغ", email": "sfhundam@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+
+            { name: "عبد المجيد العجلوني", title: "رئيس قسم - استاذ مساعد", email: "amalajlouni@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "مفلح عواوده", title: "استاذ", email": "mawawdeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "محمد عبيدات", title: "استاذ", email": "mmobaidat@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "محمد الناطور", title: "استاذ", email": "alnatour@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "نبيل هيلات", title: "استاذ", email": "hailatn@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "رائده الرقيبات", title: "استاذ", email": "ralrukib@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "سعد غرايبه", title: "استاذ", email": "saadgh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "شوكت هيلات", title: "استاذ", email": "shqalafi@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "وائل حننه", title: "استاذ", email": "whananeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "عمر الحسين", title: "استاذ مساعد", email": "oshusan@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "فاطمه غباري", title: "محاضر متفرغ", email": "frghbari@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "اسماعيل ملكاوي", title: "محاضر متفرغ", email": "immalkawi0@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "شيرين الخلوف", title: "محاضر متفرغ", email": "smalkhlouf@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+
+            { name: "احمد شرشر", title: "رئيس قسم - استاذ", email": "amsharshar@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "عبد السلام طلافحه", title: "استاذ", email": "talafha@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "عبد الحكيم الجراح", title: "استاذ", email": "eljarah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "امين طاحون", title: "استاذ", email": "amtahoun@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "حسين محمد", title: "استاذ", email": "hamohamed@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "خالد القضاه", title: "استاذ", email": "alqudah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "محمد عبابنه", title: "استاذ", email": "ababneh@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "صبري شحاته", title: "استاذ", email": "sashehata@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "سميح ابوطربوش", title: "استاذ", email": "smabutarbush@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "زهير بني اسماعيل", title: "استاذ", email": "zuhair72@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "ميسر العكش", title: "استاذ مشارك", email": "moalekish@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "مروه حسين", title: "استاذ مشارك", email": "mhhussein@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "موسى درادكه", title: "استاذ مشارك", email": "daradka@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "سمر عطوه", title: "استاذ مشارك", email": "smatwa@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "ميس ملكاوي", title: "استاذ مساعد", email": "mamalkawi71@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "محمد سالم", title: "استاذ مساعد", email": "mgsalem@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "اكرم الغزو", title: "محاضر متفرغ", email": "aaalguzo9@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "عامر الجراح", title: "محاضر متفرغ", email": "aaaljarrah7@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "حسن العمري", title: "مدرس", "email": "hyalomari@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" }
+        ];
+
+        const grid = document.getElementById('doctorsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const deptFilter = document.getElementById('deptFilter');
+
+        function renderDoctors() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const dept = deptFilter.value;
+
+            const filtered = doctorsData.filter(doc => {
+                const matchesSearch = doc.name.toLowerCase().includes(searchTerm) || doc.email.toLowerCase().includes(searchTerm);
+                const matchesDept = dept === "all" || doc.department === dept;
+                return matchesSearch && matchesDept;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="empty-state">لا يوجد نتائج مطابقة لبحثك.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(doc => {
+                // استخراج أول حرفين من الاسم للأيقونة
+                const initials = doc.name.substring(0, 2).trim();
+                
+                return `
+                <article class="doc-card">
+                    <div class="doc-header">
+                        <div class="doc-avatar">${initials}</div>
+                        <div class="doc-info">
+                            <h3 class="doc-name">د. ${doc.name}</h3>
+                            <p class="doc-title">${doc.title}</p>
+                        </div>
+                    </div>
+                    <span class="doc-dept"><i data-lucide="building-2" width="14"></i>${doc.department}</span>
+                    <div class="doc-actions">
+                        <a href="mailto:${doc.email}" class="btn-mail"><i data-lucide="mail" width="16"></i>مراسلة</a>
+                        <button class="btn-copy" onclick="copyEmail('${doc.email}')"><i data-lucide="copy" width="16"></i>نسخ</button>
+                    </div>
+                </article>
+                `;
+            }).join('');
+            
+            lucide.createIcons();
+        }
+
+        window.copyEmail = function(email) {
+            navigator.clipboard.writeText(email).then(() => {
+                showToast("تم نسخ البريد الإلكتروني: " + email);
+            });
+        };
+
+        function showToast(msg) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            
+            const t = document.createElement("div"); 
+            t.className = "toast";
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3500);
+        }
+
+        searchInput.addEventListener('input', renderDoctors);
+        deptFilter.addEventListener('change', renderDoctors);
+
+        // Render initially
+        renderDoctors();
+
+    </script>
+    
+    <!-- كود تسجيل الـ Service Worker (الأوفلاين) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(registration => console.log('ServiceWorker registered!'))
+            .catch(err => console.log('ServiceWorker failed: ', err));
+        });
+      }
+    </script>
+</body>
+</html>
