@@ -127,7 +127,7 @@
         const isDark = localStorage.getItem("vet_theme") === "dark";
         document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
-        // قاعدة بيانات الدكاترة مدمجة لسرعة الوصول (أوفلاين)
+        // قاعدة بيانات الدكاترة
         const doctorsData = [
             { name: "ابراهيم الزهير", title: "رئيس قسم - استاذ مشارك", email: "imalzuheir@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
             { name: "احمد المجالي", title: "استاذ", email: "almajali@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
@@ -141,18 +141,18 @@
             { name: "محمد السبع", title: "استاذ مشارك", email: "mnalsabi@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
             { name: "انس المخزومي", title: "استاذ مساعد", email: "akalmakhzoomil@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
             { name: "عبد الرحمن نصر", title: "محاضر متفرغ", email: "atnasr@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "جهينه عبابنه", title: "محاضر متفرغ", email": "oaababneh0@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "علا عبابنه", title: "محاضر متفرغ", email": "jsababneh@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "سيف هندم", title: "محاضر متفرغ", email": "sfhundam@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "جهينه عبابنه", title: "محاضر متفرغ", email: "oaababneh0@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "علا عبابنه", title: "محاضر متفرغ", email: "jsababneh@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+            { name: "سيف هندم", title: "محاضر متفرغ", email: "sfhundam@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
 
             { name: "عبد المجيد العجلوني", title: "رئيس قسم - استاذ مساعد", email: "amalajlouni@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "مفلح عواوده", title: "استاذ", email": "mawawdeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "محمد عبيدات", title: "استاذ", email": "mmobaidat@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "محمد الناطور", title: "استاذ", email": "alnatour@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "نبيل هيلات", title: "استاذ", email": "hailatn@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "رائده الرقيبات", title: "استاذ", email": "ralrukib@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "سعد غرايبه", title: "استاذ", email": "saadgh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "شوكت هيلات", title: "استاذ", email": "shqalafi@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "مفلح عواوده", title: "استاذ", email: "mawawdeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "محمد عبيدات", title: "استاذ", email: "mmobaidat@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "محمد الناطور", title: "استاذ", email: "alnatour@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "نبيل هيلات", title: "استاذ", email: "hailatn@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "رائده الرقيبات", title: "استاذ", email: "ralrukib@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "سعد غرايبه", title: "استاذ", email: "saadgh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "شوكت هيلات", title: "استاذ", email: "shqalafi@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "وائل حننه", title: "استاذ", email": "whananeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "عمر الحسين", title: "استاذ مساعد", email": "oshusan@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "فاطمه غباري", title: "محاضر متفرغ", email": "frghbari@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
@@ -177,7 +177,7 @@
             { name: "محمد سالم", title: "استاذ مساعد", email": "mgsalem@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
             { name: "اكرم الغزو", title: "محاضر متفرغ", email": "aaalguzo9@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
             { name: "عامر الجراح", title: "محاضر متفرغ", email": "aaaljarrah7@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "حسن العمري", title: "مدرس", "email": "hyalomari@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" }
+            { name: "حسن العمري", title: "مدرس", email: "hyalomari@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" }
         ];
 
         const grid = document.getElementById('doctorsGrid');
