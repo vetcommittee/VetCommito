@@ -16,13 +16,13 @@
             --navy: #0d1b33; --purple: #1e3f70; --gold: #d1aa5c; --slate: #606d85;
             --paper: #f5f7fa; --card-bg: #fff; --card-border: #dfe3ed;
             --nav-bg: #fbfbfd; --nav-border: #e8eaf1; --ink: #1a2233;
-            --btn-bg: #f0f3f7; --btn-hover: #eef1f6;
+            --btn-bg: #f0f3f7; --btn-hover: #eef1f6; --line: #e2e6ed;
         }
 
         [data-theme="dark"] {
             --navy: #e0e5ed; --purple: #8baccf; --paper: #0b1120;
             --card-bg: #1e293b; --card-border: #334155; --nav-bg: #0f172a; --nav-border: #1e293b; --ink: #e0e5ed;
-            --btn-bg: #334155; --btn-hover: #475569;
+            --btn-bg: #334155; --btn-hover: #475569; --line: #334155;
         }
 
         * { box-sizing: border-box; }
@@ -154,16 +154,16 @@
             { name: "سعد غرايبه", title: "استاذ", email: "saadgh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "شوكت هيلات", title: "استاذ", email: "shqalafi@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "وائل حننه", title: "استاذ", email": "whananeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "عمر الحسين", title: "استاذ مساعد", email": "oshusan@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
+            { name: "عمر الحسين", title: "استاذ مساعد", email: "oshusan@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "فاطمه غباري", title: "محاضر متفرغ", email": "frghbari@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "اسماعيل ملكاوي", title: "محاضر متفرغ", email": "immalkawi0@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
             { name: "شيرين الخلوف", title: "محاضر متفرغ", email": "smalkhlouf@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
 
-            { name: "احمد شرشر", title: "رئيس قسم - استاذ", email": "amsharshar@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "عبد السلام طلافحه", title: "استاذ", email": "talafha@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "عبد الحكيم الجراح", title: "استاذ", email": "eljarah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "امين طاحون", title: "استاذ", email": "amtahoun@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "حسين محمد", title: "استاذ", email": "hamohamed@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "احمد شرشر", title: "رئيس قسم - استاذ", email: "amsharshar@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "عبد السلام طلافحه", title: "استاذ", email: "talafha@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "عبد الحكيم الجراح", title: "استاذ", email: "eljarah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "امين طاحون", title: "استاذ", email: "amtahoun@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
+            { name: "حسين محمد", title: "استاذ", email: "hamohamed@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
             { name: "خالد القضاه", title: "استاذ", email": "alqudah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
             { name: "محمد عبابنه", title: "استاذ", email": "ababneh@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
             { name: "صبري شحاته", title: "استاذ", email": "sashehata@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
@@ -200,7 +200,6 @@
             }
 
             grid.innerHTML = filtered.map(doc => {
-                // استخراج أول حرفين من الاسم للأيقونة
                 const initials = doc.name.substring(0, 2).trim();
                 
                 return `
