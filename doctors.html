@@ -127,58 +127,70 @@
         const isDark = localStorage.getItem("vet_theme") === "dark";
         document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
-        // قاعدة بيانات الدكاترة
-        const doctorsData = [
-            { name: "ابراهيم الزهير", title: "رئيس قسم - استاذ مشارك", email: "imalzuheir@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "احمد المجالي", title: "استاذ", email: "almajali@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "ايهاب ابو باشا", title: "استاذ", email: "abubasha@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "فلاح شديفات", title: "استاذ", email: "falah@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "محمد برهان الزغول", title: "استاذ", email: "alzghoul@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "محمد غرايبه", title: "استاذ", email: "mhgharaibeh@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "محمد خليفه", title: "استاذ", email: "mskn@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "مصطفى عبابنه", title: "استاذ", email: "ababnem@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "رامي مقبل", title: "استاذ", email: "rmmukbel@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "محمد السبع", title: "استاذ مشارك", email: "mnalsabi@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "انس المخزومي", title: "استاذ مساعد", email: "akalmakhzoomil@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "عبد الرحمن نصر", title: "محاضر متفرغ", email: "atnasr@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "جهينه عبابنه", title: "محاضر متفرغ", email: "oaababneh0@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "علا عبابنه", title: "محاضر متفرغ", email: "jsababneh@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
-            { name: "سيف هندم", title: "محاضر متفرغ", email: "sfhundam@just.edu.jo", department: "العلوم الطبية البيطرية الأساسية" },
+        // قاعدة بيانات الدكاترة بالطريقة الجديدة (الآمنة والمختصرة)
+        const DEPTS = {  
+            b: "العلوم الطبية البيطرية الأساسية",  
+            p: "علم الأمراض البيطرية والصحة العامة",  
+            c: "العلوم الطبية البيطرية الإكلينيكية"
+        };
+        
+        const RAW = `
+b|ابراهيم الزهير|رئيس قسم - استاذ مشارك|imalzuheir
+b|احمد المجالي|استاذ|almajali
+b|ايهاب ابو باشا|استاذ|abubasha
+b|فلاح شديفات|استاذ|falah
+b|محمد برهان الزغول|استاذ|alzghoul
+b|محمد غرايبه|استاذ|mhgharaibeh
+b|محمد خليفه|استاذ|mskn
+b|مصطفى عبابنه|استاذ|ababnem
+b|رامي مقبل|استاذ|rmmukbel
+b|محمد السبع|استاذ مشارك|mnalsabi
+b|انس المخزومي|استاذ مساعد|akalmakhzoomil
+b|عبد الرحمن نصر|محاضر متفرغ|atnasr
+b|جهينه عبابنه|محاضر متفرغ|oaababneh0
+b|علا عبابنه|محاضر متفرغ|jsababneh
+b|سيف هندم|محاضر متفرغ|sfhundam
+p|عبد المجيد العجلوني|رئيس قسم - استاذ مساعد|amalajlouni
+p|مفلح عواوده|استاذ|mawawdeh
+p|محمد عبيدات|استاذ|mmobaidat
+p|محمد الناطور|استاذ|alnatour
+p|نبيل هيلات|استاذ|hailatn
+p|رائده الرقيبات|استاذ|ralrukib
+p|سعد غرايبه|استاذ|saadgh
+p|شوكت هيلات|استاذ|shqalafi
+p|وائل حننه|استاذ|whananeh
+p|عمر الحسين|استاذ مساعد|oshusan
+p|فاطمه غباري|محاضر متفرغ|frghbari
+p|اسماعيل ملكاوي|محاضر متفرغ|immalkawi0
+p|شيرين الخلوف|محاضر متفرغ|smalkhlouf
+c|احمد شرشر|رئيس قسم - استاذ|amsharshar
+c|عبد السلام طلافحه|استاذ|talafha
+c|عبد الحكيم الجراح|استاذ|eljarah
+c|امين طاحون|استاذ|amtahoun
+c|حسين محمد|استاذ|hamohamed
+c|خالد القضاه|استاذ|alqudah
+c|محمد عبابنه|استاذ|ababneh
+c|صبري شحاته|استاذ|sashehata
+c|سميح ابوطربوش|استاذ|smabutarbush
+c|زهير بني اسماعيل|استاذ|zuhair72
+c|ميسر العكش|استاذ مشارك|moalekish
+c|مروه حسين|استاذ مشارك|mhhussein
+c|موسى درادكه|استاذ مشارك|daradka
+c|سمر عطوه|استاذ مشارك|smatwa
+c|ميس ملكاوي|استاذ مساعد|mamalkawi71
+c|محمد سالم|استاذ مساعد|mgsalem
+c|اكرم الغزو|محاضر متفرغ|aaalguzo9
+c|عامر الجراح|محاضر متفرغ|aaaljarrah7
+c|حسن العمري|مدرس|hyalomari
+`;
 
-            { name: "عبد المجيد العجلوني", title: "رئيس قسم - استاذ مساعد", email: "amalajlouni@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "مفلح عواوده", title: "استاذ", email: "mawawdeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "محمد عبيدات", title: "استاذ", email: "mmobaidat@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "محمد الناطور", title: "استاذ", email: "alnatour@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "نبيل هيلات", title: "استاذ", email: "hailatn@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "رائده الرقيبات", title: "استاذ", email: "ralrukib@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "سعد غرايبه", title: "استاذ", email: "saadgh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "شوكت هيلات", title: "استاذ", email: "shqalafi@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "وائل حننه", title: "استاذ", email": "whananeh@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "عمر الحسين", title: "استاذ مساعد", email: "oshusan@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "فاطمه غباري", title: "محاضر متفرغ", email": "frghbari@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "اسماعيل ملكاوي", title: "محاضر متفرغ", email": "immalkawi0@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-            { name: "شيرين الخلوف", title: "محاضر متفرغ", email": "smalkhlouf@just.edu.jo", department: "علم الأمراض البيطرية والصحة العامة" },
-
-            { name: "احمد شرشر", title: "رئيس قسم - استاذ", email: "amsharshar@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "عبد السلام طلافحه", title: "استاذ", email: "talafha@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "عبد الحكيم الجراح", title: "استاذ", email: "eljarah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "امين طاحون", title: "استاذ", email: "amtahoun@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "حسين محمد", title: "استاذ", email: "hamohamed@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "خالد القضاه", title: "استاذ", email": "alqudah@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "محمد عبابنه", title: "استاذ", email": "ababneh@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "صبري شحاته", title: "استاذ", email": "sashehata@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "سميح ابوطربوش", title: "استاذ", email": "smabutarbush@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "زهير بني اسماعيل", title: "استاذ", email": "zuhair72@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "ميسر العكش", title: "استاذ مشارك", email": "moalekish@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "مروه حسين", title: "استاذ مشارك", email": "mhhussein@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "موسى درادكه", title: "استاذ مشارك", email": "daradka@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "سمر عطوه", title: "استاذ مشارك", email": "smatwa@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "ميس ملكاوي", title: "استاذ مساعد", email": "mamalkawi71@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "محمد سالم", title: "استاذ مساعد", email": "mgsalem@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "اكرم الغزو", title: "محاضر متفرغ", email": "aaalguzo9@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "عامر الجراح", title: "محاضر متفرغ", email": "aaaljarrah7@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" },
-            { name: "حسن العمري", title: "مدرس", email: "hyalomari@just.edu.jo", department: "العلوم الطبية البيطرية الإكلينيكية" }
-        ];
+        const doctorsData = RAW.split("\n")
+          .map(l => l.trim())
+          .filter(Boolean)
+          .map(l => {
+            const [d, name, title, mail] = l.split("|").map(x => x.trim());
+            return { name, title, email: mail + "@just.edu.jo", department: DEPTS[d] };
+          });
 
         const grid = document.getElementById('doctorsGrid');
         const searchInput = document.getElementById('searchInput');
