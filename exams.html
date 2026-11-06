@@ -62,6 +62,7 @@
       .exam-badge.urgent { background: #fee2e2; color: #dc2626; }
       .exam-badge.warn { background: rgba(209, 170, 92, 0.15); color: var(--gold); }
       
+      /* Updated Typography for Titles */
       .exam-title { font-size: 18px; color: var(--navy); margin: 15px 0 8px; font-weight: 800; line-height: 1.4; }
       .exam-course { font-size: 13px; color: var(--purple); margin: 0 0 16px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
       
@@ -117,7 +118,7 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // ضبط المظهر (Dark/Light Mode) بناءً على تفضيلات المستخدم المحفوظة في index
+      // Theme logic
       const isDark = localStorage.getItem("vet_theme") === "dark";
       document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
@@ -132,7 +133,6 @@
         setTimeout(()=>t.remove(), 4500); 
       };
 
-      // دالة بديلة لـ randomUUID لضمان عملها على كل الأجهزة القديمة والجديدة
       function generateUID() {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
       }
@@ -154,18 +154,43 @@
             return; 
           }
 
-          const grouped = { "1": [], "2": [], "3": [], "4": [], "5": [], "6": [], "general": [] };
-          const yearNames = { "1":"السنة الأولى", "2":"السنة الثانية", "3":"السنة الثالثة", "4":"السنة الرابعة", "5":"السنة الخامسة", "6":"السنة السادسة", "general":"امتحانات عامة" };
+          const grouped = { "1": [], "2": [], "3": [], "4": [], "5": [], "6": [], "elective": [], "university": [], "general": [] };
+          const yearNames = { 
+            "1":"السنة الأولى", "2":"السنة الثانية", "3":"السنة الثالثة", 
+            "4":"السنة الرابعة", "5":"السنة الخامسة", "6":"السنة السادسة", 
+            "elective": "مواد اختيارية", "university": "متطلبات جامعة", 
+            "general":"امتحانات عامة" 
+          };
 
           exams.forEach(e => {
             const target = new Date(e.date).getTime();
             if (isNaN(target)) return;
             const diff = Math.ceil((target - Date.now()) / 86400000);
-            if (diff < 0) return; // إخفاء الامتحانات اللي خلصت وتاريخها بالماضي
+            if (diff < 0) return; // إخفاء الامتحانات المنتهية
             
+            // قراءة اسم المساق المرتبط إن وجد
             const c = courses.find(x => x.id === e.courseId);
-            const y = c && c.year && grouped[c.year] ? c.year : "general";
-            grouped[y].push({ ...e, diff, courseName: c ? c.name : "عام" });
+            const courseName = c ? c.name : "";
+            
+            // تحديد السنة بناءً على حقل e.year المدخل من الإدارة، وإلا سنة المساق، وإلا "عام"
+            let y = e.year; 
+            if(!y || !grouped[y]) {
+                y = (c && c.year && grouped[c.year]) ? c.year : "general";
+            }
+            
+            // إذا كان في مساق مرتبط، نعكس الأماكن:
+            // العنوان العريض = اسم المادة، والتفصيل الصغير = e.title (نوع الامتحان)
+            let displayTitle = e.title;
+            let displaySubtitle = "";
+            if (courseName) {
+                displayTitle = courseName;
+                displaySubtitle = e.title; // مثل: امتحان نصفي
+            } else {
+                // إذا لم يوجد مساق مرتبط، يبقى كما هو
+                displayTitle = e.title; 
+            }
+
+            grouped[y].push({ ...e, diff, displayTitle, displaySubtitle });
           });
 
           let html = "";
@@ -174,7 +199,7 @@
           let hasActiveExams = false;
 
           for (const y of Object.keys(grouped)) {
-            if (!grouped[y].length) continue;
+            if (!grouped[y] || !grouped[y].length) continue;
             hasActiveExams = true;
             grouped[y].sort((a,b) => a.diff - b.diff);
             
@@ -191,8 +216,8 @@
               html += `
                 <div class="exam-card">
                   <div class="exam-badge ${badgeClass}">${badgeText}</div>
-                  <h3 class="exam-title">${esc(e.title)}</h3>
-                  <p class="exam-course"><i data-lucide="book-open" width="14"></i> ${esc(e.courseName)}</p>
+                  <h3 class="exam-title">${esc(e.displayTitle)}</h3>
+                  ${e.displaySubtitle ? `<p class="exam-course"><i data-lucide="info" width="14"></i> ${esc(e.displaySubtitle)}</p>` : ''}
                   
                   <div class="exam-meta">
                     <div class="meta-item"><i data-lucide="calendar"></i> ${dateStr}</div>
@@ -232,8 +257,8 @@
         next.setDate(next.getDate() + 1);
         const dEnd = next.toISOString().slice(0, 10).replace(/-/g, "");
         const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
-        const title = (exam.title || "امتحان").replace(/[,;\n]/g, " ");
-        const desc = [exam.time && `الوقت: ${exam.time}`, exam.place && `المكان: ${exam.place}`].filter(Boolean).join(" - ");
+        const title = (exam.displayTitle || "امتحان").replace(/[,;\n]/g, " ");
+        const desc = [exam.displaySubtitle, exam.time && `الوقت: ${exam.time}`, exam.place && `المكان: ${exam.place}`].filter(Boolean).join(" - ");
         
         const str = [
           "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//VetCommitto//AR//", "CALSCALE:GREGORIAN",
@@ -255,19 +280,13 @@
         window.toast("تم تجهيز التذكير، افتح الملف لإضافته لتقويمك");
       };
 
-      // تشغيل الدالة بمجرد تحميل الصفحة
       loadExams();
-      
-      // تأكد من تحميل الأيقونات الأولية (Loader)
       lucide.createIcons();
     </script>
-    <!-- كود تسجيل الـ Service Worker (الأوفلاين) -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(registration => console.log('ServiceWorker registered!'))
-            .catch(err => console.log('ServiceWorker failed: ', err));
+          navigator.serviceWorker.register('sw.js').catch(()=>{});
         });
       }
     </script>
