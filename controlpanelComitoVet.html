@@ -158,13 +158,25 @@
 
     <!-- تبويب الامتحانات -->
     <div id="tab-exams" class="tab-content">
+      
+      <!-- إضافة جدول كامل (نصي) -->
       <div class="card">
-        <h3 class="card-title"><i data-lucide="calendar-plus"></i> إضافة امتحان</h3>
+        <h3 class="card-title"><i data-lucide="list-plus"></i> إضافة جدول كامل (نصي)</h3>
+        <p style="font-size:12px; color:var(--slate); margin-bottom:10px;">
+          الصيغة: اسم المادة / نوع الامتحان / اليوم والتاريخ / الساعة / القاعة (اختياري)<br>
+          مثال: ادارة الدواجن / امتحان نصفي / الاثنين 30-11-2026 / 15:00-16:00 / NB66
+        </p>
+        <textarea id="bulkExamsInput" class="field" rows="5" placeholder="الصق الجدول هنا... (سيتم تجاهل العناوين وأي سطر لا يحتوي على /)"></textarea>
+        <button id="bulkExamsBtn" class="primary-btn" style="background:var(--purple)">إضافة الجدول</button>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title"><i data-lucide="calendar-plus"></i> إضافة امتحان (فردي)</h3>
         <form id="examForm" onsubmit="event.preventDefault();">
           <input type="text" id="exTitle" class="field" placeholder="اسم الامتحان (مثال: فاينل - باثولوجي)" required />
           <input type="date" id="exDate" class="field" required />
           <div style="display:flex; gap:10px;">
-            <input type="time" id="exTime" class="field" />
+            <input type="text" id="exTime" class="field" placeholder="الوقت (مثال: 15:00-16:00)" />
             <input type="text" id="exPlace" class="field" placeholder="القاعة (اختياري)" />
           </div>
           <select id="exCourse" class="field">
@@ -280,7 +292,7 @@
       <div style="display:flex; justify-content:space-between; margin-bottom:15px;"><h3 style="margin:0; color:var(--navy);">تعديل الامتحان</h3><button style="background:none; border:none; color:var(--slate);" onclick="document.getElementById('editExamModal').style.display='none'"><i data-lucide="x"></i></button></div>
       <form id="editExamForm" onsubmit="event.preventDefault();">
         <input type="hidden" id="eeId" /><input type="text" id="eeTitle" class="field" required /><input type="date" id="eeDate" class="field" required />
-        <div style="display:flex; gap:10px;"><input type="time" id="eeTime" class="field" /><input type="text" id="eePlace" class="field" placeholder="القاعة (اختياري)" /></div>
+        <div style="display:flex; gap:10px;"><input type="text" id="eeTime" class="field" placeholder="الوقت (مثال: 15:00-16:00)" /><input type="text" id="eePlace" class="field" placeholder="القاعة (اختياري)" /></div>
         <select id="eeCourse" class="field"><option value="">غير مرتبط بمساق محدد</option></select>
         <button type="submit" class="primary-btn" style="background:#f59e0b;">حفظ التعديلات</button>
       </form>
@@ -427,6 +439,66 @@
       await addDoc(collection(db, "acad_links"), { title: cleanStr(UI.el("lTitle").value), url: UI.el("lUrl").value.trim(), updatedAt: serverTimestamp() });
       UI.bumpMeta(); UI.toast("تم الإضافة"); UI.el("linkForm").reset(); loadAll();
     });
+
+    // ---------------- BULK EXAM IMPORT (اضافة الجدول) ----------------
+    UI.el("bulkExamsBtn").onclick = async () => {
+      const btn = UI.el("bulkExamsBtn");
+      const val = UI.el("bulkExamsInput").value.trim();
+      if(!val) return UI.toast("المربع فارغ!");
+      
+      // تفلتر الأسطر بحيث تتجاهل أي سطر ما فيه علامة "/" (مثل كلمة: السنة الثالثة)
+      const lines = val.split('\n').map(l => l.trim()).filter(l => l.includes('/'));
+      if(lines.length === 0) return UI.toast("لم يتم العثور على امتحانات بالصيغة المطلوبة (يجب استخدام الرمز /).");
+
+      btn.disabled = true;
+      btn.innerText = "جاري الإضافة...";
+      
+      let added = 0;
+      for(let line of lines) {
+        const parts = line.split('/').map(p => p.trim());
+        if(parts.length < 3) continue;
+
+        const courseName = parts[0];
+        const examType = parts[1]; // مثل: امتحان نصفي
+        const dateRaw = parts[2]; // مثل: الاثنين 30-11-2026
+        const timeRaw = parts[3] || "";
+        const placeRaw = parts[4] || "";
+
+        // محاولة ربط الامتحان بمساق موجود (الاسم مطابق)
+        let cId = "";
+        const match = state.courses.find(c => String(c.name).trim().toLowerCase() === courseName.toLowerCase());
+        if(match) cId = match.id;
+
+        // استخراج التاريخ بدقة وتحويله لصيغة قاعدة البيانات YYYY-MM-DD
+        let isoDate = dateRaw;
+        const dMatch = dateRaw.match(/(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/); // للتعامل مع 30-11-2026
+        if (dMatch) {
+          isoDate = `${dMatch[3]}-${dMatch[2].padStart(2, '0')}-${dMatch[1].padStart(2, '0')}`;
+        } else {
+          const revMatch = dateRaw.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/); // للتعامل مع 2026-11-30
+          if(revMatch) isoDate = `${revMatch[1]}-${revMatch[2].padStart(2, '0')}-${revMatch[3].padStart(2, '0')}`;
+        }
+
+        const examData = {
+          title: `${examType} - ${courseName}`,
+          date: isoDate,
+          time: timeRaw,
+          place: placeRaw,
+          courseId: cId,
+          updatedAt: serverTimestamp()
+        };
+
+        await addDoc(collection(db, "acad_exams"), examData);
+        added++;
+      }
+
+      UI.bumpMeta();
+      UI.toast(`تم إضافة ${added} امتحانات بنجاح!`);
+      UI.el("bulkExamsInput").value = "";
+      btn.disabled = false;
+      btn.innerText = "إضافة الجدول";
+      loadAll();
+    };
 
     // ---------------- EDIT FORMS ----------------
     window.openEditCourse = (id) => {
@@ -714,4 +786,4 @@
     lucide.createIcons();
   </script>
 </body>
-</html>}
+</html>
