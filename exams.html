@@ -32,7 +32,9 @@
       * { box-sizing: border-box; }
       body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; transition: background 0.3s, color 0.3s; padding-bottom: 60px;}
       a { color: inherit; text-decoration: none; }
-      .wrap { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+      
+      /* تعديل الهوامش لتكون نسبة مئوية مرنة مع كل الشاشات */
+      .wrap { width: min(1160px, 92%); margin-inline: auto; }
       
       /* Topbar */
       .topbar { height: 74px; background: var(--nav-bg); border-bottom: 1px solid var(--nav-border); display: flex; align-items: center; position: sticky; top: 0; z-index: 100; transition: background 0.3s, border 0.3s;}
@@ -43,17 +45,17 @@
       .back-btn:hover { background: var(--btn-bg); }
       
       /* Page Header */
-      .page-header { margin: 50px 0 40px; text-align: center; animation: fadein 0.4s; }
+      .page-header { margin: 40px 0 30px; text-align: center; animation: fadein 0.4s; }
       .page-header h1 { color: var(--navy); font-size: 32px; margin: 0 0 10px; font-weight: 800; }
       .page-header p { color: var(--slate); font-size: 15px; margin: 0; }
 
       /* Year Section */
-      .year-section { margin-bottom: 50px; animation: fadein 0.5s forwards; opacity: 0; transform: translateY(10px); }
-      .year-title { display: inline-flex; align-items: center; gap: 10px; background: var(--card-bg); border: 1px solid var(--line); padding: 10px 24px; border-radius: 999px; color: var(--navy); font-size: 16px; font-weight: 700; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
+      .year-section { margin-bottom: 40px; animation: fadein 0.5s forwards; opacity: 0; transform: translateY(10px); }
+      .year-title { display: inline-flex; align-items: center; gap: 10px; background: var(--card-bg); border: 1px solid var(--line); padding: 10px 24px; border-radius: 999px; color: var(--navy); font-size: 16px; font-weight: 700; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);}
       .year-title i { color: var(--purple); }
 
-      /* Cards Grid */
-      .exams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+      /* Cards Grid - تعديل لمنع تجاوز الشاشة في الهواتف الصغيرة */
+      .exams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
       
       .exam-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 24px; position: relative; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; box-shadow: 0 4px 20px rgba(0,0,0,0.02);}
       .exam-card:hover { transform: translateY(-4px); border-color: var(--purple); box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
@@ -62,8 +64,7 @@
       .exam-badge.urgent { background: #fee2e2; color: #dc2626; }
       .exam-badge.warn { background: rgba(209, 170, 92, 0.15); color: var(--gold); }
       
-      /* Updated Typography for Titles */
-      .exam-title { font-size: 18px; color: var(--navy); margin: 15px 0 8px; font-weight: 800; line-height: 1.4; }
+      .exam-title { font-size: 18px; color: var(--navy); margin: 15px 0 8px; font-weight: 800; line-height: 1.4; overflow-wrap: break-word; }
       .exam-course { font-size: 13px; color: var(--purple); margin: 0 0 16px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
       
       .exam-meta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; padding-top: 16px; border-top: 1px dashed var(--line); flex: 1;}
@@ -74,8 +75,20 @@
       .ghost-btn:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
 
       .toast { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; display: flex; align-items: center; gap: 10px; z-index: 200; animation: fadein 0.3s forwards; }
+      
       @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
       @keyframes spin { 100% { transform: rotate(360deg); } }
+
+      /* تخصيصات خاصة بشاشات الهواتف فقط */
+      @media (max-width: 600px) {
+        .page-header { margin: 30px 0 20px; }
+        .page-header h1 { font-size: 26px; }
+        .page-header p { font-size: 13px; }
+        .exam-card { padding: 20px; border-radius: 16px; }
+        .exam-title { font-size: 16px; }
+        .year-title { font-size: 14px; padding: 8px 20px; margin-bottom: 16px; }
+        .year-section { margin-bottom: 30px; }
+      }
     </style>
   </head>
   <body>
@@ -97,7 +110,7 @@
         <p>مواعيد الامتحانات الأكاديمية القادمة مرتبة حسب السنوات</p>
       </div>
       
-      <div id="examsContainer" style="text-align:center; padding: 40px; color: var(--slate);">
+      <div id="examsContainer" style="text-align:center; padding: 40px 20px; color: var(--slate);">
         <i data-lucide="loader-circle" width="32" style="animation: spin 1s linear infinite; margin-bottom:15px;"></i>
         <div>جاري تحميل الجدول...</div>
       </div>
@@ -118,7 +131,6 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      // Theme logic
       const isDark = localStorage.getItem("vet_theme") === "dark";
       document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
 
@@ -150,7 +162,7 @@
           let exams = ex.docs.map(d => ({id:d.id, ...d.data()}));
           
           if (!exams.length) { 
-            document.getElementById("examsContainer").innerHTML = `<div style="padding:40px; background:var(--card-bg); border-radius:20px; border:1px dashed var(--line);">لا توجد امتحانات مجدولة حالياً.</div>`; 
+            document.getElementById("examsContainer").innerHTML = `<div style="padding:40px 20px; background:var(--card-bg); border-radius:20px; border:1px dashed var(--line);">لا توجد امتحانات مجدولة حالياً.</div>`; 
             return; 
           }
 
@@ -168,25 +180,20 @@
             const diff = Math.ceil((target - Date.now()) / 86400000);
             if (diff < 0) return; // إخفاء الامتحانات المنتهية
             
-            // قراءة اسم المساق المرتبط إن وجد
             const c = courses.find(x => x.id === e.courseId);
             const courseName = c ? c.name : "";
             
-            // تحديد السنة بناءً على حقل e.year المدخل من الإدارة، وإلا سنة المساق، وإلا "عام"
             let y = e.year; 
             if(!y || !grouped[y]) {
                 y = (c && c.year && grouped[c.year]) ? c.year : "general";
             }
             
-            // إذا كان في مساق مرتبط، نعكس الأماكن:
-            // العنوان العريض = اسم المادة، والتفصيل الصغير = e.title (نوع الامتحان)
             let displayTitle = e.title;
             let displaySubtitle = "";
             if (courseName) {
                 displayTitle = courseName;
-                displaySubtitle = e.title; // مثل: امتحان نصفي
+                displaySubtitle = e.title; 
             } else {
-                // إذا لم يوجد مساق مرتبط، يبقى كما هو
                 displayTitle = e.title; 
             }
 
@@ -236,7 +243,7 @@
           window.examsData = [].concat(...Object.values(grouped));
           
           if(!hasActiveExams){
-              document.getElementById("examsContainer").innerHTML = `<div style="padding:40px; background:var(--card-bg); border-radius:20px; border:1px dashed var(--line);">لا توجد امتحانات قادمة.</div>`;
+              document.getElementById("examsContainer").innerHTML = `<div style="padding:40px 20px; background:var(--card-bg); border-radius:20px; border:1px dashed var(--line);">لا توجد امتحانات قادمة.</div>`;
           } else {
               document.getElementById("examsContainer").innerHTML = html;
               lucide.createIcons();
