@@ -14,6 +14,10 @@ const BASE_TITLE = document.title;
 /* ---------- CSS ---------- */
 const style = document.createElement("style");
 style.textContent = `
+.tools-grid { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin 0.4s ease-in-out; overflow: hidden; }
+.tools-grid.collapsed { max-height: 0; opacity: 0; margin-top: 0; pointer-events: none; }
+.tools-grid:not(.collapsed) { max-height: 2000px; opacity: 1; margin-top: 20px; }
+
 .tools-grid>.tool-card{order:4}
 .tools-grid>[data-st="timer"]{order:1;grid-column:span 2}
 .tools-grid>[data-st="stats"]{order:2}
@@ -47,6 +51,12 @@ style.textContent = `
 .pg-mini{height:4px;border-radius:99px;background:var(--btn-bg);overflow:hidden;margin-top:10px}
 .pg-mini u{display:block;height:100%;background:var(--gold)}
 .pg-note{min-height:110px;resize:vertical}
+
+/* زر إظهار الأدوات */
+.toggle-tools-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--btn-bg); border: 1px solid var(--line); padding: 10px 20px; border-radius: 12px; color: var(--purple); font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-bottom: -15px; }
+.toggle-tools-btn:hover { background: var(--card-bg); border-color: var(--purple); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.toggle-tools-btn svg { transition: transform 0.3s; }
+.toggle-tools-btn.open svg { transform: rotate(180deg); }
 `;
 document.head.appendChild(style);
 
@@ -77,7 +87,7 @@ const card = (st, ico, title, sub, body) => `
 <span class="tool-ico"><i data-lucide="${ico}" width="20"></i></span><div><strong>${title}</strong><small>${sub}</small></div></div></div>
 <div class="tool-card-body">${body}</div></article>`;
 
-const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر الأسلوب اللي يناسبك", `
+const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر الأسلوب الذي يناسبك", `
 <div class="st-chips" id="stPresets">
   <button class="st-chip" data-p="25-5">25 / 5</button>
   <button class="st-chip" data-p="50-10">50 / 10</button>
@@ -107,18 +117,18 @@ const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر 
 
 const statsCard = card("stats", "flame", "تحدّي الأسبوع", "التزامك بالأرقام", `
 <div class="st-stat">
-  <div><b id="stStreak">0</b><small>يوم متواصل 🔥</small></div>
+  <div><b id="stStreak">0</b><small>يوم متواصل </small></div>
   <div><b id="stToday">0</b><small>دقيقة اليوم</small></div>
 </div>
-<div class="st-goal"><span><b id="stWeek">0</b> ساعة من</span><input class="field" type="number" min="1" max="100" id="stGoalIn"><span>هالأسبوع</span></div>
+<div class="st-goal"><span><b id="stWeek">0</b> ساعة من</span><input class="field" type="number" min="1" max="100" id="stGoalIn"><span>هذا الأسبوع</span></div>
 <div class="st-bar"><u id="stGoalBar" style="width:0"></u></div>`);
 
-const plannerCard = card("planner", "calendar-days", "مخطط الأسبوع", "محاضراتك ودراستك بنظرة وحدة", `
+const plannerCard = card("planner", "calendar-days", "مخطط الأسبوع", "محاضراتك ودراستك بنظرة شاملة", `
 <div class="st-chips" id="plTabs"></div>
 <div class="st-row"><input class="field" type="time" id="plTime" style="max-width:130px"><input class="field" id="plText" maxlength="80" placeholder="محاضرة، دراسة، موعد…"><button class="primary-btn" data-a="padd">إضافة</button></div>
 <div id="plList" style="margin-top:8px"></div>`);
 
-const absCard = card("abs", "user-x", "عدّاد الغياب", "لا توصل للحد وأنت مش منتبه", `
+const absCard = card("abs", "user-x", "عدّاد الغياب", "متابعة الحد المسموح للغيابات الأكاديمية", `
 <div class="st-row"><input class="field" id="abName" maxlength="40" placeholder="اسم المساق"><input class="field" id="abMax" type="number" min="1" max="60" placeholder="الغيابات المسموحة" style="max-width:150px"><button class="primary-btn" data-a="absadd">إضافة</button></div>
 <div id="abList" style="margin-top:8px"></div>`);
 
@@ -134,16 +144,50 @@ overlay.innerHTML = `
 </div>`;
 document.body.appendChild(overlay);
 
-const grid = $(".tools-grid");
+const grid = $("#mainToolsGrid");
+grid.classList.add("collapsed"); // إخفاء الأدوات افتراضياً
 grid.insertAdjacentHTML("afterbegin", timerCard + statsCard + plannerCard + absCard);
 icons();
 
+/* ---------- Toggle Button Setup ---------- */
+const toolsSectionHead = grid.previousElementSibling;
+const toggleBtn = document.createElement("button");
+toggleBtn.className = "toggle-tools-btn";
+toggleBtn.innerHTML = `<span>إظهار أدوات الدراسة</span> <i data-lucide="chevron-down" width="16"></i>`;
+toolsSectionHead.appendChild(toggleBtn);
+icons();
+
+toggleBtn.addEventListener("click", () => {
+  const isOpen = grid.classList.contains("collapsed");
+  if (isOpen) {
+    grid.classList.remove("collapsed");
+    toggleBtn.classList.add("open");
+    toggleBtn.querySelector("span").textContent = "إخفاء أدوات الدراسة";
+  } else {
+    grid.classList.add("collapsed");
+    toggleBtn.classList.remove("open");
+    toggleBtn.querySelector("span").textContent = "إظهار أدوات الدراسة";
+  }
+});
+
+
 /* ---------- Quotes ---------- */
 let quotes = [
-  "ابدأ الآن، التركيز بيجي بعد ما تبدأ.", "كل صفحة بتخلّصها بتقرّبك خطوة من الحلم.",
-  "مش لازم تكون مثالي، لازم تكون مستمر.", "تعب اليوم هو راحة بكرة.",
-  "الدقائق اللي بتدرسها هلأ هي اللي رح تشكرك عليها بعدين.", "خليك على المهمة، العالم بيستنى 25 دقيقة.",
-  "التقدّم الصغير كل يوم بيصير إنجاز كبير.", "أنت أقرب للهدف مما تظن."
+  "ابدأ الآن، فالتركيز يأتي بعد البداية وليس قبلها.", "كل صفحة تنجزها تقربك خطوة نحو هدفك العظيم.",
+  "ليس شرطاً أن تكون مثالياً، بل أن تكون مستمراً.", "تعب اليوم هو وقود لراحة غدٍ مشرق.",
+  "الدقائق التي تقضيها في الدراسة الآن ستشكرك عليها في المستقبل.", "حافظ على تركيزك، العالم يمكنه الانتظار قليلاً.",
+  "التقدم البسيط كل يوم يتراكم ليصبح إنجازاً ضخماً.", "أنت أقرب للنجاح مما تتخيل، فقط استمر.",
+  "العقول العظيمة تُبنى بالصبر والالتزام اليومي.", "لا تنتظر الشغف لتبدأ، ابدأ ليأتيك الشغف.",
+  "المسافة بين الحلم والواقع تسمى العمل الجاد.", "كل دقيقة استثمار في عقلك تعود بأرباح مضاعفة.",
+  "الأشياء العظيمة تستغرق وقتاً، لا تستعجل النتائج.", "النجاح لا يأتي لمن ينتظره، بل لمن يسعى إليه.",
+  "تركيزك الحالي يحدد مستقبلك القادم.", "لا تقاس المسافة بالأميال، بل بالعزيمة.",
+  "العثرات هي جزء من رحلة التعلم، لا تتوقف عندها.", "الطريق طويل، لكن الخطوة الواحدة تلو الأخرى تصنع الفارق.",
+  "تعلم شيئاً جديداً اليوم، ليكون غدك أفضل.", "أنت تبني مستقبلك الآن، اجعله أساساً متيناً.",
+  "لا تقارن بدايتك بموسم حصاد الآخرين.", "الصعوبات التي تواجهها اليوم هي قوتك غداً.",
+  "العقل كالعضلة، كلما دربته أكثر زادت قوته.", "اجعل من كل تحدٍ فرصة للنمو والتطور.",
+  "الاستمرارية هي السر الذي يفصل بين النجاح والفشل.", "لا تدع المشتتات تسرق منك وقتك الثمين.",
+  "انغمس في التعلم، ودع النتائج تتحدث عن نفسها.", "كل لحظة تركيز تبني جسراً نحو أحلامك.",
+  "النجاح الأكاديمي ليس صدفة، بل خطة وعمل مستمر.", "كن فخوراً بكل محاولة تبذلها، مهما كانت النتيجة."
 ];
 const setQuote = () => { const q = quotes[Math.floor(Math.random() * quotes.length)]; all("quote").forEach((e) => (e.textContent = "“" + q + "”")); };
 
@@ -343,7 +387,7 @@ if (UI) {
       });
       if (items.length) { paintBar(); body.prepend(bar); ls.set("vet_progress", p); decorateCards(); }
       const note = document.createElement("section"); note.className = "resource-group";
-      note.innerHTML = `<h3>📝 ملاحظاتي</h3><textarea class="textarea pg-note" placeholder="اكتب ملاحظاتك عن هالمساق… بتنحفظ على جهازك"></textarea>`;
+      note.innerHTML = `<h3>📝 ملاحظاتي</h3><textarea class="textarea pg-note" placeholder="اكتب ملاحظاتك عن هذا المساق… يتم حفظها تلقائياً على جهازك"></textarea>`;
       const ta = note.querySelector("textarea"); ta.value = ls.get("vet_note_" + id, "");
       ta.addEventListener("input", () => ls.set("vet_note_" + id, ta.value));
       body.append(note);
