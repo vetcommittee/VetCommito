@@ -109,10 +109,15 @@ const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر 
   </div>
 </div>
 <div class="st-row">
-  <select class="select" id="stSnd"><option value="">بدون صوت</option><option value="__file">🎵 اختر ملف من جهازك…</option></select>
+  <select class="select" id="stSnd">
+    <option value="">بدون صوت</option>
+    <!-- استبدل هذه الروابط بروابط ملفاتك إذا قمت برفعها -->
+    <option value="rain.mp3">🌧️ صوت مطر خفيف</option>
+    <option value="cafe.mp3">☕ أجواء مقهى هادئ</option>
+    <option value="lofi.mp3">🎵 موسيقى تركيز (Lo-Fi)</option>
+  </select>
   <input type="range" id="stVol" min="0" max="1" step="0.05" style="width:90px" aria-label="مستوى الصوت">
 </div>
-<input type="file" id="stFile" accept="audio/*" hidden>
 <p class="st-quote" data-t="quote"></p>`);
 
 const statsCard = card("stats", "flame", "تحدّي الأسبوع", "التزامك بالأرقام", `
@@ -145,7 +150,7 @@ overlay.innerHTML = `
 document.body.appendChild(overlay);
 
 const grid = $("#mainToolsGrid");
-grid.classList.add("collapsed"); // إخفاء الأدوات افتراضياً
+grid.classList.add("collapsed"); 
 grid.insertAdjacentHTML("afterbegin", timerCard + statsCard + plannerCard + absCard);
 icons();
 
@@ -210,9 +215,22 @@ function paint() {
   document.querySelectorAll("#stPresets .st-chip").forEach((b) => b.classList.toggle("on", b.dataset.p === T.preset));
   $("#stCustom").hidden = T.preset !== "custom";
 }
+
+// تحسين طريقة تفعيل الصوت لضمان عمله على الهواتف
 function syncAudio() {
-  if (T.running && T.mode === "focus" && $("#stSnd").value && au.src) au.play().catch(() => {}); else au.pause();
+  if (T.running && T.mode === "focus" && $("#stSnd").value && au.src) {
+    const playPromise = au.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        // حظر التشغيل التلقائي من المتصفح، يتطلب تدخل المستخدم
+        console.log("Audio playback prevented by browser policy.");
+      });
+    }
+  } else {
+    au.pause();
+  }
 }
+
 function beep() {
   try {
     const c = new (window.AudioContext || window.webkitAudioContext)();
@@ -265,25 +283,21 @@ $("#stPresets").addEventListener("click", (e) => {
 });
 
 /* Sound */
-const snd = $("#stSnd"), fileIn = $("#stFile"), vol = $("#stVol");
+const snd = $("#stSnd"), vol = $("#stVol");
 vol.value = au.volume;
 vol.addEventListener("input", () => { au.volume = Number(vol.value); ls.set("vet_vol", au.volume); });
-let prevSnd = "";
+
+// معالجة اختيار الصوت من القائمة المنسدلة
 snd.addEventListener("change", () => {
-  if (snd.value === "__file") { snd.value = prevSnd; fileIn.click(); return; }
-  prevSnd = snd.value;
-  if (snd.value && snd.value !== "__local") au.src = snd.value;
-  syncAudio();
+  if (snd.value) {
+    au.src = snd.value;
+    syncAudio();
+  } else {
+    au.pause();
+    au.src = "";
+  }
 });
-fileIn.addEventListener("change", () => {
-  const f = fileIn.files[0]; if (!f) return;
-  if (au.src.startsWith("blob:")) URL.revokeObjectURL(au.src);
-  au.src = URL.createObjectURL(f);
-  let o = snd.querySelector('[value="__local"]');
-  if (!o) { o = document.createElement("option"); o.value = "__local"; snd.insertBefore(o, snd.children[2]); }
-  o.textContent = "🎧 " + f.name.slice(0, 30);
-  snd.value = "__local"; prevSnd = "__local"; syncAudio();
-});
+
 
 /* ---------- Planner ---------- */
 const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
