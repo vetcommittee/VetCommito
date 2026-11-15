@@ -108,21 +108,11 @@ const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر 
     <button class="ghost-btn" data-a="expand"><i data-lucide="maximize" width="14"></i>تكبير</button>
   </div>
 </div>
-<div class="st-row">
-  <select class="select" id="stSnd">
-    <option value="">بدون صوت</option>
-    <!-- استبدل هذه الروابط بروابط ملفاتك إذا قمت برفعها -->
-    <option value="rain.mp3">🌧️ صوت مطر خفيف</option>
-    <option value="cafe.mp3">☕ أجواء مقهى هادئ</option>
-    <option value="lofi.mp3">🎵 موسيقى تركيز (Lo-Fi)</option>
-  </select>
-  <input type="range" id="stVol" min="0" max="1" step="0.05" style="width:90px" aria-label="مستوى الصوت">
-</div>
 <p class="st-quote" data-t="quote"></p>`);
 
 const statsCard = card("stats", "flame", "تحدّي الأسبوع", "التزامك بالأرقام", `
 <div class="st-stat">
-  <div><b id="stStreak">0</b><small>يوم متواصل </small></div>
+  <div><b id="stStreak">0</b><small>يوم متواصل 🔥</small></div>
   <div><b id="stToday">0</b><small>دقيقة اليوم</small></div>
 </div>
 <div class="st-goal"><span><b id="stWeek">0</b> ساعة من</span><input class="field" type="number" min="1" max="100" id="stGoalIn"><span>هذا الأسبوع</span></div>
@@ -199,7 +189,6 @@ const setQuote = () => { const q = quotes[Math.floor(Math.random() * quotes.leng
 /* ---------- Timer ---------- */
 const cfg = ls.get("vet_timer_cfg", { preset: "25-5", focus: 25, brk: 5 });
 const T = { focus: cfg.focus, brk: cfg.brk, preset: cfg.preset, mode: "focus", running: false, left: cfg.focus * 60, endAt: 0, tick: null };
-const au = new Audio(); au.loop = true; au.volume = ls.get("vet_vol", 0.6);
 let wl = null;
 const lock = async () => { try { wl = await navigator.wakeLock?.request("screen"); } catch {} };
 const unlock = () => { try { wl?.release(); } catch {} wl = null; };
@@ -214,21 +203,6 @@ function paint() {
   document.title = T.running ? `⏱ ${m}:${s} · ${BASE_TITLE}` : BASE_TITLE;
   document.querySelectorAll("#stPresets .st-chip").forEach((b) => b.classList.toggle("on", b.dataset.p === T.preset));
   $("#stCustom").hidden = T.preset !== "custom";
-}
-
-// تحسين طريقة تفعيل الصوت لضمان عمله على الهواتف
-function syncAudio() {
-  if (T.running && T.mode === "focus" && $("#stSnd").value && au.src) {
-    const playPromise = au.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(error => {
-        // حظر التشغيل التلقائي من المتصفح، يتطلب تدخل المستخدم
-        console.log("Audio playback prevented by browser policy.");
-      });
-    }
-  } else {
-    au.pause();
-  }
 }
 
 function beep() {
@@ -246,11 +220,11 @@ function sync() {
 function start() {
   T.endAt = Date.now() + T.left * 1000; T.running = true;
   clearInterval(T.tick); T.tick = setInterval(sync, 500);
-  lock(); syncAudio(); paint();
+  lock(); paint();
 }
 function pause() {
   sync(); clearInterval(T.tick); T.running = false;
-  if (overlay.hidden) unlock(); syncAudio(); paint();
+  if (overlay.hidden) unlock(); paint();
 }
 function finish() {
   clearInterval(T.tick); T.running = false;
@@ -259,11 +233,11 @@ function finish() {
   T.mode = T.mode === "focus" ? "break" : "focus";
   T.left = (T.mode === "focus" ? T.focus : T.brk) * 60;
   if (overlay.hidden) unlock();
-  setQuote(); syncAudio(); paint();
+  setQuote(); paint();
 }
 function reset() {
   clearInterval(T.tick); T.running = false; T.mode = "focus"; T.left = T.focus * 60;
-  if (overlay.hidden) unlock(); syncAudio(); paint();
+  if (overlay.hidden) unlock(); paint();
 }
 function setDur(f, b, preset) {
   T.focus = f; T.brk = b; T.preset = preset;
@@ -280,22 +254,6 @@ $("#stPresets").addEventListener("click", (e) => {
   const b = e.target.closest("[data-p]"); if (!b) return;
   if (b.dataset.p === "custom") { T.preset = "custom"; $("#stCF").value = T.focus; $("#stCB").value = T.brk; paint(); }
   else { const [f, br] = b.dataset.p.split("-").map(Number); setDur(f, br, b.dataset.p); }
-});
-
-/* Sound */
-const snd = $("#stSnd"), vol = $("#stVol");
-vol.value = au.volume;
-vol.addEventListener("input", () => { au.volume = Number(vol.value); ls.set("vet_vol", au.volume); });
-
-// معالجة اختيار الصوت من القائمة المنسدلة
-snd.addEventListener("change", () => {
-  if (snd.value) {
-    au.src = snd.value;
-    syncAudio();
-  } else {
-    au.pause();
-    au.src = "";
-  }
 });
 
 
@@ -411,14 +369,10 @@ if (UI) {
   UI.renderCourses = function () { origRender.call(this); decorateCards(); };
 }
 
-/* ---------- Admin content: sounds + quotes (Firestore) ---------- */
+/* ---------- Admin content: quotes (Firestore) ---------- */
 const waitDb = () => new Promise((r) => { let n = 0; const i = setInterval(() => { if (window.App?.db || ++n > 40) { clearInterval(i); r(); } }, 250); });
 (async () => {
   await waitDb(); if (!window.DB) return;
-  try {
-    const sounds = (await window.DB.list("acad_sounds")).filter((s) => s.url);
-    sounds.forEach((s) => { const o = document.createElement("option"); o.value = s.url; o.textContent = `${s.category ? s.category + " · " : ""}${s.title || "صوت"}`; snd.appendChild(o); });
-  } catch {}
   try {
     const q = (await window.DB.list("acad_quotes")).map((x) => x.text).filter(Boolean);
     if (q.length) { quotes = q; setQuote(); }
