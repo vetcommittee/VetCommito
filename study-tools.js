@@ -112,7 +112,7 @@ const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر 
 
 const statsCard = card("stats", "flame", "تحدّي الأسبوع", "التزامك بالأرقام", `
 <div class="st-stat">
-  <div><b id="stStreak">0</b><small>يوم متواصل 🔥</small></div>
+  <div><b id="stStreak">0</b><small>يوم متواصل </small></div>
   <div><b id="stToday">0</b><small>دقيقة اليوم</small></div>
 </div>
 <div class="st-goal"><span><b id="stWeek">0</b> ساعة من</span><input class="field" type="number" min="1" max="100" id="stGoalIn"><span>هذا الأسبوع</span></div>
