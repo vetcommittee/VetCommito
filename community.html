@@ -1,725 +1,350 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مجتمع الطلاب | VetCommitto</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #0f172a; }
-    .fade-in { animation: fadeIn 0.25s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d1b33" />
+<title>مجتمع الطلاب | VetCommitto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@600;800&display=swap" rel="stylesheet" />
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--mute:#8893a4;--nav:#fbfbfd;--nb:#e8eaf1;--red:#e5484d;--ok:#1f9d6b}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--card:#1e293b;--cb:#334155;--btn:#334155;--mute:#949daf;--nav:#0f172a;--nb:#1e293b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",sans-serif;transition:background .3s,color .3s;padding-top:env(safe-area-inset-top,0)}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}[hidden]{display:none!important}
+.wrap{width:min(760px,calc(100% - 32px));margin-inline:auto}
+.top{height:68px;background:var(--nav);border-bottom:1px solid var(--nb);position:sticky;top:0;z-index:40;display:flex;align-items:center}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
+.bn{font-size:14px;font-weight:700;color:var(--navy);line-height:1.4}.bn small{display:block;font-size:10px;font-weight:500;color:var(--slate)}
+.acts{display:flex;gap:6px;align-items:center}
+.ib,.chip,.btn{border:1px solid var(--line);background:var(--card);color:var(--navy);border-radius:10px;font-size:12px;font-weight:600;transition:.2s}
+.ib{height:38px;padding:0 12px;display:inline-flex;align-items:center}.ib:hover,.chip:hover{background:var(--btn)}
+.ib.gold{background:var(--gold);border-color:var(--gold);color:#0d1b33}
+main{padding:22px 0 60px}
+.card{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:18px;box-shadow:0 4px 15px rgba(0,0,0,.03)}
+.field{width:100%;border:1px solid var(--cb);background:var(--paper);padding:11px 13px;border-radius:10px;outline:0;font-size:13px;transition:.2s}
+.field:focus{border-color:var(--purple);background:var(--card)}
+textarea.field{resize:none;line-height:1.8}
+label.l{display:block;font-size:12px;font-weight:600;color:var(--navy);margin:0 0 6px}
+.btn{padding:11px 18px;background:var(--purple);border-color:var(--purple);color:#fff}.btn:hover{opacity:.9}.btn:disabled{opacity:.5;cursor:default}
+[data-theme=dark] .btn{color:#0b1120}
+.ghost{background:var(--card);color:var(--navy);border-color:var(--line)}
+.auth{max-width:420px;margin:30px auto}.auth form{display:grid;gap:13px}
+.tabs{display:flex;background:var(--btn);padding:4px;border-radius:12px;margin-bottom:18px}
+.tabs button{flex:1;border:0;background:transparent;padding:9px;border-radius:9px;font-size:13px;font-weight:600;color:var(--slate)}
+.tabs button.on{background:var(--card);color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.state{max-width:440px;margin:40px auto;text-align:center}.state .ic{font-size:34px}.state h2{margin:8px 0;font-size:19px;color:var(--navy)}.state p{font-size:13px;color:var(--slate);line-height:1.9;margin:0 0 14px}
+.info{background:var(--paper);border-radius:12px;padding:12px;font-size:12px;color:var(--slate);text-align:right;line-height:2;margin-bottom:14px}
+.why{background:rgba(229,72,77,.08);border-right:4px solid var(--red);padding:11px 13px;border-radius:10px;font-size:12px;text-align:right;margin-bottom:14px}
+.hello{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:14px;font-weight:700;color:var(--navy)}
+.badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--btn);color:var(--purple)}
+.badge.gold{background:rgba(209,170,92,.18);color:#a07d2c}
+.crow{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-top:10px}
+.crow .left{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cnt{font:600 11px Manrope,sans-serif;color:var(--mute)}
+.tg{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--slate);background:var(--paper);border:1px solid var(--cb);padding:8px 12px;border-radius:10px;cursor:pointer}
+.tools{display:grid;gap:10px;margin:16px 0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{padding:8px 16px;border-radius:99px;white-space:nowrap}
+.chip.on{background:var(--purple);border-color:var(--purple);color:#fff}[data-theme=dark] .chip.on{color:#0b1120}
+.srow{display:flex;gap:8px}.srow .field{flex:1}.srow select{width:auto}
+.feed{display:grid;gap:14px}
+.post{transition:.25s}.post:hover{border-color:var(--violet)}
+.post.adm{border-color:var(--gold);background:linear-gradient(180deg,rgba(209,170,92,.07),transparent 60%),var(--card)}
+.ph{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:12px}
+.who{display:flex;gap:10px;align-items:center}
+.av{width:38px;height:38px;border-radius:50%;background:var(--btn);color:var(--purple);display:grid;place-items:center;font-weight:700;flex:none}
+.adm .av{background:rgba(209,170,92,.2);color:#a07d2c}
+.nm{font-size:13px;font-weight:700;color:var(--navy);display:flex;gap:6px;align-items:center}.tm{font-size:11px;color:var(--mute)}
+.cat{font-size:11px;font-weight:600;padding:4px 11px;border-radius:8px;background:var(--btn);color:var(--slate);white-space:nowrap}
+.body{font-size:14px;line-height:1.9;margin-bottom:14px;word-break:break-word;white-space:pre-wrap}
+.pf{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:10px}
+.pf div{display:flex;gap:6px}
+.act{border:0;background:transparent;font-size:12px;font-weight:600;color:var(--slate);padding:7px 10px;border-radius:9px;display:inline-flex;gap:6px;align-items:center;transition:.2s}
+.act:hover{background:var(--btn);color:var(--purple)}.act.on{color:var(--red)}.act.rp:hover{color:var(--red)}
+.cm{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:8px}
+.ci{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.8}
+.ci .h{display:flex;justify-content:space-between;color:var(--mute);font-size:11px;margin-bottom:2px}.ci .h b{color:var(--navy);font-size:12px}
+.ci .del{border:0;background:none;color:var(--mute);font-size:11px}.ci .del:hover{color:var(--red)}
+.cf{display:flex;gap:8px}.cf .field{flex:1}
+.empty{text-align:center;color:var(--slate);font-size:13px;padding:36px 16px}
+.sk{height:120px;border-radius:18px;background:linear-gradient(90deg,var(--btn),var(--line),var(--btn));background-size:200% 100%;animation:sh 1.3s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.spin{width:34px;height:34px;border:4px solid var(--line);border-top-color:var(--purple);border-radius:50%;animation:rot .8s linear infinite;margin:70px auto 10px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.modal{position:fixed;inset:0;background:rgba(5,10,20,.55);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal .card{width:min(380px,100%)}.modal h3{margin:0 0 6px;font-size:16px;color:var(--navy)}.modal p{font-size:12px;color:var(--slate);margin:0 0 12px}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0));left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--navy);color:var(--paper);padding:11px 20px;border-radius:12px;font-size:13px;z-index:200;transition:.3s;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:var(--red);color:#fff}.toast.success{background:var(--ok);color:#fff}
+@media(max-width:560px){.bn small{display:none}.g2{grid-template-columns:1fr}.ib span{display:none}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col">
-
-  <!-- الشريط العلوي -->
-  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
-    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-teal-500 flex items-center justify-center font-extrabold text-slate-900 text-lg shadow">V</div>
-        <div>
-          <h1 class="font-extrabold text-base leading-tight">مجتمع VetCommitto</h1>
-          <p class="text-[11px] text-slate-300">مساحة طلبة الطب البيطري</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <a id="adminLinkBtn" href="community-admin.html" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg transition">
-          لوحة الإدارة
-        </a>
-        <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition">
-          المنصة
-        </a>
-        <button id="logoutBtn" class="hidden bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">
-          خروج
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- إشعار منبثق (Toast) -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg transition-all"></div>
-
-  <!-- المحتوى الرئيسي -->
-  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-6">
-
-    <!-- شاشة التحميل -->
-    <section id="loadingView" class="py-20 text-center">
-      <div class="w-10 h-10 border-4 border-slate-200 border-t-teal-600 rounded-full animate-spin mx-auto mb-3"></div>
-      <p class="text-slate-500 text-sm font-semibold">جاري التحقق من الحساب...</p>
-    </section>
-
-    <!-- شاشة تسجيل الدخول وإنشاء الحساب -->
-    <section id="authView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 fade-in">
-      <div class="flex bg-slate-100 p-1 rounded-xl mb-6">
-        <button id="tabLogin" class="flex-1 py-2 text-sm font-bold rounded-lg bg-white text-slate-900 shadow-sm transition">تسجيل الدخول</button>
-        <button id="tabRegister" class="flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-800 transition">إنشاء حساب جديد</button>
-      </div>
-
-      <!-- نموذج الدخول -->
-      <form id="loginForm" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">الإيميل الجامعي / المسجّل</label>
-          <input type="email" id="loginEmail" required placeholder="example@vet.just.edu.jo" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور</label>
-          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        </div>
-        <button type="submit" id="loginSubmitBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm transition">
-          دخول إلى المجتمع
-        </button>
-        <div class="text-center">
-          <button type="button" id="resetPassBtn" class="text-xs text-teal-700 hover:underline font-semibold">نسيت كلمة المرور؟</button>
-        </div>
-      </form>
-
-      <!-- نموذج التسجيل -->
-      <form id="registerForm" class="hidden space-y-3.5">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الرباعي الكامل (للتحقق فقط — لا يظهر للطلاب)</label>
-          <input type="text" id="regFullName" required placeholder="الاسم الرباعي كما في البطاقة الجامعية" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">الاسم المستعار (الظاهر)</label>
-            <input type="text" id="regNickname" required placeholder="مثلاً: د. أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">السنة الدراسية</label>
-            <select id="regYear" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
-              <option value="السنة الأولى">السنة الأولى</option>
-              <option value="السنة الثانية">السنة الثانية</option>
-              <option value="السنة الثالثة">السنة الثالثة</option>
-              <option value="السنة الرابعة">السنة الرابعة</option>
-              <option value="السنة الخامسة">السنة الخامسة</option>
-              <option value="خريج">خريج</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">الإيميل الجامعي</label>
-          <input type="email" id="regEmail" required placeholder="example@vet.just.edu.jo" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور (6 أحرف على الأقل)</label>
-          <input type="password" id="regPassword" required minlength="6" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
-        </div>
-        <button type="submit" id="regSubmitBtn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-sm transition">
-          إرسال طلب الانضمام
-        </button>
-      </form>
-    </section>
-
-    <!-- شاشة الانتظار (Pending) -->
-    <section id="pendingView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-amber-200 p-6 text-center fade-in">
-      <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">⏳</div>
-      <h2 class="text-lg font-extrabold text-slate-900 mb-2">حسابك قيد المراجعة</h2>
-      <p class="text-sm text-slate-600 leading-relaxed mb-4">
-        تم استلام طلبك بنجاح. سيقوم فريق اللجنة بالتحقق من بياناتك وتفعيل الحساب قريباً، وسيصلك إشعار عبر الإيميل فور التفعيل.
-      </p>
-      <div id="pendingInfo" class="bg-slate-50 rounded-xl p-3 text-xs text-slate-600 text-right space-y-1 mb-4"></div>
-      <button onclick="location.reload()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition">
-        تحديث الحالة
-      </button>
-    </section>
-
-    <!-- شاشة الرفض وإعادة الإرسال (Rejected) -->
-    <section id="rejectedView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-red-200 p-6 fade-in">
-      <div class="text-center mb-4">
-        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2">⚠️</div>
-        <h2 class="text-lg font-extrabold text-slate-900">لم يتم قبول الطلب حالياً</h2>
-      </div>
-      <div class="bg-red-50 border-r-4 border-red-500 p-3 rounded-lg text-xs text-red-800 mb-5">
-        <span class="font-bold block mb-1">سبب المراجعة:</span>
-        <span id="rejectReasonText">البيانات غير مكتملة.</span>
-      </div>
-      <form id="resubmitForm" class="space-y-3.5">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الرباعي الكامل</label>
-          <input type="text" id="resubFullName" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">الاسم المستعار</label>
-            <input type="text" id="resubNickname" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">السنة الدراسية</label>
-            <select id="resubYear" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm bg-white">
-              <option value="السنة الأولى">السنة الأولى</option>
-              <option value="السنة الثانية">السنة الثانية</option>
-              <option value="السنة الثالثة">السنة الثالثة</option>
-              <option value="السنة الرابعة">السنة الرابعة</option>
-              <option value="السنة الخامسة">السنة الخامسة</option>
-              <option value="خريج">خريج</option>
-            </select>
-          </div>
-        </div>
-        <button type="submit" id="resubSubmitBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm transition">
-          حفظ التعديلات وإعادة الإرسال
-        </button>
-      </form>
-    </section>
-
-    <!-- شاشة المجتمع الرئيسية (Approved) -->
-    <section id="communityView" class="hidden space-y-5 fade-in">
-      <!-- بطاقة الترحيب وإنشاء منشور -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5">
-        <div class="flex items-center justify-between mb-3">
-          <div class="text-sm font-bold text-slate-800">
-            أهلاً، <span id="userGreetingName" class="text-teal-700"></span> 👋
-          </div>
-          <span id="userRoleBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600"></span>
-        </div>
-
-        <form id="postForm" class="space-y-3">
-          <textarea id="postText" rows="3" required placeholder="شارك استفساراً أكاديمياً، ملخصاً، أو نقاشاً مع زملائك..." class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"></textarea>
-
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <div class="flex flex-wrap items-center gap-2">
-              <select id="postCategory" class="text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:outline-none">
-                <option value="استفسار أكاديمي">📚 استفسار أكاديمي</option>
-                <option value="ملخصات ومواد">📝 ملخصات ومواد</option>
-                <option value="تدريب سريري">🩺 تدريب سريري</option>
-                <option value="نقاش عام">💬 نقاش عام</option>
-                <option value="إعلان">📢 إعلان</option>
-              </select>
-
-              <label class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 cursor-pointer select-none bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
-                <input type="checkbox" id="postAnonymous" class="rounded text-teal-600 focus:ring-teal-500" />
-                <span>نشر كمجهول</span>
-              </label>
-            </div>
-
-            <button type="submit" id="postSubmitBtn" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-sm">
-              نشر المشاركة
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- فلاتر التصنيفات -->
-      <div id="categoryFilters" class="flex items-center gap-2 overflow-x-auto pb-1">
-        <button data-cat="الكل" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white transition">الكل</button>
-        <button data-cat="استفسار أكاديمي" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">📚 استفسار أكاديمي</button>
-        <button data-cat="ملخصات ومواد" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">📝 ملخصات ومواد</button>
-        <button data-cat="تدريب سريري" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">🩺 تدريب سريري</button>
-        <button data-cat="نقاش عام" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">💬 نقاش عام</button>
-        <button data-cat="إعلان" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">📢 إعلان</button>
-      </div>
-
-      <!-- قائمة المنشورات -->
-      <div id="postsFeed" class="space-y-4">
-        <div class="text-center py-10 text-slate-400 text-sm">جاري تحميل المنشورات...</div>
-      </div>
-    </section>
-  </main>
-
-  <!-- نافذة الإبلاغ -->
-  <div id="reportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl fade-in">
-      <h3 class="font-extrabold text-base text-slate-900 mb-2">🚨 الإبلاغ عن محتوى</h3>
-      <p class="text-xs text-slate-500 mb-3">سيتم إرسال البلاغ مباشرة إلى فريق إدارة اللجنة لمراجعته بسرية.</p>
-      <textarea id="reportReasonInput" rows="3" placeholder="اكتب سبب الإبلاغ..." class="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
-      <div class="flex justify-end gap-2">
-        <button id="cancelReportBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200">إلغاء</button>
-        <button id="confirmReportBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700">إرسال البلاغ</button>
-      </div>
-    </div>
+<body>
+<header class="top"><div class="wrap">
+  <a href="index.html" class="brand"><img src="logo.jpeg" class="logo" alt="" onerror="this.style.display='none'" />
+    <span class="bn">مجتمع VetCommitto<small>لجنة الطب والجراحة البيطرية</small></span></a>
+  <div class="acts">
+    <a id="adminBtn" href="community-admin.html" class="ib gold" hidden>⚙️ <span>الإدارة</span></a>
+    <a href="index.html" class="ib">🏠 <span>المنصة</span></a>
+    <button id="themeBtn" class="ib" aria-label="تبديل المظهر">🌙</button>
+    <button id="logoutBtn" class="ib" hidden>خروج</button>
   </div>
+</div></header>
+<div id="toast" class="toast"></div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-      createUserWithEmailAndPassword, signOut, sendPasswordResetEmail
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import {
-      getFirestore, doc, getDoc, setDoc, updateDoc, addDoc,
-      collection, query, where, getDocs, onSnapshot,
-      serverTimestamp, arrayUnion, arrayRemove
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<main class="wrap">
+  <section id="v-loading"><div class="spin"></div><p class="empty">جاري التحقق من الحساب...</p></section>
 
-    // ===== الإعدادات المدمجة =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",
-      authDomain: "vetcommitto-community.firebaseapp.com",
-      projectId: "vetcommitto-community",
-      storageBucket: "vetcommitto-community.firebasestorage.app",
-      messagingSenderId: "52242274295",
-      appId: "1:52242274295:web:f337295d00daea7d9b40f2",
-      measurementId: "G-90GYJ1SEVF"
-    };
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwVpNd5eml3rxkTKekmt-hs1bjp4q6KTeJOMUjOwn4x9XlD3Oi5qbFghUxp9Axs71S9/exec";
-    // =============================
+  <section id="v-auth" class="card auth" hidden>
+    <div class="tabs"><button id="tLogin" class="on">تسجيل الدخول</button><button id="tReg">حساب جديد</button></div>
+    <form id="loginForm">
+      <div><label class="l">الإيميل الجامعي</label><input class="field" type="email" id="lEmail" required placeholder="name@vet.just.edu.jo" dir="ltr" /></div>
+      <div><label class="l">كلمة المرور</label><input class="field" type="password" id="lPass" required dir="ltr" /></div>
+      <button class="btn" id="lBtn">دخول إلى المجتمع</button>
+      <button type="button" id="resetBtn" class="act" style="justify-self:center">نسيت كلمة المرور؟</button>
+    </form>
+    <form id="regForm" hidden>
+      <div><label class="l">الاسم الرباعي (للتحقق فقط، لا يظهر للطلاب)</label><input class="field" id="rFull" required placeholder="كما في البطاقة الجامعية" /></div>
+      <div class="g2">
+        <div><label class="l">الاسم الظاهر</label><input class="field" id="rNick" required maxlength="30" /></div>
+        <div><label class="l">السنة الدراسية</label><select class="field year" id="rYear"></select></div>
+      </div>
+      <div><label class="l">الإيميل الجامعي (@vet.just.edu.jo)</label><input class="field" type="email" id="rEmail" required dir="ltr" /></div>
+      <div><label class="l">كلمة المرور (6 أحرف على الأقل)</label><input class="field" type="password" id="rPass" required minlength="6" dir="ltr" /></div>
+      <button class="btn" id="rBtn">إرسال طلب الانضمام</button>
+    </form>
+  </section>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  <section id="v-pending" class="card state" hidden>
+    <div class="ic">⏳</div><h2>حسابك قيد المراجعة</h2>
+    <p>وصلنا طلبك. بتتحقق اللجنة من بياناتك وبيتفعّل الحساب قريباً، وبيوصلك إشعار على الإيميل.</p>
+    <div class="info" id="pInfo"></div>
+    <button class="btn" onclick="location.reload()">تحديث الحالة</button>
+  </section>
 
-    let currentUser = null;
-    let currentProfile = null;
-    let allPosts = [];
-    let activeCategory = "الكل";
-    let unsubscribePosts = null;
-    let reportTarget = null;
+  <section id="v-rejected" class="card state" hidden>
+    <div class="ic">⚠️</div><h2>لم يتم قبول الطلب حالياً</h2>
+    <div class="why"><b>السبب:</b> <span id="rjText"></span></div>
+    <form id="reForm" style="display:grid;gap:12px;text-align:right">
+      <div><label class="l">الاسم الرباعي</label><input class="field" id="eFull" required /></div>
+      <div class="g2">
+        <div><label class="l">الاسم الظاهر</label><input class="field" id="eNick" required maxlength="30" /></div>
+        <div><label class="l">السنة</label><select class="field year" id="eYear"></select></div>
+      </div>
+      <button class="btn" id="eBtn">حفظ وإعادة الإرسال</button>
+    </form>
+  </section>
 
-    // عناصر الواجهة
-    const views = {
-      loading: document.getElementById("loadingView"),
-      auth: document.getElementById("authView"),
-      pending: document.getElementById("pendingView"),
-      rejected: document.getElementById("rejectedView"),
-      community: document.getElementById("communityView")
-    };
-
-    function showView(name) {
-      Object.entries(views).forEach(([key, el]) => {
-        el.classList.toggle("hidden", key !== name);
-      });
-    }
-
-    function showToast(msg, type = "info") {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.className = "fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg transition-all " +
-        (type === "error" ? "bg-red-600 text-white" : type === "success" ? "bg-emerald-600 text-white" : "bg-slate-900 text-white");
-      t.classList.remove("hidden");
-      setTimeout(() => t.classList.add("hidden"), 3500);
-    }
-
-    function escapeHtml(str) {
-      return String(str || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/\n/g, "<br>");
-    }
-
-    function formatDate(ts) {
-      if (!ts) return "الآن";
-      const d = ts.toDate ? ts.toDate() : new Date(ts);
-      return d.toLocaleDateString("ar-JO", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-    }
-
-    async function notifyGAS(payload) {
-      try {
-        await fetch(GAS_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-      } catch (e) {
-        console.error("GAS notify error:", e);
-      }
-    }
-
-    // تبديل تبويبات الدخول والتسجيل
-    const tabLogin = document.getElementById("tabLogin");
-    const tabRegister = document.getElementById("tabRegister");
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-
-    tabLogin.onclick = () => {
-      loginForm.classList.remove("hidden");
-      registerForm.classList.add("hidden");
-      tabLogin.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-white text-slate-900 shadow-sm transition";
-      tabRegister.className = "flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-800 transition";
-    };
-    tabRegister.onclick = () => {
-      registerForm.classList.remove("hidden");
-      loginForm.classList.add("hidden");
-      tabRegister.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-white text-slate-900 shadow-sm transition";
-      tabLogin.className = "flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-800 transition";
-    };
-
-    // تسجيل الدخول
-    loginForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById("loginSubmitBtn");
-      btn.disabled = true; btn.textContent = "جاري الدخول...";
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          document.getElementById("loginEmail").value.trim(),
-          document.getElementById("loginPassword").value
-        );
-      } catch (err) {
-        showToast("خطأ في الإيميل أو كلمة المرور", "error");
-      } finally {
-        btn.disabled = false; btn.textContent = "دخول إلى المجتمع";
-      }
-    };
-
-    // استعادة كلمة المرور
-    document.getElementById("resetPassBtn").onclick = async () => {
-      const email = document.getElementById("loginEmail").value.trim();
-      if (!email) return showToast("اكتب إيميلك أولاً ثم اضغط نسيت كلمة المرور", "error");
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showToast("تم إرسال رابط إعادة تعيين كلمة المرور لإيميلك", "success");
-      } catch (err) {
-        showToast("تعذر إرسال الرابط، تأكد من صحة الإيميل", "error");
-      }
-    };
-
-    // إنشاء حساب جديد
-    registerForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById("regSubmitBtn");
-      btn.disabled = true; btn.textContent = "جاري إنشاء الحساب...";
-      const fullName = document.getElementById("regFullName").value.trim();
-      const nickname = document.getElementById("regNickname").value.trim();
-      const year = document.getElementById("regYear").value;
-      const email = document.getElementById("regEmail").value.trim();
-      const password = document.getElementById("regPassword").value;
-
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "users_private", cred.user.uid), {
-          fullName, nickname, year, email,
-          role: "student",
-          status: "pending",
-          rejectReason: "",
-          createdAt: serverTimestamp()
-        });
-        await notifyGAS({ action: "new_user", fullName, email, year, nickname });
-        showToast("تم إرسال طلبك بنجاح!", "success");
-      } catch (err) {
-        const msg = err.code === "auth/email-already-in-use"
-          ? "هذا الإيميل مسجل مسبقاً، قم بتسجيل الدخول"
-          : "حدث خطأ أثناء التسجيل: " + err.message;
-        showToast(msg, "error");
-      } finally {
-        btn.disabled = false; btn.textContent = "إرسال طلب الانضمام";
-      }
-    };
-
-    // إعادة إرسال الطلب بعد الرفض
-    document.getElementById("resubmitForm").onsubmit = async (e) => {
-      e.preventDefault();
-      if (!currentUser) return;
-      const btn = document.getElementById("resubSubmitBtn");
-      btn.disabled = true; btn.textContent = "جاري الإرسال...";
-      const fullName = document.getElementById("resubFullName").value.trim();
-      const nickname = document.getElementById("resubNickname").value.trim();
-      const year = document.getElementById("resubYear").value;
-
-      try {
-        await updateDoc(doc(db, "users_private", currentUser.uid), {
-          fullName, nickname, year,
-          status: "pending",
-          rejectReason: "",
-          updatedAt: serverTimestamp()
-        });
-        await notifyGAS({ action: "resubmit_user", fullName, email: currentUser.email, year });
-        showToast("تم إعادة إرسال طلبك للمراجعة", "success");
-        setTimeout(() => location.reload(), 900);
-      } catch (err) {
-        showToast("حدث خطأ أثناء التحديث", "error");
-        btn.disabled = false; btn.textContent = "حفظ التعديلات وإعادة الإرسال";
-      }
-    };
-
-    // تسجيل الخروج
-    document.getElementById("logoutBtn").onclick = async () => {
-      if (unsubscribePosts) unsubscribePosts();
-      await signOut(auth);
-    };
-
-    // مراقبة حالة المستخدم
-    onAuthStateChanged(auth, async (user) => {
-      currentUser = user;
-      const logoutBtn = document.getElementById("logoutBtn");
-      const adminLinkBtn = document.getElementById("adminLinkBtn");
-
-      if (!user) {
-        logoutBtn.classList.add("hidden");
-        adminLinkBtn.classList.add("hidden");
-        if (unsubscribePosts) unsubscribePosts();
-        showView("auth");
-        return;
-      }
-
-      logoutBtn.classList.remove("hidden");
-      try {
-        const snap = await getDoc(doc(db, "users_private", user.uid));
-        if (!snap.exists()) {
-          showToast("لم يتم العثور على ملف المستخدم، تواصل مع الإدارة", "error");
-          showView("pending");
-          return;
-        }
-        currentProfile = snap.data();
-
-        if (currentProfile.role === "admin") {
-          adminLinkBtn.classList.remove("hidden");
-        } else {
-          adminLinkBtn.classList.add("hidden");
-        }
-
-        if (currentProfile.status === "approved" || currentProfile.role === "admin") {
-          document.getElementById("userGreetingName").textContent = currentProfile.nickname || currentProfile.fullName;
-          document.getElementById("userRoleBadge").textContent = currentProfile.role === "admin" ? "إدارة اللجنة ⭐" : (currentProfile.year || "طالب");
-          showView("community");
-          listenToPosts();
-        } else if (currentProfile.status === "rejected") {
-          document.getElementById("rejectReasonText").textContent = currentProfile.rejectReason || "يرجى التأكد من الاسم الرباعي والبيانات.";
-          document.getElementById("resubFullName").value = currentProfile.fullName || "";
-          document.getElementById("resubNickname").value = currentProfile.nickname || "";
-          document.getElementById("resubYear").value = currentProfile.year || "السنة الأولى";
-          showView("rejected");
-        } else {
-          document.getElementById("pendingInfo").innerHTML = `
-            <div><strong>الاسم:</strong> ${escapeHtml(currentProfile.fullName)}</div>
-            <div><strong>الاسم الظاهر:</strong> ${escapeHtml(currentProfile.nickname)}</div>
-            <div><strong>السنة:</strong> ${escapeHtml(currentProfile.year || "-")}</div>
-          `;
-          showView("pending");
-        }
-      } catch (err) {
-        console.error(err);
-        showToast("خطأ في تحميل بيانات الحساب", "error");
-      }
-    });
-
-    // إنشاء منشور جديد
-    document.getElementById("postForm").onsubmit = async (e) => {
-      e.preventDefault();
-      if (!currentUser || !currentProfile) return;
-      const text = document.getElementById("postText").value.trim();
-      const category = document.getElementById("postCategory").value;
-      const isAnonymous = document.getElementById("postAnonymous").checked;
-      if (!text) return;
-
-      const btn = document.getElementById("postSubmitBtn");
-      btn.disabled = true; btn.textContent = "جاري النشر...";
-
-      const isAdmin = currentProfile.role === "admin";
-      const displayName = isAnonymous ? "طالب بيطري (مجهول)" : (currentProfile.nickname || currentProfile.fullName);
-
-      try {
-        await addDoc(collection(db, "posts"), {
-          authorUid: currentUser.uid,
-          displayName,
-          isAnonymous,
-          isAdminPost: isAdmin && !isAnonymous,
-          category,
-          text,
-          status: isAdmin ? "approved" : "pending",
-          likedBy: [],
-          createdAt: serverTimestamp()
-        });
-
-        document.getElementById("postText").value = "";
-        document.getElementById("postAnonymous").checked = false;
-
-        if (isAdmin) {
-          showToast("تم نشر مشاركتك مباشرة ✅", "success");
-        } else {
-          await notifyGAS({ action: "new_post", category, displayName, text });
-          showToast("تم إرسال منشورك وسيظهر فور موافقة الإدارة ⏳", "success");
-        }
-      } catch (err) {
-        console.error(err);
-        showToast("تعذر إرسال المنشور", "error");
-      } finally {
-        btn.disabled = false; btn.textContent = "نشر المشاركة";
-      }
-    };
-
-    // الاستماع للمنشورات المقبولة
-    function listenToPosts() {
-      if (unsubscribePosts) unsubscribePosts();
-      const q = query(collection(db, "posts"), where("status", "==", "approved"));
-      unsubscribePosts = onSnapshot(q, (snap) => {
-        allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        allPosts.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-        renderPosts();
-      }, (err) => {
-        console.error(err);
-        document.getElementById("postsFeed").innerHTML = `<div class="text-center py-8 text-red-500 text-sm">حدث خطأ في تحميل المنشورات.</div>`;
-      });
-    }
-
-    // الفلاتر
-    document.querySelectorAll(".cat-btn").forEach(btn => {
-      btn.onclick = () => {
-        activeCategory = btn.dataset.cat;
-        document.querySelectorAll(".cat-btn").forEach(b => {
-          b.className = b === btn
-            ? "cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white transition"
-            : "cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition";
-        });
-        renderPosts();
-      };
-    });
-
-    // عرض المنشورات
-    function renderPosts() {
-      const feed = document.getElementById("postsFeed");
-      const filtered = activeCategory === "الكل" ? allPosts : allPosts.filter(p => p.category === activeCategory);
-
-      if (!filtered.length) {
-        feed.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-10 text-center text-slate-400 text-sm">لا توجد منشورات في هذا التصنيف حالياً. كن أول من يشارك!</div>`;
-        return;
-      }
-
-      feed.innerHTML = filtered.map(post => {
-        const likedBy = Array.isArray(post.likedBy) ? post.likedBy : [];
-        const isLiked = currentUser && likedBy.includes(currentUser.uid);
-        return `
-          <article class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 fade-in">
-            <div class="flex items-start justify-between gap-2 mb-3">
-              <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-full ${post.isAdminPost ? 'bg-amber-100 text-amber-700' : 'bg-teal-50 text-teal-700'} flex items-center justify-center font-extrabold text-sm">
-                  ${post.isAnonymous ? "؟" : escapeHtml((post.displayName || "ط")[0])}
-                </div>
-                <div>
-                  <div class="flex items-center gap-1.5">
-                    <span class="font-bold text-sm text-slate-900">${escapeHtml(post.displayName)}</span>
-                    ${post.isAdminPost ? '<span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">إدارة</span>' : ''}
-                  </div>
-                  <div class="text-[11px] text-slate-400">${formatDate(post.createdAt)}</div>
-                </div>
-              </div>
-              <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600">${escapeHtml(post.category || "عام")}</span>
-            </div>
-
-            <div class="text-sm text-slate-800 leading-relaxed mb-4 break-words">${escapeHtml(post.text)}</div>
-
-            <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-xs font-bold text-slate-500">
-              <div class="flex items-center gap-4">
-                <button onclick="window.toggleLike('${post.id}', ${isLiked})" class="flex items-center gap-1.5 hover:text-teal-600 transition ${isLiked ? 'text-teal-600' : ''}">
-                  <span>${isLiked ? '❤️' : '🤍'}</span>
-                  <span>${likedBy.length}</span>
-                </button>
-                <button onclick="window.toggleComments('${post.id}')" class="flex items-center gap-1.5 hover:text-slate-900 transition">
-                  <span>💬</span>
-                  <span>التعليقات</span>
-                </button>
-              </div>
-              <button onclick="window.openReport('post', '${post.id}')" class="text-slate-400 hover:text-red-600 transition">🚨 إبلاغ</button>
-            </div>
-
-            <!-- قسم التعليقات -->
-            <div id="comments-box-${post.id}" class="hidden mt-4 pt-3 border-t border-slate-100 space-y-3">
-              <div id="comments-list-${post.id}" class="space-y-2 text-xs text-slate-500">جاري تحميل التعليقات...</div>
-              <form onsubmit="window.addComment(event, '${post.id}')" class="flex gap-2">
-                <input type="text" id="comment-input-${post.id}" required placeholder="اكتب تعليقاً..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
-                <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3.5 py-2 rounded-xl">إرسال</button>
-              </form>
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    // الإعجاب
-    window.toggleLike = async (postId, isLiked) => {
-      if (!currentUser) return;
-      try {
-        await updateDoc(doc(db, "posts", postId), {
-          likedBy: isLiked ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
-        });
-      } catch (err) {
-        showToast("تعذر تحديث الإعجاب", "error");
-      }
-    };
-
-    // فتح وتحميل التعليقات
-    window.toggleComments = async (postId) => {
-      const box = document.getElementById(`comments-box-${postId}`);
-      box.classList.toggle("hidden");
-      if (!box.classList.contains("hidden")) {
-        await loadComments(postId);
-      }
-    };
-
-    async function loadComments(postId) {
-      const list = document.getElementById(`comments-list-${postId}`);
-      try {
-        const snap = await getDocs(collection(db, "posts", postId, "comments"));
-        const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        comments.sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
-
-        if (!comments.length) {
-          list.innerHTML = `<div class="text-slate-400 text-xs py-1">لا توجد تعليقات بعد.</div>`;
-          return;
-        }
-
-        list.innerHTML = comments.map(c => `
-          <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-100">
-            <div class="flex items-center justify-between mb-1">
-              <span class="font-bold text-slate-800 text-xs">${escapeHtml(c.displayName)}</span>
-              <span class="text-[10px] text-slate-400">${formatDate(c.createdAt)}</span>
-            </div>
-            <div class="text-xs text-slate-700 leading-relaxed">${escapeHtml(c.text)}</div>
+  <section id="v-community" hidden>
+    <div class="card">
+      <div class="hello"><span>أهلاً، <span id="gName" style="color:var(--purple)"></span> 👋</span><span id="gBadge" class="badge"></span></div>
+      <form id="postForm">
+        <textarea class="field" id="pText" rows="3" maxlength="2000" required placeholder="شارك استفساراً، ملخصاً، أو نقاشاً مع زملائك..."></textarea>
+        <div class="crow">
+          <div class="left">
+            <select class="field" id="pCat" style="width:auto"></select>
+            <label class="tg"><input type="checkbox" id="pAnon" /> نشر كمجهول</label>
           </div>
-        `).join("");
-      } catch (err) {
-        list.innerHTML = `<div class="text-red-500 text-xs">تعذر تحميل التعليقات.</div>`;
-      }
+          <div class="left"><span class="cnt" id="pCnt">0 / 2000</span><button class="btn" id="pBtn">نشر</button></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="tools">
+      <div class="srow">
+        <input class="field" id="sBox" type="search" placeholder="🔍 ابحث بالمنشورات..." />
+        <select class="field" id="sSort"><option value="new">الأحدث</option><option value="top">الأكثر إعجاباً</option></select>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="feed" id="feed"><div class="sk"></div><div class="sk"></div></div>
+  </section>
+</main>
+
+<div id="rModal" class="modal" hidden><div class="card">
+  <h3>🚨 الإبلاغ عن محتوى</h3><p>بيوصل البلاغ للإدارة وبيتراجع بسرية.</p>
+  <textarea class="field" id="rReason" rows="3" maxlength="500" placeholder="اكتب سبب الإبلاغ..."></textarea>
+  <div class="crow" style="justify-content:flex-end"><button class="btn ghost" id="rCancel">إلغاء</button><button class="btn" id="rSend" style="background:var(--red);border-color:var(--red);color:#fff">إرسال البلاغ</button></div>
+</div></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc,addDoc,deleteDoc,writeBatch,collection,query,where,getDocs,onSnapshot,serverTimestamp,arrayUnion,arrayRemove} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community",storageBucket:"vetcommitto-community.firebasestorage.app",messagingSenderId:"52242274295",appId:"1:52242274295:web:f337295d00daea7d9b40f2",measurementId:"G-90GYJ1SEVF"};
+const GAS_URL="https://script.google.com/macros/s/AKfycbwVpNd5eml3rxkTKekmt-hs1bjp4q6KTeJOMUjOwn4x9XlD3Oi5qbFghUxp9Axs71S9/exec";
+const EMAIL_RE=/^[^@]+@vet\.just\.edu\.jo$/i;
+const YEARS=["السنة الأولى","السنة الثانية","السنة الثالثة","السنة الرابعة","السنة الخامسة","خريج"];
+const CATS=[["استفسار أكاديمي","📚"],["ملخصات ومواد","📝"],["تدريب سريري","🩺"],["نقاش عام","💬"],["إعلان","📢"]];
+const COOLDOWN=30000;
+
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+let user=null,profile=null,posts=[],cat="الكل",term="",sort="new",unsub=null,rTarget=null;
+
+// ===== المظهر (نفس مفتاح المنصة) =====
+function theme(){const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";$("themeBtn").textContent=d?"☀️":"🌙";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"}
+$("themeBtn").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");theme()};theme();
+
+// ===== أدوات =====
+const VIEWS=["loading","auth","pending","rejected","community"];
+const show=n=>VIEWS.forEach(v=>$("v-"+v).hidden=v!==n);
+let tt;function toast(m,t="info"){const e=$("toast");e.textContent=m;e.className="toast show "+t;clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("show"),3500)}
+function ago(ts){if(!ts)return"الآن";const d=ts.toDate?ts.toDate():new Date(ts),s=(Date.now()-d)/1000;
+  if(s<60)return"الآن";if(s<3600)return`قبل ${Math.floor(s/60)} د`;if(s<86400)return`قبل ${Math.floor(s/3600)} س`;
+  if(s<604800)return`قبل ${Math.floor(s/86400)} يوم`;return d.toLocaleDateString("ar-JO",{month:"short",day:"numeric"})}
+async function gas(p){try{if(!auth.currentUser)return;const idToken=await auth.currentUser.getIdToken();
+  await fetch(GAS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({...p,idToken})})}catch(e){console.error(e)}}
+const busy=(b,on,t)=>{b.disabled=on;if(t)b.textContent=t};
+
+document.querySelectorAll(".year").forEach(s=>s.innerHTML=YEARS.map(y=>`<option>${y}</option>`).join(""));
+$("pCat").innerHTML=CATS.map(([c,i])=>`<option value="${c}">${i} ${c}</option>`).join("");
+function chips(){$("chips").innerHTML=[["الكل",""],...CATS].map(([c,i])=>`<button class="chip ${c===cat?"on":""}" data-cat="${c}">${i?i+" ":""}${c}</button>`).join("")}chips();
+
+// ===== الدخول والتسجيل =====
+const tab=reg=>{$("loginForm").hidden=reg;$("regForm").hidden=!reg;$("tLogin").classList.toggle("on",!reg);$("tReg").classList.toggle("on",reg)};
+$("tLogin").onclick=()=>tab(false);$("tReg").onclick=()=>tab(true);
+
+$("loginForm").onsubmit=async e=>{e.preventDefault();busy($("lBtn"),1,"جاري الدخول...");
+  try{await signInWithEmailAndPassword(auth,$("lEmail").value.trim(),$("lPass").value)}catch{toast("خطأ في الإيميل أو كلمة المرور","error")}
+  busy($("lBtn"),0,"دخول إلى المجتمع")};
+
+$("resetBtn").onclick=async()=>{const m=$("lEmail").value.trim();if(!m)return toast("اكتب إيميلك أولاً","error");
+  try{await sendPasswordResetEmail(auth,m);toast("تم إرسال رابط إعادة التعيين لإيميلك","success")}catch{toast("تعذر الإرسال، تأكد من الإيميل","error")}};
+
+$("regForm").onsubmit=async e=>{e.preventDefault();
+  const fullName=$("rFull").value.trim(),nickname=$("rNick").value.trim(),year=$("rYear").value,email=$("rEmail").value.trim().toLowerCase(),pw=$("rPass").value;
+  if(!EMAIL_RE.test(email))return toast("استخدم الإيميل الجامعي (@vet.just.edu.jo)","error");
+  busy($("rBtn"),1,"جاري إنشاء الحساب...");
+  try{const c=await createUserWithEmailAndPassword(auth,email,pw);
+    await setDoc(doc(db,"users_private",c.user.uid),{fullName,nickname,year,email,role:"student",status:"pending",rejectReason:"",createdAt:serverTimestamp()});
+    await gas({action:"new_user",fullName,email,year,nickname});toast("تم إرسال طلبك!","success")}
+  catch(err){toast(err.code==="auth/email-already-in-use"?"الإيميل مسجل مسبقاً، سجّل دخول":"حدث خطأ: "+err.message,"error")}
+  busy($("rBtn"),0,"إرسال طلب الانضمام")};
+
+// إعادة الإرسال بعد الرفض (بدون لمس rejectReason لتوافق الـ Rules)
+$("reForm").onsubmit=async e=>{e.preventDefault();if(!user)return;busy($("eBtn"),1,"جاري الإرسال...");
+  const fullName=$("eFull").value.trim(),nickname=$("eNick").value.trim(),year=$("eYear").value;
+  try{await updateDoc(doc(db,"users_private",user.uid),{fullName,nickname,year,status:"pending",updatedAt:serverTimestamp()});
+    await gas({action:"resubmit_user",fullName,email:user.email,year});toast("تم إعادة إرسال طلبك","success");setTimeout(()=>location.reload(),900)}
+  catch{toast("حدث خطأ أثناء التحديث","error");busy($("eBtn"),0,"حفظ وإعادة الإرسال")}};
+
+$("logoutBtn").onclick=async()=>{unsub&&unsub();await signOut(auth)};
+
+onAuthStateChanged(auth,async u=>{
+  user=u;$("logoutBtn").hidden=!u;
+  if(!u){$("adminBtn").hidden=true;unsub&&unsub();return show("auth")}
+  try{
+    const s=await getDoc(doc(db,"users_private",u.uid));
+    if(!s.exists()){toast("لم يتم العثور على ملف المستخدم، تواصل مع الإدارة","error");$("pInfo").textContent="";return show("pending")}
+    profile=s.data();const admin=profile.role==="admin";$("adminBtn").hidden=!admin;
+    if(profile.status==="approved"||admin){
+      $("gName").textContent=profile.nickname||profile.fullName;
+      $("gBadge").textContent=admin?"إدارة اللجنة ⭐":(profile.year||"طالب");$("gBadge").classList.toggle("gold",admin);
+      show("community");listen();
+    }else if(profile.status==="rejected"){
+      $("rjText").textContent=profile.rejectReason||"يرجى التأكد من الاسم الرباعي والبيانات.";
+      $("eFull").value=profile.fullName||"";$("eNick").value=profile.nickname||"";$("eYear").value=profile.year||YEARS[0];show("rejected");
+    }else{
+      $("pInfo").innerHTML=`<div><b>الاسم:</b> ${esc(profile.fullName)}</div><div><b>الاسم الظاهر:</b> ${esc(profile.nickname)}</div><div><b>السنة:</b> ${esc(profile.year||"-")}</div>`;show("pending");
     }
+  }catch(err){console.error(err);toast("خطأ في تحميل بيانات الحساب","error")}
+});
 
-    window.addComment = async (e, postId) => {
-      e.preventDefault();
-      const input = document.getElementById(`comment-input-${postId}`);
-      const text = input.value.trim();
-      if (!text || !currentUser || !currentProfile) return;
-      input.disabled = true;
-      try {
-        await addDoc(collection(db, "posts", postId, "comments"), {
-          authorUid: currentUser.uid,
-          displayName: currentProfile.nickname || currentProfile.fullName,
-          text,
-          createdAt: serverTimestamp()
-        });
-        input.value = "";
-        await loadComments(postId);
-      } catch (err) {
-        showToast("تعذر إرسال التعليق", "error");
-      } finally {
-        input.disabled = false;
-      }
-    };
+// ===== النشر =====
+$("pText").oninput=e=>$("pCnt").textContent=`${e.target.value.length} / 2000`;
+$("postForm").onsubmit=async e=>{e.preventDefault();if(!user||!profile)return;
+  const text=$("pText").value.trim(),category=$("pCat").value,anon=$("pAnon").checked,admin=profile.role==="admin";
+  if(text.length<10)return toast("اكتب 10 أحرف على الأقل","error");
+  const wait=COOLDOWN-(Date.now()-(+localStorage.getItem("vc_last_post")||0));
+  if(!admin&&wait>0)return toast(`استنى ${Math.ceil(wait/1000)} ثانية قبل المنشور التالي`,"error");
+  busy($("pBtn"),1,"جاري النشر...");
+  const displayName=anon?"طالب بيطري (مجهول)":(profile.nickname||profile.fullName);
+  try{
+    const b=writeBatch(db),pr=doc(collection(db,"posts"));
+    b.set(pr,{displayName,isAnonymous:anon,isAdminPost:admin&&!anon,category,text,status:admin?"approved":"pending",likedBy:[],createdAt:serverTimestamp()});
+    b.set(doc(db,"posts_private",pr.id),{authorUid:user.uid,createdAt:serverTimestamp()});
+    await b.commit();
+    localStorage.setItem("vc_last_post",Date.now());$("pText").value="";$("pAnon").checked=false;$("pCnt").textContent="0 / 2000";
+    if(admin)toast("تم النشر مباشرة ✅","success");else{await gas({action:"new_post",category,displayName,text});toast("وصل منشورك وبيظهر بعد موافقة الإدارة ⏳","success")}
+  }catch(err){console.error(err);toast("تعذر إرسال المنشور","error")}
+  busy($("pBtn"),0,"نشر")};
 
-    // الإبلاغ
-    const reportModal = document.getElementById("reportModal");
-    window.openReport = (targetType, targetId) => {
-      reportTarget = { targetType, targetId };
-      document.getElementById("reportReasonInput").value = "";
-      reportModal.classList.remove("hidden");
-      reportModal.classList.add("flex");
-    };
-    document.getElementById("cancelReportBtn").onclick = () => {
-      reportModal.classList.add("hidden");
-      reportModal.classList.remove("flex");
-    };
-    document.getElementById("confirmReportBtn").onclick = async () => {
-      const reason = document.getElementById("reportReasonInput").value.trim();
-      if (!reason || !reportTarget || !currentUser) return showToast("اكتب سبب الإبلاغ أولاً", "error");
-      try {
-        await addDoc(collection(db, "reports"), {
-          targetType: reportTarget.targetType,
-          targetId: reportTarget.targetId,
-          reason,
-          reporterUid: currentUser.uid,
-          status: "open",
-          createdAt: serverTimestamp()
-        });
-        await notifyGAS({ action: "new_report", reason, targetType: reportTarget.targetType });
-        reportModal.classList.add("hidden");
-        reportModal.classList.remove("flex");
-        showToast("تم إرسال البلاغ للإدارة بنجاح", "success");
-      } catch (err) {
-        showToast("تعذر إرسال البلاغ", "error");
-      }
-    };
-  </script>
+// ===== العرض =====
+function listen(){unsub&&unsub();
+  unsub=onSnapshot(query(collection(db,"posts"),where("status","==","approved")),s=>{posts=s.docs.map(d=>({id:d.id,...d.data()}));render()},
+    err=>{console.error(err);$("feed").innerHTML=`<div class="card empty">حدث خطأ في تحميل المنشورات.</div>`})}
+
+function render(){
+  const t=term.toLowerCase();
+  let list=posts.filter(p=>(cat==="الكل"||p.category===cat)&&(!t||`${p.text} ${p.displayName}`.toLowerCase().includes(t)));
+  const time=p=>p.createdAt?.seconds||0,likes=p=>(p.likedBy||[]).length;
+  list.sort((a,b)=>(+!!b.isAdminPost-+!!a.isAdminPost)||(sort==="top"?likes(b)-likes(a)||time(b)-time(a):time(b)-time(a)));
+  if(!list.length){$("feed").innerHTML=`<div class="card empty">${t||cat!=="الكل"?"ما في نتائج مطابقة.":"ما في منشورات لسا. كن أول من يشارك!"}</div>`;return}
+  $("feed").innerHTML=list.map(p=>{
+    const lb=Array.isArray(p.likedBy)?p.likedBy:[],liked=user&&lb.includes(user.uid),ic=CATS.find(c=>c[0]===p.category)?.[1]||"";
+    return `<article class="card post ${p.isAdminPost?"adm":""}" data-id="${p.id}">
+      <div class="ph"><div class="who"><div class="av">${p.isAnonymous?"؟":esc((p.displayName||"ط")[0])}</div>
+        <div><div class="nm">${esc(p.displayName)}${p.isAdminPost?'<span class="badge gold">📌 إدارة</span>':""}</div><div class="tm">${ago(p.createdAt)}</div></div></div>
+        <span class="cat">${ic} ${esc(p.category||"عام")}</span></div>
+      <div class="body">${esc(p.text)}</div>
+      <div class="pf"><div>
+        <button class="act ${liked?"on":""}" data-a="like" data-l="${liked?1:0}">${liked?"❤️":"🤍"} ${lb.length}</button>
+        <button class="act" data-a="cm">💬 التعليقات</button></div>
+        <button class="act rp" data-a="rp">🚨 إبلاغ</button></div>
+      <div class="cm" hidden><div class="cl"></div>
+        <form class="cf"><input class="field" maxlength="1000" required placeholder="اكتب تعليقاً..." /><button class="btn">إرسال</button></form></div>
+    </article>`}).join("");
+}
+
+$("chips").onclick=e=>{const b=e.target.closest("[data-cat]");if(!b)return;cat=b.dataset.cat;chips();render()};
+$("sBox").oninput=e=>{term=e.target.value.trim();render()};
+$("sSort").onchange=e=>{sort=e.target.value;render()};
+
+async function comments(card){
+  const id=card.dataset.id,box=card.querySelector(".cl");
+  try{
+    const s=await getDocs(collection(db,"posts",id,"comments"));
+    const l=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
+    const admin=profile?.role==="admin";
+    box.innerHTML=l.length?l.map(c=>`<div class="ci" data-cid="${c.id}"><div class="h"><b>${esc(c.displayName)}</b><span>${ago(c.createdAt)}${(c.authorUid===user.uid||admin)?` · <button class="del" data-a="delc">حذف</button>`:""}</span></div>${esc(c.text)}</div>`).join("")
+      :`<div class="tm" style="padding:4px 0">لا توجد تعليقات بعد.</div>`;
+  }catch{box.innerHTML=`<div class="tm" style="color:var(--red)">تعذر تحميل التعليقات.</div>`}
+}
+
+$("feed").onclick=async e=>{
+  const b=e.target.closest("[data-a]");if(!b||!user)return;
+  const card=b.closest(".post"),id=card.dataset.id,a=b.dataset.a;
+  if(a==="like"){try{await updateDoc(doc(db,"posts",id),{likedBy:b.dataset.l==="1"?arrayRemove(user.uid):arrayUnion(user.uid)})}catch{toast("تعذر تحديث الإعجاب","error")}}
+  else if(a==="cm"){const box=card.querySelector(".cm");box.hidden=!box.hidden;if(!box.hidden)comments(card)}
+  else if(a==="rp"){rTarget={targetType:"post",targetId:id};$("rReason").value="";$("rModal").hidden=false}
+  else if(a==="delc"){if(!confirm("حذف التعليق؟"))return;
+    try{await deleteDoc(doc(db,"posts",id,"comments",b.closest(".ci").dataset.cid));comments(card)}catch{toast("تعذر حذف التعليق","error")}}
+};
+$("feed").onsubmit=async e=>{
+  e.preventDefault();const f=e.target.closest(".cf");if(!f||!user||!profile)return;
+  const card=f.closest(".post"),inp=f.querySelector("input"),text=inp.value.trim();if(!text)return;
+  inp.disabled=true;
+  try{await addDoc(collection(db,"posts",card.dataset.id,"comments"),{authorUid:user.uid,displayName:profile.nickname||profile.fullName,text,createdAt:serverTimestamp()});
+    inp.value="";await comments(card)}catch{toast("تعذر إرسال التعليق","error")}
+  inp.disabled=false;inp.focus()};
+
+// ===== الإبلاغ =====
+const closeR=()=>$("rModal").hidden=true;
+$("rCancel").onclick=closeR;$("rModal").onclick=e=>{if(e.target.id==="rModal")closeR()};
+$("rSend").onclick=async()=>{const reason=$("rReason").value.trim();
+  if(!reason||!rTarget||!user)return toast("اكتب سبب الإبلاغ أولاً","error");
+  try{await addDoc(collection(db,"reports"),{...rTarget,reason,reporterUid:user.uid,status:"open",createdAt:serverTimestamp()});
+    await gas({action:"new_report",reason,targetType:rTarget.targetType});closeR();toast("تم إرسال البلاغ للإدارة","success")}
+  catch{toast("تعذر إرسال البلاغ","error")}};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeR()});
+</script>
 </body>
 </html>
