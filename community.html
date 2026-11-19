@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مجتمع الطلاب | VetCommitto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    .fade-in { animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- الشريط العلوي -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-teal-500 flex items-center justify-center font-extrabold text-slate-900 text-lg shadow">V</div>
+        <div>
+          <h1 class="font-extrabold text-base leading-tight">مجتمع VetCommitto</h1>
+          <p class="text-[11px] text-slate-300">مساحة طلبة الطب البيطري</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a id="adminLinkBtn" href="community-admin.html" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg transition">
+          لوحة الإدارة
+        </a>
+        <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+          المنصة
+        </a>
+        <button id="logoutBtn" class="hidden bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+          خروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- إشعار منبثق (Toast) -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg transition-all"></div>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-6">
+
+    <!-- شاشة التحميل -->
+    <section id="loadingView" class="py-20 text-center">
+      <div class="w-10 h-10 border-4 border-slate-200 border-t-teal-600 rounded-full animate-spin mx-auto mb-3"></div>
+      <p class="text-slate-500 text-sm font-semibold">جاري التحقق من الحساب...</p>
+    </section>
+
+    <!-- شاشة تسجيل الدخول وإنشاء الحساب -->
+    <section id="authView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 fade-in">
+      <div class="flex bg-slate-100 p-1 rounded-xl mb-6">
+        <button id="tabLogin" class="flex-1 py-2 text-sm font-bold rounded-lg bg-white text-slate-900 shadow-sm transition">تسجيل الدخول</button>
+        <button id="tabRegister" class="flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-800 transition">إنشاء حساب جديد</button>
+      </div>
+
+      <!-- نموذج الدخول -->
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">الإيميل الجامعي / المسجّل</label>
+          <input type="email" id="loginEmail" required placeholder="example@vet.just.edu.jo" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+        <button type="submit" id="loginSubmitBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm transition">
+          دخول إلى المجتمع
+        </button>
+        <div class="text-center">
+          <button type="button" id="resetPassBtn" class="text-xs text-teal-700 hover:underline font-semibold">نسيت كلمة المرور؟</button>
+        </div>
+      </form>
+
+      <!-- نموذج التسجيل -->
+      <form id="registerForm" class="hidden space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الرباعي الكامل (للتحقق فقط — لا يظهر للطلاب)</label>
+          <input type="text" id="regFullName" required placeholder="الاسم الرباعي كما في البطاقة الجامعية" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">الاسم المستعار (الظاهر)</label>
+            <input type="text" id="regNickname" required placeholder="مثلاً: د. أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">السنة الدراسية</label>
+            <select id="regYear" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+              <option value="السنة الأولى">السنة الأولى</option>
+              <option value="السنة الثانية">السنة الثانية</option>
+              <option value="السنة الثالثة">السنة الثالثة</option>
+              <option value="السنة الرابعة">السنة الرابعة</option>
+              <option value="السنة الخامسة">السنة الخامسة</option>
+              <option value="خريج">خريج</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">الإيميل الجامعي</label>
+          <input type="email" id="regEmail" required placeholder="example@vet.just.edu.jo" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور (6 أحرف على الأقل)</label>
+          <input type="password" id="regPassword" required minlength="6" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+        <button type="submit" id="regSubmitBtn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl text-sm transition">
+          إرسال طلب الانضمام
+        </button>
+      </form>
+    </section>
+
+    <!-- شاشة الانتظار (Pending) -->
+    <section id="pendingView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-amber-200 p-6 text-center fade-in">
+      <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">⏳</div>
+      <h2 class="text-lg font-extrabold text-slate-900 mb-2">حسابك قيد المراجعة</h2>
+      <p class="text-sm text-slate-600 leading-relaxed mb-4">
+        تم استلام طلبك بنجاح. سيقوم فريق اللجنة بالتحقق من بياناتك وتفعيل الحساب قريباً، وسيصلك إشعار عبر الإيميل فور التفعيل.
+      </p>
+      <div id="pendingInfo" class="bg-slate-50 rounded-xl p-3 text-xs text-slate-600 text-right space-y-1 mb-4"></div>
+      <button onclick="location.reload()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition">
+        تحديث الحالة
+      </button>
+    </section>
+
+    <!-- شاشة الرفض وإعادة الإرسال (Rejected) -->
+    <section id="rejectedView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-red-200 p-6 fade-in">
+      <div class="text-center mb-4">
+        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2">⚠️</div>
+        <h2 class="text-lg font-extrabold text-slate-900">لم يتم قبول الطلب حالياً</h2>
+      </div>
+      <div class="bg-red-50 border-r-4 border-red-500 p-3 rounded-lg text-xs text-red-800 mb-5">
+        <span class="font-bold block mb-1">سبب المراجعة:</span>
+        <span id="rejectReasonText">البيانات غير مكتملة.</span>
+      </div>
+      <form id="resubmitForm" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الرباعي الكامل</label>
+          <input type="text" id="resubFullName" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">الاسم المستعار</label>
+            <input type="text" id="resubNickname" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">السنة الدراسية</label>
+            <select id="resubYear" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm bg-white">
+              <option value="السنة الأولى">السنة الأولى</option>
+              <option value="السنة الثانية">السنة الثانية</option>
+              <option value="السنة الثالثة">السنة الثالثة</option>
+              <option value="السنة الرابعة">السنة الرابعة</option>
+              <option value="السنة الخامسة">السنة الخامسة</option>
+              <option value="خريج">خريج</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" id="resubSubmitBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm transition">
+          حفظ التعديلات وإعادة الإرسال
+        </button>
+      </form>
+    </section>
+
+    <!-- شاشة المجتمع الرئيسية (Approved) -->
+    <section id="communityView" class="hidden space-y-5 fade-in">
+      <!-- بطاقة الترحيب وإنشاء منشور -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5">
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-sm font-bold text-slate-800">
+            أهلاً، <span id="userGreetingName" class="text-teal-700"></span> 👋
+          </div>
+          <span id="userRoleBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600"></span>
+        </div>
+
+        <form id="postForm" class="space-y-3">
+          <textarea id="postText" rows="3" required placeholder="شارك استفساراً أكاديمياً، ملخصاً، أو نقاشاً مع زملائك..." class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"></textarea>
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <select id="postCategory" class="text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:outline-none">
+                <option value="استفسار أكاديمي">📚 استفسار أكاديمي</option>
+                <option value="ملخصات ومواد">📝 ملخصات ومواد</option>
+                <option value="تدريب سريري">🩺 تدريب سريري</option>
+                <option value="نقاش عام">💬 نقاش عام</option>
+                <option value="إعلان">📢 إعلان</option>
+              </select>
+
+              <label class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 cursor-pointer select-none bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
+                <input type="checkbox" id="postAnonymous" class="rounded text-teal-600 focus:ring-teal-500" />
+                <span>نشر كمجهول</span>
+              </label>
+            </div>
+
+            <button type="submit" id="postSubmitBtn" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl transition shadow-sm">
+              نشر المشاركة
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- فلاتر التصنيفات -->
+      <div id="categoryFilters" class="flex items-center gap-2 overflow-x-auto pb-1">
+        <button data-cat="الكل" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white transition">الكل</button>
+        <button data-cat="استفسار أكاديمي" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">📚 استفسار أكاديمي</button>
+        <button data-cat="ملخصات ومواد" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">📝 ملخصات ومواد</button>
+        <button data-cat="تدريب سريري" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">🩺 تدريب سريري</button>
+        <button data-cat="نقاش عام" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">💬 نقاش عام</button>
+        <button data-cat="إعلان" class="cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition">📢 إعلان</button>
+      </div>
+
+      <!-- قائمة المنشورات -->
+      <div id="postsFeed" class="space-y-4">
+        <div class="text-center py-10 text-slate-400 text-sm">جاري تحميل المنشورات...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- نافذة الإبلاغ -->
+  <div id="reportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl fade-in">
+      <h3 class="font-extrabold text-base text-slate-900 mb-2">🚨 الإبلاغ عن محتوى</h3>
+      <p class="text-xs text-slate-500 mb-3">سيتم إرسال البلاغ مباشرة إلى فريق إدارة اللجنة لمراجعته بسرية.</p>
+      <textarea id="reportReasonInput" rows="3" placeholder="اكتب سبب الإبلاغ..." class="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+      <div class="flex justify-end gap-2">
+        <button id="cancelReportBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200">إلغاء</button>
+        <button id="confirmReportBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700">إرسال البلاغ</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+      createUserWithEmailAndPassword, signOut, sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore, doc, getDoc, setDoc, updateDoc, addDoc,
+      collection, query, where, getDocs, onSnapshot,
+      serverTimestamp, arrayUnion, arrayRemove
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // ===== الإعدادات المدمجة =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",
+      authDomain: "vetcommitto-community.firebaseapp.com",
+      projectId: "vetcommitto-community",
+      storageBucket: "vetcommitto-community.firebasestorage.app",
+      messagingSenderId: "52242274295",
+      appId: "1:52242274295:web:f337295d00daea7d9b40f2",
+      measurementId: "G-90GYJ1SEVF"
+    };
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwVpNd5eml3rxkTKekmt-hs1bjp4q6KTeJOMUjOwn4x9XlD3Oi5qbFghUxp9Axs71S9/exec";
+    // =============================
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let currentProfile = null;
+    let allPosts = [];
+    let activeCategory = "الكل";
+    let unsubscribePosts = null;
+    let reportTarget = null;
+
+    // عناصر الواجهة
+    const views = {
+      loading: document.getElementById("loadingView"),
+      auth: document.getElementById("authView"),
+      pending: document.getElementById("pendingView"),
+      rejected: document.getElementById("rejectedView"),
+      community: document.getElementById("communityView")
+    };
+
+    function showView(name) {
+      Object.entries(views).forEach(([key, el]) => {
+        el.classList.toggle("hidden", key !== name);
+      });
+    }
+
+    function showToast(msg, type = "info") {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = "fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg transition-all " +
+        (type === "error" ? "bg-red-600 text-white" : type === "success" ? "bg-emerald-600 text-white" : "bg-slate-900 text-white");
+      t.classList.remove("hidden");
+      setTimeout(() => t.classList.add("hidden"), 3500);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/\n/g, "<br>");
+    }
+
+    function formatDate(ts) {
+      if (!ts) return "الآن";
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleDateString("ar-JO", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+    }
+
+    async function notifyGAS(payload) {
+      try {
+        await fetch(GAS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.error("GAS notify error:", e);
+      }
+    }
+
+    // تبديل تبويبات الدخول والتسجيل
+    const tabLogin = document.getElementById("tabLogin");
+    const tabRegister = document.getElementById("tabRegister");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    tabLogin.onclick = () => {
+      loginForm.classList.remove("hidden");
+      registerForm.classList.add("hidden");
+      tabLogin.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-white text-slate-900 shadow-sm transition";
+      tabRegister.className = "flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-800 transition";
+    };
+    tabRegister.onclick = () => {
+      registerForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+      tabRegister.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-white text-slate-900 shadow-sm transition";
+      tabLogin.className = "flex-1 py-2 text-sm font-bold rounded-lg text-slate-500 hover:text-slate-800 transition";
+    };
+
+    // تسجيل الدخول
+    loginForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("loginSubmitBtn");
+      btn.disabled = true; btn.textContent = "جاري الدخول...";
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("loginEmail").value.trim(),
+          document.getElementById("loginPassword").value
+        );
+      } catch (err) {
+        showToast("خطأ في الإيميل أو كلمة المرور", "error");
+      } finally {
+        btn.disabled = false; btn.textContent = "دخول إلى المجتمع";
+      }
+    };
+
+    // استعادة كلمة المرور
+    document.getElementById("resetPassBtn").onclick = async () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      if (!email) return showToast("اكتب إيميلك أولاً ثم اضغط نسيت كلمة المرور", "error");
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast("تم إرسال رابط إعادة تعيين كلمة المرور لإيميلك", "success");
+      } catch (err) {
+        showToast("تعذر إرسال الرابط، تأكد من صحة الإيميل", "error");
+      }
+    };
+
+    // إنشاء حساب جديد
+    registerForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("regSubmitBtn");
+      btn.disabled = true; btn.textContent = "جاري إنشاء الحساب...";
+      const fullName = document.getElementById("regFullName").value.trim();
+      const nickname = document.getElementById("regNickname").value.trim();
+      const year = document.getElementById("regYear").value;
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value;
+
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users_private", cred.user.uid), {
+          fullName, nickname, year, email,
+          role: "student",
+          status: "pending",
+          rejectReason: "",
+          createdAt: serverTimestamp()
+        });
+        await notifyGAS({ action: "new_user", fullName, email, year, nickname });
+        showToast("تم إرسال طلبك بنجاح!", "success");
+      } catch (err) {
+        const msg = err.code === "auth/email-already-in-use"
+          ? "هذا الإيميل مسجل مسبقاً، قم بتسجيل الدخول"
+          : "حدث خطأ أثناء التسجيل: " + err.message;
+        showToast(msg, "error");
+      } finally {
+        btn.disabled = false; btn.textContent = "إرسال طلب الانضمام";
+      }
+    };
+
+    // إعادة إرسال الطلب بعد الرفض
+    document.getElementById("resubmitForm").onsubmit = async (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+      const btn = document.getElementById("resubSubmitBtn");
+      btn.disabled = true; btn.textContent = "جاري الإرسال...";
+      const fullName = document.getElementById("resubFullName").value.trim();
+      const nickname = document.getElementById("resubNickname").value.trim();
+      const year = document.getElementById("resubYear").value;
+
+      try {
+        await updateDoc(doc(db, "users_private", currentUser.uid), {
+          fullName, nickname, year,
+          status: "pending",
+          rejectReason: "",
+          updatedAt: serverTimestamp()
+        });
+        await notifyGAS({ action: "resubmit_user", fullName, email: currentUser.email, year });
+        showToast("تم إعادة إرسال طلبك للمراجعة", "success");
+        setTimeout(() => location.reload(), 900);
+      } catch (err) {
+        showToast("حدث خطأ أثناء التحديث", "error");
+        btn.disabled = false; btn.textContent = "حفظ التعديلات وإعادة الإرسال";
+      }
+    };
+
+    // تسجيل الخروج
+    document.getElementById("logoutBtn").onclick = async () => {
+      if (unsubscribePosts) unsubscribePosts();
+      await signOut(auth);
+    };
+
+    // مراقبة حالة المستخدم
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      const logoutBtn = document.getElementById("logoutBtn");
+      const adminLinkBtn = document.getElementById("adminLinkBtn");
+
+      if (!user) {
+        logoutBtn.classList.add("hidden");
+        adminLinkBtn.classList.add("hidden");
+        if (unsubscribePosts) unsubscribePosts();
+        showView("auth");
+        return;
+      }
+
+      logoutBtn.classList.remove("hidden");
+      try {
+        const snap = await getDoc(doc(db, "users_private", user.uid));
+        if (!snap.exists()) {
+          showToast("لم يتم العثور على ملف المستخدم، تواصل مع الإدارة", "error");
+          showView("pending");
+          return;
+        }
+        currentProfile = snap.data();
+
+        if (currentProfile.role === "admin") {
+          adminLinkBtn.classList.remove("hidden");
+        } else {
+          adminLinkBtn.classList.add("hidden");
+        }
+
+        if (currentProfile.status === "approved" || currentProfile.role === "admin") {
+          document.getElementById("userGreetingName").textContent = currentProfile.nickname || currentProfile.fullName;
+          document.getElementById("userRoleBadge").textContent = currentProfile.role === "admin" ? "إدارة اللجنة ⭐" : (currentProfile.year || "طالب");
+          showView("community");
+          listenToPosts();
+        } else if (currentProfile.status === "rejected") {
+          document.getElementById("rejectReasonText").textContent = currentProfile.rejectReason || "يرجى التأكد من الاسم الرباعي والبيانات.";
+          document.getElementById("resubFullName").value = currentProfile.fullName || "";
+          document.getElementById("resubNickname").value = currentProfile.nickname || "";
+          document.getElementById("resubYear").value = currentProfile.year || "السنة الأولى";
+          showView("rejected");
+        } else {
+          document.getElementById("pendingInfo").innerHTML = `
+            <div><strong>الاسم:</strong> ${escapeHtml(currentProfile.fullName)}</div>
+            <div><strong>الاسم الظاهر:</strong> ${escapeHtml(currentProfile.nickname)}</div>
+            <div><strong>السنة:</strong> ${escapeHtml(currentProfile.year || "-")}</div>
+          `;
+          showView("pending");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("خطأ في تحميل بيانات الحساب", "error");
+      }
+    });
+
+    // إنشاء منشور جديد
+    document.getElementById("postForm").onsubmit = async (e) => {
+      e.preventDefault();
+      if (!currentUser || !currentProfile) return;
+      const text = document.getElementById("postText").value.trim();
+      const category = document.getElementById("postCategory").value;
+      const isAnonymous = document.getElementById("postAnonymous").checked;
+      if (!text) return;
+
+      const btn = document.getElementById("postSubmitBtn");
+      btn.disabled = true; btn.textContent = "جاري النشر...";
+
+      const isAdmin = currentProfile.role === "admin";
+      const displayName = isAnonymous ? "طالب بيطري (مجهول)" : (currentProfile.nickname || currentProfile.fullName);
+
+      try {
+        await addDoc(collection(db, "posts"), {
+          authorUid: currentUser.uid,
+          displayName,
+          isAnonymous,
+          isAdminPost: isAdmin && !isAnonymous,
+          category,
+          text,
+          status: isAdmin ? "approved" : "pending",
+          likedBy: [],
+          createdAt: serverTimestamp()
+        });
+
+        document.getElementById("postText").value = "";
+        document.getElementById("postAnonymous").checked = false;
+
+        if (isAdmin) {
+          showToast("تم نشر مشاركتك مباشرة ✅", "success");
+        } else {
+          await notifyGAS({ action: "new_post", category, displayName, text });
+          showToast("تم إرسال منشورك وسيظهر فور موافقة الإدارة ⏳", "success");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("تعذر إرسال المنشور", "error");
+      } finally {
+        btn.disabled = false; btn.textContent = "نشر المشاركة";
+      }
+    };
+
+    // الاستماع للمنشورات المقبولة
+    function listenToPosts() {
+      if (unsubscribePosts) unsubscribePosts();
+      const q = query(collection(db, "posts"), where("status", "==", "approved"));
+      unsubscribePosts = onSnapshot(q, (snap) => {
+        allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        allPosts.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        renderPosts();
+      }, (err) => {
+        console.error(err);
+        document.getElementById("postsFeed").innerHTML = `<div class="text-center py-8 text-red-500 text-sm">حدث خطأ في تحميل المنشورات.</div>`;
+      });
+    }
+
+    // الفلاتر
+    document.querySelectorAll(".cat-btn").forEach(btn => {
+      btn.onclick = () => {
+        activeCategory = btn.dataset.cat;
+        document.querySelectorAll(".cat-btn").forEach(b => {
+          b.className = b === btn
+            ? "cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white transition"
+            : "cat-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition";
+        });
+        renderPosts();
+      };
+    });
+
+    // عرض المنشورات
+    function renderPosts() {
+      const feed = document.getElementById("postsFeed");
+      const filtered = activeCategory === "الكل" ? allPosts : allPosts.filter(p => p.category === activeCategory);
+
+      if (!filtered.length) {
+        feed.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-10 text-center text-slate-400 text-sm">لا توجد منشورات في هذا التصنيف حالياً. كن أول من يشارك!</div>`;
+        return;
+      }
+
+      feed.innerHTML = filtered.map(post => {
+        const likedBy = Array.isArray(post.likedBy) ? post.likedBy : [];
+        const isLiked = currentUser && likedBy.includes(currentUser.uid);
+        return `
+          <article class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 fade-in">
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full ${post.isAdminPost ? 'bg-amber-100 text-amber-700' : 'bg-teal-50 text-teal-700'} flex items-center justify-center font-extrabold text-sm">
+                  ${post.isAnonymous ? "؟" : escapeHtml((post.displayName || "ط")[0])}
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-bold text-sm text-slate-900">${escapeHtml(post.displayName)}</span>
+                    ${post.isAdminPost ? '<span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">إدارة</span>' : ''}
+                  </div>
+                  <div class="text-[11px] text-slate-400">${formatDate(post.createdAt)}</div>
+                </div>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600">${escapeHtml(post.category || "عام")}</span>
+            </div>
+
+            <div class="text-sm text-slate-800 leading-relaxed mb-4 break-words">${escapeHtml(post.text)}</div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-xs font-bold text-slate-500">
+              <div class="flex items-center gap-4">
+                <button onclick="window.toggleLike('${post.id}', ${isLiked})" class="flex items-center gap-1.5 hover:text-teal-600 transition ${isLiked ? 'text-teal-600' : ''}">
+                  <span>${isLiked ? '❤️' : '🤍'}</span>
+                  <span>${likedBy.length}</span>
+                </button>
+                <button onclick="window.toggleComments('${post.id}')" class="flex items-center gap-1.5 hover:text-slate-900 transition">
+                  <span>💬</span>
+                  <span>التعليقات</span>
+                </button>
+              </div>
+              <button onclick="window.openReport('post', '${post.id}')" class="text-slate-400 hover:text-red-600 transition">🚨 إبلاغ</button>
+            </div>
+
+            <!-- قسم التعليقات -->
+            <div id="comments-box-${post.id}" class="hidden mt-4 pt-3 border-t border-slate-100 space-y-3">
+              <div id="comments-list-${post.id}" class="space-y-2 text-xs text-slate-500">جاري تحميل التعليقات...</div>
+              <form onsubmit="window.addComment(event, '${post.id}')" class="flex gap-2">
+                <input type="text" id="comment-input-${post.id}" required placeholder="اكتب تعليقاً..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
+                <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3.5 py-2 rounded-xl">إرسال</button>
+              </form>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // الإعجاب
+    window.toggleLike = async (postId, isLiked) => {
+      if (!currentUser) return;
+      try {
+        await updateDoc(doc(db, "posts", postId), {
+          likedBy: isLiked ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
+        });
+      } catch (err) {
+        showToast("تعذر تحديث الإعجاب", "error");
+      }
+    };
+
+    // فتح وتحميل التعليقات
+    window.toggleComments = async (postId) => {
+      const box = document.getElementById(`comments-box-${postId}`);
+      box.classList.toggle("hidden");
+      if (!box.classList.contains("hidden")) {
+        await loadComments(postId);
+      }
+    };
+
+    async function loadComments(postId) {
+      const list = document.getElementById(`comments-list-${postId}`);
+      try {
+        const snap = await getDocs(collection(db, "posts", postId, "comments"));
+        const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        comments.sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+
+        if (!comments.length) {
+          list.innerHTML = `<div class="text-slate-400 text-xs py-1">لا توجد تعليقات بعد.</div>`;
+          return;
+        }
+
+        list.innerHTML = comments.map(c => `
+          <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-100">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-slate-800 text-xs">${escapeHtml(c.displayName)}</span>
+              <span class="text-[10px] text-slate-400">${formatDate(c.createdAt)}</span>
+            </div>
+            <div class="text-xs text-slate-700 leading-relaxed">${escapeHtml(c.text)}</div>
+          </div>
+        `).join("");
+      } catch (err) {
+        list.innerHTML = `<div class="text-red-500 text-xs">تعذر تحميل التعليقات.</div>`;
+      }
+    }
+
+    window.addComment = async (e, postId) => {
+      e.preventDefault();
+      const input = document.getElementById(`comment-input-${postId}`);
+      const text = input.value.trim();
+      if (!text || !currentUser || !currentProfile) return;
+      input.disabled = true;
+      try {
+        await addDoc(collection(db, "posts", postId, "comments"), {
+          authorUid: currentUser.uid,
+          displayName: currentProfile.nickname || currentProfile.fullName,
+          text,
+          createdAt: serverTimestamp()
+        });
+        input.value = "";
+        await loadComments(postId);
+      } catch (err) {
+        showToast("تعذر إرسال التعليق", "error");
+      } finally {
+        input.disabled = false;
+      }
+    };
+
+    // الإبلاغ
+    const reportModal = document.getElementById("reportModal");
+    window.openReport = (targetType, targetId) => {
+      reportTarget = { targetType, targetId };
+      document.getElementById("reportReasonInput").value = "";
+      reportModal.classList.remove("hidden");
+      reportModal.classList.add("flex");
+    };
+    document.getElementById("cancelReportBtn").onclick = () => {
+      reportModal.classList.add("hidden");
+      reportModal.classList.remove("flex");
+    };
+    document.getElementById("confirmReportBtn").onclick = async () => {
+      const reason = document.getElementById("reportReasonInput").value.trim();
+      if (!reason || !reportTarget || !currentUser) return showToast("اكتب سبب الإبلاغ أولاً", "error");
+      try {
+        await addDoc(collection(db, "reports"), {
+          targetType: reportTarget.targetType,
+          targetId: reportTarget.targetId,
+          reason,
+          reporterUid: currentUser.uid,
+          status: "open",
+          createdAt: serverTimestamp()
+        });
+        await notifyGAS({ action: "new_report", reason, targetType: reportTarget.targetType });
+        reportModal.classList.add("hidden");
+        reportModal.classList.remove("flex");
+        showToast("تم إرسال البلاغ للإدارة بنجاح", "success");
+      } catch (err) {
+        showToast("تعذر إرسال البلاغ", "error");
+      }
+    };
+  </script>
+</body>
+</html>
