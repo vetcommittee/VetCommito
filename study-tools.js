@@ -228,7 +228,8 @@ function pause() {
 }
 function finish() {
   clearInterval(T.tick); T.running = false;
-  if (T.mode === "focus") addMinutes(T.focus);
+if (T.mode === "focus") { addMinutes(T.focus); window.feedPet?.(); }
+
   beep(); window.UI?.toast?.(T.mode === "focus" ? "خلّصت جلسة التركيز 🎉 خذ استراحة" : "انتهت الاستراحة، يلا نكمل");
   T.mode = T.mode === "focus" ? "break" : "focus";
   T.left = (T.mode === "focus" ? T.focus : T.brk) * 60;
