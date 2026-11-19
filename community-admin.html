@@ -1,562 +1,255 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة إدارة المجتمع | VetCommitto</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; color: #0f172a; }
-    .fade-in { animation: fadeIn 0.25s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d1b33" />
+<meta name="robots" content="noindex" />
+<title>لوحة إدارة المجتمع | VetCommitto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@600;800&display=swap" rel="stylesheet" />
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--mute:#8893a4;--nav:#fbfbfd;--nb:#e8eaf1;--red:#e5484d;--ok:#1f9d6b}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--card:#1e293b;--cb:#334155;--btn:#334155;--mute:#949daf;--nav:#0f172a;--nb:#1e293b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",sans-serif;transition:background .3s,color .3s;padding-top:env(safe-area-inset-top,0)}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}[hidden]{display:none!important}
+.wrap{width:min(900px,calc(100% - 32px));margin-inline:auto}
+.top{height:68px;background:var(--nav);border-bottom:1px solid var(--nb);position:sticky;top:0;z-index:40;display:flex;align-items:center}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
+.bn{font-size:14px;font-weight:700;color:var(--navy);line-height:1.4}.bn small{display:block;font-size:10px;font-weight:500;color:var(--slate)}
+.acts{display:flex;gap:6px;align-items:center}
+.ib,.btn{border:1px solid var(--line);background:var(--card);color:var(--navy);border-radius:10px;font-size:12px;font-weight:600;transition:.2s}
+.ib{height:38px;padding:0 12px;display:inline-flex;align-items:center;gap:6px}.ib:hover{background:var(--btn)}
+main{padding:22px 0 60px}
+.card{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:16px;box-shadow:0 4px 15px rgba(0,0,0,.03)}
+.field{width:100%;border:1px solid var(--cb);background:var(--paper);padding:11px 13px;border-radius:10px;outline:0;font-size:13px;transition:.2s}
+.field:focus{border-color:var(--purple);background:var(--card)}
+label.l{display:block;font-size:12px;font-weight:600;color:var(--navy);margin:0 0 6px}
+.btn{padding:10px 16px;background:var(--purple);border-color:var(--purple);color:#fff}.btn:hover{opacity:.9}.btn:disabled{opacity:.5}
+[data-theme=dark] .btn{color:#0b1120}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{background:var(--red);border-color:var(--red);color:#fff}
+.btn.ghost{background:var(--card);color:var(--navy);border-color:var(--line)}
+.btn.soft-bad{background:rgba(229,72,77,.08);border-color:rgba(229,72,77,.3);color:var(--red)}
+.auth{max-width:400px;margin:40px auto;display:grid;gap:13px}.auth h2{margin:0;font-size:18px;color:var(--navy)}.auth p{margin:0;font-size:12px;color:var(--slate)}
+.state{max-width:420px;margin:50px auto;text-align:center}.state h2{margin:8px 0;color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.tab{background:var(--card);border:1px solid var(--cb);border-radius:14px;padding:12px;text-align:right;transition:.2s;color:var(--slate)}
+.tab:hover{border-color:var(--violet)}.tab.on{background:var(--purple);border-color:var(--purple);color:#fff}[data-theme=dark] .tab.on{color:#0b1120}
+.tab small{display:block;font-size:11px;opacity:.8}.tab b{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:13px}
+.n{font:800 12px Manrope,sans-serif;min-width:24px;text-align:center;padding:2px 8px;border-radius:99px;background:var(--btn);color:var(--purple)}
+.n.hot{background:var(--gold);color:#0d1b33}.n.red{background:rgba(229,72,77,.15);color:var(--red)}
+.list{display:grid;gap:12px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.t1{font-size:14px;font-weight:700;color:var(--navy)}.t2{font-size:12px;color:var(--slate);line-height:1.9}.t3{font-size:11px;color:var(--mute)}
+.bd{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px;line-height:1.9;white-space:pre-wrap;word-break:break-word;margin:10px 0}
+.pill{font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;background:var(--btn);color:var(--slate)}
+.pill.gold{background:rgba(209,170,92,.2);color:#a07d2c}.pill.ok{background:rgba(31,157,107,.12);color:var(--ok)}
+.real{font-size:12px;color:var(--slate);background:rgba(209,170,92,.1);border:1px dashed var(--gold);border-radius:10px;padding:6px 10px;display:inline-block}
+.real b{color:var(--navy)}
+.bar{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.tools{display:flex;gap:8px;margin-bottom:12px}.tools .field{flex:1}.tools select{width:auto}
+.empty{text-align:center;color:var(--slate);font-size:13px;padding:36px 16px}
+.spin{width:34px;height:34px;border:4px solid var(--line);border-top-color:var(--purple);border-radius:50%;animation:rot .8s linear infinite;margin:70px auto 10px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.modal{position:fixed;inset:0;background:rgba(5,10,20,.55);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal .card{width:min(400px,100%);display:grid;gap:10px}.modal h3{margin:0;font-size:16px;color:var(--navy)}.modal p{margin:0;font-size:12px;color:var(--slate)}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0));left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--navy);color:var(--paper);padding:11px 20px;border-radius:12px;font-size:13px;z-index:200;transition:.3s;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:var(--red);color:#fff}.toast.success{background:var(--ok);color:#fff}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.ib span{display:none}.bn small{display:none}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col">
-
-  <!-- الشريط العلوي -->
-  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
-    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center font-extrabold text-slate-950 text-lg shadow">A</div>
-        <div>
-          <h1 class="font-extrabold text-base leading-tight">لوحة إدارة VetCommitto</h1>
-          <p class="text-[11px] text-slate-300">مراجعة الطلبات، المنشورات، والبلاغات</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <a href="community.html" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
-          صفحة المجتمع
-        </a>
-        <button id="logoutBtn" class="hidden bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition">
-          خروج
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- إشعار Toast -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg"></div>
-
-  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6">
-
-    <!-- شاشة التحميل -->
-    <section id="loadingView" class="py-20 text-center">
-      <div class="w-10 h-10 border-4 border-slate-200 border-t-amber-500 rounded-full animate-spin mx-auto mb-3"></div>
-      <p class="text-slate-500 text-sm font-semibold">جاري التحقق من صلاحيات الإدارة...</p>
-    </section>
-
-    <!-- شاشة تسجيل دخول الأدمن -->
-    <section id="loginView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 fade-in">
-      <h2 class="text-lg font-extrabold text-slate-900 mb-1">تسجيل دخول الإدارة</h2>
-      <p class="text-xs text-slate-500 mb-5">هذا القسم مخصص لأعضاء لجنة VetCommitto المصرّح لهم فقط.</p>
-      <form id="adminLoginForm" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">إيميل الأدمن</label>
-          <input type="email" id="adminEmail" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">كلمة المرور</label>
-          <input type="password" id="adminPassword" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-        </div>
-        <button type="submit" id="adminLoginBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm transition">
-          دخول للوحة الإدارة
-        </button>
-      </form>
-    </section>
-
-    <!-- شاشة عدم وجود صلاحية -->
-    <section id="deniedView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-red-200 p-6 text-center fade-in">
-      <div class="text-3xl mb-2">⛔</div>
-      <h2 class="text-lg font-extrabold text-slate-900 mb-2">غير مصرّح بالدخول</h2>
-      <p class="text-sm text-slate-600 mb-4">حسابك الحالي لا يملك صلاحيات الإدارة.</p>
-      <a href="community.html" class="inline-block bg-slate-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl">العودة للمجتمع</a>
-    </section>
-
-    <!-- لوحة الإدارة الرئيسية -->
-    <section id="dashboardView" class="hidden space-y-5 fade-in">
-
-      <!-- شريط التبويبات -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <button data-tab="users" class="tab-btn bg-slate-900 text-white p-3 rounded-xl text-right shadow-sm transition">
-          <div class="text-xs opacity-80">طلبات الحسابات</div>
-          <div class="flex items-center justify-between mt-1">
-            <span class="font-extrabold text-sm">👤 المعلقة</span>
-            <span id="badgeUsers" class="bg-amber-500 text-slate-950 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
-          </div>
-        </button>
-
-        <button data-tab="posts" class="tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition">
-          <div class="text-xs text-slate-500">مراجعة المحتوى</div>
-          <div class="flex items-center justify-between mt-1">
-            <span class="font-extrabold text-sm">📝 المنشورات</span>
-            <span id="badgePosts" class="bg-slate-200 text-slate-800 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
-          </div>
-        </button>
-
-        <button data-tab="reports" class="tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition">
-          <div class="text-xs text-slate-500">المخالفات</div>
-          <div class="flex items-center justify-between mt-1">
-            <span class="font-extrabold text-sm">🚨 البلاغات</span>
-            <span id="badgeReports" class="bg-red-100 text-red-700 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
-          </div>
-        </button>
-
-        <button data-tab="members" class="tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition">
-          <div class="text-xs text-slate-500">المقبولون</div>
-          <div class="flex items-center justify-between mt-1">
-            <span class="font-extrabold text-sm">✅ الأعضاء</span>
-            <span id="badgeMembers" class="bg-emerald-100 text-emerald-700 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
-          </div>
-        </button>
-      </div>
-
-      <!-- محتوى التبويبات -->
-      <div id="panel-users" class="tab-panel space-y-3"></div>
-      <div id="panel-posts" class="tab-panel hidden space-y-3"></div>
-      <div id="panel-reports" class="tab-panel hidden space-y-3"></div>
-      <div id="panel-members" class="tab-panel hidden space-y-3"></div>
-    </section>
-  </main>
-
-  <!-- نافذة سبب الرفض -->
-  <div id="rejectModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl fade-in">
-      <h3 class="font-extrabold text-base text-slate-900 mb-1">رفض طلب الحساب</h3>
-      <p class="text-xs text-slate-500 mb-3">سيصل هذا السبب للطالب عبر الإيميل ليتمكن من تعديل بياناته وإعادة الإرسال.</p>
-      <textarea id="rejectReasonInput" rows="3" placeholder="مثلاً: يرجى كتابة الاسم الرباعي الكامل كما في البطاقة الجامعية..." class="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
-      <div class="flex justify-end gap-2">
-        <button id="cancelRejectBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200">إلغاء</button>
-        <button id="confirmRejectBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700">تأكيد الرفض وإرسال الإيميل</button>
-      </div>
-    </div>
+<body>
+<header class="top"><div class="wrap">
+  <a href="index.html" class="brand"><img src="logo.jpeg" class="logo" alt="" onerror="this.style.display='none'" />
+    <span class="bn">إدارة المجتمع<small>مراجعة الطلبات والمنشورات والبلاغات</small></span></a>
+  <div class="acts">
+    <a href="community.html" class="ib">💬 <span>المجتمع</span></a>
+    <button id="themeBtn" class="ib" aria-label="تبديل المظهر">🌙</button>
+    <button id="logoutBtn" class="ib" hidden>خروج</button>
   </div>
+</div></header>
+<div id="toast" class="toast"></div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import {
-      getFirestore, doc, getDoc, updateDoc, deleteDoc,
-      collection, query, where, onSnapshot, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<main class="wrap">
+  <section id="v-loading"><div class="spin"></div><p class="empty">جاري التحقق من الصلاحيات...</p></section>
 
-    // ===== الإعدادات المدمجة =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",
-      authDomain: "vetcommitto-community.firebaseapp.com",
-      projectId: "vetcommitto-community",
-      storageBucket: "vetcommitto-community.firebasestorage.app",
-      messagingSenderId: "52242274295",
-      appId: "1:52242274295:web:f337295d00daea7d9b40f2",
-      measurementId: "G-90GYJ1SEVF"
-    };
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwVpNd5eml3rxkTKekmt-hs1bjp4q6KTeJOMUjOwn4x9XlD3Oi5qbFghUxp9Axs71S9/exec";
-    const ADMIN_SECRET = "VC2026_SecureKey_99";
-    // =============================
+  <section id="v-login" class="card auth" hidden>
+    <h2>تسجيل دخول الإدارة</h2><p>مخصص لأعضاء اللجنة المصرّح لهم فقط.</p>
+    <form id="loginForm" style="display:grid;gap:13px">
+      <div><label class="l">الإيميل</label><input class="field" type="email" id="aEmail" required dir="ltr" /></div>
+      <div><label class="l">كلمة المرور</label><input class="field" type="password" id="aPass" required dir="ltr" /></div>
+      <button class="btn" id="aBtn">دخول</button>
+    </form>
+  </section>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  <section id="v-denied" class="card state" hidden>
+    <div style="font-size:34px">⛔</div><h2>غير مصرّح بالدخول</h2>
+    <p class="t2">حسابك الحالي ما عنده صلاحيات الإدارة.</p>
+    <a href="community.html" class="btn" style="display:inline-block">العودة للمجتمع</a>
+  </section>
 
-    let unsubscribers = [];
-    let rejectTargetUser = null;
-    const usersCache = {};
+  <section id="v-dash" hidden>
+    <div class="stats" id="tabs"></div>
+    <div id="panel"></div>
+  </section>
+</main>
 
-    const views = {
-      loading: document.getElementById("loadingView"),
-      login: document.getElementById("loginView"),
-      denied: document.getElementById("deniedView"),
-      dashboard: document.getElementById("dashboardView")
-    };
+<div id="rejModal" class="modal" hidden><div class="card">
+  <h3>رفض طلب الحساب</h3><p>بيوصل السبب للطالب على الإيميل ليعدّل بياناته ويعيد الإرسال.</p>
+  <div id="rjQuick" class="bar" style="justify-content:flex-start"></div>
+  <textarea class="field" id="rjText" rows="3" maxlength="300" placeholder="سبب الرفض..."></textarea>
+  <div class="bar"><button class="btn ghost" id="rjCancel">إلغاء</button><button class="btn bad" id="rjOk">تأكيد الرفض</button></div>
+</div></div>
 
-    function showView(name) {
-      Object.entries(views).forEach(([k, el]) => el.classList.toggle("hidden", k !== name));
-    }
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,getDoc,updateDoc,deleteDoc,collection,query,where,onSnapshot,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    function showToast(msg, type = "info") {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.className = "fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg " +
-        (type === "error" ? "bg-red-600 text-white" : type === "success" ? "bg-emerald-600 text-white" : "bg-slate-900 text-white");
-      t.classList.remove("hidden");
-      setTimeout(() => t.classList.add("hidden"), 3500);
-    }
+const firebaseConfig={apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community",storageBucket:"vetcommitto-community.firebasestorage.app",messagingSenderId:"52242274295",appId:"1:52242274295:web:f337295d00daea7d9b40f2",measurementId:"G-90GYJ1SEVF"};
+const GAS_URL="https://script.google.com/macros/s/AKfycbwVpNd5eml3rxkTKekmt-hs1bjp4q6KTeJOMUjOwn4x9XlD3Oi5qbFghUxp9Axs71S9/exec";
+const QUICK=["اكتب الاسم الرباعي كما في البطاقة الجامعية","استخدم الإيميل الجامعي الرسمي","الاسم الظاهر غير مناسب، عدّله"];
 
-    function escapeHtml(str) {
-      return String(str || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/\n/g, "<br>");
-    }
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const D={users:[],posts:[],pub:[],reports:[],members:[]};
+let unsubs=[],tab="users",rejUid=null,tok=0,mTerm="",mYear="",names={};
 
-    function formatDate(ts) {
-      if (!ts) return "الآن";
-      const d = ts.toDate ? ts.toDate() : new Date(ts);
-      return d.toLocaleDateString("ar-JO", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-    }
+function theme(){const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";$("themeBtn").textContent=d?"☀️":"🌙";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"}
+$("themeBtn").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");theme()};theme();
 
-    async function sendDecisionEmail(toEmail, fullName, decision, reason = "") {
-      try {
-        await fetch(GAS_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            action: "decision_email",
-            secret: ADMIN_SECRET,
-            toEmail, fullName, decision, reason
-          })
-        });
-      } catch (e) {
-        console.error("Email error:", e);
-      }
-    }
+const VIEWS=["loading","login","denied","dash"];const show=n=>VIEWS.forEach(v=>$("v-"+v).hidden=v!==n);
+let tt;function toast(m,t="info"){const e=$("toast");e.textContent=m;e.className="toast show "+t;clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("show"),3500)}
+const fd=ts=>{if(!ts)return"الآن";const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString("ar-JO",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})};
+const ts=x=>x.createdAt?.seconds||0;
 
-    async function getAuthorRealName(uid) {
-      if (!uid) return "غير معروف";
-      if (usersCache[uid]) return usersCache[uid];
-      try {
-        const snap = await getDoc(doc(db, "users_private", uid));
-        if (snap.exists()) {
-          const d = snap.data();
-          const label = `${d.fullName || ""} (${d.email || ""})`;
-          usersCache[uid] = label;
-          return label;
-        }
-      } catch (_) {}
-      return uid;
-    }
+async function decisionEmail(targetUid,decision,reason=""){
+  try{if(!auth.currentUser)return;const idToken=await auth.currentUser.getIdToken();
+    await fetch(GAS_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"decision_email",idToken,targetUid,decision,reason})})}catch(e){console.error(e)}}
 
-    // تسجيل دخول الأدمن
-    document.getElementById("adminLoginForm").onsubmit = async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById("adminLoginBtn");
-      btn.disabled = true; btn.textContent = "جاري الدخول...";
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          document.getElementById("adminEmail").value.trim(),
-          document.getElementById("adminPassword").value
-        );
-      } catch (err) {
-        showToast("بيانات الدخول غير صحيحة", "error");
-      } finally {
-        btn.disabled = false; btn.textContent = "دخول للوحة الإدارة";
-      }
-    };
+async function userLabel(uid){
+  if(!uid)return"غير معروف";if(names[uid])return names[uid];
+  try{const s=await getDoc(doc(db,"users_private",uid));if(s.exists()){const d=s.data();return names[uid]=`${d.fullName||""} (${d.email||""})`}}catch{}
+  return uid}
+async function postAuthor(id){
+  try{const s=await getDoc(doc(db,"posts_private",id));if(s.exists()&&s.data().authorUid)return await userLabel(s.data().authorUid)}catch{}
+  return"غير متوفر"}
 
-    document.getElementById("logoutBtn").onclick = async () => {
-      clearListeners();
-      await signOut(auth);
-    };
+// ===== الدخول =====
+$("loginForm").onsubmit=async e=>{e.preventDefault();$("aBtn").disabled=true;
+  try{await signInWithEmailAndPassword(auth,$("aEmail").value.trim(),$("aPass").value)}catch{toast("بيانات الدخول غير صحيحة","error")}
+  $("aBtn").disabled=false};
+$("logoutBtn").onclick=async()=>{clear();await signOut(auth)};
+const clear=()=>{unsubs.forEach(f=>f&&f());unsubs=[]};
 
-    function clearListeners() {
-      unsubscribers.forEach(fn => fn && fn());
-      unsubscribers = [];
-    }
+onAuthStateChanged(auth,async u=>{
+  clear();$("logoutBtn").hidden=!u;if(!u)return show("login");
+  try{const s=await getDoc(doc(db,"users_private",u.uid));
+    if(!s.exists()||s.data().role!=="admin")return show("denied");
+    show("dash");listen();drawTabs();render()}
+  catch(e){console.error(e);toast("تعذر التحقق من الصلاحيات","error");show("denied")}});
 
-    // تبديل التبويبات
-    document.querySelectorAll(".tab-btn").forEach(btn => {
-      btn.onclick = () => {
-        const target = btn.dataset.tab;
-        document.querySelectorAll(".tab-btn").forEach(b => {
-          b.className = b === btn
-            ? "tab-btn bg-slate-900 text-white p-3 rounded-xl text-right shadow-sm transition"
-            : "tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition";
-        });
-        document.querySelectorAll(".tab-panel").forEach(p => {
-          p.classList.toggle("hidden", p.id !== `panel-${target}`);
-        });
-      };
-    });
+function sub(q,key,after){unsubs.push(onSnapshot(q,s=>{D[key]=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>ts(b)-ts(a));drawTabs();render()},e=>console.error(key,e)))}
+function listen(){
+  sub(query(collection(db,"users_private"),where("status","==","pending")),"users");
+  sub(query(collection(db,"posts"),where("status","==","pending")),"posts");
+  sub(query(collection(db,"posts"),where("status","==","approved")),"pub");
+  sub(query(collection(db,"reports"),where("status","==","open")),"reports");
+  sub(query(collection(db,"users_private"),where("status","==","approved")),"members");
+}
 
-    // التحقق من حالة الدخول والصلاحية
-    onAuthStateChanged(auth, async (user) => {
-      clearListeners();
-      const logoutBtn = document.getElementById("logoutBtn");
-      if (!user) {
-        logoutBtn.classList.add("hidden");
-        showView("login");
-        return;
-      }
+// ===== التبويبات =====
+const TABS=[["users","طلبات الحسابات","👤 المعلقة","hot"],["posts","بانتظار الموافقة","📝 المنشورات","hot"],["pub","المنشورة","📰 المجتمع",""],["reports","المخالفات","🚨 البلاغات","red"],["members","المقبولون","✅ الأعضاء",""]];
+function drawTabs(){$("tabs").innerHTML=TABS.map(([k,s,t,c])=>`<button class="tab ${k===tab?"on":""}" data-tab="${k}"><small>${s}</small><b>${t}<span class="n ${D[k].length&&c&&k!==tab?c:""}">${D[k].length}</span></b></button>`).join("")}
+$("tabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(!b)return;tab=b.dataset.tab;drawTabs();render()};
 
-      logoutBtn.classList.remove("hidden");
-      try {
-        const snap = await getDoc(doc(db, "users_private", user.uid));
-        if (!snap.exists() || snap.data().role !== "admin") {
-          showView("denied");
-          return;
-        }
-        showView("dashboard");
-        startAdminListeners();
-      } catch (err) {
-        console.error(err);
-        showToast("تعذر التحقق من الصلاحيات", "error");
-        showView("denied");
-      }
-    });
+// ===== العرض =====
+const none=m=>`<div class="card empty">${m}</div>`;
+async function render(){
+  const my=++tok,p=$("panel");
+  if(tab==="users"){
+    p.innerHTML=D.users.length?`<div class="list">${D.users.map(u=>`<div class="card row" data-id="${u.id}">
+      <div><div class="t1">${esc(u.fullName)}</div>
+        <div class="t2">${esc(u.email)} · ${esc(u.year||"-")}</div>
+        <div class="t3">الاسم الظاهر: ${esc(u.nickname)} · ${fd(u.createdAt)}${u.updatedAt?" · <b>أعاد الإرسال</b>":""}</div></div>
+      <div class="bar"><button class="btn ok" data-a="approveU">✅ قبول</button><button class="btn soft-bad" data-a="rejectU">❌ رفض</button></div></div>`).join("")}</div>`:none("لا توجد طلبات معلقة 🎉");
+  }
+  else if(tab==="posts"){
+    if(!D.posts.length)return p.innerHTML=none("لا توجد منشورات بانتظار الموافقة 🎉");
+    const h=await Promise.all(D.posts.map(async x=>`<div class="card" data-id="${x.id}">
+      <div class="row"><div><div class="t1">${esc(x.displayName)} ${x.isAnonymous?'<span class="pill gold">مجهول</span>':""}</div>
+        <div class="real">الكاتب الحقيقي: <b>${esc(await postAuthor(x.id))}</b></div></div>
+        <span class="pill">${esc(x.category)} · ${fd(x.createdAt)}</span></div>
+      <div class="bd">${esc(x.text)}</div>
+      <div class="bar"><button class="btn ok" data-a="approveP">✅ موافقة ونشر</button><button class="btn soft-bad" data-a="delP">🗑️ حذف</button></div></div>`));
+    if(my===tok)p.innerHTML=`<div class="list">${h.join("")}</div>`;
+  }
+  else if(tab==="pub"){
+    p.innerHTML=D.pub.length?`<div class="list">${D.pub.map(x=>`<div class="card" data-id="${x.id}">
+      <div class="row"><div class="t1">${esc(x.displayName)} ${x.isAdminPost?'<span class="pill gold">إدارة</span>':""}${x.isAnonymous?' <span class="pill gold">مجهول</span>':""}</div>
+        <span class="pill">${esc(x.category)} · ${fd(x.createdAt)} · ❤️ ${(x.likedBy||[]).length}</span></div>
+      <div class="bd">${esc(x.text)}</div>
+      <div class="row"><span class="real" hidden></span>
+        <div class="bar"><button class="btn ghost" data-a="who">👁 كشف الكاتب</button><button class="btn soft-bad" data-a="delP">🗑️ حذف</button></div></div></div>`).join("")}</div>`:none("لا توجد منشورات منشورة.");
+  }
+  else if(tab==="reports"){
+    if(!D.reports.length)return p.innerHTML=none("لا توجد بلاغات مفتوحة 👍");
+    const h=await Promise.all(D.reports.map(async r=>{
+      let txt="تعذر العثور على المنشور (قد يكون محذوفاً).",au="",live=false;
+      if(r.targetType==="post"&&r.targetId){try{const s=await getDoc(doc(db,"posts",r.targetId));if(s.exists()){live=true;txt=s.data().text;au=await postAuthor(r.targetId)}}catch{}}
+      return `<div class="card" data-id="${r.id}" data-t="${esc(r.targetId)}" style="border-color:rgba(229,72,77,.4)">
+        <div class="row"><b style="color:var(--red);font-size:13px">🚨 ${esc(r.reason)}</b><span class="t3">${fd(r.createdAt)}</span></div>
+        <div class="t3" style="margin-top:4px">المُبلّغ: ${esc(await userLabel(r.reporterUid))}</div>
+        <div class="bd">${esc(txt)}</div>
+        ${au?`<div class="real">الكاتب: <b>${esc(au)}</b></div>`:""}
+        <div class="bar" style="margin-top:10px"><button class="btn ghost" data-a="ignR">تجاهل وإغلاق</button>${live?'<button class="btn bad" data-a="delR">🗑️ حذف المنشور وإغلاق البلاغ</button>':""}</div></div>`}));
+    if(my===tok)p.innerHTML=`<div class="list">${h.join("")}</div>`;
+  }
+  else if(tab==="members"){
+    const yrs=[...new Set(D.members.map(m=>m.year).filter(Boolean))];
+    const t=mTerm.toLowerCase();
+    const l=D.members.filter(m=>(!mYear||m.year===mYear)&&(!t||`${m.fullName} ${m.nickname} ${m.email}`.toLowerCase().includes(t)));
+    p.innerHTML=`<div class="tools"><input class="field" id="mSearch" type="search" placeholder="🔍 ابحث بالاسم أو الإيميل..." value="${esc(mTerm)}" />
+      <select class="field" id="mYear"><option value="">كل السنوات</option>${yrs.map(y=>`<option ${y===mYear?"selected":""}>${esc(y)}</option>`).join("")}</select></div>
+      ${l.length?`<div class="card" style="padding:0;overflow:hidden">${l.map(m=>`<div class="row" style="padding:13px 16px;border-bottom:1px solid var(--line)">
+        <div><div class="t1">${esc(m.fullName)} <span style="color:var(--purple);font-weight:500">(${esc(m.nickname)})</span></div><div class="t2">${esc(m.email)} · ${esc(m.year||"-")}</div></div>
+        <span class="pill ${m.role==="admin"?"gold":"ok"}">${m.role==="admin"?"إدارة":"عضو"}</span></div>`).join("")}</div>`:none("ما في نتائج.")}`;
+  }
+}
+// بحث الأعضاء بدون إعادة رسم حقل الإدخال
+$("panel").addEventListener("input",e=>{if(e.target.id==="mSearch"){mTerm=e.target.value.trim();const pos=e.target.selectionStart;render().then(()=>{const i=$("mSearch");if(i){i.focus();i.setSelectionRange(pos,pos)}})}});
+$("panel").addEventListener("change",e=>{if(e.target.id==="mYear"){mYear=e.target.value;render()}});
 
-    function startAdminListeners() {
-      // 1. طلبات الحسابات المعلقة
-      const qPendingUsers = query(collection(db, "users_private"), where("status", "==", "pending"));
-      unsubscribers.push(onSnapshot(qPendingUsers, (snap) => {
-        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-        document.getElementById("badgeUsers").textContent = list.length;
-        renderPendingUsers(list);
-      }));
+// ===== الإجراءات =====
+const closeRej=()=>$("rejModal").hidden=true;
+$("rjQuick").innerHTML=QUICK.map(q=>`<button type="button" class="btn ghost" style="font-size:11px;padding:6px 10px">${q}</button>`).join("");
+$("rjQuick").onclick=e=>{if(e.target.matches("button"))$("rjText").value=e.target.textContent};
+$("rjCancel").onclick=closeRej;$("rejModal").onclick=e=>{if(e.target.id==="rejModal")closeRej()};
+$("rjOk").onclick=async()=>{if(!rejUid)return;const reason=$("rjText").value.trim()||"يرجى التأكد من صحة البيانات المدخلة.";
+  try{await updateDoc(doc(db,"users_private",rejUid),{status:"rejected",rejectReason:reason,reviewedAt:serverTimestamp()});
+    await decisionEmail(rejUid,"rejected",reason);closeRej();toast("تم رفض الطلب وإرسال السبب","success")}catch{toast("حدث خطأ أثناء الرفض","error")}};
 
-      // 2. المنشورات المعلقة
-      const qPendingPosts = query(collection(db, "posts"), where("status", "==", "pending"));
-      unsubscribers.push(onSnapshot(qPendingPosts, async (snap) => {
-        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-        document.getElementById("badgePosts").textContent = list.length;
-        await renderPendingPosts(list);
-      }));
+async function delPost(id){await deleteDoc(doc(db,"posts",id));try{await deleteDoc(doc(db,"posts_private",id))}catch{}}
 
-      // 3. البلاغات المفتوحة
-      const qReports = query(collection(db, "reports"), where("status", "==", "open"));
-      unsubscribers.push(onSnapshot(qReports, async (snap) => {
-        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-        document.getElementById("badgeReports").textContent = list.length;
-        await renderReports(list);
-      }));
-
-      // 4. الأعضاء المقبولون
-      const qApprovedUsers = query(collection(db, "users_private"), where("status", "==", "approved"));
-      unsubscribers.push(onSnapshot(qApprovedUsers, (snap) => {
-        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        document.getElementById("badgeMembers").textContent = list.length;
-        renderMembers(list);
-      }));
-    }
-
-    // عرض طلبات الحسابات
-    function renderPendingUsers(list) {
-      const el = document.getElementById("panel-users");
-      if (!list.length) {
-        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا توجد طلبات حسابات معلقة حالياً 🎉</div>`;
-        return;
-      }
-      el.innerHTML = list.map(u => `
-        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="space-y-1 text-sm">
-            <div class="font-extrabold text-slate-900">${escapeHtml(u.fullName)}</div>
-            <div class="text-xs text-slate-600">
-              <span class="font-bold">الإيميل:</span> ${escapeHtml(u.email)} |
-              <span class="font-bold">السنة:</span> ${escapeHtml(u.year || "-")}
-            </div>
-            <div class="text-xs text-slate-500">
-              <span class="font-bold">الاسم المستعار:</span> ${escapeHtml(u.nickname)} • ${formatDate(u.createdAt)}
-            </div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button onclick="window.approveUser('${u.id}', '${escapeHtml(u.email)}', '${escapeHtml(u.fullName)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
-              ✅ قبول وتفعيل
-            </button>
-            <button onclick="window.openRejectModal('${u.id}', '${escapeHtml(u.email)}', '${escapeHtml(u.fullName)}')" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold px-4 py-2 rounded-xl transition">
-              ❌ رفض
-            </button>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    window.approveUser = async (uid, email, fullName) => {
-      try {
-        await updateDoc(doc(db, "users_private", uid), {
-          status: "approved",
-          rejectReason: "",
-          reviewedAt: serverTimestamp()
-        });
-        await sendDecisionEmail(email, fullName, "approved");
-        showToast("تم قبول الحساب وإرسال إيميل التفعيل ✅", "success");
-      } catch (err) {
-        showToast("حدث خطأ أثناء القبول", "error");
-      }
-    };
-
-    // نافذة الرفض
-    const rejectModal = document.getElementById("rejectModal");
-    window.openRejectModal = (uid, email, fullName) => {
-      rejectTargetUser = { uid, email, fullName };
-      document.getElementById("rejectReasonInput").value = "";
-      rejectModal.classList.remove("hidden");
-      rejectModal.classList.add("flex");
-    };
-    document.getElementById("cancelRejectBtn").onclick = () => {
-      rejectModal.classList.add("hidden");
-      rejectModal.classList.remove("flex");
-    };
-    document.getElementById("confirmRejectBtn").onclick = async () => {
-      if (!rejectTargetUser) return;
-      const reason = document.getElementById("rejectReasonInput").value.trim() || "يرجى التأكد من صحة البيانات المدخلة.";
-      try {
-        await updateDoc(doc(db, "users_private", rejectTargetUser.uid), {
-          status: "rejected",
-          rejectReason: reason,
-          reviewedAt: serverTimestamp()
-        });
-        await sendDecisionEmail(rejectTargetUser.email, rejectTargetUser.fullName, "rejected", reason);
-        rejectModal.classList.add("hidden");
-        rejectModal.classList.remove("flex");
-        showToast("تم رفض الطلب وإرسال السبب للطالب", "success");
-      } catch (err) {
-        showToast("حدث خطأ أثناء الرفض", "error");
-      }
-    };
-
-    // عرض المنشورات المعلقة
-    async function renderPendingPosts(list) {
-      const el = document.getElementById("panel-posts");
-      if (!list.length) {
-        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا توجد منشورات بانتظار الموافقة 🎉</div>`;
-        return;
-      }
-
-      const itemsHtml = await Promise.all(list.map(async (p) => {
-        const realAuthor = await getAuthorRealName(p.authorUid);
-        return `
-          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs space-y-3">
-            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
-              <div class="space-y-0.5">
-                <div class="font-bold text-slate-900">الاسم الظاهر: ${escapeHtml(p.displayName)} ${p.isAnonymous ? '<span class="text-amber-600">(مجهول)</span>' : ''}</div>
-                <div class="text-slate-500">الكاتب الحقيقي (للإدارة فقط): <span class="font-semibold text-slate-700">${escapeHtml(realAuthor)}</span></div>
-              </div>
-              <span class="bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded-lg">${escapeHtml(p.category)} • ${formatDate(p.createdAt)}</span>
-            </div>
-
-            <div class="bg-slate-50 p-3 rounded-xl text-sm text-slate-800 leading-relaxed border border-slate-100">${escapeHtml(p.text)}</div>
-
-            <div class="flex items-center justify-end gap-2">
-              <button onclick="window.approvePost('${p.id}')" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
-                ✅ موافقة ونشر
-              </button>
-              <button onclick="window.deletePost('${p.id}')" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold px-4 py-2 rounded-xl transition">
-                🗑️ حذف
-              </button>
-            </div>
-          </div>
-        `;
-      }));
-
-      el.innerHTML = itemsHtml.join("");
-    }
-
-    window.approvePost = async (postId) => {
-      try {
-        await updateDoc(doc(db, "posts", postId), { status: "approved" });
-        showToast("تم نشر المنشور في المجتمع ✅", "success");
-      } catch (err) {
-        showToast("تعذر الموافقة على المنشور", "error");
-      }
-    };
-
-    window.deletePost = async (postId) => {
-      if (!confirm("هل أنت متأكد من حذف هذا المنشور نهائياً؟")) return;
-      try {
-        await deleteDoc(doc(db, "posts", postId));
-        showToast("تم حذف المنشور", "success");
-      } catch (err) {
-        showToast("تعذر حذف المنشور", "error");
-      }
-    };
-
-    // عرض البلاغات
-    async function renderReports(list) {
-      const el = document.getElementById("panel-reports");
-      if (!list.length) {
-        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا توجد بلاغات مفتوحة حالياً 👍</div>`;
-        return;
-      }
-
-      const itemsHtml = await Promise.all(list.map(async (r) => {
-        let postPreview = "تعذر العثور على المنشور (قد يكون محذوفاً).";
-        let postAuthor = "";
-        if (r.targetType === "post" && r.targetId) {
-          try {
-            const pSnap = await getDoc(doc(db, "posts", r.targetId));
-            if (pSnap.exists()) {
-              const pData = pSnap.data();
-              postPreview = pData.text;
-              postAuthor = await getAuthorRealName(pData.authorUid);
-            }
-          } catch (_) {}
-        }
-        const reporterName = await getAuthorRealName(r.reporterUid);
-
-        return `
-          <div class="bg-white rounded-2xl border border-red-200 p-4 shadow-xs space-y-3">
-            <div class="flex items-center justify-between text-xs">
-              <span class="font-extrabold text-red-700">🚨 سبب البلاغ: ${escapeHtml(r.reason)}</span>
-              <span class="text-slate-400">${formatDate(r.createdAt)}</span>
-            </div>
-            <div class="text-xs text-slate-500">المُبلّغ: ${escapeHtml(reporterName)}</div>
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1">
-              <div class="font-bold text-slate-600">محتوى المنشور المُبلّغ عنه ${postAuthor ? `— (${escapeHtml(postAuthor)})` : ''}:</div>
-              <div class="text-slate-800 text-sm">${escapeHtml(postPreview)}</div>
-            </div>
-            <div class="flex items-center justify-end gap-2">
-              <button onclick="window.resolveReport('${r.id}', null)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3.5 py-2 rounded-xl">
-                تجاهل وإغلاق البلاغ
-              </button>
-              <button onclick="window.resolveReport('${r.id}', '${r.targetId}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
-                🗑️ حذف المنشور وإغلاق البلاغ
-              </button>
-            </div>
-          </div>
-        `;
-      }));
-
-      el.innerHTML = itemsHtml.join("");
-    }
-
-    window.resolveReport = async (reportId, postIdToDelete) => {
-      try {
-        if (postIdToDelete) {
-          if (!confirm("سيتم حذف المنشور وإغلاق البلاغ، هل تريد المتابعة؟")) return;
-          await deleteDoc(doc(db, "posts", postIdToDelete));
-        }
-        await updateDoc(doc(db, "reports", reportId), {
-          status: "resolved",
-          resolvedAt: serverTimestamp()
-        });
-        showToast(postIdToDelete ? "تم حذف المنشور وإغلاق البلاغ" : "تم إغلاق البلاغ", "success");
-      } catch (err) {
-        showToast("حدث خطأ أثناء معالجة البلاغ", "error");
-      }
-    };
-
-    // عرض الأعضاء المقبولين
-    function renderMembers(list) {
-      const el = document.getElementById("panel-members");
-      if (!list.length) {
-        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا يوجد أعضاء مقبولون بعد.</div>`;
-        return;
-      }
-      el.innerHTML = `
-        <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
-          ${list.map(u => `
-            <div class="p-3.5 flex items-center justify-between gap-2 text-xs">
-              <div>
-                <div class="font-bold text-slate-900 text-sm">${escapeHtml(u.fullName)} <span class="text-teal-700 font-semibold">(${escapeHtml(u.nickname)})</span></div>
-                <div class="text-slate-500">${escapeHtml(u.email)} • ${escapeHtml(u.year || "-")}</div>
-              </div>
-              <span class="px-2.5 py-1 rounded-full font-bold ${u.role === 'admin' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-50 text-emerald-700'}">
-                ${u.role === 'admin' ? 'إدارة' : 'عضو'}
-              </span>
-            </div>
-          `).join("")}
-        </div>
-      `;
-    }
-  </script>
+$("panel").onclick=async e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;const c=b.closest("[data-id]"),id=c?.dataset.id,a=b.dataset.a;b.disabled=true;
+  try{
+    if(a==="approveU"){await updateDoc(doc(db,"users_private",id),{status:"approved",rejectReason:"",reviewedAt:serverTimestamp()});await decisionEmail(id,"approved");toast("تم قبول الحساب وإرسال إيميل التفعيل ✅","success")}
+    else if(a==="rejectU"){rejUid=id;$("rjText").value="";$("rejModal").hidden=false;b.disabled=false}
+    else if(a==="approveP"){await updateDoc(doc(db,"posts",id),{status:"approved"});toast("تم نشر المنشور ✅","success")}
+    else if(a==="delP"){b.disabled=false;if(!confirm("حذف هذا المنشور نهائياً؟"))return;await delPost(id);toast("تم حذف المنشور","success")}
+    else if(a==="who"){const r=c.querySelector(".real");r.hidden=false;r.innerHTML=`الكاتب: <b>${esc(await postAuthor(id))}</b>`;b.remove()}
+    else if(a==="ignR"){await updateDoc(doc(db,"reports",id),{status:"resolved",resolvedAt:serverTimestamp()});toast("تم إغلاق البلاغ","success")}
+    else if(a==="delR"){b.disabled=false;if(!confirm("سيتم حذف المنشور وإغلاق البلاغ. متابعة؟"))return;
+      await delPost(c.dataset.t);await updateDoc(doc(db,"reports",id),{status:"resolved",resolvedAt:serverTimestamp()});toast("تم حذف المنشور وإغلاق البلاغ","success")}
+  }catch(err){console.error(err);toast("حدث خطأ، حاول مرة ثانية","error");b.disabled=false}
+};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeRej()});
+</script>
 </body>
 </html>
