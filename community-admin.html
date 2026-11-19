@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لوحة الإدارة | مجتمع VetCommitto</title>
+  <title>لوحة إدارة المجتمع | VetCommitto</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; color: #0f172a; }
     .fade-in { animation: fadeIn 0.25s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -18,10 +18,10 @@
   <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
     <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center font-extrabold text-slate-950 text-lg shadow">★</div>
+        <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center font-extrabold text-slate-950 text-lg shadow">A</div>
         <div>
-          <h1 class="font-extrabold text-base leading-tight">لوحة إدارة المجتمع</h1>
-          <p class="text-[11px] text-slate-300">VetCommitto Admin Panel</p>
+          <h1 class="font-extrabold text-base leading-tight">لوحة إدارة VetCommitto</h1>
+          <p class="text-[11px] text-slate-300">مراجعة الطلبات، المنشورات، والبلاغات</p>
         </div>
       </div>
 
@@ -36,10 +36,9 @@
     </div>
   </header>
 
-  <!-- إشعار منبثق -->
+  <!-- إشعار Toast -->
   <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg"></div>
 
-  <!-- المحتوى الرئيسي -->
   <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6">
 
     <!-- شاشة التحميل -->
@@ -50,8 +49,8 @@
 
     <!-- شاشة تسجيل دخول الأدمن -->
     <section id="loginView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-6 fade-in">
-      <h2 class="text-lg font-extrabold text-slate-900 mb-1 text-center">دخول الإدارة</h2>
-      <p class="text-xs text-slate-500 text-center mb-5">سجّل الدخول بحساب الأدمن للوصول إلى لوحة التحكم</p>
+      <h2 class="text-lg font-extrabold text-slate-900 mb-1">تسجيل دخول الإدارة</h2>
+      <p class="text-xs text-slate-500 mb-5">هذا القسم مخصص لأعضاء لجنة VetCommitto المصرّح لهم فقط.</p>
       <form id="adminLoginForm" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">إيميل الأدمن</label>
@@ -62,66 +61,62 @@
           <input type="password" id="adminPassword" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
         </div>
         <button type="submit" id="adminLoginBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm transition">
-          تسجيل الدخول
+          دخول للوحة الإدارة
         </button>
       </form>
     </section>
 
     <!-- شاشة عدم وجود صلاحية -->
-    <section id="unauthorizedView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-red-200 p-6 text-center fade-in">
-      <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">🔒</div>
-      <h2 class="text-lg font-extrabold text-slate-900 mb-2">غير مصرح بالدخول</h2>
-      <p class="text-sm text-slate-600 mb-5">هذا الحساب لا يملك صلاحيات الإدارة في مجتمع VetCommitto.</p>
-      <a href="community.html" class="inline-block bg-slate-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl">العودة إلى المجتمع</a>
+    <section id="deniedView" class="hidden max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-red-200 p-6 text-center fade-in">
+      <div class="text-3xl mb-2">⛔</div>
+      <h2 class="text-lg font-extrabold text-slate-900 mb-2">غير مصرّح بالدخول</h2>
+      <p class="text-sm text-slate-600 mb-4">حسابك الحالي لا يملك صلاحيات الإدارة.</p>
+      <a href="community.html" class="inline-block bg-slate-900 text-white text-xs font-bold px-5 py-2.5 rounded-xl">العودة للمجتمع</a>
     </section>
 
-    <!-- لوحة التحكم الرئيسية -->
+    <!-- لوحة الإدارة الرئيسية -->
     <section id="dashboardView" class="hidden space-y-5 fade-in">
 
-      <!-- بطاقات الإحصائيات السريعة -->
-      <div class="grid grid-cols-3 gap-3">
-        <div class="bg-white rounded-2xl border border-slate-200 p-4 text-center shadow-xs">
-          <div id="countUsers" class="text-2xl font-extrabold text-amber-600">0</div>
-          <div class="text-xs font-bold text-slate-500 mt-0.5">طلبات تسجيل</div>
-        </div>
-        <div class="bg-white rounded-2xl border border-slate-200 p-4 text-center shadow-xs">
-          <div id="countPosts" class="text-2xl font-extrabold text-teal-600">0</div>
-          <div class="text-xs font-bold text-slate-500 mt-0.5">منشورات معلقة</div>
-        </div>
-        <div class="bg-white rounded-2xl border border-slate-200 p-4 text-center shadow-xs">
-          <div id="countReports" class="text-2xl font-extrabold text-red-600">0</div>
-          <div class="text-xs font-bold text-slate-500 mt-0.5">بلاغات مفتوحة</div>
-        </div>
-      </div>
-
-      <!-- تبويبات الإدارة -->
-      <div class="flex bg-white p-1.5 rounded-2xl border border-slate-200 gap-1 overflow-x-auto">
-        <button data-tab="users" class="admin-tab flex-1 shrink-0 py-2 px-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 text-white transition">
-          👤 طلبات الحسابات
+      <!-- شريط التبويبات -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <button data-tab="users" class="tab-btn bg-slate-900 text-white p-3 rounded-xl text-right shadow-sm transition">
+          <div class="text-xs opacity-80">طلبات الحسابات</div>
+          <div class="flex items-center justify-between mt-1">
+            <span class="font-extrabold text-sm">👤 المعلقة</span>
+            <span id="badgeUsers" class="bg-amber-500 text-slate-950 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+          </div>
         </button>
-        <button data-tab="posts" class="admin-tab flex-1 shrink-0 py-2 px-3 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-100 transition">
-          📝 المنشورات المعلقة
+
+        <button data-tab="posts" class="tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition">
+          <div class="text-xs text-slate-500">مراجعة المحتوى</div>
+          <div class="flex items-center justify-between mt-1">
+            <span class="font-extrabold text-sm">📝 المنشورات</span>
+            <span id="badgePosts" class="bg-slate-200 text-slate-800 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+          </div>
         </button>
-        <button data-tab="reports" class="admin-tab flex-1 shrink-0 py-2 px-3 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-100 transition">
-          🚨 البلاغات
+
+        <button data-tab="reports" class="tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition">
+          <div class="text-xs text-slate-500">المخالفات</div>
+          <div class="flex items-center justify-between mt-1">
+            <span class="font-extrabold text-sm">🚨 البلاغات</span>
+            <span id="badgeReports" class="bg-red-100 text-red-700 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+          </div>
+        </button>
+
+        <button data-tab="members" class="tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition">
+          <div class="text-xs text-slate-500">المقبولون</div>
+          <div class="flex items-center justify-between mt-1">
+            <span class="font-extrabold text-sm">✅ الأعضاء</span>
+            <span id="badgeMembers" class="bg-emerald-100 text-emerald-700 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+          </div>
         </button>
       </div>
 
-      <!-- قائمة طلبات الحسابات -->
-      <div id="tab-users" class="tab-panel space-y-3">
-        <div class="text-center py-10 text-slate-400 text-sm">جاري تحميل الطلبات...</div>
-      </div>
-
-      <!-- قائمة المنشورات المعلقة -->
-      <div id="tab-posts" class="tab-panel hidden space-y-3">
-        <div class="text-center py-10 text-slate-400 text-sm">جاري تحميل المنشورات...</div>
-      </div>
-
-      <!-- قائمة البلاغات -->
-      <div id="tab-reports" class="tab-panel hidden space-y-3">
-        <div class="text-center py-10 text-slate-400 text-sm">جاري تحميل البلاغات...</div>
-      </div>
-
+      <!-- محتوى التبويبات -->
+      <div id="panel-users" class="tab-panel space-y-3"></div>
+      <div id="panel-posts" class="tab-panel hidden space-y-3"></div>
+      <div id="panel-reports" class="tab-panel hidden space-y-3"></div>
+      <div id="panel-members" class="tab-panel hidden space-y-3"></div>
     </section>
   </main>
 
@@ -129,8 +124,8 @@
   <div id="rejectModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl fade-in">
       <h3 class="font-extrabold text-base text-slate-900 mb-1">رفض طلب الحساب</h3>
-      <p id="rejectStudentLabel" class="text-xs text-slate-500 mb-3"></p>
-      <textarea id="rejectReasonInput" rows="3" placeholder="اكتب سبب الرفض (مثلاً: يرجى كتابة الاسم الرباعي الكامل أو استخدام الإيميل الجامعي)..." class="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+      <p class="text-xs text-slate-500 mb-3">سيصل هذا السبب للطالب عبر الإيميل ليتمكن من تعديل بياناته وإعادة الإرسال.</p>
+      <textarea id="rejectReasonInput" rows="3" placeholder="مثلاً: يرجى كتابة الاسم الرباعي الكامل كما في البطاقة الجامعية..." class="w-full p-3 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
       <div class="flex justify-end gap-2">
         <button id="cancelRejectBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200">إلغاء</button>
         <button id="confirmRejectBtn" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-700">تأكيد الرفض وإرسال الإيميل</button>
@@ -167,13 +162,13 @@
     const db = getFirestore(app);
 
     let unsubscribers = [];
-    let rejectTarget = null;
-    const authorCache = {};
+    let rejectTargetUser = null;
+    const usersCache = {};
 
     const views = {
       loading: document.getElementById("loadingView"),
       login: document.getElementById("loginView"),
-      unauthorized: document.getElementById("unauthorizedView"),
+      denied: document.getElementById("deniedView"),
       dashboard: document.getElementById("dashboardView")
     };
 
@@ -205,4 +200,363 @@
       return d.toLocaleDateString("ar-JO", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
     }
 
-    async function sendDecisionEmail(toEmail, full
+    async function sendDecisionEmail(toEmail, fullName, decision, reason = "") {
+      try {
+        await fetch(GAS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "decision_email",
+            secret: ADMIN_SECRET,
+            toEmail, fullName, decision, reason
+          })
+        });
+      } catch (e) {
+        console.error("Email error:", e);
+      }
+    }
+
+    async function getAuthorRealName(uid) {
+      if (!uid) return "غير معروف";
+      if (usersCache[uid]) return usersCache[uid];
+      try {
+        const snap = await getDoc(doc(db, "users_private", uid));
+        if (snap.exists()) {
+          const d = snap.data();
+          const label = `${d.fullName || ""} (${d.email || ""})`;
+          usersCache[uid] = label;
+          return label;
+        }
+      } catch (_) {}
+      return uid;
+    }
+
+    // تسجيل دخول الأدمن
+    document.getElementById("adminLoginForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("adminLoginBtn");
+      btn.disabled = true; btn.textContent = "جاري الدخول...";
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("adminEmail").value.trim(),
+          document.getElementById("adminPassword").value
+        );
+      } catch (err) {
+        showToast("بيانات الدخول غير صحيحة", "error");
+      } finally {
+        btn.disabled = false; btn.textContent = "دخول للوحة الإدارة";
+      }
+    };
+
+    document.getElementById("logoutBtn").onclick = async () => {
+      clearListeners();
+      await signOut(auth);
+    };
+
+    function clearListeners() {
+      unsubscribers.forEach(fn => fn && fn());
+      unsubscribers = [];
+    }
+
+    // تبديل التبويبات
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.onclick = () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll(".tab-btn").forEach(b => {
+          b.className = b === btn
+            ? "tab-btn bg-slate-900 text-white p-3 rounded-xl text-right shadow-sm transition"
+            : "tab-btn bg-white text-slate-700 border border-slate-200 p-3 rounded-xl text-right hover:bg-slate-50 transition";
+        });
+        document.querySelectorAll(".tab-panel").forEach(p => {
+          p.classList.toggle("hidden", p.id !== `panel-${target}`);
+        });
+      };
+    });
+
+    // التحقق من حالة الدخول والصلاحية
+    onAuthStateChanged(auth, async (user) => {
+      clearListeners();
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (!user) {
+        logoutBtn.classList.add("hidden");
+        showView("login");
+        return;
+      }
+
+      logoutBtn.classList.remove("hidden");
+      try {
+        const snap = await getDoc(doc(db, "users_private", user.uid));
+        if (!snap.exists() || snap.data().role !== "admin") {
+          showView("denied");
+          return;
+        }
+        showView("dashboard");
+        startAdminListeners();
+      } catch (err) {
+        console.error(err);
+        showToast("تعذر التحقق من الصلاحيات", "error");
+        showView("denied");
+      }
+    });
+
+    function startAdminListeners() {
+      // 1. طلبات الحسابات المعلقة
+      const qPendingUsers = query(collection(db, "users_private"), where("status", "==", "pending"));
+      unsubscribers.push(onSnapshot(qPendingUsers, (snap) => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        document.getElementById("badgeUsers").textContent = list.length;
+        renderPendingUsers(list);
+      }));
+
+      // 2. المنشورات المعلقة
+      const qPendingPosts = query(collection(db, "posts"), where("status", "==", "pending"));
+      unsubscribers.push(onSnapshot(qPendingPosts, async (snap) => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        document.getElementById("badgePosts").textContent = list.length;
+        await renderPendingPosts(list);
+      }));
+
+      // 3. البلاغات المفتوحة
+      const qReports = query(collection(db, "reports"), where("status", "==", "open"));
+      unsubscribers.push(onSnapshot(qReports, async (snap) => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        document.getElementById("badgeReports").textContent = list.length;
+        await renderReports(list);
+      }));
+
+      // 4. الأعضاء المقبولون
+      const qApprovedUsers = query(collection(db, "users_private"), where("status", "==", "approved"));
+      unsubscribers.push(onSnapshot(qApprovedUsers, (snap) => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        document.getElementById("badgeMembers").textContent = list.length;
+        renderMembers(list);
+      }));
+    }
+
+    // عرض طلبات الحسابات
+    function renderPendingUsers(list) {
+      const el = document.getElementById("panel-users");
+      if (!list.length) {
+        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا توجد طلبات حسابات معلقة حالياً 🎉</div>`;
+        return;
+      }
+      el.innerHTML = list.map(u => `
+        <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1 text-sm">
+            <div class="font-extrabold text-slate-900">${escapeHtml(u.fullName)}</div>
+            <div class="text-xs text-slate-600">
+              <span class="font-bold">الإيميل:</span> ${escapeHtml(u.email)} |
+              <span class="font-bold">السنة:</span> ${escapeHtml(u.year || "-")}
+            </div>
+            <div class="text-xs text-slate-500">
+              <span class="font-bold">الاسم المستعار:</span> ${escapeHtml(u.nickname)} • ${formatDate(u.createdAt)}
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="window.approveUser('${u.id}', '${escapeHtml(u.email)}', '${escapeHtml(u.fullName)}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+              ✅ قبول وتفعيل
+            </button>
+            <button onclick="window.openRejectModal('${u.id}', '${escapeHtml(u.email)}', '${escapeHtml(u.fullName)}')" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+              ❌ رفض
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.approveUser = async (uid, email, fullName) => {
+      try {
+        await updateDoc(doc(db, "users_private", uid), {
+          status: "approved",
+          rejectReason: "",
+          reviewedAt: serverTimestamp()
+        });
+        await sendDecisionEmail(email, fullName, "approved");
+        showToast("تم قبول الحساب وإرسال إيميل التفعيل ✅", "success");
+      } catch (err) {
+        showToast("حدث خطأ أثناء القبول", "error");
+      }
+    };
+
+    // نافذة الرفض
+    const rejectModal = document.getElementById("rejectModal");
+    window.openRejectModal = (uid, email, fullName) => {
+      rejectTargetUser = { uid, email, fullName };
+      document.getElementById("rejectReasonInput").value = "";
+      rejectModal.classList.remove("hidden");
+      rejectModal.classList.add("flex");
+    };
+    document.getElementById("cancelRejectBtn").onclick = () => {
+      rejectModal.classList.add("hidden");
+      rejectModal.classList.remove("flex");
+    };
+    document.getElementById("confirmRejectBtn").onclick = async () => {
+      if (!rejectTargetUser) return;
+      const reason = document.getElementById("rejectReasonInput").value.trim() || "يرجى التأكد من صحة البيانات المدخلة.";
+      try {
+        await updateDoc(doc(db, "users_private", rejectTargetUser.uid), {
+          status: "rejected",
+          rejectReason: reason,
+          reviewedAt: serverTimestamp()
+        });
+        await sendDecisionEmail(rejectTargetUser.email, rejectTargetUser.fullName, "rejected", reason);
+        rejectModal.classList.add("hidden");
+        rejectModal.classList.remove("flex");
+        showToast("تم رفض الطلب وإرسال السبب للطالب", "success");
+      } catch (err) {
+        showToast("حدث خطأ أثناء الرفض", "error");
+      }
+    };
+
+    // عرض المنشورات المعلقة
+    async function renderPendingPosts(list) {
+      const el = document.getElementById("panel-posts");
+      if (!list.length) {
+        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا توجد منشورات بانتظار الموافقة 🎉</div>`;
+        return;
+      }
+
+      const itemsHtml = await Promise.all(list.map(async (p) => {
+        const realAuthor = await getAuthorRealName(p.authorUid);
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="space-y-0.5">
+                <div class="font-bold text-slate-900">الاسم الظاهر: ${escapeHtml(p.displayName)} ${p.isAnonymous ? '<span class="text-amber-600">(مجهول)</span>' : ''}</div>
+                <div class="text-slate-500">الكاتب الحقيقي (للإدارة فقط): <span class="font-semibold text-slate-700">${escapeHtml(realAuthor)}</span></div>
+              </div>
+              <span class="bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded-lg">${escapeHtml(p.category)} • ${formatDate(p.createdAt)}</span>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-xl text-sm text-slate-800 leading-relaxed border border-slate-100">${escapeHtml(p.text)}</div>
+
+            <div class="flex items-center justify-end gap-2">
+              <button onclick="window.approvePost('${p.id}')" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+                ✅ موافقة ونشر
+              </button>
+              <button onclick="window.deletePost('${p.id}')" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                🗑️ حذف
+              </button>
+            </div>
+          </div>
+        `;
+      }));
+
+      el.innerHTML = itemsHtml.join("");
+    }
+
+    window.approvePost = async (postId) => {
+      try {
+        await updateDoc(doc(db, "posts", postId), { status: "approved" });
+        showToast("تم نشر المنشور في المجتمع ✅", "success");
+      } catch (err) {
+        showToast("تعذر الموافقة على المنشور", "error");
+      }
+    };
+
+    window.deletePost = async (postId) => {
+      if (!confirm("هل أنت متأكد من حذف هذا المنشور نهائياً؟")) return;
+      try {
+        await deleteDoc(doc(db, "posts", postId));
+        showToast("تم حذف المنشور", "success");
+      } catch (err) {
+        showToast("تعذر حذف المنشور", "error");
+      }
+    };
+
+    // عرض البلاغات
+    async function renderReports(list) {
+      const el = document.getElementById("panel-reports");
+      if (!list.length) {
+        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا توجد بلاغات مفتوحة حالياً 👍</div>`;
+        return;
+      }
+
+      const itemsHtml = await Promise.all(list.map(async (r) => {
+        let postPreview = "تعذر العثور على المنشور (قد يكون محذوفاً).";
+        let postAuthor = "";
+        if (r.targetType === "post" && r.targetId) {
+          try {
+            const pSnap = await getDoc(doc(db, "posts", r.targetId));
+            if (pSnap.exists()) {
+              const pData = pSnap.data();
+              postPreview = pData.text;
+              postAuthor = await getAuthorRealName(pData.authorUid);
+            }
+          } catch (_) {}
+        }
+        const reporterName = await getAuthorRealName(r.reporterUid);
+
+        return `
+          <div class="bg-white rounded-2xl border border-red-200 p-4 shadow-xs space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-extrabold text-red-700">🚨 سبب البلاغ: ${escapeHtml(r.reason)}</span>
+              <span class="text-slate-400">${formatDate(r.createdAt)}</span>
+            </div>
+            <div class="text-xs text-slate-500">المُبلّغ: ${escapeHtml(reporterName)}</div>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1">
+              <div class="font-bold text-slate-600">محتوى المنشور المُبلّغ عنه ${postAuthor ? `— (${escapeHtml(postAuthor)})` : ''}:</div>
+              <div class="text-slate-800 text-sm">${escapeHtml(postPreview)}</div>
+            </div>
+            <div class="flex items-center justify-end gap-2">
+              <button onclick="window.resolveReport('${r.id}', null)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3.5 py-2 rounded-xl">
+                تجاهل وإغلاق البلاغ
+              </button>
+              <button onclick="window.resolveReport('${r.id}', '${r.targetId}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
+                🗑️ حذف المنشور وإغلاق البلاغ
+              </button>
+            </div>
+          </div>
+        `;
+      }));
+
+      el.innerHTML = itemsHtml.join("");
+    }
+
+    window.resolveReport = async (reportId, postIdToDelete) => {
+      try {
+        if (postIdToDelete) {
+          if (!confirm("سيتم حذف المنشور وإغلاق البلاغ، هل تريد المتابعة؟")) return;
+          await deleteDoc(doc(db, "posts", postIdToDelete));
+        }
+        await updateDoc(doc(db, "reports", reportId), {
+          status: "resolved",
+          resolvedAt: serverTimestamp()
+        });
+        showToast(postIdToDelete ? "تم حذف المنشور وإغلاق البلاغ" : "تم إغلاق البلاغ", "success");
+      } catch (err) {
+        showToast("حدث خطأ أثناء معالجة البلاغ", "error");
+      }
+    };
+
+    // عرض الأعضاء المقبولين
+    function renderMembers(list) {
+      const el = document.getElementById("panel-members");
+      if (!list.length) {
+        el.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-sm">لا يوجد أعضاء مقبولون بعد.</div>`;
+        return;
+      }
+      el.innerHTML = `
+        <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
+          ${list.map(u => `
+            <div class="p-3.5 flex items-center justify-between gap-2 text-xs">
+              <div>
+                <div class="font-bold text-slate-900 text-sm">${escapeHtml(u.fullName)} <span class="text-teal-700 font-semibold">(${escapeHtml(u.nickname)})</span></div>
+                <div class="text-slate-500">${escapeHtml(u.email)} • ${escapeHtml(u.year || "-")}</div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full font-bold ${u.role === 'admin' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-50 text-emerald-700'}">
+                ${u.role === 'admin' ? 'إدارة' : 'عضو'}
+              </span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
