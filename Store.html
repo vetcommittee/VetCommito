@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1b33">
+<title>متجر اللجنة | لجنة الطب والجراحة البيطرية</title>
+<link rel="icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--white:#fff;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--mut:#8893a4;--nav:#fbfbfd;--on:#fff}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--card:#1e293b;--cb:#334155;--btn:#334155;--mut:#949daf;--nav:#0f172a;--on:#0b1120}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom,0)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.lt{font-family:Manrope,sans-serif}
+.wrap{width:min(1160px,calc(100% - 48px));margin-inline:auto}
+
+.top{height:74px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center;position:relative;z-index:5}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}
+.brand img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
+.brand b{font-size:14px;line-height:1.45;color:var(--navy);font-weight:700}
+.brand small{display:block;color:var(--slate);font-size:10px;font-weight:500}
+.tools{display:flex;gap:8px;align-items:center}
+.ib,.back{height:42px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px;font-size:12px;font-weight:600;transition:.2s}
+.ib{width:42px;padding:0}.ib:hover,.back:hover{background:var(--btn)}
+
+.hero{position:relative;overflow:hidden;background:#0d1b33;color:#fff;min-height:430px;display:flex;align-items:center}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,#0d1b33 0%,#152c50 55%,#1e3f70 100%)}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 88% 8%,rgba(209,170,92,.2),transparent 46%),linear-gradient(0deg,rgba(13,27,51,.55),transparent 55%)}
+.ecg{position:absolute;z-index:1;bottom:26px;left:50%;width:max(100%,980px);transform:translateX(-50%) scaleX(-1);pointer-events:none}
+.ecg path{fill:none;stroke-linejoin:round}
+.ecg .base{stroke:rgba(255,255,255,.14);stroke-width:2}
+.ecg .pulse{stroke:var(--gold);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:.13 1;filter:drop-shadow(0 0 7px rgba(209,170,92,.9));animation:beat 4.6s cubic-bezier(.45,.05,.55,.95) infinite}
+@keyframes beat{from{stroke-dashoffset:.13}to{stroke-dashoffset:-1}}
+.hero-in{position:relative;z-index:2;padding-block:64px 110px;max-width:640px}
+.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.35;letter-spacing:-.03em;margin:0 0 14px;font-weight:700}
+.hero h1 span{display:block;color:#b3c5e8}
+.hero p{font-size:15px;line-height:1.85;color:#d1d9e6;max-width:500px;margin:0}
+.eyebrow{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:18px}
+.in{opacity:0;transform:translateY(16px);animation:in .8s cubic-bezier(.2,.8,.2,1) forwards}
+.in:nth-child(2){animation-delay:.12s}.in:nth-child(3){animation-delay:.24s}
+@keyframes in{to{opacity:1;transform:none}}
+
+.note{position:relative;z-index:3;margin-top:-26px}
+.note div{background:var(--card);border:1px solid var(--cb);border-radius:15px;padding:16px 22px;display:flex;gap:14px;align-items:center;box-shadow:0 12px 34px rgba(0,0,0,.06);font-size:13px;color:var(--slate)}
+.note b{color:var(--navy);font-size:14px}
+.note i{width:40px;height:40px;border-radius:11px;background:var(--btn);color:var(--purple);display:grid;place-items:center;flex:none;font-style:normal;font-size:18px}
+
+.sec{padding:46px 0 70px}
+.head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.head h2{margin:0;font-size:26px;color:var(--navy);font-weight:700}
+.head p{margin:6px 0 0;color:var(--slate);font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:999px;background:var(--card);padding:9px 18px;color:var(--slate);font-size:12px;font-weight:600;transition:.2s}
+.chip:hover{border-color:var(--purple)}.chip.on{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{border:1px solid var(--cb);border-radius:16px;background:var(--card);padding:20px;min-height:190px;display:flex;flex-direction:column;gap:8px;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:var(--purple);box-shadow:0 16px 32px rgba(0,0,0,.08)}
+.card.course{border-inline-start:4px solid var(--gold)}
+.tag{align-self:flex-start;font-size:11px;font-weight:600;color:var(--purple);background:var(--btn);padding:5px 10px;border-radius:8px}
+.card h3{margin:4px 0 0;font-size:16px;line-height:1.6;color:var(--navy);font-weight:700}
+.card p{margin:0;font-size:12px;color:var(--mut);line-height:1.7}
+.foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px}
+.price{font:700 18px Manrope,sans-serif;color:var(--purple)}.price small{font:500 11px "IBM Plex Sans Arabic",sans-serif;color:var(--mut);margin-inline-start:4px}
+.pb{border:0;background:var(--purple);color:var(--on);padding:11px 20px;border-radius:10px;font-size:12px;font-weight:600;transition:.2s}
+.pb:hover{opacity:.9;transform:translateY(-1px)}.pb:disabled{opacity:.5}
+.empty{grid-column:1/-1;text-align:center;padding:48px 10px;color:var(--slate)}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+
+dialog{border:1px solid var(--line);border-radius:24px;background:var(--card);color:var(--ink);width:min(460px,92vw);max-height:90vh;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(5,10,20,.6);backdrop-filter:blur(4px)}
+dialog[open]{animation:dg .3s}@keyframes dg{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+dialog h2{margin:0;font-size:20px;color:var(--navy)}
+label{display:block;margin:12px 0 4px;font-size:12px;color:var(--slate);font-weight:500}
+input,select,textarea{width:100%;border:1px solid var(--cb);background:var(--paper);padding:12px 14px;border-radius:10px;color:var(--ink);font-size:13px}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);background:var(--card);outline:0}
+.row{display:flex;gap:8px;margin-top:18px}.row .pb{flex:1}
+.row .gh{background:transparent;color:var(--navy);border:1px solid var(--line)}
+#hp{position:absolute;left:-9999px;opacity:0}
+#msg{margin:10px 0 0;font-size:13px;min-height:20px}.err{color:#e5484d}.ok{color:var(--violet);font-weight:600}
+
+footer{background:#0b1526;color:#a2aac0;padding:34px 0;font-size:11px}
+footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+footer img{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.1)}
+footer div{display:flex;align-items:center;gap:12px;color:#d6dae5}
+
+@media(max-width:620px){
+ .wrap{width:calc(100% - 40px)}.top{height:68px}.brand b{font-size:13px}
+ .hero{min-height:400px}.hero-in{padding-block:48px 100px}
+ .note div{flex-direction:column;align-items:flex-start}
+ dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:28px 28px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.in{opacity:1;transform:none}.ecg .pulse{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.jpeg" alt="شعار لجنة الطب البيطري"><span><b>متجر اللجنة</b><small>لجنة الطب والجراحة البيطرية</small></span></a>
+  <div class="tools">
+    <a class="back" href="index.html">المنصة الأكاديمية</a>
+    <button class="ib" id="th" aria-label="تبديل المظهر"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </div>
+</div></header>
+
+<section class="hero">
+  <svg class="ecg" viewBox="0 0 1200 170" aria-hidden="true">
+    <path class="base" pathLength="1" d="M0,95 H330 L356,95 L372,68 L392,118 L424,14 L458,158 L486,95 H690 L714,95 L730,76 L748,106 L774,38 L802,128 L824,95 H1200"/>
+    <path class="pulse" pathLength="1" d="M0,95 H330 L356,95 L372,68 L392,118 L424,14 L458,158 L486,95 H690 L714,95 L730,76 L748,106 L774,38 L802,128 L824,95 H1200"/>
+  </svg>
+  <div class="wrap"><div class="hero-in">
+    <div class="eyebrow in">كلية الطب البيطري، جامعة العلوم والتكنولوجيا الأردنية</div>
+    <h1 class="in">من اللجنة،<span>إلى يدك مباشرة.</span></h1>
+    <p class="in">ملابس العمل والأدوات والدوسيات والدورات والورشات. اختر ما تحتاجه واترك بياناتك، ونتواصل معك لتأكيد الطلب.</p>
+  </div></div>
+</section>
+
+<div class="wrap note"><div><i aria-hidden="true">✓</i><span><b>الطلب بدون تسجيل حساب.</b> نتواصل معك على واتساب لتأكيد الطلب والدفع والاستلام.</span></div></div>
+
+<main class="sec"><div class="wrap">
+  <div class="head">
+    <div><h2>ماذا تحتاج اليوم؟</h2><p id="cnt">جاري التحميل...</p></div>
+    <div class="chips" role="group" aria-label="تصفية">
+      <button class="chip on" data-f="">الكل</button><button class="chip" data-f="product">منتجات</button><button class="chip" data-f="course">دورات وورشات</button>
+    </div>
+  </div>
+  <div class="grid" id="list"></div>
+</div></main>
+
+<footer><div class="wrap"><div><img src="logo.jpeg" alt=""><span>المنصة الأكاديمية - VetCommitto</span></div><span class="lt">JUST · JORDAN</span></div></footer>
+
+<dialog id="dlg">
+  <h2 id="dt"></h2><div class="price" id="dp"></div>
+  <form id="f">
+    <label for="n">الاسم</label><input id="n" required minlength="2" maxlength="80" autocomplete="name">
+    <label for="p">رقم الهاتف (واتساب)</label><input id="p" type="tel" required minlength="7" maxlength="20" autocomplete="tel" placeholder="07XXXXXXXX">
+    <label for="y">السنة الدراسية</label>
+    <select id="y"><option>أولى</option><option>ثانية</option><option>ثالثة</option><option>رابعة</option><option>خامسة</option></select>
+    <div id="vw"><label for="v" id="vl">الخيار</label><select id="v"></select></div>
+    <label for="pm">طريقة الدفع</label>
+    <select id="pm"><option>نقداً عند الاستلام</option><option>CliQ</option></select>
+    <label for="nt">ملاحظات (اختياري)</label><textarea id="nt" rows="2" maxlength="500"></textarea>
+    <input id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p id="msg" role="status"></p>
+    <div class="row"><button class="pb" id="go" type="submit">تأكيد الطلب</button><button type="button" class="pb gh" id="cl">إغلاق</button></div>
+  </form>
+</dialog>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,getDocs,query,where,setDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community"};
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwYUd_eLL8ZP1NJfG-g87MuEhH5GVVop1Qn5YVfsT1rIKJTSMm3e3WQfYGGen4tLC3S/exec";
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+let cur=null,items=[],filter="";
+
+// المظهر: نفس مفتاح الموقع الرئيسي
+function theme(){const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"}
+$("th").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");theme()};
+theme();
+
+function msg(t,c){$("msg").textContent=t;$("msg").className=c||""}
+const ready=signInAnonymously(auth).catch(()=>null);
+
+function mk(tag,txt,cls){const e=document.createElement(tag);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
+
+function draw(){
+  const box=$("list");box.textContent="";
+  const l=items.filter(p=>!filter||(p.type||"product")===filter);
+  $("cnt").textContent=l.length?l.length+" متاح حالياً":"لا يوجد شيء متاح حالياً";
+  if(!l.length){box.append(mk("div","ما في عناصر متاحة هسا. تابع اللجنة لمعرفة الجديد.","empty"));return}
+  for(const p of l){
+    const isC=p.type==="course";
+    const c=mk("article",null,"card"+(isC?" course":""));
+    const f=mk("div",null,"foot"),pr=mk("span",null,"price");
+    pr.append(document.createTextNode(p.price!=null?String(p.price):""));
+    if(p.price!=null)pr.append(mk("small","د.أ"));
+    const b=mk("button",isC?"سجّل":"اطلب","pb");b.onclick=()=>open(p);
+    f.append(pr,b);
+    c.append(mk("span",isC?"دورة / ورشة":"منتج","tag"),mk("h3",p.name||""),mk("p",p.description||""),f);
+    box.append(c);
+  }
+}
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");filter=b.dataset.f;draw()});
+
+async function load(){
+  try{
+    await ready;
+    const s=await getDocs(query(collection(db,"products"),where("active","==",true)));
+    items=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.order||0)-(b.order||0));
+    draw();
+  }catch(e){$("cnt").textContent="تعذّر التحميل، أعد المحاولة لاحقاً."}
+}
+
+function open(p){
+  cur=p;msg("");
+  $("dt").textContent=p.name;$("dp").textContent=p.price!=null?p.price+" د.أ":"";
+  const vs=Array.isArray(p.variants)?p.variants:[];
+  $("vw").style.display=vs.length?"block":"none";
+  $("vl").textContent=p.variantLabel||"الخيار (المقاس / الشعبة)";
+  $("v").textContent="";
+  for(const v of vs){const o=document.createElement("option");o.textContent=v;$("v").append(o)}
+  $("go").disabled=false;$("dlg").showModal();
+}
+$("cl").onclick=()=>$("dlg").close();
+
+$("f").onsubmit=async e=>{
+  e.preventDefault();
+  if($("hp").value){$("dlg").close();return}
+  $("go").disabled=true;msg("جاري الإرسال...");
+  try{
+    await ready;
+    const user=auth.currentUser;
+    if(!user)throw new Error("auth");
+    const ref=doc(collection(db,"orders"));
+    await setDoc(ref,{
+      ownerUid:user.uid,productId:cur.id,productName:cur.name,
+      customerName:$("n").value.trim(),phone:$("p").value.trim(),
+      year:$("y").value,variant:$("vw").style.display==="none"?"":$("v").value,
+      paymentMethod:$("pm").value,note:$("nt").value.trim(),
+      status:"new",createdAt:serverTimestamp()
+    });
+    msg("وصل طلبك، رح نتواصل معك قريباً.","ok");
+    $("f").reset();
+    try{
+      const idToken=await user.getIdToken();
+      fetch(SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify({action:"new_order",orderId:ref.id,idToken})}).catch(()=>{});
+    }catch(_){}
+    setTimeout(()=>$("dlg").close(),2200);
+  }catch(err){
+    msg("تعذّر إرسال الطلب. تأكد من البيانات وأعد المحاولة.","err");$("go").disabled=false;
+  }
+};
+load();
+</script>
+</body>
+</html>
