@@ -28,11 +28,16 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;
 .ib{height:40px;min-width:40px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;padding:0 12px;font-size:12px;font-weight:600;transition:.2s}
 .ib:hover{background:var(--btn)}
 
-.band{background:linear-gradient(110deg,#0d1b33,#152c50 55%,#1e3f70);color:#fff;padding:26px 0 46px;position:relative;overflow:hidden}
+.band{background:linear-gradient(110deg,#0d1b33,#152c50 55%,#1e3f70);color:#fff;padding:24px 0;position:relative;overflow:hidden}
 .band:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 90% 0,rgba(209,170,92,.18),transparent 50%);pointer-events:none}
 .band .wrap{position:relative;z-index:1}
-.band h1{margin:0;font-size:24px;font-weight:700}.band p{margin:4px 0 0;color:#c4cfe3;font-size:13px}
-.main{position:relative;z-index:2;margin-top:-26px;padding-bottom:60px}
+.band h1{margin:0;font-size:22px;font-weight:700}.band p{margin:4px 0 0;color:#c4cfe3;font-size:13px}
+
+.main{margin-top:20px;padding-bottom:60px}
+
+.seg{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--cb);padding:5px;border-radius:14px;margin-bottom:18px}
+.seg .chip{border:0;border-radius:10px;padding:8px 18px;background:transparent}
+.seg .chip.on{background:var(--purple);color:var(--on)}
 
 .card{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:16px 18px;margin-bottom:12px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
@@ -45,19 +50,28 @@ input,select,textarea{width:100%;border:1px solid var(--cb);background:var(--pap
 input:focus,select:focus,textarea:focus{border-color:var(--purple);background:var(--card);outline:0}
 :focus-visible{outline:3px solid var(--violet);outline-offset:2px}
 label.ck{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slate)}label.ck input{width:auto}
-.pb{border:0;background:var(--purple);color:var(--on);padding:10px 18px;border-radius:10px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
-.pb:hover{opacity:.9}
+.pb{border:0;background:var(--purple);color:var(--on);padding:10px 18px;border-radius:10px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;transition:.2s;white-space:nowrap}
+.pb:hover{opacity:.9}.pb:disabled{opacity:.5}
 .gh{background:transparent;color:var(--navy);border:1px solid var(--line)}.bad{background:transparent;color:var(--bad);border:1px solid var(--bad)}
 .act{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}.act select{width:auto;min-width:110px}
 
+.img-row{display:flex;gap:8px;margin-top:10px;align-items:center}
+.img-row input{flex:1}
+.prev-box{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px;border:1px dashed var(--cb);border-radius:12px;background:var(--paper)}
+.prev-box img{width:76px;height:56px;object-fit:cover;border-radius:8px;background:var(--btn);flex:none}
+.prev-box small{color:var(--slate);font-size:12px;line-height:1.5;word-break:break-word}
+#pmsg{margin:8px 0 0;font-size:12px;color:var(--slate)}
+#pmsg.warn{color:var(--bad)}
+
 .o{border-inline-start:4px solid var(--line)}
 .o.new{border-inline-start-color:var(--gold)}.o.confirmed{border-inline-start-color:var(--violet)}
-.o h3{margin:0;font-size:15px;color:var(--navy);font-weight:700}
+.o h3,.pl h3{margin:0;font-size:15px;color:var(--navy);font-weight:700}
 .row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
 .tg{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--btn);color:var(--purple)}.o.new .tg{background:rgba(209,170,92,.18);color:var(--gold)}
 .m{color:var(--slate);font-size:12px}.ph{font:600 13px Manrope,sans-serif;direction:ltr;display:inline-block}
 .g{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.pl{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}.pl .card{margin:0}
+.pl{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}.pl .card{margin:0;display:flex;flex-direction:column}
+.pthumb{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;margin-bottom:10px;background:var(--btn);display:block}
 .off{opacity:.55}
 .empty{text-align:center;color:var(--slate);padding:30px}
 #err{color:var(--bad);font-size:13px;margin:10px 0 0}
@@ -85,7 +99,7 @@ label.ck{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slat
   </div>
 
   <div id="app" class="hid">
-    <div class="tabs" id="tabs">
+    <div class="seg" id="tabs">
       <button class="chip on" data-t="1">الطلبات</button>
       <button class="chip" data-t="2">المنتجات والدورات</button>
     </div>
@@ -110,6 +124,19 @@ label.ck{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slat
           <input id="pv" placeholder="الخيارات مفصولة بفاصلة: S,M,L">
           <input id="po" type="number" placeholder="الترتيب (رقم أصغر يظهر أولاً)">
         </div>
+
+        <div class="img-row">
+          <input id="pi" type="url" dir="ltr" placeholder="رابط صورة ImgBB المباشر (https://i.ibb.co/...)">
+          <input id="pfile" type="file" accept="image/*" class="hid">
+          <button type="button" class="pb gh" id="pup">رفع صورة</button>
+        </div>
+        <p id="pmsg" class="hid"></p>
+        <div id="pprev" class="prev-box hid">
+          <img id="ppimg" alt="معاينة الصورة">
+          <small>معاينة صورة المنتج</small>
+          <button type="button" class="pb bad" id="pclr" style="margin-inline-start:auto">مسح</button>
+        </div>
+
         <textarea id="pd" rows="2" placeholder="الوصف" style="margin-top:10px"></textarea>
         <div class="act">
           <label class="ck"><input id="pa" type="checkbox" checked> متاح للطلب</label>
@@ -128,9 +155,11 @@ import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "htt
 import {getFirestore,collection,doc,getDoc,setDoc,updateDoc,deleteDoc,onSnapshot,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const app=initializeApp({apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community"});
+const IMGBB_KEY="a590777d9f69147c384eb9a15c4ee481";
 const auth=getAuth(app),db=getFirestore(app);
 const $=id=>document.getElementById(id);
 const ST={new:"جديد",confirmed:"مؤكد",done:"مكتمل"};
+const safeUrl=u=>typeof u==="string"&&/^https?:\/\//i.test(u.trim())?u.trim():"";
 let unsubs=[],orders=[],editId=null,fst="",q="";
 
 function mk(tag,txt,cls){const e=document.createElement(tag);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
@@ -139,6 +168,38 @@ function mk(tag,txt,cls){const e=document.createElement(tag);if(txt!=null)e.text
 function theme(){const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"}
 $("th").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");theme()};
 theme();
+
+// معاينة ورفع صور ImgBB
+function setPMsg(txt,warn=false){$("pmsg").textContent=txt;$("pmsg").className=warn?"warn":"";$("pmsg").classList.toggle("hid",!txt)}
+function updatePrev(){
+  const u=safeUrl($("pi").value);
+  if(!u){$("pprev").classList.add("hid");setPMsg("");return}
+  if(/^https?:\/\/(www\.)?ibb\.co\//i.test(u)){
+    $("pprev").classList.add("hid");
+    setPMsg("تنبيه: هذا رابط صفحة ImgBB وليس رابط الصورة المباشر. اختر Direct link (يبدأ بـ https://i.ibb.co/...).",true);
+    return;
+  }
+  setPMsg("");
+  $("ppimg").src=u;
+  $("pprev").classList.remove("hid");
+}
+$("ppimg").onerror=()=>{if($("pi").value.trim()){$("pprev").classList.add("hid");setPMsg("تعذّر تحميل الصورة، تأكد إن الرابط مباشر (Direct link).",true)}};
+$("pi").oninput=updatePrev;
+$("pclr").onclick=()=>{$("pi").value="";updatePrev()};
+$("pup").onclick=()=>$("pfile").click();
+$("pfile").onchange=async()=>{
+  const file=$("pfile").files[0];$("pfile").value="";if(!file)return;
+  $("pup").disabled=true;$("pup").textContent="جاري الرفع...";setPMsg("جاري رفع الصورة إلى ImgBB...");
+  try{
+    const fd=new FormData();fd.append("image",file);
+    const res=await fetch("https://api.imgbb.com/1/upload?key="+encodeURIComponent(IMGBB_KEY),{method:"POST",body:fd});
+    const j=await res.json();
+    if(!j.success)throw new Error("upload");
+    $("pi").value=j.data.display_url||j.data.url;
+    updatePrev();setPMsg("تم رفع الصورة بنجاح.");
+  }catch(_){setPMsg("فشل رفع الصورة، تأكد من الاتصال أو جرّب لصق الرابط المباشر.",true)}
+  finally{$("pup").disabled=false;$("pup").textContent="رفع صورة"}
+};
 
 $("out").onclick=()=>signOut(auth);
 $("tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;
@@ -202,11 +263,17 @@ function drawProducts(items){
   if(!items.length){box.append(mk("div","ما في منتجات بعد. أضف أول منتج من الفورم فوق.","empty"));return}
   for(const p of items){
     const c=mk("div",null,"card"+(p.active?"":" off"));
+    const imgUrl=safeUrl(p.image);
+    if(imgUrl){
+      const img=mk("img",null,"pthumb");img.src=imgUrl;img.alt=p.name||"";img.loading="lazy";
+      img.onerror=()=>img.remove();
+      c.append(img);
+    }
     const r=mk("div",null,"row");
     r.append(mk("h3",p.name||""),mk("span",p.type==="course"?"دورة / ورشة":"منتج","tg"));
     c.append(r);
     c.append(mk("div",(p.price!=null?p.price+" د.أ":"بدون سعر")+(p.variants&&p.variants.length?" · "+p.variants.join(", "):"")+(p.active?"":" · موقوف"),"m"));
-    const a=mk("div",null,"act");
+    const a=mk("div",null,"act");a.style.marginTop="auto";a.style.paddingTop="12px";
     const e=mk("button","تعديل","pb gh");e.onclick=()=>fill(p);
     const t=mk("button",p.active?"إيقاف":"تفعيل","pb gh");t.onclick=()=>updateDoc(doc(db,"products",p.id),{active:!p.active});
     const d=mk("button","حذف","pb bad");d.onclick=()=>{if(confirm("حذف المنتج؟"))deleteDoc(doc(db,"products",p.id))};
@@ -214,14 +281,14 @@ function drawProducts(items){
   }
 }
 function fill(p){editId=p.id;$("pn").value=p.name||"";$("pp").value=p.price??"";$("pt").value=p.type||"product";
-  $("pv").value=(p.variants||[]).join(",");$("po").value=p.order??"";$("pd").value=p.description||"";$("pa").checked=!!p.active;scrollTo({top:0,behavior:"smooth"})}
-$("pc").onclick=()=>{editId=null;$("pf").reset();$("pa").checked=true};
+  $("pv").value=(p.variants||[]).join(",");$("po").value=p.order??"";$("pi").value=p.image||"";$("pd").value=p.description||"";$("pa").checked=!!p.active;updatePrev();scrollTo({top:0,behavior:"smooth"})}
+$("pc").onclick=()=>{editId=null;$("pf").reset();$("pa").checked=true;updatePrev()};
 $("pf").onsubmit=async e=>{e.preventDefault();
   const data={name:$("pn").value.trim(),price:$("pp").value===""?null:Number($("pp").value),type:$("pt").value,
     variants:$("pv").value.split(",").map(s=>s.trim()).filter(Boolean),order:Number($("po").value)||0,
-    description:$("pd").value.trim(),active:$("pa").checked,updatedAt:serverTimestamp()};
+    image:safeUrl($("pi").value),description:$("pd").value.trim(),active:$("pa").checked,updatedAt:serverTimestamp()};
   const ref=editId?doc(db,"products",editId):doc(collection(db,"products"));
-  await setDoc(ref,data,{merge:true});editId=null;$("pf").reset();$("pa").checked=true};
+  await setDoc(ref,data,{merge:true});editId=null;$("pf").reset();$("pa").checked=true;updatePrev()};
 </script>
 </body>
 </html>
