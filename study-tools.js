@@ -327,10 +327,13 @@ function drawV() {
   const x = vCv.getContext("2d"), m = String(Math.floor(T.left / 60)).padStart(2, "0"), s = String(T.left % 60).padStart(2, "0");
   x.fillStyle = "#0b1120"; x.fillRect(0, 0, 480, 270);
   const pc = document.getElementById("ptCv");
-  if (pc && pc.width && pc.height) { const w = 250, h = Math.min(250, w * pc.height / pc.width); try { x.drawImage(pc, 0, 135 - h / 2, w, h); } catch {} }
-  x.fillStyle = "#e0e5ed"; x.textAlign = "center";
-  x.font = "800 84px Manrope, sans-serif"; x.fillText(`${m}:${s}`, 365, 150);
-  x.font = "600 22px 'IBM Plex Sans Arabic', sans-serif"; x.fillText(T.mode === "focus" ? "جلسة تركيز" : "استراحة", 365, 195);
+  if (pc && pc.width && pc.height) {
+    const side = Math.min(pc.width, pc.height);
+    try { x.drawImage(pc, (pc.width - side) / 2, 0, side, side, 0, 0, 270, 270); } catch {}
+  }
+  x.fillStyle = "#e0e5ed"; x.textAlign = "center"; x.direction = "ltr";
+  x.font = "800 60px Manrope, sans-serif"; x.fillText(`${m}:${s}`, 375, 140);
+  x.font = "600 20px 'IBM Plex Sans Arabic', sans-serif"; x.fillText(T.mode === "focus" ? "جلسة تركيز" : "استراحة", 375, 182);
 }
 /* عامل (Worker) يحدّث الرسم حتى لو الصفحة بالخلفية */
 function vTick(on) {
