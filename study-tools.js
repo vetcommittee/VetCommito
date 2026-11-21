@@ -321,27 +321,60 @@ function vTick(on) {
   } else if (!on && vWorker) { vWorker.terminate(); vWorker = null; }
 }
 async function openVidPiP() {
-  if (inV()) { document.exitPictureInPicture ? document.exitPictureInPicture().catch(() => {}) : vVid.webkitSetPresentationMode("inline"); return; }
-  if (!vCv) { vCv = document.createElement("canvas"); vCv.width = 480; vCv.height = 270; }
+  if (inV()) {
+    try {
+      if (document.exitPictureInPicture) await document.exitPictureInPicture();
+      else if (typeof vVid.webkitSetPresentationMode === "function") vVid.webkitSetPresentationMode("inline");
+    } catch {}
+    return;
+  }
+
+  if (!vCv) {
+    vCv = document.createElement("canvas");
+    vCv.width = 480;
+    vCv.height = 270;
+  }
+
   if (!vVid) {
-    vVid = document.createElement("video"); vVid.muted = true; vVid.playsInline = true; vVid.setAttribute("playsinline", "");
+    vVid = document.createElement("video");
+    vVid.muted = true;
+    vVid.playsInline = true;
+    vVid.setAttribute("playsinline", "");
     vVid.style.cssText = "position:fixed;right:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none";
     document.body.appendChild(vVid);
+
     const left = () => { if (!inV()) vTick(false); };
     vVid.addEventListener("leavepictureinpicture", left);
     vVid.addEventListener("webkitpresentationmodechanged", left);
     vVid.addEventListener("pause", () => { if (!vGuard && inV() && T.running) pause(); });
     vVid.addEventListener("play", () => { if (!vGuard && inV() && !T.running) start(); });
   }
-  vVid.srcObject = vCv.captureStream(8); drawV(); vGuard = true;
-  const p = vVid.play();                       /* بدون await قبل الـ PiP عشان Safari */
+
+  drawV();
+  if (!vVid.srcObject && typeof vCv.captureStream === "function") {
+    vVid.srcObject = vCv.captureStream(8);
+  }
+
+  vGuard = true;
   try {
-    if (vVid.requestPictureInPicture) { await p; await vVid.requestPictureInPicture(); }
-    else { vVid.webkitSetPresentationMode("picture-in-picture"); await p; }
-    vTick(true);
-  } catch {}
-  vGuard = false;
+    await vVid.play();
+    if (typeof vVid.requestPictureInPicture === "function") {
+      await vVid.requestPictureInPicture();
+      vTick(true);
+    } else if (typeof vVid.webkitSetPresentationMode === "function") {
+      vVid.webkitSetPresentationMode("picture-in-picture");
+      vTick(true);
+    } else {
+      window.UI?.toast?.("المتصفح الحالي لا يدعم النافذة العائمة");
+    }
+  } catch (err) {
+    console.warn("PiP error:", err);
+    window.UI?.toast?.("تعذّر فتح النافذة العائمة على هذا المتصفح");
+  } finally {
+    vGuard = false;
+  }
 }
+
 
 /* ---------- Planner ---------- */
 const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
