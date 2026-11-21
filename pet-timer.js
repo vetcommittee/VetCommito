@@ -39,7 +39,7 @@
     card.querySelector('.timer').before(wrap);
     const stage = $('ptStage'), cv = $('ptCv'), bub = $('ptBub'), $nm = $('ptNm'), $cnt = $('ptCnt'), $bf = $('ptBf'), $hb = $('ptHb'), $wb = $('ptWb'), $pk = $('ptPick');
     const T = window.THREE;
-    let renderer; try { renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); } catch (e) { wrap.remove(); return; }
+    let renderer; try { renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, preserveDrawingBuffer: true }); } catch (e) { wrap.remove(); return; }
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
 
     /* ---------- state ---------- */
@@ -157,7 +157,7 @@ build(kind);
       cam.position.set(0, 2.5 * P.cd, (w / h < .9 ? 9.4 : 6.9) * P.cd); cam.lookAt(0, P.ly, 0); cam.updateProjectionMatrix();
     }
     new ResizeObserver(resize).observe(stage); resize();
-    if ('IntersectionObserver' in window) new IntersectionObserver((e) => { vis = e[0].isIntersecting; if (vis) resize(); }).observe(stage);
+    if ('IntersectionObserver' in window) new IntersectionObserver((e) => { vis = stage.ownerDocument !== document || e[0].isIntersecting; if (vis) resize(); }).observe(stage);
 
     /* ---------- ui ---------- */
     let bt; function say(m, ms = 1800) { bub.textContent = m; bub.classList.add('on'); clearTimeout(bt); bt = setTimeout(() => bub.classList.remove('on'), ms); }
@@ -208,8 +208,8 @@ cv.addEventListener('pointerleave',()=>{px=0;py=0});
 
     /* ---------- loop ---------- */
     let last = performance.now();
-    function loop(now) {
-      requestAnimationFrame(loop); const dt = Math.min((now - last) / 1000, .05); last = now; t += dt;
+    function loop() {
+      const now = performance.now(); const dt = Math.max(0, Math.min((now - last) / 1000, .05)); last = now; t += dt;
       const s = rd();
       if (prev.mode === 'focus' && s.mode === 'break' && prev.run) focusDone();
       if (s.mode === 'focus' && s.run && !(prev.run && prev.mode === 'focus')) { wake(); say('أدرس معك 📖', 1600); }
@@ -221,7 +221,7 @@ cv.addEventListener('pointerleave',()=>{px=0;py=0});
       hunger = sub === 'eat' ? Math.min(100, hunger + dt * 20) : Math.max(0, hunger - dt * rate);
       thirst = sub === 'drink' ? Math.min(100, thirst + dt * 20) : Math.max(0, thirst - dt * rate);
       $hb.style.width = hunger + '%'; $wb.style.width = thirst + '%';
-      if (!vis) return;
+      if (!vis && stage.ownerDocument === document) return;
   sit+=((phase==='focus'?1:0)-sit)*dt*3;bowlS+=((phase==='break'?1:0)-bowlS)*dt*4;bookS+=((phase==='focus'?1:0)-bookS)*dt*4;
   bowls.visible=bowlS>.03;bowls.scale.setScalar(Math.max(.01,bowlS));book.visible=bookS>.03;book.scale.setScalar(Math.max(.01,bookS));
   const hungry=!sleepy&&phase==='idle'&&(hunger<25||thirst<25);
@@ -245,7 +245,12 @@ cv.addEventListener('pointerleave',()=>{px=0;py=0});
   tail.forEach((m,i)=>P.tail(m,i,i/(N-1),t,sp,sit));
   if(sleepy&&Math.sin(t*1.2)>.97)fl('💤');
   renderer.render(scene,cam)}
-    requestAnimationFrame(loop);
+    let tok = 0;
+    function kick() {
+      const me = ++tok;
+      (function f() { if (me !== tok) return; (stage.ownerDocument.defaultView || window).requestAnimationFrame(f); loop(); })();
+    }
+    window.petKick = kick; window.petResize = resize; window.petTick = loop; kick();
     addEventListener('beforeunload', save);
   }
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', whenReady) : whenReady();
