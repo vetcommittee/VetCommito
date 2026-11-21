@@ -143,7 +143,7 @@ overlay.innerHTML = `
 document.body.appendChild(overlay);
 
 const grid = $("#mainToolsGrid");
-grid.classList.add("collapsed"); 
+grid.classList.add("collapsed");
 grid.insertAdjacentHTML("afterbegin", timerCard + statsCard + plannerCard + absCard);
 icons();
 
@@ -268,30 +268,48 @@ const probe = document.createElement("video");
 const wk = typeof probe.webkitSetPresentationMode === "function";
 const hasVid = (!!document.pictureInPictureEnabled || wk) && typeof HTMLCanvasElement.prototype.captureStream === "function";
 if (!hasDoc && !hasVid) $("#stPipBtn").style.display = "none";
+
+/* يعرض الأخطاء على الشاشة (الآيباد ما فيه Console) */
+const pipErr = (e) => {
+  const m = "PiP: " + (e?.name || "") + " " + (e?.message || e);
+  try { window.UI?.toast ? window.UI.toast(m) : alert(m); } catch { alert(m); }
+};
+
 let pipCard = null, pipHold = null, vCv = null, vVid = null;
-const togglePiP = () => (hasDoc ? (pip ? pip.close() : openDocPiP()) : openVidPiP());
-const pipBtns = (v) => pipCard.querySelectorAll('[data-a="expand"],[data-a="pip"]').forEach((b) => (b.style.display = v));
+const togglePiP = () => {
+  try {
+    if (hasDoc) { pip ? pip.close() : openDocPiP(); }
+    else if (hasVid) openVidPiP();
+    else pipErr("المتصفح لا يدعم النافذة العائمة");
+  } catch (e) { pipErr(e); }
+};
+const pipBtns = (v) => pipCard && pipCard.querySelectorAll('[data-a="expand"],[data-a="pip"]').forEach((b) => (b.style.display = v));
 
 /* كمبيوتر (Chrome/Edge): ننقل الكرت الحقيقي بكل أزراره */
 async function openDocPiP() {
-  const card = $('[data-st="timer"]'); if (!card) return;
-  let w; try { w = await documentPictureInPicture.requestWindow({ width: 400, height: 660 }); } catch { return; }
-  pip = w; pipCard = card; const d = w.document;
-  [...document.styleSheets].forEach((ss) => {
-    try { const st = d.createElement("style"); st.textContent = [...ss.cssRules].map((r) => r.cssText).join(""); d.head.appendChild(st); }
-    catch { if (ss.href) { const l = d.createElement("link"); l.rel = "stylesheet"; l.href = ss.href; d.head.appendChild(l); } }
-  });
-  d.documentElement.dir = "rtl";
-  d.documentElement.setAttribute("data-theme", document.documentElement.getAttribute("data-theme"));
-  d.body.style.cssText = "margin:0;padding:12px;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif";
-  pipHold = document.createElement("article");
-  pipHold.className = "tool-card"; pipHold.style.cssText = "order:1;grid-column:span 2";
-  pipHold.innerHTML = `<div style="text-align:center;font-size:13px;color:var(--slate)">المؤقّت يعمل في النافذة العائمة<br><button class="ghost-btn" data-a="pipback" style="margin-top:10px">أعده هنا</button></div>`;
-  card.replaceWith(pipHold); d.body.appendChild(card); pipBtns("none");
-  d.addEventListener("click", onAction);
-  w.setInterval(sync, 500);            /* نافذة ظاهرة = بدون تباطؤ */
-  w.addEventListener("pagehide", restorePiP);
-  paint(); window.petKick?.(); setTimeout(() => window.petResize?.(), 150);
+  const card = $('[data-st="timer"]'); if (!card) return pipErr("ما لقيت كرت المؤقّت");
+  let w;
+  try { w = await documentPictureInPicture.requestWindow({ width: 400, height: 660 }); }
+  catch (e) { return pipErr(e); }
+  try {
+    pip = w; pipCard = card; const d = w.document;
+    [...document.styleSheets].forEach((ss) => {
+      try { const st = d.createElement("style"); st.textContent = [...ss.cssRules].map((r) => r.cssText).join(""); d.head.appendChild(st); }
+      catch { if (ss.href) { const l = d.createElement("link"); l.rel = "stylesheet"; l.href = ss.href; d.head.appendChild(l); } }
+    });
+    d.documentElement.dir = "rtl";
+    const th = document.documentElement.getAttribute("data-theme");
+    if (th) d.documentElement.setAttribute("data-theme", th);
+    d.body.style.cssText = "margin:0;padding:12px;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif";
+    pipHold = document.createElement("article");
+    pipHold.className = "tool-card"; pipHold.style.cssText = "order:1;grid-column:span 2";
+    pipHold.innerHTML = `<div style="text-align:center;font-size:13px;color:var(--slate)">المؤقّت يعمل في النافذة العائمة<br><button class="ghost-btn" data-a="pipback" style="margin-top:10px">أعده هنا</button></div>`;
+    card.replaceWith(pipHold); d.body.appendChild(card); pipBtns("none");
+    d.addEventListener("click", onAction);
+    w.setInterval(sync, 500);            /* نافذة ظاهرة = بدون تباطؤ */
+    w.addEventListener("pagehide", restorePiP);
+    paint(); window.petKick?.(); setTimeout(() => window.petResize?.(), 150);
+  } catch (e) { pipErr(e); try { restorePiP(); w.close(); } catch {} }
 }
 function restorePiP() {
   if (!pipCard) return;
@@ -305,6 +323,7 @@ const inV = () => !!vVid && (document.pictureInPictureElement === vVid || vVid.w
 let vWorker = null, vGuard = false;
 
 function drawV() {
+  if (!vCv) return;
   const x = vCv.getContext("2d"), m = String(Math.floor(T.left / 60)).padStart(2, "0"), s = String(T.left % 60).padStart(2, "0");
   x.fillStyle = "#0b1120"; x.fillRect(0, 0, 480, 270);
   const pc = document.getElementById("ptCv");
@@ -320,61 +339,35 @@ function vTick(on) {
     vWorker.onmessage = () => { window.petTick?.(); if (T.running) sync(); else drawV(); };
   } else if (!on && vWorker) { vWorker.terminate(); vWorker = null; }
 }
-async function openVidPiP() {
-  if (inV()) {
-    try {
-      if (document.exitPictureInPicture) await document.exitPictureInPicture();
-      else if (typeof vVid.webkitSetPresentationMode === "function") vVid.webkitSetPresentationMode("inline");
-    } catch {}
-    return;
-  }
-
-  if (!vCv) {
-    vCv = document.createElement("canvas");
-    vCv.width = 480;
-    vCv.height = 270;
-  }
-
-  if (!vVid) {
-    vVid = document.createElement("video");
-    vVid.muted = true;
-    vVid.playsInline = true;
-    vVid.setAttribute("playsinline", "");
-    vVid.style.cssText = "position:fixed;right:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none";
-    document.body.appendChild(vVid);
-
-    const left = () => { if (!inV()) vTick(false); };
-    vVid.addEventListener("leavepictureinpicture", left);
-    vVid.addEventListener("webkitpresentationmodechanged", left);
-    vVid.addEventListener("pause", () => { if (!vGuard && inV() && T.running) pause(); });
-    vVid.addEventListener("play", () => { if (!vGuard && inV() && !T.running) start(); });
-  }
-
+/* نجهّز الفيديو مسبقاً عشان Safari يقبل الدخول لـ PiP مباشرة عند النقرة */
+function prepV() {
+  if (vVid) return;
+  vCv = document.createElement("canvas"); vCv.width = 480; vCv.height = 270;
+  vVid = document.createElement("video"); vVid.muted = true; vVid.playsInline = true;
+  vVid.setAttribute("playsinline", ""); vVid.setAttribute("muted", "");
+  vVid.style.cssText = "position:fixed;right:8px;bottom:8px;width:64px;height:36px;opacity:.01;pointer-events:none;z-index:-1";
+  document.body.appendChild(vVid);
+  const left = () => { if (!inV()) vTick(false); };
+  vVid.addEventListener("leavepictureinpicture", left);
+  vVid.addEventListener("webkitpresentationmodechanged", left);
+  vVid.addEventListener("pause", () => { if (!vGuard && inV() && T.running) pause(); });
+  vVid.addEventListener("play", () => { if (!vGuard && inV() && !T.running) start(); });
   drawV();
-  if (!vVid.srcObject && typeof vCv.captureStream === "function") {
-    vVid.srcObject = vCv.captureStream(8);
-  }
-
+  vVid.srcObject = vCv.captureStream(8);
   vGuard = true;
-  try {
-    await vVid.play();
-    if (typeof vVid.requestPictureInPicture === "function") {
-      await vVid.requestPictureInPicture();
-      vTick(true);
-    } else if (typeof vVid.webkitSetPresentationMode === "function") {
-      vVid.webkitSetPresentationMode("picture-in-picture");
-      vTick(true);
-    } else {
-      window.UI?.toast?.("المتصفح الحالي لا يدعم النافذة العائمة");
-    }
-  } catch (err) {
-    console.warn("PiP error:", err);
-    window.UI?.toast?.("تعذّر فتح النافذة العائمة على هذا المتصفح");
-  } finally {
-    vGuard = false;
-  }
+  vVid.play().catch(() => {}).finally(() => { vGuard = false; });
 }
-
+function openVidPiP() {
+  prepV();
+  if (inV()) { document.exitPictureInPicture ? document.exitPictureInPicture().catch(() => {}) : vVid.webkitSetPresentationMode("inline"); return; }
+  drawV(); vGuard = true;
+  try {
+    if (vVid.paused) vVid.play().catch(() => {});
+    if (vVid.requestPictureInPicture) vVid.requestPictureInPicture().then(() => { vGuard = false; vTick(true); }).catch((e) => { vGuard = false; pipErr(e); });
+    else { vVid.webkitSetPresentationMode("picture-in-picture"); vGuard = false; vTick(true); }
+  } catch (e) { vGuard = false; pipErr(e); }
+}
+if (!hasDoc && hasVid) prepV();
 
 /* ---------- Planner ---------- */
 const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
