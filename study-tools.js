@@ -1,6 +1,8 @@
 /* study-tools.js — أدوات الدراسة (مؤقّت، إحصائيات، مخطط، غيابات، تقدّم المساق، ملاحظات) */
-const $ = (s, r = document) => r.querySelector(s);
-const all = (n) => document.querySelectorAll(`[data-t="${n}"]`);
+let pip = null;
+const $ = (s, r) => (r || document).querySelector(s) || (!r && pip ? pip.document.querySelector(s) : null);
+const qa = (s) => [...document.querySelectorAll(s), ...(pip ? pip.document.querySelectorAll(s) : [])];
+const all = (n) => qa(`[data-t="${n}"]`);
 const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const ls = {
   get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
@@ -106,6 +108,7 @@ const timerCard = card("timer", "timer", "مؤقّت التركيز", "اختر 
     <button class="primary-btn" data-a="toggle"><span data-t="toggle">ابدأ</span></button>
     <button class="ghost-btn" data-a="reset">إعادة ضبط</button>
     <button class="ghost-btn" data-a="expand"><i data-lucide="maximize" width="14"></i>تكبير</button>
+    <button class="ghost-btn" data-a="pip" id="stPipBtn"><i data-lucide="picture-in-picture-2" width="14"></i>عائم</button>
   </div>
 </div>
 <p class="st-quote" data-t="quote"></p>`);
@@ -201,8 +204,9 @@ function paint() {
   all("toggle").forEach((e) => (e.textContent = T.running ? "إيقاف" : "ابدأ"));
   $("#stRing").style.setProperty("--p", Math.round(((total - T.left) / total) * 100));
   document.title = T.running ? `⏱ ${m}:${s} · ${BASE_TITLE}` : BASE_TITLE;
-  document.querySelectorAll("#stPresets .st-chip").forEach((b) => b.classList.toggle("on", b.dataset.p === T.preset));
+  qa("#stPresets .st-chip").forEach((b) => b.classList.toggle("on", b.dataset.p === T.preset));
   $("#stCustom").hidden = T.preset !== "custom";
+  if (inV()) drawV();
 }
 
 function beep() {
@@ -213,6 +217,7 @@ function beep() {
   navigator.vibrate?.([200, 100, 200]);
 }
 function sync() {
+  if (!T.running) return;
   T.left = Math.max(0, Math.round((T.endAt - Date.now()) / 1000));
   if (T.left === 0) return finish();
   paint();
@@ -228,7 +233,7 @@ function pause() {
 }
 function finish() {
   clearInterval(T.tick); T.running = false;
-if (T.mode === "focus") { addMinutes(T.focus); window.feedPet?.(); }
+  if (T.mode === "focus") { addMinutes(T.focus); window.feedPet?.(); }
 
   beep(); window.UI?.toast?.(T.mode === "focus" ? "خلّصت جلسة التركيز 🎉 خذ استراحة" : "انتهت الاستراحة، يلا نكمل");
   T.mode = T.mode === "focus" ? "break" : "focus";
@@ -257,6 +262,86 @@ $("#stPresets").addEventListener("click", (e) => {
   else { const [f, br] = b.dataset.p.split("-").map(Number); setDur(f, br, b.dataset.p); }
 });
 
+/* ---------- Picture in Picture ---------- */
+const hasDoc = "documentPictureInPicture" in window;
+const probe = document.createElement("video");
+const wk = typeof probe.webkitSetPresentationMode === "function";
+const hasVid = (!!document.pictureInPictureEnabled || wk) && typeof HTMLCanvasElement.prototype.captureStream === "function";
+if (!hasDoc && !hasVid) $("#stPipBtn").style.display = "none";
+let pipCard = null, pipHold = null, vCv = null, vVid = null;
+const togglePiP = () => (hasDoc ? (pip ? pip.close() : openDocPiP()) : openVidPiP());
+const pipBtns = (v) => pipCard.querySelectorAll('[data-a="expand"],[data-a="pip"]').forEach((b) => (b.style.display = v));
+
+/* كمبيوتر (Chrome/Edge): ننقل الكرت الحقيقي بكل أزراره */
+async function openDocPiP() {
+  const card = $('[data-st="timer"]'); if (!card) return;
+  let w; try { w = await documentPictureInPicture.requestWindow({ width: 400, height: 660 }); } catch { return; }
+  pip = w; pipCard = card; const d = w.document;
+  [...document.styleSheets].forEach((ss) => {
+    try { const st = d.createElement("style"); st.textContent = [...ss.cssRules].map((r) => r.cssText).join(""); d.head.appendChild(st); }
+    catch { if (ss.href) { const l = d.createElement("link"); l.rel = "stylesheet"; l.href = ss.href; d.head.appendChild(l); } }
+  });
+  d.documentElement.dir = "rtl";
+  d.documentElement.setAttribute("data-theme", document.documentElement.getAttribute("data-theme"));
+  d.body.style.cssText = "margin:0;padding:12px;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans Arabic',sans-serif";
+  pipHold = document.createElement("article");
+  pipHold.className = "tool-card"; pipHold.style.cssText = "order:1;grid-column:span 2";
+  pipHold.innerHTML = `<div style="text-align:center;font-size:13px;color:var(--slate)">المؤقّت يعمل في النافذة العائمة<br><button class="ghost-btn" data-a="pipback" style="margin-top:10px">أعده هنا</button></div>`;
+  card.replaceWith(pipHold); d.body.appendChild(card); pipBtns("none");
+  d.addEventListener("click", onAction);
+  w.setInterval(sync, 500);            /* نافذة ظاهرة = بدون تباطؤ */
+  w.addEventListener("pagehide", restorePiP);
+  paint(); window.petKick?.(); setTimeout(() => window.petResize?.(), 150);
+}
+function restorePiP() {
+  if (!pipCard) return;
+  pipBtns(""); pipHold.replaceWith(pipCard);
+  pipCard = pipHold = pip = null;
+  paint(); window.petKick?.(); setTimeout(() => window.petResize?.(), 150);
+}
+
+/* آيباد / Safari: فيديو عائم يعرض القطة والوقت، وتشغيل/إيقاف يتحكم بالمؤقّت */
+const inV = () => !!vVid && (document.pictureInPictureElement === vVid || vVid.webkitPresentationMode === "picture-in-picture");
+let vWorker = null, vGuard = false;
+
+function drawV() {
+  const x = vCv.getContext("2d"), m = String(Math.floor(T.left / 60)).padStart(2, "0"), s = String(T.left % 60).padStart(2, "0");
+  x.fillStyle = "#0b1120"; x.fillRect(0, 0, 480, 270);
+  const pc = document.getElementById("ptCv");
+  if (pc && pc.width && pc.height) { const w = 250, h = Math.min(250, w * pc.height / pc.width); try { x.drawImage(pc, 0, 135 - h / 2, w, h); } catch {} }
+  x.fillStyle = "#e0e5ed"; x.textAlign = "center";
+  x.font = "800 84px Manrope, sans-serif"; x.fillText(`${m}:${s}`, 365, 150);
+  x.font = "600 22px 'IBM Plex Sans Arabic', sans-serif"; x.fillText(T.mode === "focus" ? "جلسة تركيز" : "استراحة", 365, 195);
+}
+/* عامل (Worker) يحدّث الرسم حتى لو الصفحة بالخلفية */
+function vTick(on) {
+  if (on && !vWorker) {
+    vWorker = new Worker(URL.createObjectURL(new Blob(["setInterval(()=>postMessage(0),400)"])));
+    vWorker.onmessage = () => { window.petTick?.(); if (T.running) sync(); else drawV(); };
+  } else if (!on && vWorker) { vWorker.terminate(); vWorker = null; }
+}
+async function openVidPiP() {
+  if (inV()) { document.exitPictureInPicture ? document.exitPictureInPicture().catch(() => {}) : vVid.webkitSetPresentationMode("inline"); return; }
+  if (!vCv) { vCv = document.createElement("canvas"); vCv.width = 480; vCv.height = 270; }
+  if (!vVid) {
+    vVid = document.createElement("video"); vVid.muted = true; vVid.playsInline = true; vVid.setAttribute("playsinline", "");
+    vVid.style.cssText = "position:fixed;right:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none";
+    document.body.appendChild(vVid);
+    const left = () => { if (!inV()) vTick(false); };
+    vVid.addEventListener("leavepictureinpicture", left);
+    vVid.addEventListener("webkitpresentationmodechanged", left);
+    vVid.addEventListener("pause", () => { if (!vGuard && inV() && T.running) pause(); });
+    vVid.addEventListener("play", () => { if (!vGuard && inV() && !T.running) start(); });
+  }
+  vVid.srcObject = vCv.captureStream(8); drawV(); vGuard = true;
+  const p = vVid.play();                       /* بدون await قبل الـ PiP عشان Safari */
+  try {
+    if (vVid.requestPictureInPicture) { await p; await vVid.requestPictureInPicture(); }
+    else { vVid.webkitSetPresentationMode("picture-in-picture"); await p; }
+    vTick(true);
+  } catch {}
+  vGuard = false;
+}
 
 /* ---------- Planner ---------- */
 const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
@@ -299,7 +384,7 @@ function bumpAbs(id, d) {
   ls.set("vet_absences", ls.get("vet_absences", []).map((x) => (x.id === id ? { ...x, count: Math.max(0, x.count + d) } : x)));
   renderAbs();
 }
-document.addEventListener("click", (e) => {
+function onAction(e) {
   const b = e.target.closest("[data-a]"); if (!b) return;
   const id = b.dataset.id;
   switch (b.dataset.a) {
@@ -307,6 +392,8 @@ document.addEventListener("click", (e) => {
     case "reset": reset(); break;
     case "expand": openFS(); break;
     case "close": closeFS(); break;
+    case "pip": togglePiP(); break;
+    case "pipback": pip?.close(); break;
     case "apply": {
       const f = Math.min(180, Math.max(1, Number($("#stCF").value) || 0)), br = Math.min(60, Math.max(1, Number($("#stCB").value) || 0));
       if (f && br) setDur(f, br, "custom"); break;
@@ -319,7 +406,8 @@ document.addEventListener("click", (e) => {
     case "abm": bumpAbs(id, -1); break;
     case "abd": ls.set("vet_absences", ls.get("vet_absences", []).filter((x) => x.id !== id)); renderAbs(); break;
   }
-});
+}
+document.addEventListener("click", onAction);
 $("#plText").addEventListener("keydown", (e) => { if (e.key === "Enter") addPlan(); });
 $("#abName").addEventListener("keydown", (e) => { if (e.key === "Enter") addAbs(); });
 $("#stGoalIn").addEventListener("change", (e) => { ls.set("vet_goal", Math.max(1, Number(e.target.value) || 10)); renderStats(); });
