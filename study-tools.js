@@ -332,8 +332,13 @@ function drawV() {
     try { x.drawImage(pc, (pc.width - side) / 2, 0, side, side, 0, 0, 270, 270); } catch {}
   }
   x.fillStyle = "#e0e5ed"; x.textAlign = "center"; x.direction = "ltr";
-  x.font = "800 60px Manrope, sans-serif"; x.fillText(`${m}:${s}`, 375, 140);
-  x.font = "600 20px 'IBM Plex Sans Arabic', sans-serif"; x.fillText(T.mode === "focus" ? "جلسة تركيز" : "استراحة", 375, 182);
+  const t = `${m}:${s}`; let fs = 90;
+  x.font = `800 ${fs}px Manrope, sans-serif`;
+  const w = x.measureText(t).width;
+  if (w > 190) { fs = Math.floor(fs * 190 / w); x.font = `800 ${fs}px Manrope, sans-serif`; }
+  x.fillText(t, 375, 135 + fs * 0.1);
+  x.font = "600 22px 'IBM Plex Sans Arabic', sans-serif";
+  x.fillText(T.mode === "focus" ? "جلسة تركيز" : "استراحة", 375, 135 + fs * 0.1 + 42);
 }
 /* عامل (Worker) يحدّث الرسم حتى لو الصفحة بالخلفية */
 function vTick(on) {
