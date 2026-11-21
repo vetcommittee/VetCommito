@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--white:#fff;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--mut:#8893a4;--nav:#fbfbfd;--on:#fff}
-[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--card:#1e293b;--cb:#334155;--btn:#334155;--mut:#949daf;--nav:#0f172a;--on:#0b1120}
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--white:#fff;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--mut:#8893a4;--nav:#fbfbfd;--on:#fff;--bad:#c0392b}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--card:#1e293b;--cb:#334155;--btn:#334155;--mut:#949daf;--nav:#0f172a;--on:#0b1120;--bad:#ff7b6b}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom,0)}
 button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
@@ -59,28 +59,42 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;
 .chip:hover{border-color:var(--purple)}.chip.on{background:var(--navy);color:var(--white);border-color:var(--navy)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.card{border:1px solid var(--cb);border-radius:16px;background:var(--card);padding:20px;min-height:190px;display:flex;flex-direction:column;gap:8px;transition:.25s}
+.card{border:1px solid var(--cb);border-radius:16px;background:var(--card);padding:20px;min-height:190px;display:flex;flex-direction:column;gap:8px;transition:.25s;position:relative}
 .card:hover{transform:translateY(-4px);border-color:var(--purple);box-shadow:0 16px 32px rgba(0,0,0,.08)}
 .card.course{border-inline-start:4px solid var(--gold)}
-.thumb{width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--btn);margin-bottom:4px}
+.card.sold{opacity:.78}
+.card.sold:hover{transform:none;border-color:var(--cb);box-shadow:none}
+.card.hi{box-shadow:0 0 0 3px var(--gold)}
+.thumb{width:100%;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--btn);margin-bottom:4px;position:relative}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .card:hover .thumb img{transform:scale(1.04)}
+.card.sold .thumb img{filter:grayscale(.45);transform:none}
+.tags{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .tag{align-self:flex-start;font-size:11px;font-weight:600;color:var(--purple);background:var(--btn);padding:5px 10px;border-radius:8px}
+.tag.sold-tag{background:rgba(192,57,43,.14);color:var(--bad)}
 .card h3{margin:4px 0 0;font-size:16px;line-height:1.6;color:var(--navy);font-weight:700}
 .card p{margin:0;font-size:12px;color:var(--mut);line-height:1.7}
 .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px}
 .price{font:700 18px Manrope,sans-serif;color:var(--purple)}.price small{font:500 11px "IBM Plex Sans Arabic",sans-serif;color:var(--mut);margin-inline-start:4px}
+.price.free{font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;font-size:15px}
 .pb{border:0;background:var(--purple);color:var(--on);padding:11px 20px;border-radius:10px;font-size:12px;font-weight:600;transition:.2s}
-.pb:hover{opacity:.9;transform:translateY(-1px)}.pb:disabled{opacity:.5}
+.pb:hover{opacity:.9;transform:translateY(-1px)}.pb:disabled{opacity:.55;cursor:not-allowed;transform:none}
 .empty{grid-column:1/-1;text-align:center;padding:48px 10px;color:var(--slate)}
 :focus-visible{outline:3px solid var(--violet);outline-offset:2px}
 
 dialog{border:1px solid var(--line);border-radius:24px;background:var(--card);color:var(--ink);width:min(460px,92vw);max-height:90vh;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(5,10,20,.6);backdrop-filter:blur(4px)}
 dialog[open]{animation:dg .3s}@keyframes dg{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
-dialog h2{margin:0;font-size:20px;color:var(--navy)}
+.dhead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+dialog h2{margin:0;font-size:20px;color:var(--navy);line-height:1.4}
+.shr{border:1px solid var(--line);background:var(--paper);color:var(--slate);border-radius:10px;padding:6px 10px;font-size:11px;font-weight:600;white-space:nowrap;flex:none;transition:.2s}
+.shr:hover{border-color:var(--purple);color:var(--navy)}
 .dimg{width:100%;max-height:180px;object-fit:cover;border-radius:14px;margin-bottom:12px;background:var(--btn);display:block}
 .dimg[hidden]{display:none}
+.qty-box{display:flex;align-items:center;gap:8px}
+.qty-box button{width:40px;height:40px;border:1px solid var(--cb);background:var(--paper);color:var(--navy);border-radius:10px;font-size:18px;font-weight:700;flex:none}
+.qty-box button:hover{background:var(--btn)}
+.qty-box input{text-align:center;font:700 15px Manrope,sans-serif}
 label{display:block;margin:12px 0 4px;font-size:12px;color:var(--slate);font-weight:500}
 input,select,textarea{width:100%;border:1px solid var(--cb);background:var(--paper);padding:12px 14px;border-radius:10px;color:var(--ink);font-size:13px}
 input:focus,select:focus,textarea:focus{border-color:var(--purple);background:var(--card);outline:0}
@@ -140,15 +154,28 @@ footer div{display:flex;align-items:center;gap:12px;color:#d6dae5}
 
 <dialog id="dlg">
   <img id="di" class="dimg" alt="" hidden>
-  <h2 id="dt"></h2><div class="price" id="dp"></div>
+  <div class="dhead">
+    <div><h2 id="dt"></h2><div class="price" id="dp"></div></div>
+    <button type="button" class="shr" id="shr">نسخ الرابط</button>
+  </div>
   <form id="f">
     <label for="n">الاسم</label><input id="n" required minlength="2" maxlength="80" autocomplete="name">
     <label for="p">رقم الهاتف (واتساب)</label><input id="p" type="tel" required minlength="7" maxlength="20" autocomplete="tel" placeholder="07XXXXXXXX">
     <label for="y">السنة الدراسية</label>
     <select id="y"><option>أولى</option><option>ثانية</option><option>ثالثة</option><option>رابعة</option><option>خامسة</option></select>
     <div id="vw"><label for="v" id="vl">الخيار</label><select id="v"></select></div>
-    <label for="pm">طريقة الدفع</label>
-    <select id="pm"><option>نقداً عند الاستلام</option><option>CliQ</option></select>
+    <div id="qw">
+      <label for="qty">الكمية</label>
+      <div class="qty-box">
+        <button type="button" id="qm" aria-label="إنقاص">−</button>
+        <input id="qty" type="number" min="1" max="20" value="1">
+        <button type="button" id="qp" aria-label="زيادة">+</button>
+      </div>
+    </div>
+    <div id="pmw">
+      <label for="pm">طريقة الدفع</label>
+      <select id="pm"><option>نقداً عند الاستلام</option><option>CliQ</option></select>
+    </div>
     <label for="nt">ملاحظات (اختياري)</label><textarea id="nt" rows="2" maxlength="500"></textarea>
     <input id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p id="msg" role="status"></p>
@@ -166,7 +193,8 @@ const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwYUd_eLL8ZP1NJfG-g87M
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 const $=id=>document.getElementById(id);
 const safeUrl=u=>typeof u==="string"&&/^https?:\/\//i.test(u.trim())?u.trim():"";
-let cur=null,items=[],filter="";
+const fmtPrice=n=>Number.isInteger(n)?String(n):n.toFixed(2).replace(/\.?0+$/,"");
+let cur=null,items=[],filter="",deepDone=false;
 
 // المظهر: نفس مفتاح الموقع الرئيسي
 function theme(){const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"}
@@ -181,11 +209,13 @@ function mk(tag,txt,cls){const e=document.createElement(tag);if(txt!=null)e.text
 function draw(){
   const box=$("list");box.textContent="";
   const l=items.filter(p=>!filter||(p.type||"product")===filter);
-  $("cnt").textContent=l.length?l.length+" متاح حالياً":"لا يوجد شيء متاح حالياً";
+  const avail=l.filter(p=>!p.soldOut).length;
+  $("cnt").textContent=l.length?(avail===l.length?l.length+" متاح حالياً":avail+" متاح من أصل "+l.length):"لا يوجد شيء متاح حالياً";
   if(!l.length){box.append(mk("div","ما في عناصر متاحة هسا. تابع اللجنة لمعرفة الجديد.","empty"));return}
   for(const p of l){
-    const isC=p.type==="course";
-    const c=mk("article",null,"card"+(isC?" course":""));
+    const isC=p.type==="course",sold=!!p.soldOut;
+    const c=mk("article",null,"card"+(isC?" course":"")+(sold?" sold":""));
+    c.dataset.id=p.id;
     const imgUrl=safeUrl(p.image);
     if(imgUrl){
       const th=mk("div",null,"thumb"),img=mk("img");
@@ -193,17 +223,43 @@ function draw(){
       img.onerror=()=>th.remove();
       th.append(img);c.append(th);
     }
-    const f=mk("div",null,"foot"),pr=mk("span",null,"price");
-    pr.append(document.createTextNode(p.price!=null?String(p.price):""));
-    if(p.price!=null)pr.append(mk("small","د.أ"));
-    const b=mk("button",isC?"سجّل":"اطلب","pb");b.onclick=()=>open(p);
+    const tags=mk("div",null,"tags");
+    tags.append(mk("span",isC?"دورة / ورشة":"منتج","tag"));
+    if(sold)tags.append(mk("span",isC?"اكتمل العدد":"نفذت الكمية","tag sold-tag"));
+    const f=mk("div",null,"foot"),pr=mk("span",null,"price"+(p.price===0?" free":""));
+    if(p.price===0){pr.textContent="مجاني"}
+    else if(p.price!=null){pr.append(document.createTextNode(fmtPrice(Number(p.price))),mk("small","د.أ"))}
+    const b=mk("button",sold?(isC?"اكتمل العدد":"نفذت الكمية"):(isC?"سجّل":"اطلب"),"pb");
+    b.disabled=sold;
+    if(!sold)b.onclick=()=>open(p);
     f.append(pr,b);
-    c.append(mk("span",isC?"دورة / ورشة":"منتج","tag"),mk("h3",p.name||""),mk("p",p.description||""),f);
+    c.append(tags,mk("h3",p.name||""),mk("p",p.description||""),f);
     box.append(c);
   }
 }
 document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");filter=b.dataset.f;draw()});
+
+function updateDialogPrice(){
+  if(!cur)return;
+  const qty=cur.type==="course"?1:Math.max(1,Math.min(20,Number($("qty").value)||1));
+  const dp=$("dp");dp.className="price"+(cur.price===0?" free":"");dp.textContent="";
+  if(cur.price===0){dp.textContent="مجاني";return}
+  if(cur.price==null)return;
+  const unit=Number(cur.price),tot=unit*qty;
+  dp.append(document.createTextNode(fmtPrice(tot)),mk("small",qty>1?"د.أ ("+qty+" × "+fmtPrice(unit)+")":"د.أ"));
+}
+$("qm").onclick=()=>{$("qty").value=Math.max(1,(Number($("qty").value)||1)-1);updateDialogPrice()};
+$("qp").onclick=()=>{$("qty").value=Math.min(20,(Number($("qty").value)||1)+1);updateDialogPrice()};
+$("qty").oninput=updateDialogPrice;
+
+$("shr").onclick=async()=>{
+  if(!cur)return;
+  const u=new URL("store.html?p="+encodeURIComponent(cur.id),location.href).href;
+  try{await navigator.clipboard.writeText(u);$("shr").textContent="تم النسخ ✓"}
+  catch(_){prompt("انسخ الرابط:",u)}
+  setTimeout(()=>{$("shr").textContent="نسخ الرابط"},1800);
+};
 
 async function load(){
   try{
@@ -211,15 +267,33 @@ async function load(){
     const s=await getDocs(query(collection(db,"products"),where("active","==",true)));
     items=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.order||0)-(b.order||0));
     draw();
+    if(!deepDone){
+      deepDone=true;
+      const pid=new URLSearchParams(location.search).get("p");
+      if(pid){
+        const target=items.find(x=>x.id===pid);
+        if(target){
+          const el=$("list").querySelector(`[data-id="${CSS.escape(pid)}"]`);
+          if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.classList.add("hi");setTimeout(()=>el.classList.remove("hi"),2600)}
+          if(!target.soldOut)open(target);
+        }
+      }
+    }
   }catch(e){$("cnt").textContent="تعذّر التحميل، أعد المحاولة لاحقاً."}
 }
 
 function open(p){
-  cur=p;msg("");
+  if(p.soldOut)return;
+  cur=p;msg("");$("shr").textContent="نسخ الرابط";
   const imgUrl=safeUrl(p.image);
   $("di").hidden=!imgUrl;
   if(imgUrl){$("di").src=imgUrl;$("di").alt=p.name||"";$("di").onerror=()=>{$("di").hidden=true}}
-  $("dt").textContent=p.name;$("dp").textContent=p.price!=null?p.price+" د.أ":"";
+  $("dt").textContent=p.name;
+  const isC=p.type==="course",isFree=p.price===0;
+  $("qty").value="1";
+  $("qw").style.display=isC?"none":"block";
+  $("pmw").style.display=isFree?"none":"block";
+  updateDialogPrice();
   const vs=Array.isArray(p.variants)?p.variants:[];
   $("vw").style.display=vs.length?"block":"none";
   $("vl").textContent=p.variantLabel||"الخيار (المقاس / الشعبة)";
@@ -238,15 +312,30 @@ $("f").onsubmit=async e=>{
     const user=auth.currentUser;
     if(!user)throw new Error("auth");
     const ref=doc(collection(db,"orders"));
-    await setDoc(ref,{
+    const isC=cur.type==="course",isFree=cur.price===0;
+    const qty=isC?1:Math.max(1,Math.min(20,Number($("qty").value)||1));
+    const baseVar=$("vw").style.display==="none"?"":$("v").value;
+    const varVal=qty>1?(baseVar?baseVar+" · الكمية: "+qty:"الكمية: "+qty):baseVar;
+    const unitPrice=cur.price!=null?Number(cur.price):null;
+    const totalPrice=unitPrice!=null?Number((unitPrice*qty).toFixed(2)):null;
+    const baseOrder={
       ownerUid:user.uid,productId:cur.id,productName:cur.name,
       customerName:$("n").value.trim(),phone:$("p").value.trim(),
-      year:$("y").value,variant:$("vw").style.display==="none"?"":$("v").value,
-      paymentMethod:$("pm").value,note:$("nt").value.trim(),
+      year:$("y").value,variant:varVal,
+      paymentMethod:isFree?"مجاني":$("pm").value,
+      note:$("nt").value.trim(),
       status:"new",createdAt:serverTimestamp()
-    });
+    };
+    const fullOrder={...baseOrder,quantity:qty,...(unitPrice!=null?{unitPrice,totalPrice}:{})};
+    try{
+      await setDoc(ref,fullOrder);
+    }catch(err){
+      if(err&&err.code==="permission-denied"){
+        await setDoc(ref,{...baseOrder,paymentMethod:isFree?"نقداً عند الاستلام":$("pm").value,note:isFree?(baseOrder.note?"[مجاني] "+baseOrder.note:"[مجاني]"):baseOrder.note});
+      }else throw err;
+    }
     msg("وصل طلبك، رح نتواصل معك قريباً.","ok");
-    $("f").reset();
+    $("f").reset();$("qty").value="1";
     try{
       const idToken=await user.getIdToken();
       fetch(SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
