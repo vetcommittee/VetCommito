@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vetcommitto-cache-v3';
+const CACHE_NAME = 'vetcommitto-cache-v4';
 const THREE_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 /* مسارات نسبية: تشتغل سواء الموقع على جذر الدومين أو داخل مجلد (github.io/VetCommito/) */
 const urlsToCache = [
