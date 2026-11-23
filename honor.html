@@ -1,219 +1,735 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d1b33">
-<title>لوحة الشرف | لجنة الطب والجراحة البيطرية</title>
-<link rel="icon" href="logo.jpeg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--white:#fff;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--nav:#fbfbfd;--on:#fff;--bad:#c0392b;--ok:#1f8a5b}
-[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--gold:#d9b76c;--card:#1e293b;--cb:#334155;--btn:#334155;--nav:#0f172a;--on:#0b1120;--bad:#ff7b6b;--ok:#4ade80}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom,0)}
-button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
-.lt{font-family:Manrope,sans-serif}.wrap{width:min(1180px,calc(100% - 40px));margin-inline:auto}.hid{display:none!important}
-.top{height:72px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:12px}.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
-.brand b{font-size:14px;color:var(--navy);font-weight:700;line-height:1.4}.brand small{display:block;color:var(--slate);font-size:10px}
-.tools{display:flex;gap:8px}
-.ib{height:40px;min-width:40px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;padding:0 14px;font-size:12px;font-weight:600;transition:.2s}
-.ib:hover{background:var(--btn)}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1b33" />
+    <title>لوحة الشرف | المنصة الأكاديمية - VetCommitto</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="logo.jpeg" />
+    <meta name="description" content="لوحة شرف كلية الطب البيطري في جامعة العلوم والتكنولوجيا الأردنية — نحتفي بطلبتنا المتفوقين في كل فصل دراسي." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230d1b33'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Arial' font-weight='bold' fill='%23d1aa5c'%3EV%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <style>
+      :root {
+        --navy: #0d1b33; --navy2: #152c50; --purple: #1e3f70; --violet: #2b5696;
+        --ink: #1a2233; --slate: #606d85; --paper: #f5f7fa; --line: #e2e6ed;
+        --gold: #d1aa5c; --gold-light: #e8cd96; --gold-soft: #fdfaf3; --gold-border: #f4e8ce;
+        --card: #ffffff; --topbar: #fbfbfd; --btn: #f0f3f7; --bad: #c0392b; --ok: #1f8a5b;
+      }
+      [data-theme="dark"] {
+        --navy: #e0e5ed; --navy2: #152c50; --purple: #8baccf; --violet: #a8bcd9;
+        --ink: #e0e5ed; --slate: #949daf; --paper: #0b1120; --line: #293548;
+        --gold: #d9b76c; --gold-soft: rgba(217, 183, 108, 0.1); --gold-border: rgba(217, 183, 108, 0.28);
+        --card: #162033; --topbar: #0f172a; --btn: #1e293b; --bad: #ff7b6b; --ok: #4ade80;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans Arabic", sans-serif; overflow-x: hidden; line-height: 1.6; transition: background 0.3s, color 0.3s; }
+      a { color: inherit; text-decoration: none; }
+      button, input, select { font: inherit; }
+      button { cursor: pointer; }
+      .latin { font-family: Manrope, sans-serif; }
+      .hid { display: none !important; }
+      .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
 
-.hero{position:relative;overflow:hidden;color:#fff;min-height:340px;display:flex;align-items:center;background:linear-gradient(115deg,#091428,#13294b 55%,#1e3f70)}
-.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 85% 10%,rgba(209,170,92,.28),transparent 48%);pointer-events:none}
-.ecg{position:absolute;z-index:1;bottom:18px;left:50%;width:max(100%,980px);transform:translateX(-50%) scaleX(-1);pointer-events:none}
-.ecg path{fill:none;stroke-linejoin:round}.ecg .b{stroke:rgba(255,255,255,.12);stroke-width:2}
-.ecg .p{stroke:var(--gold);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:.13 1;filter:drop-shadow(0 0 7px rgba(209,170,92,.9));animation:beat 4.6s cubic-bezier(.45,.05,.55,.95) infinite}
-@keyframes beat{from{stroke-dashoffset:.13}to{stroke-dashoffset:-1}}
-.hin{position:relative;z-index:2;padding-block:50px 90px;max-width:640px}
-.eyebrow{display:inline-block;font-size:12px;font-weight:600;color:var(--gold);background:rgba(209,170,92,.12);border:1px solid rgba(209,170,92,.3);padding:6px 14px;border-radius:999px;margin-bottom:14px}
-.hero h1{font-size:clamp(32px,6vw,54px);line-height:1.25;margin:0 0 10px;font-weight:700}.hero h1 span{color:var(--gold)}
-.hero p{font-size:15px;line-height:1.85;color:#d1d9e6;margin:0;max-width:520px}
+      /* Topbar */
+      .topbar { height: 74px; background: var(--topbar); border-bottom: 1px solid var(--line); display: flex; align-items: center; position: relative; z-index: 10; }
+      .navrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .brand { display: flex; align-items: center; gap: 13px; }
+      .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); box-shadow: 0 3px 10px rgba(13, 27, 51, 0.15); background: #0d1b33; }
+      .brand-name { font-size: 14px; line-height: 1.45; font-weight: 700; color: var(--navy); }
+      .brand-name small { display: block; color: var(--slate); font-size: 10px; font-weight: 500; }
+      .nav-tools { display: flex; align-items: center; gap: 8px; }
+      .nav-btn-back { border: 1px solid var(--line); background: var(--card); color: var(--navy); padding: 9px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+      .nav-btn-back:hover { background: var(--btn); }
+      .icon-btn { width: 40px; height: 40px; border: 1px solid var(--line); background: var(--card); color: var(--navy); border-radius: 12px; display: grid; place-items: center; transition: 0.2s; }
+      .icon-btn:hover { background: var(--btn); }
 
-.semb{position:relative;z-index:3;margin-top:-30px}
-.semx{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:14px 18px;box-shadow:0 12px 34px rgba(0,0,0,.07);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.semx label{font-size:12px;font-weight:700;color:var(--slate);margin-inline-end:8px}
-.semx select{width:auto;min-width:240px;font-weight:700;color:var(--navy)}
-.badge{font-size:12px;font-weight:700;padding:7px 13px;border-radius:10px;background:var(--btn);color:var(--purple)}
+      /* Hero (مطابق لصفحة من نحن) */
+      .honor-hero {
+        background-color: #0d1b33;
+        color: #fff;
+        padding: 115px 0 115px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        border-bottom: 5px solid var(--gold);
+      }
+      .honor-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("IMG_7193.png");
+        background-size: cover;
+        background-position: center 30%;
+        opacity: 0.35;
+        z-index: 1;
+      }
+      .honor-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, #0d1b33 0%, rgba(13, 27, 51, 0.45) 60%, rgba(13, 27, 51, 0.25) 100%);
+        z-index: 2;
+      }
+      .hero-content-wrap { position: relative; z-index: 3; }
+      .honor-hero .kicker {
+        color: var(--gold); font-size: 14px; font-weight: 800; letter-spacing: 0.04em;
+        display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px;
+        background: rgba(209, 170, 92, 0.15); padding: 8px 20px; border-radius: 30px;
+        border: 1px solid rgba(209, 170, 92, 0.35);
+      }
+      .honor-hero h1 {
+        font-size: clamp(46px, 9vw, 96px); margin: 0 0 18px; font-weight: 800;
+        line-height: 1.15; letter-spacing: -0.02em; color: #fff;
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      .honor-hero h1 span { color: var(--gold); }
+      .honor-hero p {
+        font-size: 17px; color: #c7d4eb; max-width: 740px; margin: 0 auto;
+        line-height: 1.9; font-weight: 500; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+      }
 
-.board{margin:26px 0 0;border-radius:26px;padding:22px 20px 26px;background:linear-gradient(160deg,#4a59cf,#2f3ea8 50%,#18247a);box-shadow:0 20px 50px rgba(24,36,122,.25)}
-.bhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:20px;color:#fff}
-.bhead b{font-size:15px}
-.srch{width:min(280px,100%);background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff}.srch::placeholder{color:#dbe4ff}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
-.col{position:relative;padding-top:46px}
-.tab{position:absolute;top:0;inset-inline-start:0;padding:6px 24px;border-radius:16px 16px 0 0;background:linear-gradient(#eaf4ff,#b7d8ff);color:#1a2679;font:800 24px/1.4 Manrope,sans-serif;height:50px}
-.crd{background:rgba(14,18,52,.6);border:1.5px solid rgba(255,255,255,.38);border-radius:18px 0 18px 18px;padding:8px 14px;min-height:120px}
-.rw{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);color:#fff}
-.rw:first-child{border-top:0}.rw b{flex:1;font-size:15px;font-weight:700;line-height:1.5;word-break:break-word}
-.rw .g{font:700 14px Manrope,sans-serif;color:rgba(255,255,255,.85);min-width:40px;text-align:end}.rw.t .g{color:#f4d17a}
-.rw button{border:0;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:9px;font-size:14px;flex:none;opacity:.8;transition:.2s}.rw button:hover{opacity:1;background:rgba(244,209,122,.3)}
-.emp{text-align:center;color:#dbe4ff;padding:46px 10px}
+      /* Floating Control Card (بنفس روح Mission Card) */
+      .intro-section { margin-top: -62px; position: relative; z-index: 5; padding-bottom: 36px; }
+      .intro-card {
+        background: var(--card); border-radius: 28px; padding: 30px 36px;
+        box-shadow: 0 25px 50px rgba(13, 27, 51, 0.08); border: 1px solid var(--line);
+        display: flex; gap: 28px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+      }
+      .intro-left { display: flex; align-items: center; gap: 22px; flex: 1; min-width: 260px; }
+      .mission-icon {
+        width: 72px; height: 72px; background: var(--gold-soft); border: 2px solid var(--gold-border);
+        color: var(--gold); border-radius: 22px; display: grid; place-items: center; flex: none;
+        transform: rotate(-5deg);
+      }
+      .sem-field { flex: 1; min-width: 210px; }
+      .sem-field label { display: block; font-size: 12px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+      .sem-field select { font-weight: 700; color: var(--navy); max-width: 380px; }
+      .intro-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+      .mini-stat {
+        background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+        padding: 12px 20px; text-align: center; min-width: 118px;
+      }
+      .mini-stat b { display: block; font: 800 22px Manrope, sans-serif; color: var(--purple); line-height: 1.2; }
+      .mini-stat small { font-size: 11px; font-weight: 600; color: var(--slate); }
+      .mini-stat.gold { background: var(--gold-soft); border-color: var(--gold-border); }
+      .mini-stat.gold b { color: var(--gold); }
 
-.cta{margin:26px 0 60px;background:linear-gradient(115deg,#0d1b33,#17325c 60%,#1e3f70);color:#fff;border-radius:22px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;border:1px solid rgba(209,170,92,.3)}
-.cta h3{margin:0 0 6px;font-size:21px}.cta p{margin:0;color:#cfd9ea;font-size:13.5px;line-height:1.8;max-width:560px}
-.cb{border:0;background:var(--gold);color:#0b1526;padding:13px 26px;border-radius:12px;font-size:14px;font-weight:700;transition:.2s}.cb:hover{transform:translateY(-2px)}.cb:disabled{opacity:.55;cursor:not-allowed;transform:none}
+      /* Filter Bar */
+      .filter-bar {
+        display: flex; align-items: center; justify-content: space-between; gap: 14px;
+        flex-wrap: wrap; margin-bottom: 28px;
+      }
+      .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+      .chip {
+        border: 1px solid var(--line); border-radius: 12px; background: var(--card);
+        padding: 9px 16px; color: var(--slate); font-size: 13px; font-weight: 700; transition: 0.2s;
+      }
+      .chip:hover { border-color: var(--purple); color: var(--navy); }
+      .chip.on { background: #0d1b33; color: #fff; border-color: #0d1b33; }
+      [data-theme="dark"] .chip.on { background: var(--gold); color: #0b1120; border-color: var(--gold); }
+      .srch-wrap { position: relative; width: min(300px, 100%); }
+      .srch-wrap i, .srch-wrap svg { position: absolute; top: 50%; inset-inline-start: 13px; transform: translateY(-50%); color: var(--slate); pointer-events: none; }
+      .srch-wrap input { padding-inline-start: 40px; }
 
-input,select{width:100%;border:1px solid var(--cb);background:var(--paper);padding:11px 13px;border-radius:10px;color:var(--ink);font-size:13px}
-input:focus,select:focus{border-color:var(--purple);outline:0}:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-.pb{border:0;background:var(--purple);color:var(--on);padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600}.pb:disabled{opacity:.55}.gh{background:transparent;color:var(--navy);border:1px solid var(--line)}
-dialog{border:1px solid var(--line);border-radius:24px;background:var(--card);color:var(--ink);width:min(480px,92vw);max-height:92vh;padding:22px;box-shadow:0 30px 90px rgba(0,0,0,.28)}
-dialog::backdrop{background:rgba(5,10,20,.65);backdrop-filter:blur(4px)}
-dialog h2{margin:0;font-size:20px;color:var(--navy)}.ds{margin:4px 0 8px;font-size:12px;color:var(--slate)}
-dialog label{display:block;margin:10px 0 4px;font-size:12px;color:var(--slate);font-weight:600}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ck{display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:12px;line-height:1.7;color:var(--slate)}.ck input{width:auto;margin-top:4px}
-.priv{font-size:11px;color:var(--slate);margin-top:6px;line-height:1.6}
-.row{display:flex;gap:8px;margin-top:14px}.row .pb{flex:1}
-#hp{position:absolute;left:-9999px;opacity:0}
-#smsg{margin:8px 0 0;font-size:13px;min-height:20px}.err{color:var(--bad)}.ok{color:var(--ok);font-weight:600}
-footer{background:#0b1526;color:#a2aac0;padding:30px 0;font-size:11px}footer .wrap{display:flex;justify-content:space-between;gap:12px}
-@media(max-width:620px){.f2{grid-template-columns:1fr}.cta{padding:22px 18px}.cb{width:100%}
- dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:26px 26px 0 0;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ecg .p{display:none}}
-</style>
-</head>
-<body>
-<header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><img src="logo.jpeg" alt="شعار اللجنة" onerror="this.style.display='none'"><span><b>لوحة الشرف</b><small>لجنة الطب والجراحة البيطرية</small></span></a>
-  <div class="tools"><a class="ib" href="index.html">المنصة الأكاديمية</a>
-    <button class="ib" id="th" aria-label="تبديل المظهر"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
-</div></header>
+      /* Honor Board Groups */
+      .board-section { padding: 6px 0 30px; }
+      .cohort-block { margin-bottom: 42px; }
+      .cohort-head {
+        display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line);
+      }
+      .cohort-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+      .cohort-pill {
+        background: linear-gradient(135deg, #0d1b33, #1e3f70); color: var(--gold);
+        font: 800 15px Manrope, sans-serif; padding: 6px 14px; border-radius: 11px;
+        border: 1px solid rgba(209, 170, 92, 0.35);
+      }
+      .cohort-head h2 { margin: 0; font-size: 21px; font-weight: 800; color: var(--navy); }
+      .cohort-cnt { font-size: 12px; font-weight: 700; color: var(--slate); background: var(--btn); padding: 6px 12px; border-radius: 10px; }
 
-<section class="hero">
-  <svg class="ecg" viewBox="0 0 1200 170" aria-hidden="true"><path class="b" pathLength="1" d="M0,95 H330 L356,95 L372,68 L392,118 L424,14 L458,158 L486,95 H690 L714,95 L730,76 L748,106 L774,38 L802,128 L824,95 H1200"/><path class="p" pathLength="1" d="M0,95 H330 L356,95 L372,68 L392,118 L424,14 L458,158 L486,95 H690 L714,95 L730,76 L748,106 L774,38 L802,128 L824,95 H1200"/></svg>
-  <div class="wrap"><div class="hin">
-    <div class="eyebrow">كلية الطب البيطري، جامعة العلوم والتكنولوجيا الأردنية</div>
-    <h1>لوحة <span>شرف الكلية</span></h1>
-    <p>نحتفي بطلبتنا المتميزين الحاصلين على معدل 3.75 فأعلى في كل فصل دراسي، تقديراً لجهدهم وتفوقهم.</p>
-  </div></div>
-</section>
+      .students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+      .st-card {
+        background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+        padding: 18px 20px; display: flex; align-items: center; gap: 14px;
+        box-shadow: 0 8px 24px rgba(13, 27, 51, 0.03); transition: 0.25s;
+      }
+      .st-card:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 14px 32px rgba(13, 27, 51, 0.08); }
+      .st-card.top1 {
+        background: linear-gradient(135deg, var(--card) 55%, var(--gold-soft));
+        border-color: var(--gold);
+      }
+      .rank-badge {
+        width: 42px; height: 42px; border-radius: 14px; background: var(--btn); color: var(--purple);
+        font: 800 16px Manrope, sans-serif; display: grid; place-items: center; flex: none;
+      }
+      .st-card.top1 .rank-badge { background: linear-gradient(135deg, #e5c16e, #b88c37); color: #0d1b33; box-shadow: 0 6px 16px rgba(209, 170, 92, 0.35); }
+      .st-card.top2 .rank-badge { background: rgba(148, 163, 184, 0.24); color: var(--navy); }
+      .st-card.top3 .rank-badge { background: rgba(196, 130, 74, 0.2); color: #b56c33; }
+      .st-info { min-width: 0; flex: 1; }
+      .st-info b { display: block; font-size: 15.5px; font-weight: 700; color: var(--navy); line-height: 1.45; word-break: break-word; }
+      .st-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 12px; color: var(--slate); }
+      .gpa-tag {
+        font: 800 13px Manrope, sans-serif; color: var(--purple); background: var(--btn);
+        padding: 2px 10px; border-radius: 8px;
+      }
+      .st-card.top1 .gpa-tag, .st-card.top2 .gpa-tag, .st-card.top3 .gpa-tag {
+        background: var(--gold-soft); color: var(--gold); border: 1px solid var(--gold-border);
+      }
+      .cert-btn {
+        width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line);
+        background: var(--paper); color: var(--slate); display: grid; place-items: center;
+        flex: none; transition: 0.2s;
+      }
+      .cert-btn:hover { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
+      .cert-btn:disabled { opacity: 0.45; cursor: wait; }
 
-<div class="wrap semb"><div class="semx">
-  <div><label for="semSel">الفصل الدراسي</label><select id="semSel"><option>جاري التحميل...</option></select></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge" id="semMin">معدل 3.75 فأعلى</span><span class="badge" id="semCnt">0 متفوق</span></div>
-</div></div>
+      .empty-box {
+        text-align: center; padding: 60px 24px; background: var(--card);
+        border: 1px dashed var(--line); border-radius: 24px; color: var(--slate);
+      }
+      .empty-box b { display: block; font-size: 17px; color: var(--navy); margin: 10px 0 4px; }
 
-<main class="wrap">
-  <section class="board">
-    <div class="bhead"><b id="bt">لوحة الشرف</b><input class="srch" id="q" type="search" placeholder="ابحث باسم طالب..." aria-label="بحث"></div>
-    <div class="cols" id="cols"></div>
-  </section>
-  <section class="cta">
-    <div><h3 id="ctaT">معدلك 3.75 فأعلى؟ ابعت معدلك لنضيفك!</h3><p id="ctaD">أرسل اسمك ومعدلك وصورة إثبات لتتم مراجعتها وإدراجك في لوحة الشرف.</p></div>
-    <button class="cb" id="openSub" type="button">🎓 ابعت معدلك الآن</button>
-  </section>
-</main>
-<footer><div class="wrap"><span>المنصة الأكاديمية - VetCommitto</span><span class="lt">JUST · JORDAN</span></div></footer>
+      /* Submit CTA Card */
+      .cta-section { padding: 10px 0 80px; }
+      .cta-card {
+        background: linear-gradient(135deg, #0d1b33 0%, #152c50 55%, #1e3f70 100%);
+        color: #fff; border-radius: 28px; padding: 38px 40px;
+        border: 1px solid rgba(209, 170, 92, 0.35);
+        box-shadow: 0 22px 48px rgba(13, 27, 51, 0.16);
+        display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+        position: relative; overflow: hidden;
+      }
+      .cta-card::after {
+        content: ""; position: absolute; inset: 0;
+        background: radial-gradient(circle at 12% 0%, rgba(209, 170, 92, 0.22), transparent 48%);
+        pointer-events: none;
+      }
+      .cta-text { position: relative; z-index: 1; max-width: 600px; }
+      .cta-text h3 { margin: 0 0 8px; font-size: 24px; font-weight: 800; }
+      .cta-text p { margin: 0; color: #c7d4eb; font-size: 14.5px; line-height: 1.85; }
+      .cta-btn {
+        position: relative; z-index: 1; border: 0; background: var(--gold); color: #0d1b33;
+        padding: 14px 28px; border-radius: 14px; font-size: 14px; font-weight: 800;
+        display: inline-flex; align-items: center; gap: 10px; transition: 0.25s; white-space: nowrap;
+        box-shadow: 0 10px 24px rgba(209, 170, 92, 0.28);
+      }
+      .cta-btn:hover { transform: translateY(-3px); filter: brightness(1.06); }
+      .cta-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
 
-<dialog id="dlg">
-  <h2>إرسال بيانات لوحة الشرف</h2><p class="ds" id="dSub"></p>
-  <form id="sf">
-    <div id="semW"><label for="sSem">الفصل الدراسي</label><select id="sSem"></select></div>
-    <label for="sName">الاسم الكامل كما تحب أن يظهر</label><input id="sName" required minlength="3" maxlength="80">
-    <div class="f2">
-      <div><label for="sYear">السنة الدراسية</label><select id="sYear"><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select></div>
-      <div><label for="sGpa" id="gl">المعدل</label><input id="sGpa" type="number" step="0.01" required dir="ltr" placeholder="3.85"></div>
-    </div>
-    <label for="sPhone">رقم الهاتف (اختياري، للتواصل عند الحاجة فقط)</label><input id="sPhone" type="tel" maxlength="20" dir="ltr" placeholder="07XXXXXXXX">
-    <label for="sFile">صورة إثبات المعدل (لقطة شاشة من موقع الخدمات)</label>
-    <input id="sFile" type="file" accept="image/*" required>
-    <div class="priv">تُرسل الصورة للجنة فقط ولا تظهر لأحد، وتُحذف نهائياً بعد مراجعتها.</div>
-    <label class="ck"><input id="sOk" type="checkbox" required><span>أوافق على نشر اسمي وسنتي الدراسية (والمعدل إن كان ظاهراً) في لوحة الشرف، ويمكنني طلب حذف اسمي لاحقاً من اللجنة.</span></label>
-    <input id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <p id="smsg" role="status"></p>
-    <div class="row"><button class="pb" id="go" type="submit">إرسال للمراجعة</button><button type="button" class="pb gh" id="cl">إغلاق</button></div>
-  </form>
-</dialog>
+      /* Forms & Dialog */
+      input, select {
+        width: 100%; border: 1px solid var(--line); background: var(--paper);
+        padding: 11px 14px; border-radius: 12px; color: var(--ink); font-size: 13.5px; transition: 0.2s;
+      }
+      input:focus, select:focus { border-color: var(--purple); background: var(--card); outline: 0; }
+      :focus-visible { outline: 3px solid var(--violet); outline-offset: 2px; }
+      .pb { border: 0; background: #1e3f70; color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 700; transition: 0.2s; }
+      .pb:hover { opacity: 0.92; }
+      .pb:disabled { opacity: 0.55; }
+      .gh { background: transparent; color: var(--navy); border: 1px solid var(--line); }
 
-<script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,collection,doc,getDocs,writeBatch,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {YEARS,cohort,renderCard,saveCanvas} from "./honor-poster.js";
+      dialog {
+        border: 1px solid var(--line); border-radius: 26px; background: var(--card); color: var(--ink);
+        width: min(500px, 92vw); max-height: 92vh; padding: 26px;
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+      }
+      dialog::backdrop { background: rgba(9, 16, 32, 0.68); backdrop-filter: blur(5px); }
+      dialog[open] { animation: dg 0.26s ease; }
+      @keyframes dg { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+      dialog h2 { margin: 0; font-size: 21px; font-weight: 800; color: var(--navy); }
+      .ds { margin: 4px 0 12px; font-size: 12.5px; color: var(--slate); }
+      dialog label { display: block; margin: 12px 0 5px; font-size: 12px; color: var(--slate); font-weight: 700; }
+      .f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .ck { display: flex; align-items: flex-start; gap: 9px; margin-top: 14px; font-size: 12px; line-height: 1.75; color: var(--slate); font-weight: 500; }
+      .ck input { width: auto; margin-top: 4px; accent-color: #1e3f70; }
+      .priv { font-size: 11.5px; color: var(--slate); margin-top: 6px; line-height: 1.65; }
+      .row { display: flex; gap: 10px; margin-top: 18px; }
+      .row .pb { flex: 1; }
+      #hp { position: absolute; left: -9999px; opacity: 0; }
+      #smsg { margin: 10px 0 0; font-size: 13px; min-height: 20px; }
+      .err { color: var(--bad); font-weight: 600; }
+      .ok { color: var(--ok); font-weight: 700; }
 
-const app=initializeApp({apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community"});
-const auth=getAuth(app),db=getFirestore(app);
-const $=id=>document.getElementById(id),MAXG=4.33;
-let pub=[],acc=[],cur=null,q="";
-const mk=(t,x,c)=>{const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e};
-const th=()=>{const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"};
-$("th").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");th()};th();
-const msg=(t,c)=>{$("smsg").textContent=t;$("smsg").className=c||""};
+      /* Social Footer (مطابق لصفحة من نحن) */
+      .social-connect { background: #0d1b33; padding: 72px 0; text-align: center; color: #fff; border-top: 4px solid var(--gold); position: relative; overflow: hidden; }
+      .social-connect::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top, rgba(209, 170, 92, 0.12), transparent 52%); pointer-events: none; z-index: 1; }
+      .social-connect-inner { position: relative; z-index: 2; }
+      .social-connect h2 { font-size: 26px; margin: 0 0 10px; font-weight: 800; }
+      .social-connect p { font-size: 15px; color: #b3c5e8; margin: 0 0 34px; }
+      .social-grid { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+      .social-btn { display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); padding: 16px 26px; border-radius: 16px; color: #fff; font-size: 14px; font-weight: 600; transition: 0.3s; backdrop-filter: blur(10px); }
+      .social-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+      .social-btn.fb:hover { background: #1877F2; border-color: #1877F2; }
+      .social-btn.ig:hover { background: #E4405F; border-color: #E4405F; }
+      .social-btn.tw:hover { background: #000; border-color: #333; }
 
-function draw(){
-  const box=$("cols");box.textContent="";
-  if(!cur){$("semCnt").textContent="0 متفوق";box.append(mk("div","لم يتم نشر لوحة الشرف بعد. ستظهر الأسماء هنا فور نشرها.","emp"));return}
-  const all=Array.isArray(cur.entries)?cur.entries:[];
-  $("semMin").textContent="معدل "+Number(cur.minGpa||3.75).toFixed(2)+" فأعلى";$("semCnt").textContent=all.length+" متفوق";
-  $("bt").textContent="لوحة الشرف، "+cur.title;
-  const list=all.filter(e=>!q||(e.name||"").toLowerCase().includes(q));
-  const yrs=YEARS.filter(y=>list.some(e=>e.year===y));
-  if(!yrs.length){box.append(mk("div",all.length?"لا توجد نتائج مطابقة.":"لا يوجد طلاب في هذا الفصل بعد.","emp"));return}
-  for(const y of yrs){
-    const col=mk("div",null,"col");col.append(mk("div",cohort(cur,y),"tab"));
-    const crd=mk("div",null,"crd");
-    list.filter(e=>e.year===y).sort((a,b)=>b.gpa-a.gpa||(a.name||"").localeCompare(b.name||"","ar")).forEach((s,i)=>{
-      const r=mk("div",null,"rw"+(i<3?" t":""));r.append(mk("b",s.name||""));
-      if(cur.showGpa&&s.gpa!=null)r.append(mk("span",Number(s.gpa).toFixed(2),"g"));
-      const b=mk("button","🏅");b.title="بطاقة تهنئة";b.setAttribute("aria-label","بطاقة تهنئة لـ "+s.name);
-      b.onclick=async()=>{b.disabled=true;try{const cv=document.createElement("canvas");await renderCard(cv,{st:s,sem:cur});await saveCanvas(cv,"honor-"+(s.name||"card").replace(/\s+/g,"-")+".png")}finally{b.disabled=false}};
-      r.append(b);crd.append(r);
-    });
-    col.append(crd);box.append(col);
-  }
-}
-$("semSel").onchange=()=>{cur=pub.find(s=>s.id===$("semSel").value)||null;draw()};
-$("q").oninput=e=>{q=e.target.value.trim().toLowerCase();draw()};
+      @media (max-width: 720px) {
+        .wrap { width: calc(100% - 36px); }
+        .topbar { height: 68px; }
+        .brand-logo { width: 40px; height: 40px; }
+        .brand-name { font-size: 13px; }
+        .nav-btn-back span { display: none; }
+        .honor-hero { padding: 86px 0 92px; }
+        .honor-hero::before { background-position: center; opacity: 0.44; }
+        .honor-hero .kicker { font-size: 12px; padding: 6px 15px; margin-bottom: 18px; }
+        .honor-hero h1 { font-size: 46px; }
+        .honor-hero p { font-size: 14.5px; line-height: 1.8; }
+        .intro-card { padding: 22px 20px; border-radius: 22px; gap: 18px; }
+        .intro-left { flex-direction: column; text-align: center; gap: 14px; }
+        .sem-field { width: 100%; }
+        .sem-field select { max-width: 100%; }
+        .intro-stats { width: 100%; justify-content: center; }
+        .mini-stat { flex: 1; }
+        .students-grid { grid-template-columns: 1fr; }
+        .cta-card { padding: 28px 22px; border-radius: 22px; }
+        .cta-text h3 { font-size: 20px; }
+        .cta-btn { width: 100%; justify-content: center; }
+        .f2 { grid-template-columns: 1fr; }
+        dialog { width: 100%; max-width: 100%; margin: auto 0 0; border-radius: 26px 26px 0 0; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+        .social-connect { padding: 56px 0; }
+        .social-grid { flex-direction: column; gap: 12px; }
+        .social-btn { justify-content: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap navrow">
+        <a href="index.html" class="brand" aria-label="العودة إلى الرئيسية">
+          <img src="logo.jpeg" alt="شعار لجنة الطب البيطري" class="brand-logo" onerror="this.style.display='none'" />
+          <span class="brand-name">المنصة الأكاديمية - VetCommitto<small>لجنة الطب والجراحة البيطرية</small></span>
+        </a>
+        <div class="nav-tools">
+          <button class="icon-btn" id="th" aria-label="تبديل المظهر"><i data-lucide="moon" width="18"></i></button>
+          <a href="index.html" class="nav-btn-back">
+            <span>العودة للرئيسية</span> <i data-lucide="arrow-right" width="16"></i>
+          </a>
+        </div>
+      </div>
+    </header>
 
-function cta(){
-  if(!acc.length){$("ctaT").textContent="باب التقديم مغلق حالياً";$("ctaD").textContent="يُفتح استقبال المعدلات نهاية كل فصل بعد صدور العلامات. ترقّبوا إعلان اللجنة.";$("openSub").textContent="التقديم مغلق حالياً";$("openSub").disabled=true;return}
-  const p=acc[0];$("ctaT").textContent="معدلك "+Number(p.minGpa||3.75).toFixed(2)+" فأعلى؟ ابعت معدلك لنضيفك!";
-  $("ctaD").textContent="التقديم مفتوح حالياً لـ "+p.title+". أرسل اسمك ومعدلك وإثبات العلامات لتتم إضافتك.";
-  const sel=$("sSem");sel.textContent="";acc.forEach(s=>{const o=mk("option",s.title);o.value=s.id;sel.append(o)});
-  $("semW").classList.toggle("hid",acc.length<2);gpaLim();
-}
-function gpaLim(){const s=acc.find(x=>x.id===$("sSem").value)||acc[0],m=Number(s&&s.minGpa||3.75);$("sGpa").min=m;$("sGpa").max=MAXG;$("gl").textContent="المعدل ("+m.toFixed(2)+" إلى "+MAXG+")";$("dSub").textContent=s?"التقديم لـ "+s.title:""}
-$("sSem").onchange=gpaLim;$("openSub").onclick=()=>{if(acc.length){msg("");$("dlg").showModal()}};$("cl").onclick=()=>$("dlg").close();
+    <main>
+      <section class="honor-hero">
+        <div class="wrap hero-content-wrap">
+          <span class="kicker"><i data-lucide="award" width="16"></i> كلية الطب البيطري · جامعة العلوم والتكنولوجيا الأردنية</span>
+          <h1>لوحة <span>الشرف</span></h1>
+          <p>لأن التفوّق ليس صدفةً، بل ثمرةُ سهرٍ وشغفٍ وإصرار؛ نُخلّد هنا أسماء نخبةٍ من طلبة كلية الطب البيطري الذين تخطّوا حاجز التميّز في كل فصل دراسي. أنتم فخرُ الكلية، وبصمتكم العلمية هي البداية لمسيرة أطباء بيطريين استثنائيين.</p>
+        </div>
+      </section>
 
-// ضغط صورة الإثبات (JPEG صغير) لتُحفظ مع الطلب وتُحذف بعد المراجعة
-async function pack(file){
-  const bm=await createImageBitmap(file),k=Math.min(1,1100/Math.max(bm.width,bm.height)),cv=document.createElement("canvas");
-  cv.width=Math.round(bm.width*k);cv.height=Math.round(bm.height*k);cv.getContext("2d").drawImage(bm,0,0,cv.width,cv.height);
-  let qy=.72,d=cv.toDataURL("image/jpeg",qy);while(d.length>360000&&qy>.35){qy-=.1;d=cv.toDataURL("image/jpeg",qy)}
-  if(d.length>370000)throw new Error("big");return d;
-}
-$("sf").onsubmit=async e=>{
-  e.preventDefault();if($("hp").value){$("dlg").close();return}
-  const sem=acc.find(x=>x.id===$("sSem").value)||acc[0],f=$("sFile").files[0],g=Number($("sGpa").value),m=Number(sem.minGpa||3.75);
-  if(!(g>=m&&g<=MAXG)){msg("المعدل يجب أن يكون بين "+m.toFixed(2)+" و "+MAXG+".","err");return}
-  if(!f||!f.type.startsWith("image/")){msg("أرفق صورة (لقطة شاشة) لإثبات المعدل.","err");return}
-  $("go").disabled=true;msg("جاري التجهيز...");
-  try{
-    const proof=await pack(f);
-    if(!auth.currentUser)await signInAnonymously(auth);
-    const uid=auth.currentUser.uid,sid=doc(collection(db,"honor_submissions")).id,b=writeBatch(db);
-    b.set(doc(db,"honor_submissions",sid),{ownerUid:uid,semesterId:sem.id,semesterTitle:sem.title,name:$("sName").value.trim(),year:$("sYear").value,gpa:Number(g.toFixed(2)),phone:$("sPhone").value.trim(),consent:true,status:"pending",createdAt:serverTimestamp()});
-    b.set(doc(db,"honor_proofs",sid),{ownerUid:uid,data:proof,createdAt:serverTimestamp()});
-    await b.commit();
-    msg("وصل طلبك وسيتم مراجعته قريباً 🎉","ok");$("sf").reset();setTimeout(()=>$("dlg").close(),2200);
-  }catch(err){msg("تعذّر الإرسال. تأكد من الاتصال والبيانات وحاول مرة أخرى.","err")}finally{$("go").disabled=false}
-};
+      <!-- كرت اختيار الفصل والإحصائيات العائم -->
+      <div class="wrap">
+        <section class="intro-section">
+          <div class="intro-card">
+            <div class="intro-left">
+              <div class="mission-icon"><i data-lucide="trophy" width="34"></i></div>
+              <div class="sem-field">
+                <label for="semSel">اختر الفصل الدراسي</label>
+                <select id="semSel"><option>جاري التحميل...</option></select>
+              </div>
+            </div>
+            <div class="intro-stats">
+              <div class="mini-stat gold">
+                <b id="semMin">3.75+</b>
+                <small>الحد الأدنى للمعدل</small>
+              </div>
+              <div class="mini-stat">
+                <b id="semCnt">0</b>
+                <small>طالب وطالبة</small>
+              </div>
+            </div>
+          </div>
+        </section>
 
-(async()=>{
-  try{
-    const s=await getDocs(collection(db,"honor_semesters")),all=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.order||0)-(a.order||0));
-    pub=all.filter(x=>x.published);acc=all.filter(x=>x.accepting);
-    const sel=$("semSel");sel.textContent="";
-    if(pub.length){pub.forEach(x=>{const o=mk("option",x.title);o.value=x.id;sel.append(o)});cur=pub[0]}else sel.append(mk("option","لا توجد فصول منشورة بعد"));
-    draw();cta();
-  }catch(e){$("cols").textContent="";$("cols").append(mk("div","تعذّر تحميل لوحة الشرف. أعد المحاولة لاحقاً.","emp"))}
-})();
-</script>
-</body>
+        <!-- التصفية والبحث + لوحة الأسماء -->
+        <section class="board-section">
+          <div class="filter-bar">
+            <div class="chips" id="yChips" role="group" aria-label="تصفية حسب السنة">
+              <button class="chip on" data-y="">كل السنوات</button>
+              <button class="chip" data-y="أولى">سنة أولى</button>
+              <button class="chip" data-y="ثانية">سنة ثانية</button>
+              <button class="chip" data-y="ثالثة">سنة ثالثة</button>
+              <button class="chip" data-y="رابعة">سنة رابعة</button>
+              <button class="chip" data-y="خامسة">سنة خامسة</button>
+            </div>
+            <div class="srch-wrap">
+              <i data-lucide="search" width="16"></i>
+              <input id="q" type="search" placeholder="ابحث باسم طالب..." aria-label="بحث باسم طالب" />
+            </div>
+          </div>
+
+          <div id="cols"></div>
+        </section>
+
+        <!-- قسم ابعت معدلك -->
+        <section class="cta-section">
+          <div class="cta-card">
+            <div class="cta-text">
+              <h3 id="ctaT">معدلك 3.75 فأعلى؟ ابعت معدلك لنضيفك!</h3>
+              <p id="ctaD">أرسل اسمك وسنتك الدراسية ومعدلك مع لقطة شاشة لإثبات المعدل، لتتم مراجعتها وإدراجك في لوحة شرف الكلية لهذا الفصل.</p>
+            </div>
+            <button class="cta-btn" id="openSub" type="button">
+              <i data-lucide="graduation-cap" width="20"></i>
+              <span id="openSubTxt">ابعت معدلك الآن</span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- نافذة إرسال المعدل -->
+    <dialog id="dlg">
+      <h2>إرسال بيانات لوحة الشرف</h2>
+      <p class="ds" id="dSub"></p>
+      <form id="sf">
+        <div id="semW">
+          <label for="sSem">الفصل الدراسي</label>
+          <select id="sSem"></select>
+        </div>
+        <label for="sName">الاسم الكامل كما تحب أن يظهر</label>
+        <input id="sName" required minlength="3" maxlength="80" placeholder="مثلاً: عدي زياد اسماعيل" />
+        <div class="f2">
+          <div>
+            <label for="sYear">السنة الدراسية</label>
+            <select id="sYear">
+              <option value="أولى">الأولى</option>
+              <option value="ثانية">الثانية</option>
+              <option value="ثالثة">الثالثة</option>
+              <option value="رابعة">الرابعة</option>
+              <option value="خامسة">الخامسة</option>
+            </select>
+          </div>
+          <div>
+            <label for="sGpa" id="gl">المعدل (3.75 إلى 4.33)</label>
+            <input id="sGpa" type="number" step="0.01" required dir="ltr" placeholder="3.85" />
+          </div>
+        </div>
+        <label for="sPhone">رقم الهاتف (اختياري، للتواصل عند الحاجة فقط)</label>
+        <input id="sPhone" type="tel" maxlength="20" dir="ltr" placeholder="07XXXXXXXX" />
+        <label for="sFile">صورة إثبات المعدل (لقطة شاشة من موقع الخدمات)</label>
+        <input id="sFile" type="file" accept="image/*" required />
+        <div class="priv">تُرسل الصورة للجنة فقط للتحقق ولا تظهر لأحد، وتُحذف نهائياً بعد مراجعتها.</div>
+        <label class="ck">
+          <input id="sOk" type="checkbox" required />
+          <span>أوافق على نشر اسمي وسنتي الدراسية (والمعدل إن كان ظاهراً) في لوحة الشرف، ويمكنني طلب حذف اسمي لاحقاً من اللجنة.</span>
+        </label>
+        <input id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p id="smsg" role="status"></p>
+        <div class="row">
+          <button class="pb" id="go" type="submit">إرسال للمراجعة</button>
+          <button type="button" class="pb gh" id="cl">إغلاق</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- فوتر مطابق لصفحة من نحن -->
+    <footer class="social-connect">
+      <div class="social-connect-inner wrap">
+        <h2>أينما كنتم، نحن معكم</h2>
+        <p>يسعدنا انضمامكم لعائلتنا على منصات التواصل الاجتماعي ومتابعة كل جديد.</p>
+        <div class="social-grid">
+          <a href="https://www.facebook.com/vet.committee.just/?mibextid=LQQJ4d" target="_blank" rel="noopener" class="social-btn fb">
+            <i data-lucide="facebook" width="22"></i> صفحة الفيسبوك
+          </a>
+          <a href="https://instagram.com/vet_committee?igshid=MWI4MTIyMDE=" target="_blank" rel="noopener" class="social-btn ig">
+            <i data-lucide="instagram" width="22"></i> صفحتنا على انستغرام
+          </a>
+          <a href="https://twitter.com/committee_j?s=21&t=-ZsNP8veuypUXxrKmeuiKg" target="_blank" rel="noopener" class="social-btn tw">
+            <i data-lucide="twitter" width="22"></i> حساب منصة X
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+      import { getFirestore, collection, doc, getDocs, writeBatch, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      const app = initializeApp({
+        apiKey: "AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",
+        authDomain: "vetcommitto-community.firebaseapp.com",
+        projectId: "vetcommitto-community"
+      });
+      const auth = getAuth(app), db = getFirestore(app);
+      const $ = (id) => document.getElementById(id);
+      const MAXG = 4.33;
+      const FALLBACK_YEARS = ["أولى", "ثانية", "ثالثة", "رابعة", "خامسة"];
+      const Y_TITLE = { أولى: "السنة الأولى", ثانية: "السنة الثانية", ثالثة: "السنة الثالثة", رابعة: "السنة الرابعة", خامسة: "السنة الخامسة" };
+
+      let posterMod = null;
+      const posterReady = import("./honor-poster.js").then((m) => { posterMod = m; }).catch((e) => console.warn("honor-poster.js:", e));
+
+      let pub = [], acc = [], cur = null, yFilter = "", q = "", loadErr = "";
+      const mk = (t, x, c) => { const e = document.createElement(t); if (x != null) e.textContent = x; if (c) e.className = c; return e; };
+      const icons = () => window.lucide && window.lucide.createIcons();
+
+      // المظهر: متناسق مع بقية المنصة
+      const applyTheme = () => {
+        const d = localStorage.getItem("vet_theme") === "dark";
+        document.documentElement.dataset.theme = d ? "dark" : "light";
+        document.querySelector("meta[name=theme-color]").content = d ? "#0b1120" : "#0d1b33";
+      };
+      $("th").onclick = () => {
+        localStorage.setItem("vet_theme", localStorage.getItem("vet_theme") === "dark" ? "light" : "dark");
+        applyTheme();
+      };
+      applyTheme();
+      icons();
+
+      const msg = (t, c) => { $("smsg").textContent = t; $("smsg").className = c || ""; };
+      const getCohort = (sem, y) => {
+        if (posterMod?.cohort) return posterMod.cohort(sem, y);
+        const m = String(sem?.startYear || sem?.title || "").match(/20\d\d/);
+        return String((m ? +m[0] : new Date().getFullYear()) - FALLBACK_YEARS.indexOf(y));
+      };
+
+      function draw() {
+        const box = $("cols");
+        box.textContent = "";
+        if (!cur) {
+          $("semCnt").textContent = "0";
+          const emp = mk("div", null, "empty-box");
+          emp.innerHTML = `<i data-lucide="award" width="38" style="color:var(--gold)"></i><b>لم يتم نشر لوحة الشرف بعد</b><span>ستظهر أسماء طلبتنا المتفوقين هنا فور انتهاء المراجعة والنشر الرسمي.</span>`;
+          box.append(emp);
+          icons();
+          return;
+        }
+        const all = Array.isArray(cur.entries) ? cur.entries : [];
+        $("semMin").textContent = Number(cur.minGpa || 3.75).toFixed(2) + "+";
+        $("semCnt").textContent = String(all.length);
+
+        const list = all.filter((e) => (!yFilter || e.year === yFilter) && (!q || (e.name || "").toLowerCase().includes(q)));
+        const YEARS = posterMod?.YEARS || FALLBACK_YEARS;
+        const yrs = (yFilter ? [yFilter] : YEARS).filter((y) => list.some((e) => e.year === y));
+
+        if (!yrs.length) {
+          const emp = mk("div", null, "empty-box");
+          emp.innerHTML = `<i data-lucide="search-x" width="36" style="color:var(--slate)"></i><b>${all.length ? "لا توجد نتائج مطابقة" : "لا يوجد طلاب في هذا الفصل بعد"}</b><span>${all.length ? "جرّب تغيير السنة الدراسية أو كلمة البحث." : "تابع اللجنة لمعرفة موعد تحديث الأسماء."}</span>`;
+          box.append(emp);
+          icons();
+          return;
+        }
+
+        for (const y of yrs) {
+          const group = list
+            .filter((e) => e.year === y)
+            .sort((a, b) => Number(b.gpa || 0) - Number(a.gpa || 0) || (a.name || "").localeCompare(b.name || "", "ar"));
+
+          const sec = mk("section", null, "cohort-block");
+          const head = mk("div", null, "cohort-head");
+          const tWrap = mk("div", null, "cohort-title");
+          tWrap.append(mk("span", "دفعة " + getCohort(cur, y), "cohort-pill"), mk("h2", Y_TITLE[y] || "سنة " + y));
+          head.append(tWrap, mk("span", group.length + " متفوّق", "cohort-cnt"));
+          sec.append(head);
+
+          const grid = mk("div", null, "students-grid");
+          group.forEach((s, i) => {
+            const rank = i + 1;
+            const cls = "st-card" + (rank === 1 ? " top1" : rank === 2 ? " top2" : rank === 3 ? " top3" : "");
+            const card = mk("article", null, cls);
+            card.append(mk("div", String(rank), "rank-badge"));
+
+            const info = mk("div", null, "st-info");
+            info.append(mk("b", s.name || ""));
+            const meta = mk("div", null, "st-meta");
+            meta.append(document.createTextNode(Y_TITLE[s.year] || s.year));
+            if (cur.showGpa && s.gpa != null) {
+              meta.append(mk("span", Number(s.gpa).toFixed(2), "gpa-tag"));
+            }
+            info.append(meta);
+            card.append(info);
+
+            if (posterMod?.renderCard) {
+              const btn = mk("button", null, "cert-btn");
+              btn.type = "button";
+              btn.title = "تحميل بطاقة تهنئة";
+              btn.setAttribute("aria-label", "تحميل بطاقة تهنئة لـ " + (s.name || ""));
+              btn.innerHTML = `<i data-lucide="award" width="18"></i>`;
+              btn.onclick = async () => {
+                btn.disabled = true;
+                try {
+                  const cv = document.createElement("canvas");
+                  await posterMod.renderCard(cv, { st: s, sem: cur });
+                  await posterMod.saveCanvas(cv, "honor-" + (s.name || "card").replace(/\s+/g, "-") + ".png");
+                } finally {
+                  btn.disabled = false;
+                }
+              };
+              card.append(btn);
+            }
+            grid.append(card);
+          });
+
+          sec.append(grid);
+          box.append(sec);
+        }
+        icons();
+      }
+
+      $("semSel").onchange = () => {
+        cur = pub.find((s) => s.id === $("semSel").value) || null;
+        draw();
+      };
+      $("yChips").onclick = (e) => {
+        const b = e.target.closest("[data-y]");
+        if (!b) return;
+        document.querySelectorAll("#yChips .chip").forEach((c) => c.classList.toggle("on", c === b));
+        yFilter = b.dataset.y;
+        draw();
+      };
+      $("q").oninput = (e) => {
+        q = e.target.value.trim().toLowerCase();
+        draw();
+      };
+
+      function cta() {
+        if (!acc.length) {
+          $("ctaT").textContent = "باب التقديم للوحة الشرف مغلق حالياً";
+          $("ctaD").textContent = "يُفتح استقبال المعدلات نهاية كل فصل دراسي بعد صدور العلامات. ترقّبوا إعلان اللجنة القادم.";
+          $("openSubTxt").textContent = "التقديم مغلق حالياً";
+          $("openSub").disabled = true;
+          return;
+        }
+        const p = acc[0];
+        $("ctaT").textContent = "معدلك " + Number(p.minGpa || 3.75).toFixed(2) + " فأعلى؟ ابعت معدلك لنضيفك!";
+        $("ctaD").textContent = "التقديم مفتوح حالياً لـ " + p.title + ". أرسل اسمك ومعدلك وصورة إثبات العلامات لتتم مراجعتها وإضافتك.";
+        $("openSubTxt").textContent = "ابعت معدلك الآن";
+        $("openSub").disabled = false;
+        const sel = $("sSem");
+        sel.textContent = "";
+        acc.forEach((s) => { const o = mk("option", s.title); o.value = s.id; sel.append(o); });
+        $("semW").classList.toggle("hid", acc.length < 2);
+        gpaLim();
+      }
+
+      function gpaLim() {
+        const s = acc.find((x) => x.id === $("sSem").value) || acc[0];
+        const m = Number((s && s.minGpa) || 3.75);
+        $("sGpa").min = m;
+        $("sGpa").max = MAXG;
+        $("gl").textContent = "المعدل (" + m.toFixed(2) + " إلى " + MAXG + ")";
+        $("dSub").textContent = s ? "التقديم لـ " + s.title : "";
+      }
+
+      $("sSem").onchange = gpaLim;
+      $("openSub").onclick = () => {
+        if (loadErr) { alert("تعذّر فتح التقديم: " + loadErr); return; }
+        if (!acc.length) { alert("التقديم مغلق حالياً."); return; }
+        msg("");
+        $("dlg").showModal();
+      };
+      $("cl").onclick = () => $("dlg").close();
+
+      // ضغط صورة الإثبات (يدعم كل المتصفحات بما فيها iPhone/iPad Safari)
+      async function pack(file) {
+        let src;
+        if (typeof createImageBitmap === "function") {
+          try { src = await createImageBitmap(file); } catch {}
+        }
+        if (!src) {
+          src = await new Promise((res, rej) => {
+            const img = new Image(), url = URL.createObjectURL(file);
+            img.onload = () => { URL.revokeObjectURL(url); res(img); };
+            img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("img")); };
+            img.src = url;
+          });
+        }
+        const w0 = src.naturalWidth || src.width, h0 = src.naturalHeight || src.height;
+        const k = Math.min(1, 1100 / Math.max(w0, h0));
+        const cv = document.createElement("canvas");
+        cv.width = Math.round(w0 * k);
+        cv.height = Math.round(h0 * k);
+        cv.getContext("2d").drawImage(src, 0, 0, cv.width, cv.height);
+        let qy = 0.72, d = cv.toDataURL("image/jpeg", qy);
+        while (d.length > 360000 && qy > 0.35) { qy -= 0.1; d = cv.toDataURL("image/jpeg", qy); }
+        if (d.length > 370000) throw new Error("big");
+        return d;
+      }
+
+      $("sf").onsubmit = async (e) => {
+        e.preventDefault();
+        if ($("hp").value) { $("dlg").close(); return; }
+        const sem = acc.find((x) => x.id === $("sSem").value) || acc[0];
+        const f = $("sFile").files[0];
+        const g = Number($("sGpa").value);
+        const m = Number((sem && sem.minGpa) || 3.75);
+        if (!(g >= m && g <= MAXG)) { msg("المعدل يجب أن يكون بين " + m.toFixed(2) + " و " + MAXG + ".", "err"); return; }
+        if (!f || !f.type.startsWith("image/")) { msg("أرفق صورة (لقطة شاشة) لإثبات المعدل.", "err"); return; }
+        $("go").disabled = true;
+        msg("جاري التجهيز والإرسال...");
+        try {
+          const proof = await pack(f);
+          if (!auth.currentUser) await signInAnonymously(auth);
+          const uid = auth.currentUser.uid;
+          const sid = doc(collection(db, "honor_submissions")).id;
+          const b = writeBatch(db);
+          b.set(doc(db, "honor_submissions", sid), {
+            ownerUid: uid, semesterId: sem.id, semesterTitle: sem.title,
+            name: $("sName").value.trim(), year: $("sYear").value,
+            gpa: Number(g.toFixed(2)), phone: $("sPhone").value.trim(),
+            consent: true, status: "pending", createdAt: serverTimestamp()
+          });
+          b.set(doc(db, "honor_proofs", sid), {
+            ownerUid: uid, data: proof, createdAt: serverTimestamp()
+          });
+          await b.commit();
+          msg("وصل طلبك بنجاح وسيتم مراجعته قريباً 🎉", "ok");
+          $("sf").reset();
+          setTimeout(() => $("dlg").close(), 2200);
+        } catch (err) {
+          console.error("Submit error:", err);
+          msg("تعذّر الإرسال (" + (err?.code || err?.message || "خطأ") + "). تأكد من الاتصال وحاول مجدداً.", "err");
+        } finally {
+          $("go").disabled = false;
+        }
+      };
+
+      (async () => {
+        await posterReady;
+        try {
+          await signInAnonymously(auth).catch(() => {});
+          const s = await getDocs(collection(db, "honor_semesters"));
+          const all = s.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => (b.order || 0) - (a.order || 0));
+          pub = all.filter((x) => x.published);
+          acc = all.filter((x) => x.accepting);
+          const sel = $("semSel");
+          sel.textContent = "";
+          if (pub.length) {
+            pub.forEach((x) => { const o = mk("option", x.title); o.value = x.id; sel.append(o); });
+            cur = pub[0];
+          } else {
+            sel.append(mk("option", "لا توجد فصول منشورة بعد"));
+          }
+          draw();
+          cta();
+        } catch (e) {
+          console.error("Load error:", e);
+          loadErr = e?.code || e?.message || "فشل قراءة البيانات";
+          $("semSel").textContent = "";
+          $("semSel").append(mk("option", "تعذّر التحميل"));
+          $("cols").textContent = "";
+          const emp = mk("div", null, "empty-box");
+          emp.innerHTML = `<i data-lucide="wifi-off" width="36" style="color:var(--bad)"></i><b>تعذّر تحميل لوحة الشرف</b><span>تأكد من الاتصال بالإنترنت وأعد المحاولة (${loadErr}).</span>`;
+          $("cols").append(emp);
+          icons();
+        }
+      })();
+    </script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("sw.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
 </html>
