@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0d1b33">
+<title>إدارة لوحة الشرف | VetCommitto</title>
+<link rel="icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--white:#fff;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--nav:#fbfbfd;--on:#fff;--bad:#c0392b;--ok:#1f8a5b}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--card:#1e293b;--cb:#334155;--btn:#334155;--nav:#0f172a;--on:#0b1120;--bad:#ff7b6b;--ok:#4ade80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.7 "IBM Plex Sans Arabic",Tahoma,sans-serif;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom,0)}
+button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.wrap{width:min(1040px,calc(100% - 40px));margin-inline:auto}.hid{display:none!important}
+.top{height:66px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}.brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
+.brand b{font-size:14px;color:var(--navy);font-weight:700}.brand small{display:block;color:var(--slate);font-size:10px}
+.tools{display:flex;gap:8px}.ib{height:38px;min-width:38px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;padding:0 12px;font-size:12px;font-weight:600}
+.band{background:linear-gradient(110deg,#0d1b33,#152c50 55%,#1e3f70);color:#fff;padding:22px 0}.band h1{margin:0;font-size:21px}.band p{margin:4px 0 0;color:#c4cfe3;font-size:13px}
+.main{margin-top:18px;padding-bottom:60px}
+.seg{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--cb);padding:5px;border-radius:14px;margin-bottom:16px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:999px;background:var(--card);padding:8px 15px;color:var(--slate);font-size:12px;font-weight:600}
+.chip.on{background:var(--navy);color:var(--white);border-color:var(--navy)}.seg .chip{border:0;border-radius:10px}.seg .chip.on{background:var(--purple);color:var(--on)}
+.chip b{font:700 11px Manrope,sans-serif;margin-inline-start:6px;opacity:.8}
+.card{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:16px 18px;margin-bottom:12px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.bar>*{flex:1;min-width:150px}.bar .a{flex:0 0 auto;min-width:auto}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+input,select{width:100%;border:1px solid var(--cb);background:var(--paper);padding:10px 13px;border-radius:10px;color:var(--ink);font-size:13px}
+input:focus,select:focus{border-color:var(--purple);outline:0}:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+label.ck{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slate)}label.ck input{width:auto}
+.pb{border:0;background:var(--purple);color:var(--on);padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;white-space:nowrap}.pb:disabled{opacity:.5}
+.pb.ok{background:var(--ok);color:#fff}.pb.gold{background:var(--gold);color:#0b1526}.gh{background:transparent;color:var(--navy);border:1px solid var(--line)}.bad{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.act{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.g{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.tg{font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--btn);color:var(--purple)}.tg.ok{background:rgba(31,138,91,.15);color:var(--ok)}.tg.gold{background:rgba(209,170,92,.2);color:var(--gold)}.tg.bad{background:rgba(192,57,43,.14);color:var(--bad)}
+.m{color:var(--slate);font-size:12px}.gp{font:800 15px Manrope,sans-serif;color:var(--gold)}
+.sc{border-inline-start:4px solid var(--line)}.sc.pending{border-inline-start-color:var(--gold)}.sc.approved{border-inline-start-color:var(--ok)}.sc.rejected{border-inline-start-color:var(--bad);opacity:.65}
+.sc h3,.sm h3{margin:0;font-size:15px;color:var(--navy)}
+.pub{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:rgba(209,170,92,.12);border:1px solid rgba(209,170,92,.4);border-radius:14px;padding:12px 16px;margin-bottom:12px;font-weight:600;color:var(--navy)}
+.pg{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}.pv{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:14px;text-align:center}
+#cv{max-width:100%;height:auto;max-height:74vh;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.2);background:#2f3ea8}
+.empty{text-align:center;color:var(--slate);padding:30px}#err{color:var(--bad);font-size:13px}
+dialog{border:1px solid var(--line);border-radius:20px;background:var(--card);color:var(--ink);width:min(640px,94vw);max-height:92vh;padding:16px}dialog::backdrop{background:rgba(5,10,20,.72)}
+#pi{max-width:100%;max-height:70vh;display:block;margin:10px auto;border-radius:12px;object-fit:contain}
+@media(max-width:820px){.pg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><img src="logo.jpeg" alt="" onerror="this.style.display='none'"><span><b>إدارة لوحة الشرف</b><small>لجنة الطب والجراحة البيطرية</small></span></div>
+  <div class="tools"><a class="ib" href="honor.html" target="_blank" rel="noopener">عرض اللوحة</a><button class="ib hid" id="out">خروج</button>
+    <button class="ib" id="th" aria-label="تبديل المظهر"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
+</div></header>
+<div class="band"><div class="wrap"><h1>إدارة لوحة شرف الكلية</h1><p>راجع الطلبات، انشر اللوحة، وحمّل صور النشر بنفس شكل بوستات اللجنة.</p></div></div>
+
+<main class="wrap main">
+  <div id="login" class="card hid" style="max-width:420px;margin-inline:auto">
+    <h2 style="margin:0 0 12px;font-size:18px;color:var(--navy)">دخول الأدمن</h2>
+    <form id="lf" class="g" style="grid-template-columns:1fr"><input id="em" type="email" placeholder="الإيميل" required autocomplete="username"><input id="pw" type="password" placeholder="كلمة المرور" required autocomplete="current-password"><button class="pb">دخول</button></form>
+    <p id="err" role="alert"></p>
+  </div>
+
+  <div id="app" class="hid">
+    <div class="seg" id="tabs"><button class="chip on" data-t="1">طلبات الطلاب</button><button class="chip" data-t="2">الفصول والنشر</button><button class="chip" data-t="3">تصدير الصور</button></div>
+
+    <section id="s1">
+      <div class="bar"><select id="subSem" aria-label="الفصل"></select>
+        <select id="subYear" aria-label="السنة"><option value="">كل السنوات</option><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select>
+        <input id="subQ" type="search" placeholder="بحث بالاسم..."><button type="button" class="pb gh a" id="addMan">+ إضافة يدوية</button></div>
+      <div id="pubBar" class="pub hid"><span id="pubInfo"></span><button type="button" class="pb gold" id="quickPub">نشر / تحديث اللوحة</button></div>
+      <div class="tabs" id="stChips"><button class="chip on" data-f="">الكل<b>0</b></button><button class="chip" data-f="pending">قيد المراجعة<b>0</b></button><button class="chip" data-f="approved">مقبول<b>0</b></button><button class="chip" data-f="rejected">مرفوض<b>0</b></button></div>
+      <form id="manForm" class="card hid"><div class="g"><input id="mn" placeholder="اسم الطالب الكامل" required maxlength="80">
+        <select id="my"><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select>
+        <input id="mg" type="number" step="0.01" min="2" max="4.5" placeholder="المعدل" required dir="ltr"></div>
+        <div class="act"><button class="pb ok">إضافة كمقبول</button><button type="button" class="pb gh" id="manX">إلغاء</button></div></form>
+      <div id="subList"></div>
+    </section>
+
+    <section id="s2" class="hid">
+      <form id="semForm" class="card"><div class="g">
+        <input id="fT" placeholder="اسم الفصل: الفصل الدراسي الأول 2025/2026" required maxlength="80">
+        <input id="fM" type="number" step="0.01" min="2" max="4.5" value="3.75" dir="ltr" aria-label="الحد الأدنى للمعدل">
+        <input id="fY" type="number" placeholder="سنة دفعة السنة الأولى (مثلاً 2025)" aria-label="سنة دفعة السنة الأولى">
+        <input id="fO" type="number" placeholder="الترتيب (الأكبر يظهر أولاً)"></div>
+        <div class="act"><label class="ck"><input id="fA" type="checkbox" checked> فتح استقبال المعدلات</label><label class="ck"><input id="fS" type="checkbox" checked> إظهار المعدل</label>
+          <button class="pb" style="margin-inline-start:auto">حفظ الفصل</button><button type="button" class="pb gh" id="fR">جديد</button></div></form>
+      <div id="semList"></div>
+    </section>
+
+    <section id="s3" class="hid"><div class="pg">
+      <div class="card"><h3 style="margin:0 0 12px;color:var(--navy)">إعدادات الصورة</h3><div class="g" style="grid-template-columns:1fr">
+        <select id="pSem" aria-label="الفصل"></select>
+        <select id="pMode" aria-label="القياس"><option value="wide">فيسبوك أفقي: كل السنوات (2400×1200)</option><option value="post">بوست عمودي: سنة وحدة (1080×1350)</option><option value="story">ستوري: سنة وحدة (1080×1920)</option></select>
+        <select id="pYear" class="hid" aria-label="السنة"><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select>
+        <select id="pPage" class="hid" aria-label="الصفحة"></select>
+        <label class="ck"><input id="pG" type="checkbox" checked> إظهار المعدلات</label>
+        <button type="button" class="pb gold" id="dl">⬇ تحميل الصورة (PNG)</button>
+        <button type="button" class="pb gh" id="dlAll">تحميل كل الصفحات</button>
+        <p class="m" id="pS" style="margin:0"></p></div></div>
+      <div class="pv"><canvas id="cv" width="2400" height="1200"></canvas></div>
+    </div></section>
+  </div>
+</main>
+
+<dialog id="pd"><div class="row"><strong id="pt">إثبات المعدل</strong><button type="button" class="pb gh" id="px">إغلاق</button></div><img id="pi" alt="إثبات المعدل"></dialog>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,setDoc,updateDoc,deleteDoc,onSnapshot,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {YEARS,YT,renderPoster,saveCanvas} from "./honor-poster.js";
+
+const app=initializeApp({apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community"});
+const auth=getAuth(app),db=getFirestore(app),$=id=>document.getElementById(id);
+const ST={pending:"قيد المراجعة",approved:"مقبول",rejected:"مرفوض"};
+let un=[],sems=[],subs=[],selSem="",yF="",sF="",q="",editId=null;
+const mk=(t,x,c)=>{const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e};
+const th=()=>{const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light"};
+$("th").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");th()};th();
+$("out").onclick=()=>signOut(auth);$("px").onclick=()=>$("pd").close();
+const norm=s=>String(s||"").trim().toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/\s+/g," ");
+
+$("tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;document.querySelectorAll("#tabs .chip").forEach(c=>c.classList.toggle("on",c===b));["1","2","3"].forEach(k=>$("s"+k).classList.toggle("hid",b.dataset.t!==k));if(b.dataset.t==="3")poster()};
+$("stChips").onclick=e=>{const b=e.target.closest("[data-f]");if(!b)return;document.querySelectorAll("#stChips .chip").forEach(c=>c.classList.toggle("on",c===b));sF=b.dataset.f;drawSubs()};
+$("subSem").onchange=e=>{selSem=e.target.value;drawSubs()};$("subYear").onchange=e=>{yF=e.target.value;drawSubs()};$("subQ").oninput=e=>{q=e.target.value.trim().toLowerCase();drawSubs()};
+$("addMan").onclick=()=>$("manForm").classList.toggle("hid");$("manX").onclick=()=>{$("manForm").classList.add("hid");$("manForm").reset()};
+$("manForm").onsubmit=async e=>{e.preventDefault();const s=sems.find(x=>x.id===selSem);if(!s){alert("أنشئ فصلاً أولاً.");return}
+  await setDoc(doc(collection(db,"honor_submissions")),{ownerUid:auth.currentUser.uid,semesterId:s.id,semesterTitle:s.title,name:$("mn").value.trim(),year:$("my").value,gpa:Number(Number($("mg").value).toFixed(2)),phone:"",consent:true,status:"approved",createdAt:serverTimestamp()});
+  $("manForm").reset();$("manForm").classList.add("hid")};
+
+$("lf").onsubmit=async e=>{e.preventDefault();$("err").textContent="";try{await signInWithEmailAndPassword(auth,$("em").value.trim(),$("pw").value)}catch(_){$("err").textContent="الإيميل أو كلمة المرور غير صحيحة."}};
+onAuthStateChanged(auth,async u=>{
+  un.forEach(f=>f());un=[];
+  if(!u||u.isAnonymous){$("app").classList.add("hid");$("out").classList.add("hid");$("login").classList.remove("hid");return}
+  let ok=false;try{const s=await getDoc(doc(db,"users_private",u.uid));ok=s.exists()&&s.data().role==="admin"&&s.data().status==="approved"}catch(_){}
+  if(!ok){await signOut(auth);$("err").textContent="هذا الحساب ليس أدمن.";return}
+  $("login").classList.add("hid");$("app").classList.remove("hid");$("out").classList.remove("hid");
+  un.push(onSnapshot(collection(db,"honor_semesters"),s=>{sems=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.order||0)-(a.order||0));syncSel();drawSems();drawSubs();if(!$("s3").classList.contains("hid"))poster()}));
+  un.push(onSnapshot(query(collection(db,"honor_submissions"),orderBy("createdAt","desc"),limit(600)),s=>{subs=s.docs.map(d=>({id:d.id,...d.data()}));drawSems();drawSubs();if(!$("s3").classList.contains("hid"))poster()}));
+});
+function syncSel(){for(const id of ["subSem","pSem"]){const el=$(id),cv=id==="subSem"?selSem:el.value;el.textContent="";
+  if(!sems.length){el.append(mk("option","أنشئ فصلاً أولاً"));continue}
+  sems.forEach(s=>{const o=mk("option",s.title);o.value=s.id;el.append(o)});el.value=sems.some(s=>s.id===cv)?cv:sems[0].id;if(id==="subSem")selSem=el.value}}
+
+async function publish(id){
+  const s=sems.find(x=>x.id===id);if(!s)return;
+  const en=subs.filter(x=>x.semesterId===id&&x.status==="approved").sort((a,b)=>b.gpa-a.gpa||(a.name||"").localeCompare(b.name||"","ar")).map(x=>({name:x.name,year:x.year,gpa:Number(x.gpa)}));
+  await updateDoc(doc(db,"honor_semesters",id),{entries:en,published:true,publishedAt:serverTimestamp()});
+  alert("تم النشر: "+en.length+" طالب 🎉");
+}
+$("quickPub").onclick=()=>selSem&&publish(selSem);
+
+async function decide(x,status){await updateDoc(doc(db,"honor_submissions",x.id),{status});try{await deleteDoc(doc(db,"honor_proofs",x.id))}catch(_){}} // حذف الإثبات بعد القرار للخصوصية
+function drawSubs(){
+  const sc=subs.filter(x=>!selSem||x.semesterId===selSem),cnt={"":sc.length,pending:0,approved:0,rejected:0},fr={};
+  sc.forEach(x=>{if(cnt[x.status]!=null)cnt[x.status]++;const k=norm(x.name);if(k)fr[k]=(fr[k]||0)+1});
+  document.querySelectorAll("#stChips .chip").forEach(c=>c.querySelector("b").textContent=cnt[c.dataset.f]||0);
+  const cs=sems.find(s=>s.id===selSem);
+  $("pubBar").classList.toggle("hid",!cs);if(cs)$("pubInfo").textContent=cs.title+" · المقبولون: "+cnt.approved+" · المنشور: "+(Array.isArray(cs.entries)?cs.entries.length:0);
+  const list=sc.filter(x=>(!sF||x.status===sF)&&(!yF||x.year===yF)&&(!q||(x.name||"").toLowerCase().includes(q))),box=$("subList");box.textContent="";
+  if(!list.length){box.append(mk("div","ما في طلبات مطابقة.","empty"));return}
+  for(const x of list){
+    const c=mk("div",null,"card sc "+(x.status||"pending")),r=mk("div",null,"row"),tb=mk("div");tb.append(mk("h3",x.name||""));
+    const m=mk("div",null,"m");m.append(document.createTextNode((YT[x.year]||x.year)+" · المعدل: "),mk("span",Number(x.gpa||0).toFixed(2),"gp"));if(x.phone)m.append(document.createTextNode(" · "+x.phone));
+    if(x.consent===false)m.append(document.createTextNode(" · بدون موافقة نشر"));tb.append(m);
+    const tg=mk("div");tg.style.cssText="display:flex;gap:6px";if(fr[norm(x.name)]>1)tg.append(mk("span","اسم مكرر؟","tg bad"));
+    tg.append(mk("span",ST[x.status]||x.status,"tg "+(x.status==="approved"?"ok":x.status==="rejected"?"bad":"gold")));r.append(tb,tg);c.append(r);
+    const a=mk("div",null,"act");
+    if(x.status==="pending"){
+      const v=mk("button","عرض الإثبات 🖼","pb gh");
+      v.onclick=async()=>{try{const p=await getDoc(doc(db,"honor_proofs",x.id));const d=p.exists()?p.data().data:"";
+        if(!/^data:image\/jpeg;base64,/.test(d)){alert("لا يوجد إثبات لهذا الطلب.");return}
+        $("pt").textContent=(x.name||"")+" · "+Number(x.gpa||0).toFixed(2);$("pi").src=d;$("pd").showModal()}catch(_){alert("تعذّر تحميل الإثبات.")}};a.append(v);
+    }
+    if(x.status!=="approved"){const o=mk("button","موافقة ✓","pb ok");o.onclick=()=>decide(x,"approved");a.append(o)}
+    if(x.status!=="rejected"){const o=mk("button","رفض ✕","pb bad");o.onclick=()=>decide(x,"rejected");a.append(o)}
+    const ed=mk("button","تعديل","pb gh");ed.onclick=async()=>{const n=prompt("الاسم:",x.name||"");if(n===null||!n.trim())return;const g=Number(prompt("المعدل:",Number(x.gpa||0).toFixed(2)));if(isNaN(g)||g<0||g>4.5){alert("معدل غير صالح");return}
+      await updateDoc(doc(db,"honor_submissions",x.id),{name:n.trim(),gpa:Number(g.toFixed(2))})};
+    const dl=mk("button","حذف","pb bad");dl.onclick=async()=>{if(confirm("حذف الطلب نهائياً؟")){await deleteDoc(doc(db,"honor_submissions",x.id));try{await deleteDoc(doc(db,"honor_proofs",x.id))}catch(_){}}};
+    a.append(ed,dl);c.append(a);box.append(c);
+  }
+}
+
+function drawSems(){
+  const box=$("semList");box.textContent="";if(!sems.length){box.append(mk("div","أضف أول فصل من الفورم فوق.","empty"));return}
+  for(const s of sems){
+    const ap=subs.filter(x=>x.semesterId===s.id&&x.status==="approved").length,pe=subs.filter(x=>x.semesterId===s.id&&x.status==="pending").length,pb=Array.isArray(s.entries)?s.entries.length:0;
+    const c=mk("div",null,"card sm"),r=mk("div",null,"row"),tg=mk("div");tg.style.cssText="display:flex;gap:6px;flex-wrap:wrap";
+    tg.append(mk("span",s.accepting?"التقديم مفتوح":"التقديم مغلق","tg "+(s.accepting?"gold":"")),mk("span",s.published?"منشور":"غير منشور","tg "+(s.published?"ok":"")));
+    r.append(mk("h3",s.title||""),tg);c.append(r);c.append(mk("div","الحد الأدنى "+Number(s.minGpa||3.75).toFixed(2)+" · مقبول "+ap+" · قيد المراجعة "+pe+" · منشور "+pb+(s.showGpa?" · المعدلات ظاهرة":" · أسماء فقط"),"m"));
+    const a=mk("div",null,"act"),b1=mk("button",s.published?"تحديث اللوحة المنشورة":"نشر اللوحة","pb gold");b1.onclick=()=>publish(s.id);
+    const b2=mk("button",s.accepting?"إغلاق التقديم":"فتح التقديم","pb gh");b2.onclick=()=>updateDoc(doc(db,"honor_semesters",s.id),{accepting:!s.accepting});
+    const b3=mk("button",s.published?"إخفاء عن العامة":"إظهار","pb gh");b3.onclick=()=>updateDoc(doc(db,"honor_semesters",s.id),{published:!s.published});
+    const b4=mk("button","تعديل","pb gh");b4.onclick=()=>{editId=s.id;$("fT").value=s.title||"";$("fM").value=s.minGpa??3.75;$("fY").value=s.startYear??"";$("fO").value=s.order??"";$("fA").checked=!!s.accepting;$("fS").checked=!!s.showGpa;scrollTo({top:0,behavior:"smooth"})};
+    const b5=mk("button","حذف","pb bad");b5.onclick=()=>{if(confirm("حذف الفصل؟ (طلبات الطلاب تبقى)"))deleteDoc(doc(db,"honor_semesters",s.id))};
+    a.append(b1,b2,b3,b4,b5);c.append(a);box.append(c);
+  }
+}
+$("fR").onclick=()=>{editId=null;$("semForm").reset();$("fM").value="3.75";$("fA").checked=true;$("fS").checked=true};
+$("semForm").onsubmit=async e=>{e.preventDefault();
+  const t=$("fT").value.trim(),m=t.match(/20\d\d/),d={title:t,minGpa:Number($("fM").value)||3.75,startYear:Number($("fY").value)||(m?+m[0]:new Date().getFullYear()),order:Number($("fO").value)||Math.floor(Date.now()/1000),accepting:$("fA").checked,showGpa:$("fS").checked,updatedAt:serverTimestamp()};
+  if(editId)await updateDoc(doc(db,"honor_semesters",editId),d);else await setDoc(doc(collection(db,"honor_semesters")),{...d,published:false,entries:[],createdAt:serverTimestamp()});
+  editId=null;$("semForm").reset();$("fM").value="3.75";$("fA").checked=true;$("fS").checked=true};
+
+// تصدير الصور
+const peers=()=>{const s=sems.find(x=>x.id===$("pSem").value);return{s,en:subs.filter(x=>s&&x.semesterId===s.id&&x.status==="approved").map(x=>({name:x.name,year:x.year,gpa:Number(x.gpa)}))}};
+async function poster(page){
+  const {s,en}=peers(),mode=$("pMode").value;$("pYear").classList.toggle("hid",mode==="wide");
+  const o={sem:s,entries:en,mode,year:$("pYear").value,showGpa:$("pG").checked,page:page??(Number($("pPage").value)||0)};
+  const r=await renderPoster($("cv"),o);
+  $("pPage").classList.toggle("hid",r.pages<2);
+  if($("pPage").options.length!==r.pages){$("pPage").textContent="";for(let i=0;i<r.pages;i++){const p=mk("option","صفحة "+(i+1)+" من "+r.pages);p.value=i;$("pPage").append(p)}}
+  $("pS").textContent="الأسماء المقبولة في هذا الفصل: "+en.length;return {r,o};
+}
+["pSem","pMode","pYear","pPage","pG"].forEach(id=>$(id).onchange=()=>{if(id!=="pPage")$("pPage").textContent="";poster()});
+const fname=(s,y,p)=>"honor-"+String(s&&s.title||"roll").replace(/\s+/g,"-").replace(/\//g,"-")+(y?"-"+y:"")+(p?"-p"+p:"")+".png";
+$("dl").onclick=async()=>{await poster();await saveCanvas($("cv"),fname(peers().s,$("pMode").value==="wide"?"":$("pYear").value,0))};
+$("dlAll").onclick=async()=>{
+  const {s}=peers(),mode=$("pMode").value,ys=mode==="wide"?[""]:YEARS;let n=0;
+  for(const y of ys){
+    if(y){if(!peers().en.some(e=>e.year===y))continue;$("pYear").value=y}
+    const {r}=await poster(0);
+    for(let p=0;p<r.pages;p++){
+      await renderPoster($("cv"),{sem:s,entries:peers().en,mode,year:y||"أولى",showGpa:$("pG").checked,page:p});
+      await saveCanvas($("cv"),fname(s,y,r.pages>1?p+1:0));n++;await new Promise(r=>setTimeout(r,400));
+    }
+  }
+  poster(0);if(!n)alert("ما في طلاب مقبولون بعد.");
+};
+</script>
+</body>
+</html>

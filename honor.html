@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1b33">
+<title>لوحة الشرف | لجنة الطب والجراحة البيطرية</title>
+<link rel="icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--paper:#f5f7fa;--line:#e2e6ed;--white:#fff;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--nav:#fbfbfd;--on:#fff;--bad:#c0392b;--ok:#1f8a5b}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--gold:#d9b76c;--card:#1e293b;--cb:#334155;--btn:#334155;--nav:#0f172a;--on:#0b1120;--bad:#ff7b6b;--ok:#4ade80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom,0)}
+button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.lt{font-family:Manrope,sans-serif}.wrap{width:min(1180px,calc(100% - 40px));margin-inline:auto}.hid{display:none!important}
+.top{height:72px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
+.brand b{font-size:14px;color:var(--navy);font-weight:700;line-height:1.4}.brand small{display:block;color:var(--slate);font-size:10px}
+.tools{display:flex;gap:8px}
+.ib{height:40px;min-width:40px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;padding:0 14px;font-size:12px;font-weight:600;transition:.2s}
+.ib:hover{background:var(--btn)}
+
+.hero{position:relative;overflow:hidden;color:#fff;min-height:340px;display:flex;align-items:center;background:linear-gradient(115deg,#091428,#13294b 55%,#1e3f70)}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 85% 10%,rgba(209,170,92,.28),transparent 48%);pointer-events:none}
+.ecg{position:absolute;z-index:1;bottom:18px;left:50%;width:max(100%,980px);transform:translateX(-50%) scaleX(-1);pointer-events:none}
+.ecg path{fill:none;stroke-linejoin:round}.ecg .b{stroke:rgba(255,255,255,.12);stroke-width:2}
+.ecg .p{stroke:var(--gold);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:.13 1;filter:drop-shadow(0 0 7px rgba(209,170,92,.9));animation:beat 4.6s cubic-bezier(.45,.05,.55,.95) infinite}
+@keyframes beat{from{stroke-dashoffset:.13}to{stroke-dashoffset:-1}}
+.hin{position:relative;z-index:2;padding-block:50px 90px;max-width:640px}
+.eyebrow{display:inline-block;font-size:12px;font-weight:600;color:var(--gold);background:rgba(209,170,92,.12);border:1px solid rgba(209,170,92,.3);padding:6px 14px;border-radius:999px;margin-bottom:14px}
+.hero h1{font-size:clamp(32px,6vw,54px);line-height:1.25;margin:0 0 10px;font-weight:700}.hero h1 span{color:var(--gold)}
+.hero p{font-size:15px;line-height:1.85;color:#d1d9e6;margin:0;max-width:520px}
+
+.semb{position:relative;z-index:3;margin-top:-30px}
+.semx{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:14px 18px;box-shadow:0 12px 34px rgba(0,0,0,.07);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.semx label{font-size:12px;font-weight:700;color:var(--slate);margin-inline-end:8px}
+.semx select{width:auto;min-width:240px;font-weight:700;color:var(--navy)}
+.badge{font-size:12px;font-weight:700;padding:7px 13px;border-radius:10px;background:var(--btn);color:var(--purple)}
+
+.board{margin:26px 0 0;border-radius:26px;padding:22px 20px 26px;background:linear-gradient(160deg,#4a59cf,#2f3ea8 50%,#18247a);box-shadow:0 20px 50px rgba(24,36,122,.25)}
+.bhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:20px;color:#fff}
+.bhead b{font-size:15px}
+.srch{width:min(280px,100%);background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff}.srch::placeholder{color:#dbe4ff}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.col{position:relative;padding-top:46px}
+.tab{position:absolute;top:0;inset-inline-start:0;padding:6px 24px;border-radius:16px 16px 0 0;background:linear-gradient(#eaf4ff,#b7d8ff);color:#1a2679;font:800 24px/1.4 Manrope,sans-serif;height:50px}
+.crd{background:rgba(14,18,52,.6);border:1.5px solid rgba(255,255,255,.38);border-radius:18px 0 18px 18px;padding:8px 14px;min-height:120px}
+.rw{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);color:#fff}
+.rw:first-child{border-top:0}.rw b{flex:1;font-size:15px;font-weight:700;line-height:1.5;word-break:break-word}
+.rw .g{font:700 14px Manrope,sans-serif;color:rgba(255,255,255,.85);min-width:40px;text-align:end}.rw.t .g{color:#f4d17a}
+.rw button{border:0;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:9px;font-size:14px;flex:none;opacity:.8;transition:.2s}.rw button:hover{opacity:1;background:rgba(244,209,122,.3)}
+.emp{text-align:center;color:#dbe4ff;padding:46px 10px}
+
+.cta{margin:26px 0 60px;background:linear-gradient(115deg,#0d1b33,#17325c 60%,#1e3f70);color:#fff;border-radius:22px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;border:1px solid rgba(209,170,92,.3)}
+.cta h3{margin:0 0 6px;font-size:21px}.cta p{margin:0;color:#cfd9ea;font-size:13.5px;line-height:1.8;max-width:560px}
+.cb{border:0;background:var(--gold);color:#0b1526;padding:13px 26px;border-radius:12px;font-size:14px;font-weight:700;transition:.2s}.cb:hover{transform:translateY(-2px)}.cb:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+input,select{width:100%;border:1px solid var(--cb);background:var(--paper);padding:11px 13px;border-radius:10px;color:var(--ink);font-size:13px}
+input:focus,select:focus{border-color:var(--purple);outline:0}:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.pb{border:0;background:var(--purple);color:var(--on);padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600}.pb:disabled{opacity:.55}.gh{background:transparent;color:var(--navy);border:1px solid var(--line)}
+dialog{border:1px solid var(--line);border-radius:24px;background:var(--card);color:var(--ink);width:min(480px,92vw);max-height:92vh;padding:22px;box-shadow:0 30px 90px rgba(0,0,0,.28)}
+dialog::backdrop{background:rgba(5,10,20,.65);backdrop-filter:blur(4px)}
+dialog h2{margin:0;font-size:20px;color:var(--navy)}.ds{margin:4px 0 8px;font-size:12px;color:var(--slate)}
+dialog label{display:block;margin:10px 0 4px;font-size:12px;color:var(--slate);font-weight:600}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ck{display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:12px;line-height:1.7;color:var(--slate)}.ck input{width:auto;margin-top:4px}
+.priv{font-size:11px;color:var(--slate);margin-top:6px;line-height:1.6}
+.row{display:flex;gap:8px;margin-top:14px}.row .pb{flex:1}
+#hp{position:absolute;left:-9999px;opacity:0}
+#smsg{margin:8px 0 0;font-size:13px;min-height:20px}.err{color:var(--bad)}.ok{color:var(--ok);font-weight:600}
+footer{background:#0b1526;color:#a2aac0;padding:30px 0;font-size:11px}footer .wrap{display:flex;justify-content:space-between;gap:12px}
+@media(max-width:620px){.f2{grid-template-columns:1fr}.cta{padding:22px 18px}.cb{width:100%}
+ dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:26px 26px 0 0;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ecg .p{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="logo.jpeg" alt="شعار اللجنة" onerror="this.style.display='none'"><span><b>لوحة الشرف</b><small>لجنة الطب والجراحة البيطرية</small></span></a>
+  <div class="tools"><a class="ib" href="index.html">المنصة الأكاديمية</a>
+    <button class="ib" id="th" aria-label="تبديل المظهر"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
+</div></header>
+
+<section class="hero">
+  <svg class="ecg" viewBox="0 0 1200 170" aria-hidden="true"><path class="b" pathLength="1" d="M0,95 H330 L356,95 L372,68 L392,118 L424,14 L458,158 L486,95 H690 L714,95 L730,76 L748,106 L774,38 L802,128 L824,95 H1200"/><path class="p" pathLength="1" d="M0,95 H330 L356,95 L372,68 L392,118 L424,14 L458,158 L486,95 H690 L714,95 L730,76 L748,106 L774,38 L802,128 L824,95 H1200"/></svg>
+  <div class="wrap"><div class="hin">
+    <div class="eyebrow">كلية الطب البيطري، جامعة العلوم والتكنولوجيا الأردنية</div>
+    <h1>لوحة <span>شرف الكلية</span></h1>
+    <p>نحتفي بطلبتنا المتميزين الحاصلين على معدل 3.75 فأعلى في كل فصل دراسي، تقديراً لجهدهم وتفوقهم.</p>
+  </div></div>
+</section>
+
+<div class="wrap semb"><div class="semx">
+  <div><label for="semSel">الفصل الدراسي</label><select id="semSel"><option>جاري التحميل...</option></select></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="badge" id="semMin">معدل 3.75 فأعلى</span><span class="badge" id="semCnt">0 متفوق</span></div>
+</div></div>
+
+<main class="wrap">
+  <section class="board">
+    <div class="bhead"><b id="bt">لوحة الشرف</b><input class="srch" id="q" type="search" placeholder="ابحث باسم طالب..." aria-label="بحث"></div>
+    <div class="cols" id="cols"></div>
+  </section>
+  <section class="cta">
+    <div><h3 id="ctaT">معدلك 3.75 فأعلى؟ ابعت معدلك لنضيفك!</h3><p id="ctaD">أرسل اسمك ومعدلك وصورة إثبات لتتم مراجعتها وإدراجك في لوحة الشرف.</p></div>
+    <button class="cb" id="openSub" type="button">🎓 ابعت معدلك الآن</button>
+  </section>
+</main>
+<footer><div class="wrap"><span>المنصة الأكاديمية - VetCommitto</span><span class="lt">JUST · JORDAN</span></div></footer>
+
+<dialog id="dlg">
+  <h2>إرسال بيانات لوحة الشرف</h2><p class="ds" id="dSub"></p>
+  <form id="sf">
+    <div id="semW"><label for="sSem">الفصل الدراسي</label><select id="sSem"></select></div>
+    <label for="sName">الاسم الكامل كما تحب أن يظهر</label><input id="sName" required minlength="3" maxlength="80">
+    <div class="f2">
+      <div><label for="sYear">السنة الدراسية</label><select id="sYear"><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select></div>
+      <div><label for="sGpa" id="gl">المعدل</label><input id="sGpa" type="number" step="0.01" required dir="ltr" placeholder="3.85"></div>
+    </div>
+    <label for="sPhone">رقم الهاتف (اختياري، للتواصل عند الحاجة فقط)</label><input id="sPhone" type="tel" maxlength="20" dir="ltr" placeholder="07XXXXXXXX">
+    <label for="sFile">صورة إثبات المعدل (لقطة شاشة من موقع الخدمات)</label>
+    <input id="sFile" type="file" accept="image/*" required>
+    <div class="priv">تُرسل الصورة للجنة فقط ولا تظهر لأحد، وتُحذف نهائياً بعد مراجعتها.</div>
+    <label class="ck"><input id="sOk" type="checkbox" required><span>أوافق على نشر اسمي وسنتي الدراسية (والمعدل إن كان ظاهراً) في لوحة الشرف، ويمكنني طلب حذف اسمي لاحقاً من اللجنة.</span></label>
+    <input id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p id="smsg" role="status"></p>
+    <div class="row"><button class="pb" id="go" type="submit">إرسال للمراجعة</button><button type="button" class="pb gh" id="cl">إغلاق</button></div>
+  </form>
+</dialog>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,doc,getDocs,writeBatch,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {YEARS,cohort,renderCard,saveCanvas} from "./honor-poster.js";
+
+const app=initializeApp({apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community"});
+const auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id),MAXG=4.33;
+let pub=[],acc=[],cur=null,q="";
+const mk=(t,x,c)=>{const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e};
+const th=()=>{const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light";document.querySelector('meta[name=theme-color]').content=d?"#0b1120":"#0d1b33"};
+$("th").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");th()};th();
+const msg=(t,c)=>{$("smsg").textContent=t;$("smsg").className=c||""};
+
+function draw(){
+  const box=$("cols");box.textContent="";
+  if(!cur){$("semCnt").textContent="0 متفوق";box.append(mk("div","لم يتم نشر لوحة الشرف بعد. ستظهر الأسماء هنا فور نشرها.","emp"));return}
+  const all=Array.isArray(cur.entries)?cur.entries:[];
+  $("semMin").textContent="معدل "+Number(cur.minGpa||3.75).toFixed(2)+" فأعلى";$("semCnt").textContent=all.length+" متفوق";
+  $("bt").textContent="لوحة الشرف، "+cur.title;
+  const list=all.filter(e=>!q||(e.name||"").toLowerCase().includes(q));
+  const yrs=YEARS.filter(y=>list.some(e=>e.year===y));
+  if(!yrs.length){box.append(mk("div",all.length?"لا توجد نتائج مطابقة.":"لا يوجد طلاب في هذا الفصل بعد.","emp"));return}
+  for(const y of yrs){
+    const col=mk("div",null,"col");col.append(mk("div",cohort(cur,y),"tab"));
+    const crd=mk("div",null,"crd");
+    list.filter(e=>e.year===y).sort((a,b)=>b.gpa-a.gpa||(a.name||"").localeCompare(b.name||"","ar")).forEach((s,i)=>{
+      const r=mk("div",null,"rw"+(i<3?" t":""));r.append(mk("b",s.name||""));
+      if(cur.showGpa&&s.gpa!=null)r.append(mk("span",Number(s.gpa).toFixed(2),"g"));
+      const b=mk("button","🏅");b.title="بطاقة تهنئة";b.setAttribute("aria-label","بطاقة تهنئة لـ "+s.name);
+      b.onclick=async()=>{b.disabled=true;try{const cv=document.createElement("canvas");await renderCard(cv,{st:s,sem:cur});await saveCanvas(cv,"honor-"+(s.name||"card").replace(/\s+/g,"-")+".png")}finally{b.disabled=false}};
+      r.append(b);crd.append(r);
+    });
+    col.append(crd);box.append(col);
+  }
+}
+$("semSel").onchange=()=>{cur=pub.find(s=>s.id===$("semSel").value)||null;draw()};
+$("q").oninput=e=>{q=e.target.value.trim().toLowerCase();draw()};
+
+function cta(){
+  if(!acc.length){$("ctaT").textContent="باب التقديم مغلق حالياً";$("ctaD").textContent="يُفتح استقبال المعدلات نهاية كل فصل بعد صدور العلامات. ترقّبوا إعلان اللجنة.";$("openSub").textContent="التقديم مغلق حالياً";$("openSub").disabled=true;return}
+  const p=acc[0];$("ctaT").textContent="معدلك "+Number(p.minGpa||3.75).toFixed(2)+" فأعلى؟ ابعت معدلك لنضيفك!";
+  $("ctaD").textContent="التقديم مفتوح حالياً لـ "+p.title+". أرسل اسمك ومعدلك وإثبات العلامات لتتم إضافتك.";
+  const sel=$("sSem");sel.textContent="";acc.forEach(s=>{const o=mk("option",s.title);o.value=s.id;sel.append(o)});
+  $("semW").classList.toggle("hid",acc.length<2);gpaLim();
+}
+function gpaLim(){const s=acc.find(x=>x.id===$("sSem").value)||acc[0],m=Number(s&&s.minGpa||3.75);$("sGpa").min=m;$("sGpa").max=MAXG;$("gl").textContent="المعدل ("+m.toFixed(2)+" إلى "+MAXG+")";$("dSub").textContent=s?"التقديم لـ "+s.title:""}
+$("sSem").onchange=gpaLim;$("openSub").onclick=()=>{if(acc.length){msg("");$("dlg").showModal()}};$("cl").onclick=()=>$("dlg").close();
+
+// ضغط صورة الإثبات (JPEG صغير) لتُحفظ مع الطلب وتُحذف بعد المراجعة
+async function pack(file){
+  const bm=await createImageBitmap(file),k=Math.min(1,1100/Math.max(bm.width,bm.height)),cv=document.createElement("canvas");
+  cv.width=Math.round(bm.width*k);cv.height=Math.round(bm.height*k);cv.getContext("2d").drawImage(bm,0,0,cv.width,cv.height);
+  let qy=.72,d=cv.toDataURL("image/jpeg",qy);while(d.length>360000&&qy>.35){qy-=.1;d=cv.toDataURL("image/jpeg",qy)}
+  if(d.length>370000)throw new Error("big");return d;
+}
+$("sf").onsubmit=async e=>{
+  e.preventDefault();if($("hp").value){$("dlg").close();return}
+  const sem=acc.find(x=>x.id===$("sSem").value)||acc[0],f=$("sFile").files[0],g=Number($("sGpa").value),m=Number(sem.minGpa||3.75);
+  if(!(g>=m&&g<=MAXG)){msg("المعدل يجب أن يكون بين "+m.toFixed(2)+" و "+MAXG+".","err");return}
+  if(!f||!f.type.startsWith("image/")){msg("أرفق صورة (لقطة شاشة) لإثبات المعدل.","err");return}
+  $("go").disabled=true;msg("جاري التجهيز...");
+  try{
+    const proof=await pack(f);
+    if(!auth.currentUser)await signInAnonymously(auth);
+    const uid=auth.currentUser.uid,sid=doc(collection(db,"honor_submissions")).id,b=writeBatch(db);
+    b.set(doc(db,"honor_submissions",sid),{ownerUid:uid,semesterId:sem.id,semesterTitle:sem.title,name:$("sName").value.trim(),year:$("sYear").value,gpa:Number(g.toFixed(2)),phone:$("sPhone").value.trim(),consent:true,status:"pending",createdAt:serverTimestamp()});
+    b.set(doc(db,"honor_proofs",sid),{ownerUid:uid,data:proof,createdAt:serverTimestamp()});
+    await b.commit();
+    msg("وصل طلبك وسيتم مراجعته قريباً 🎉","ok");$("sf").reset();setTimeout(()=>$("dlg").close(),2200);
+  }catch(err){msg("تعذّر الإرسال. تأكد من الاتصال والبيانات وحاول مرة أخرى.","err")}finally{$("go").disabled=false}
+};
+
+(async()=>{
+  try{
+    const s=await getDocs(collection(db,"honor_semesters")),all=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.order||0)-(a.order||0));
+    pub=all.filter(x=>x.published);acc=all.filter(x=>x.accepting);
+    const sel=$("semSel");sel.textContent="";
+    if(pub.length){pub.forEach(x=>{const o=mk("option",x.title);o.value=x.id;sel.append(o)});cur=pub[0]}else sel.append(mk("option","لا توجد فصول منشورة بعد"));
+    draw();cta();
+  }catch(e){$("cols").textContent="";$("cols").append(mk("div","تعذّر تحميل لوحة الشرف. أعد المحاولة لاحقاً.","emp"))}
+})();
+</script>
+</body>
+</html>
