@@ -253,7 +253,10 @@ function drawSems(){
     const b3=mk("button",s.published?"إخفاء عن العامة":"إظهار","pb gh");b3.onclick=()=>updateDoc(doc(db,"honor_semesters",s.id),{published:!s.published});
     const b4=mk("button","تعديل","pb gh");b4.onclick=()=>{editId=s.id;$("fT").value=s.title||"";$("fM").value=s.minGpa??3.75;$("fY").value=s.startYear??"";$("fO").value=s.order??"";$("fA").checked=!!s.accepting;$("fS").checked=!!s.showGpa;scrollTo({top:0,behavior:"smooth"})};
     const b5=mk("button","حذف","pb bad");b5.onclick=()=>{if(confirm("حذف الفصل؟ (طلبات الطلاب تبقى)"))deleteDoc(doc(db,"honor_semesters",s.id))};
-    a.append(b1,b2,b3,b4,b5);c.append(a);box.append(c);
+    const bcp=mk("button","نسخ رابط التقديم","pb gh");
+    bcp.onclick=async()=>{const u=new URL("honor.html?submit="+encodeURIComponent(s.id),location.href).href;try{await navigator.clipboard.writeText(u);bcp.textContent="تم النسخ ✓"}catch(_){prompt("انسخ الرابط:",u)}setTimeout(()=>{bcp.textContent="نسخ رابط التقديم"},1800)};
+    a.append(b1,b2,bcp,b3,b4,b5);c.append(a);box.append(c);
+
   }
 }
 $("fR").onclick=()=>{editId=null;$("semForm").reset();$("fM").value="3.75";$("fA").checked=true;$("fS").checked=true};
