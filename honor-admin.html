@@ -15,7 +15,7 @@
 [data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--paper:#0b1120;--line:#334155;--white:#0f172a;--card:#1e293b;--cb:#334155;--btn:#334155;--nav:#0f172a;--on:#0b1120;--bad:#ff7b6b;--ok:#4ade80}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.7 "IBM Plex Sans Arabic",Tahoma,sans-serif;transition:background .3s,color .3s;padding-bottom:env(safe-area-inset-bottom,0)}
-button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
 .wrap{width:min(1040px,calc(100% - 40px));margin-inline:auto}.hid{display:none!important}
 .top{height:66px;background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -31,8 +31,9 @@ button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-deco
 .card{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:16px 18px;margin-bottom:12px}
 .bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.bar>*{flex:1;min-width:150px}.bar .a{flex:0 0 auto;min-width:auto}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-input,select{width:100%;border:1px solid var(--cb);background:var(--paper);padding:10px 13px;border-radius:10px;color:var(--ink);font-size:13px}
-input:focus,select:focus{border-color:var(--purple);outline:0}:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+input,select,textarea{width:100%;border:1px solid var(--cb);background:var(--paper);padding:10px 13px;border-radius:10px;color:var(--ink);font-size:13px}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);outline:0}:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+textarea{resize:vertical;line-height:1.7}
 label.ck{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--slate)}label.ck input{width:auto}
 .pb{border:0;background:var(--purple);color:var(--on);padding:9px 16px;border-radius:10px;font-size:12px;font-weight:600;white-space:nowrap}.pb:disabled{opacity:.5}
 .pb.ok{background:var(--ok);color:#fff}.pb.gold{background:var(--gold);color:#0b1526}.gh{background:transparent;color:var(--navy);border:1px solid var(--line)}.bad{background:transparent;color:var(--bad);border:1px solid var(--bad)}
@@ -73,13 +74,24 @@ dialog{border:1px solid var(--line);border-radius:20px;background:var(--card);co
     <section id="s1">
       <div class="bar"><select id="subSem" aria-label="الفصل"></select>
         <select id="subYear" aria-label="السنة"><option value="">كل السنوات</option><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select>
-        <input id="subQ" type="search" placeholder="بحث بالاسم..."><button type="button" class="pb gh a" id="addMan">+ إضافة يدوية</button></div>
+        <input id="subQ" type="search" placeholder="بحث بالاسم...">
+        <button type="button" class="pb gh a" id="addMan">+ إضافة يدوية</button>
+        <button type="button" class="pb gh a" id="addBulk">📋 لصق جماعي</button></div>
       <div id="pubBar" class="pub hid"><span id="pubInfo"></span><button type="button" class="pb gold" id="quickPub">نشر / تحديث اللوحة</button></div>
       <div class="tabs" id="stChips"><button class="chip on" data-f="">الكل<b>0</b></button><button class="chip" data-f="pending">قيد المراجعة<b>0</b></button><button class="chip" data-f="approved">مقبول<b>0</b></button><button class="chip" data-f="rejected">مرفوض<b>0</b></button></div>
       <form id="manForm" class="card hid"><div class="g"><input id="mn" placeholder="اسم الطالب الكامل" required maxlength="80">
         <select id="my"><option value="أولى">الأولى</option><option value="ثانية">الثانية</option><option value="ثالثة">الثالثة</option><option value="رابعة">الرابعة</option><option value="خامسة">الخامسة</option></select>
         <input id="mg" type="number" step="0.01" min="2" max="4.5" placeholder="المعدل" required dir="ltr"></div>
         <div class="act"><button class="pb ok">إضافة كمقبول</button><button type="button" class="pb gh" id="manX">إلغاء</button></div></form>
+      <form id="bulkForm" class="card hid">
+        <p class="m" style="margin:0 0 8px">الصق القائمة هنا (كل سطر: <b>الاسم | السنة | المعدل</b> — مثلاً: <b>قاسم عبابنة | أولى | 4.14</b>) وسيتم إضافتهم مباشرة للفصل المختار فوق:</p>
+        <textarea id="bulkTxt" rows="9" placeholder="قاسم عبابنة | أولى | 4.14&#10;لانا الشوبكي | ثانية | 4.04" required></textarea>
+        <div class="act">
+          <button class="pb ok" id="bulkGo">استيراد الكل كمقبولين</button>
+          <button type="button" class="pb gh" id="bulkX">إلغاء</button>
+          <span class="m" id="bulkMsg"></span>
+        </div>
+      </form>
       <div id="subList"></div>
     </section>
 
@@ -114,7 +126,7 @@ dialog{border:1px solid var(--line);border-radius:20px;background:var(--card);co
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,collection,doc,getDoc,setDoc,updateDoc,deleteDoc,onSnapshot,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,collection,doc,getDoc,setDoc,updateDoc,deleteDoc,writeBatch,onSnapshot,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {YEARS,YT,renderPoster,saveCanvas} from "./honor-poster.js";
 
 const app=initializeApp({apiKey:"AIzaSyACdkXbf4q5EEBVhGRZlrI91REqouEfOC0",authDomain:"vetcommitto-community.firebaseapp.com",projectId:"vetcommitto-community"});
@@ -130,10 +142,51 @@ const norm=s=>String(s||"").trim().toLowerCase().replace(/[أإآ]/g,"ا").repla
 $("tabs").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;document.querySelectorAll("#tabs .chip").forEach(c=>c.classList.toggle("on",c===b));["1","2","3"].forEach(k=>$("s"+k).classList.toggle("hid",b.dataset.t!==k));if(b.dataset.t==="3")poster()};
 $("stChips").onclick=e=>{const b=e.target.closest("[data-f]");if(!b)return;document.querySelectorAll("#stChips .chip").forEach(c=>c.classList.toggle("on",c===b));sF=b.dataset.f;drawSubs()};
 $("subSem").onchange=e=>{selSem=e.target.value;drawSubs()};$("subYear").onchange=e=>{yF=e.target.value;drawSubs()};$("subQ").oninput=e=>{q=e.target.value.trim().toLowerCase();drawSubs()};
-$("addMan").onclick=()=>$("manForm").classList.toggle("hid");$("manX").onclick=()=>{$("manForm").classList.add("hid");$("manForm").reset()};
+$("addMan").onclick=()=>{$("bulkForm").classList.add("hid");$("manForm").classList.toggle("hid")};
+$("manX").onclick=()=>{$("manForm").classList.add("hid");$("manForm").reset()};
 $("manForm").onsubmit=async e=>{e.preventDefault();const s=sems.find(x=>x.id===selSem);if(!s){alert("أنشئ فصلاً أولاً.");return}
   await setDoc(doc(collection(db,"honor_submissions")),{ownerUid:auth.currentUser.uid,semesterId:s.id,semesterTitle:s.title,name:$("mn").value.trim(),year:$("my").value,gpa:Number(Number($("mg").value).toFixed(2)),phone:"",consent:true,status:"approved",createdAt:serverTimestamp()});
   $("manForm").reset();$("manForm").classList.add("hid")};
+
+// اللصق الجماعي
+const YMAP={"1":"أولى","أولى":"أولى","اولى":"أولى","الأولى":"أولى","الاولى":"أولى","2":"ثانية","ثانية":"ثانية","الثانية":"ثانية","3":"ثالثة","ثالثة":"ثالثة","الثالثة":"ثالثة","4":"رابعة","رابعة":"رابعة","الرابعة":"رابعة","5":"خامسة","خامسة":"خامسة","الخامسة":"خامسة"};
+$("addBulk").onclick=()=>{$("manForm").classList.add("hid");$("bulkForm").classList.toggle("hid");$("bulkMsg").textContent=""};
+$("bulkX").onclick=()=>{$("bulkForm").classList.add("hid");$("bulkForm").reset();$("bulkMsg").textContent=""};
+$("bulkForm").onsubmit=async e=>{
+  e.preventDefault();
+  const s=sems.find(x=>x.id===selSem);
+  if(!s){alert("اختر أو أنشئ فصلاً أولاً.");return}
+  const lines=$("bulkTxt").value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const items=[],bad=[];
+  for(const ln of lines){
+    const parts=ln.split("|").map(p=>p.trim());
+    if(parts.length<3){bad.push(ln);continue}
+    const name=parts[0],year=YMAP[parts[1]],gpa=Number(parts[2]);
+    if(!name||!year||isNaN(gpa)||gpa<0||gpa>4.5){bad.push(ln);continue}
+    items.push({name,year,gpa:Number(gpa.toFixed(2))});
+  }
+  if(!items.length){alert("ما تم التعرّف على أي سطر صالح. تأكد من الصيغة: الاسم | السنة | المعدل");return}
+  if(!confirm("سيتم إضافة "+items.length+" طالب إلى ("+s.title+")"+(bad.length?" وتجاهل "+bad.length+" سطر غير صالح":"")+". متابعة؟"))return;
+  $("bulkGo").disabled=true;$("bulkMsg").textContent="جاري الإضافة...";
+  try{
+    const uid=auth.currentUser.uid;
+    for(let i=0;i<items.length;i+=400){
+      const b=writeBatch(db);
+      items.slice(i,i+400).forEach(it=>{
+        b.set(doc(collection(db,"honor_submissions")),{
+          ownerUid:uid,semesterId:s.id,semesterTitle:s.title,
+          name:it.name,year:it.year,gpa:it.gpa,
+          phone:"",consent:true,status:"approved",createdAt:serverTimestamp()
+        });
+      });
+      await b.commit();
+    }
+    $("bulkForm").reset();$("bulkForm").classList.add("hid");
+    alert("تم استيراد "+items.length+" طالب بنجاح! لا تنسَ كبس «نشر / تحديث اللوحة» لإظهارهم للطلاب 🎉");
+  }catch(err){
+    alert("حدث خطأ أثناء الاستيراد: "+(err?.message||err));
+  }finally{$("bulkGo").disabled=false;$("bulkMsg").textContent=""}
+};
 
 $("lf").onsubmit=async e=>{e.preventDefault();$("err").textContent="";try{await signInWithEmailAndPassword(auth,$("em").value.trim(),$("pw").value)}catch(_){$("err").textContent="الإيميل أو كلمة المرور غير صحيحة."}};
 onAuthStateChanged(auth,async u=>{
@@ -143,7 +196,7 @@ onAuthStateChanged(auth,async u=>{
   if(!ok){await signOut(auth);$("err").textContent="هذا الحساب ليس أدمن.";return}
   $("login").classList.add("hid");$("app").classList.remove("hid");$("out").classList.remove("hid");
   un.push(onSnapshot(collection(db,"honor_semesters"),s=>{sems=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.order||0)-(a.order||0));syncSel();drawSems();drawSubs();if(!$("s3").classList.contains("hid"))poster()}));
-  un.push(onSnapshot(query(collection(db,"honor_submissions"),orderBy("createdAt","desc"),limit(600)),s=>{subs=s.docs.map(d=>({id:d.id,...d.data()}));drawSems();drawSubs();if(!$("s3").classList.contains("hid"))poster()}));
+  un.push(onSnapshot(query(collection(db,"honor_submissions"),orderBy("createdAt","desc"),limit(1500)),s=>{subs=s.docs.map(d=>({id:d.id,...d.data()}));drawSems();drawSubs();if(!$("s3").classList.contains("hid"))poster()}));
 });
 function syncSel(){for(const id of ["subSem","pSem"]){const el=$(id),cv=id==="subSem"?selSem:el.value;el.textContent="";
   if(!sems.length){el.append(mk("option","أنشئ فصلاً أولاً"));continue}
@@ -157,7 +210,7 @@ async function publish(id){
 }
 $("quickPub").onclick=()=>selSem&&publish(selSem);
 
-async function decide(x,status){await updateDoc(doc(db,"honor_submissions",x.id),{status});try{await deleteDoc(doc(db,"honor_proofs",x.id))}catch(_){}} // حذف الإثبات بعد القرار للخصوصية
+async function decide(x,status){await updateDoc(doc(db,"honor_submissions",x.id),{status});try{await deleteDoc(doc(db,"honor_proofs",x.id))}catch(_){}}
 function drawSubs(){
   const sc=subs.filter(x=>!selSem||x.semesterId===selSem),cnt={"":sc.length,pending:0,approved:0,rejected:0},fr={};
   sc.forEach(x=>{if(cnt[x.status]!=null)cnt[x.status]++;const k=norm(x.name);if(k)fr[k]=(fr[k]||0)+1});
