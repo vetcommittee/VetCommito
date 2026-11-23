@@ -710,6 +710,21 @@
           }
           draw();
           cta();
+                    const sp = new URLSearchParams(location.search);
+          const sub = sp.get("submit");
+          if (sub !== null || location.hash === "#submit") {
+            if (acc.length) {
+              if (sub && acc.some((x) => x.id === sub)) {
+                $("sSem").value = sub;
+                gpaLim();
+              }
+              msg("");
+              $("dlg").showModal();
+            } else {
+              $("openSub").scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }
+
         } catch (e) {
           console.error("Load error:", e);
           loadErr = e?.code || e?.message || "فشل قراءة البيانات";
