@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1b33">
+<title>خريطة الحرم | VetCommitto</title>
+<link rel="icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+:root{--navy:#0d1b33;--purple:#1e3f70;--violet:#2b5696;--ink:#1a2233;--slate:#606d85;--line:#e2e6ed;--gold:#d1aa5c;--card:#fff;--cb:#dfe3ed;--btn:#f0f3f7;--nav:#fbfbfd;--on:#fff;--h:68px}
+[data-theme=dark]{--navy:#e0e5ed;--purple:#8baccf;--violet:#a8bcd9;--ink:#e0e5ed;--slate:#949daf;--line:#334155;--card:#1e293b;--cb:#334155;--btn:#334155;--nav:#0f172a;--on:#0b1120}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--nav);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;overflow:hidden}
+button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.top{height:var(--h);background:var(--nav);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;justify-content:space-between;gap:12px;position:relative;z-index:6}
+.brand{display:flex;align-items:center;gap:12px}.brand img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33}
+.brand b{font-size:14px;color:var(--navy);font-weight:700;line-height:1.4}.brand small{display:block;color:var(--slate);font-size:10px}
+.tools{display:flex;gap:8px}.ib{height:40px;min-width:40px;border:1px solid var(--line);background:var(--card);border-radius:12px;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;padding:0 14px;font-size:12px;font-weight:600}
+#map{position:absolute;inset:var(--h) 0 0 0}
+.ui{position:absolute;z-index:5;top:calc(var(--h) + 12px);inset-inline:12px;display:flex;gap:8px;pointer-events:none;align-items:flex-start}
+.ui>*{pointer-events:auto}
+.sb{position:relative;flex:1;max-width:420px}
+.sb input{width:100%;height:46px;border:1px solid var(--cb);background:var(--card);color:var(--ink);border-radius:14px;padding:0 16px;font-size:14px;box-shadow:0 8px 24px rgba(13,27,51,.15)}
+.sb input:focus{outline:3px solid var(--violet);outline-offset:1px}
+.res{position:absolute;top:52px;inset-inline:0;background:var(--card);border:1px solid var(--cb);border-radius:14px;box-shadow:0 14px 34px rgba(13,27,51,.2);overflow:hidden;list-style:none;margin:0;padding:0}
+.res li button{display:flex;width:100%;gap:10px;align-items:center;border:0;background:transparent;color:var(--ink);padding:11px 14px;text-align:start;font-size:13px}
+.res li button:hover,.res li button:focus-visible{background:var(--btn)}.res small{color:var(--slate);margin-inline-start:auto;font-size:11px}
+.fab{position:absolute;z-index:5;inset-inline-end:12px;bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
+.fab button{width:48px;height:48px;border-radius:14px;border:1px solid var(--cb);background:var(--card);color:var(--navy);font-size:12px;font-weight:700;box-shadow:0 8px 24px rgba(13,27,51,.18)}
+.fab button.gold{background:var(--gold);color:#0b1526;border-color:var(--gold)}.fab button.on{background:var(--navy);color:var(--card)}
+.card{position:absolute;z-index:6;inset-inline:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:380px;background:var(--card);border:1px solid var(--cb);border-radius:20px;padding:18px;box-shadow:0 20px 50px rgba(13,27,51,.3)}
+.card h2{margin:0 0 2px;font-size:18px;color:var(--navy)}.card .en{font:600 12px Manrope,sans-serif;color:var(--slate);direction:ltr;text-align:start}
+.card p{margin:10px 0 0;font-size:13px;line-height:1.8;color:var(--slate)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--btn);color:var(--purple);margin-top:10px;margin-inline-end:6px}
+.row{display:flex;gap:8px;margin-top:14px}
+.pb{flex:1;border:0;background:var(--purple);color:var(--on);padding:11px 16px;border-radius:12px;font-size:13px;font-weight:600;text-align:center}.pb.gold{background:var(--gold);color:#0b1526}.pb.ok{background:#1f8a5b;color:#fff}.gh{background:transparent;color:var(--navy);border:1px solid var(--line);flex:0 0 auto}
+.toast{position:absolute;z-index:8;top:calc(var(--h) + 14px);left:50%;transform:translateX(-50%);background:var(--navy);color:var(--card);padding:10px 18px;border-radius:12px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:90vw;text-align:center}
+.hid{display:none!important}
+.nogl{position:absolute;inset:var(--h) 0 0;display:grid;place-items:center;padding:30px;text-align:center;color:var(--slate)}
+/* علامات الخريطة */
+.pin{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;padding:0}
+.pin .dot{position:relative;width:40px;height:40px;border-radius:50%;background:#0d1b33;border:3px solid #d1aa5c;color:#fff;display:grid;place-items:center;font:800 20px/1 Manrope,sans-serif;box-shadow:0 6px 16px rgba(13,27,51,.4)}
+.pin .dot:after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid #d1aa5c;opacity:0;animation:ping 2.4s ease-out infinite}
+.pin b{background:#fff;color:#0d1b33;padding:3px 11px;border-radius:999px;font:700 12px "IBM Plex Sans Arabic",sans-serif;box-shadow:0 4px 12px rgba(13,27,51,.25);white-space:nowrap}
+@keyframes ping{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+.me{width:20px;height:20px;border-radius:50%;background:#2b7fff;border:3px solid #fff;box-shadow:0 0 0 6px rgba(43,127,255,.25),0 4px 10px rgba(0,0,0,.3)}
+/* شريط الرسم السري (?pick=1) */
+.pick-bar{position:absolute;z-index:7;inset-inline:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:520px;margin-inline:auto;background:var(--card);border:2px solid var(--gold);border-radius:20px;padding:14px;box-shadow:0 18px 45px rgba(0,0,0,.32)}
+.pick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;font-size:12.5px}
+.pick-head b{color:var(--navy)}.pick-head span{background:var(--btn);color:var(--purple);padding:3px 10px;border-radius:999px;font-weight:700;font-size:11px}
+.pick-in{display:grid;grid-template-columns:1fr 84px;gap:8px;margin-bottom:8px}
+.pick-in input{border:1px solid var(--cb);background:var(--nav);color:var(--ink);border-radius:10px;padding:8px 10px;font-size:13px;width:100%}
+.pick-ck{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--slate);margin-bottom:10px}
+.pick-btns{display:flex;gap:6px;flex-wrap:wrap}
+.pick-btns button{border:1px solid var(--line);background:var(--btn);color:var(--navy);padding:8px 11px;border-radius:10px;font-size:12px;font-weight:700;flex:1;min-width:95px}
+.pick-btns button.ok{background:#1f8a5b;color:#fff;border-color:#1f8a5b}
+.pick-btns button.gold{background:var(--gold);color:#0b1526;border-color:var(--gold)}
+.pick-btns button.pv{background:#0d1b33;color:#fff;border-color:#0d1b33}
+dialog{border:1px solid var(--line);border-radius:20px;background:var(--card);color:var(--ink);width:min(540px,94vw);padding:18px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(5,10,20,.72)}
+dialog textarea{width:100%;height:240px;border:1px solid var(--cb);background:var(--nav);color:var(--ink);border-radius:12px;padding:10px;font:12px/1.6 monospace;direction:ltr;margin:10px 0}
+.maplibregl-ctrl-bottom-left{margin-bottom:6px}
+@media(prefers-reduced-motion:reduce){.pin .dot:after{animation:none}}
+@media(min-width:700px){.card{inset-inline-start:auto;inset-inline-end:76px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html"><img src="logo.jpeg" alt="شعار اللجنة" onerror="this.style.display='none'"><span><b>خريطة الحرم</b><small>جامعة العلوم والتكنولوجيا الأردنية</small></span></a>
+  <div class="tools"><a class="ib" href="index.html">المنصة الأكاديمية</a>
+    <button class="ib" id="th" aria-label="تبديل المظهر"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></div>
+</header>
+
+<div id="map"></div>
+<div class="ui" id="uiSearch"><div class="sb"><input id="q" type="search" placeholder="ابحث عن مبنى أو مكان..." autocomplete="off" aria-label="بحث"><ul class="res hid" id="res"></ul></div></div>
+<div class="fab" id="fabTools"><button id="b3" title="2D / 3D">2D</button><button id="bh" title="المستشفى">🏥</button><button id="bm" class="gold" title="موقعي في الحرم">موقعي</button></div>
+<section class="card hid" id="card" aria-live="polite"></section>
+<div class="toast hid" id="toast" role="status"></div>
+
+<!-- أداة رسم المباني فوق القمر الصناعي (تظهر فقط مع ?pick=1) -->
+<div class="pick-bar hid" id="pickBar">
+  <div class="pick-head">
+    <b>اضغط على زوايا المبنى بالترتيب</b>
+    <span id="pickStat">النقاط: 0 · المحفوظ: 0</span>
+  </div>
+  <div class="pick-in">
+    <input id="pkName" placeholder="اسم المبنى (مثلاً: المستشفى - المبنى الرئيسي)">
+    <input id="pkFloors" type="number" min="1" max="12" value="2" title="عدد الطوابق" placeholder="الطوابق">
+  </div>
+  <label class="pick-ck"><input id="pkPin" type="checkbox" checked> إظهار دبوس واسم فوق هذا المبنى (شيل الصح للمباني الفرعية)</label>
+  <div class="pick-btns">
+    <button type="button" id="pkUndo">تراجع نقطة</button>
+    <button type="button" id="pkSave" class="ok">حفظ المبنى (+ التالي)</button>
+    <button type="button" id="pkDelLast">حذف آخر مبنى</button>
+    <button type="button" id="pkPreview" class="pv">معاينة 3D</button>
+    <button type="button" id="pkCopy" class="gold">نسخ الكود</button>
+  </div>
+</div>
+
+<dialog id="codeDlg">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <strong style="color:var(--navy)">كود المباني الجاهز</strong>
+    <button type="button" class="pb gh" id="codeClose">إغلاق</button>
+  </div>
+  <p style="margin:6px 0 0;font-size:12px;color:var(--slate)">انسخ هذا النص وابعتلي إياه (أو الصقه مكان PLACES في map.html):</p>
+  <textarea id="codeOut" readonly></textarea>
+  <div class="row"><button type="button" class="pb gold" id="codeCopyBtn">نسخ مرة أخرى</button></div>
+</dialog>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+/* ===== الأماكن (كل مبنى مستقل؛ ضع pin:false للمباني الفرعية المجاورة بدون دبوس) ===== */
+const PLACES=[
+ {id:"vet-hospital",ar:"المستشفى البيطري",en:"Veterinary Hospital",cat:"مستشفى",lat:32.4858420,lng:35.9864621,
+  floors:2,size:{w:40,d:26,rot:0},poly:null,pin:true,color:"#dcc59e",
+  desc:"المستشفى البيطري التعليمي، جامعة العلوم والتكنولوجيا الأردنية."}
+];
+
+const IS_PICK=new URLSearchParams(location.search).get("pick")==="1";
+const STYLE="https://tiles.openfreemap.org/styles/liberty";
+const $=id=>document.getElementById(id);
+const mk=(t,x,c)=>{const e=document.createElement(t);if(x!=null)e.textContent=x;if(c)e.className=c;return e};
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+const th=()=>{const d=localStorage.getItem("vet_theme")==="dark";document.documentElement.dataset.theme=d?"dark":"light"};
+$("th").onclick=()=>{localStorage.setItem("vet_theme",localStorage.getItem("vet_theme")==="dark"?"light":"dark");th()};th();
+function toast(t,ms=4200){const e=$("toast");e.textContent=t;e.classList.remove("hid");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add("hid"),ms)}
+
+function rect(p){const w=(p.size&&p.size.w)||36,d=(p.size&&p.size.d)||24,r=((p.size&&p.size.rot)||0)*Math.PI/180,mLat=111320,mLng=111320*Math.cos(p.lat*Math.PI/180);
+  return [[-1,-1],[1,-1],[1,1],[-1,1],[-1,-1]].map(([x,y])=>{const X=x*w/2,Y=y*d/2,rx=X*Math.cos(r)-Y*Math.sin(r),ry=X*Math.sin(r)+Y*Math.cos(r);return[p.lng+rx/mLng,p.lat+ry/mLat]})}
+function ring(p){
+  if(Array.isArray(p.poly)&&p.poly.length>=3){
+    const a=p.poly.map(c=>[Number(c[0]),Number(c[1])]);
+    if(a[0][0]!==a[a.length-1][0]||a[0][1]!==a[a.length-1][1])a.push(a[0]);
+    return a;
+  }
+  return rect(p);
+}
+const mkFc=list=>({type:"FeatureCollection",features:list.map(p=>({type:"Feature",properties:{id:p.id,h:(p.floors||2)*4.2,color:p.color||"#dcc59e"},geometry:{type:"Polygon",coordinates:[ring(p)]}}))});
+const inside=(pt,rg)=>{let c=false;for(let i=0,j=rg.length-1;i<rg.length;j=i++){const[xi,yi]=rg[i],[xj,yj]=rg[j];if((yi>pt[1])!==(yj>pt[1])&&pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi)+xi)c=!c}return c};
+const km=(a,b)=>{const R=6371,t=x=>x*Math.PI/180,dl=t(b[1]-a[1]),dg=t(b[0]-a[0]),h=Math.sin(dl/2)**2+Math.cos(t(a[1]))*Math.cos(t(b[1]))*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const norm=s=>String(s||"").toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/[\u064B-\u0652]/g,"");
+
+if(!window.maplibregl||!maplibregl.supported||!maplibregl.supported()){
+  document.body.append(mk("div","تعذّر عرض الخريطة على هذا الجهاز أو المتصفح. جرّب متصفحاً أحدث.","nogl"));
+} else {
+const H=PLACES[0],hCenter=[H.lng,H.lat];
+const map=new maplibregl.Map({
+  container:"map",style:STYLE,center:hCenter,
+  zoom:IS_PICK?18.3:14.2,pitch:0,bearing:0,maxPitch:75,minZoom:12,maxZoom:21,
+  attributionControl:{compact:true}
+});
+map.addControl(new maplibregl.NavigationControl({visualizePitch:true}),"bottom-left");
+let vsrc=null,bld=null;
+
+if(IS_PICK){
+  $("uiSearch").classList.add("hid");
+  $("fabTools").classList.add("hid");
+  $("pickBar").classList.remove("hid");
+}
+
+map.on("load",()=>{
+  const st=map.getStyle(),layers=st.layers||[];
+  vsrc=Object.keys(st.sources).find(k=>st.sources[k].type==="vector");
+
+  // 1) تلوين مباني الحرم من OpenStreetMap (منفصل حتى لا يعطل رسم مبانينا)
+  try{
+    const ext=layers.find(l=>l.type==="fill-extrusion");
+    const hExpr=["max",6,["to-number",["get","render_height"],6]];
+    const colour=["interpolate",["linear"],hExpr,0,"#e8dec9",25,"#dccfb4",70,"#cbbba0"];
+    const base=["to-number",["get","render_min_height"],0];
+    if(ext){
+      bld=ext.id;
+      map.setPaintProperty(bld,"fill-extrusion-color",colour);
+      map.setPaintProperty(bld,"fill-extrusion-height",hExpr);
+      map.setPaintProperty(bld,"fill-extrusion-base",base);
+      map.setPaintProperty(bld,"fill-extrusion-opacity",0.95);
+      map.setPaintProperty(bld,"fill-extrusion-vertical-gradient",true);
+      map.setLayerZoomRange(bld,13,24);
+    }else if(vsrc){
+      bld="osm-3d";
+      map.addLayer({id:bld,type:"fill-extrusion",source:vsrc,"source-layer":"building",minzoom:13,
+        paint:{"fill-extrusion-color":colour,"fill-extrusion-height":hExpr,"fill-extrusion-base":base,"fill-extrusion-opacity":0.95,"fill-extrusion-vertical-gradient":true}});
+    }
+    const bg=layers.find(l=>l.type==="background");
+    if(bg)map.setPaintProperty(bg.id,"background-color","#ebe5d8");
+    map.setLight({anchor:"viewport",color:"#fff7e6",intensity:0.65,position:[1.5,210,45]});
+  }catch(e){console.warn("osm style:",e)}
+
+  // 2) طبقة القمر الصناعي في وضع الرسم فقط (?pick=1)
+  if(IS_PICK){
+    map.addSource("sat",{type:"raster",tiles:["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],tileSize:256,maxzoom:19});
+    map.addLayer({id:"sat-layer",type:"raster",source:"sat"});
+  }
+
+  // 3) طبقة المباني المخصصة (المستشفى وأجنحته)
+  try{
+    map.addSource("places",{type:"geojson",data:mkFc(PLACES)});
+    map.addLayer({id:"places-base",type:"fill",source:"places",layout:{visibility:IS_PICK?"none":"visible"},paint:{"fill-color":"#0d1b33","fill-opacity":0.16}});
+    map.addLayer({id:"places-3d",type:"fill-extrusion",source:"places",layout:{visibility:IS_PICK?"none":"visible"},paint:{
+      "fill-extrusion-color":["coalesce",["get","color"],"#dcc59e"],
+      "fill-extrusion-height":["get","h"],
+      "fill-extrusion-base":0,
+      "fill-extrusion-opacity":1,
+      "fill-extrusion-vertical-gradient":true
+    }});
+    map.addLayer({id:"places-line",type:"line",source:"places",layout:{visibility:IS_PICK?"none":"visible"},paint:{"line-color":"#0d1b33","line-width":2.5}});
+  }catch(e){console.warn("places layer:",e)}
+
+  // 4) طبقات الرسم التفاعلي لوضع ?pick=1
+  if(IS_PICK){
+    const empty={type:"FeatureCollection",features:[]};
+    map.addSource("pk-saved",{type:"geojson",data:empty});
+    map.addSource("pk-cur",{type:"geojson",data:empty});
+    map.addSource("pk-pts",{type:"geojson",data:empty});
+    map.addLayer({id:"pk-saved-fill",type:"fill",source:"pk-saved",paint:{"fill-color":"#1f8a5b","fill-opacity":0.32}});
+    map.addLayer({id:"pk-saved-line",type:"line",source:"pk-saved",paint:{"line-color":"#4ade80","line-width":2.5}});
+    map.addLayer({id:"pk-cur-fill",type:"fill",source:"pk-cur",paint:{"fill-color":"#d1aa5c","fill-opacity":0.35}});
+    map.addLayer({id:"pk-cur-line",type:"line",source:"pk-cur",paint:{"line-color":"#facc15","line-width":3}});
+    map.addLayer({id:"pk-pts-c",type:"circle",source:"pk-pts",paint:{"circle-radius":6,"circle-color":"#ef4444","circle-stroke-width":2,"circle-stroke-color":"#fff"}});
+    toast("قرّب على أول مبنى واضغط على زواياه الأربعة بالترتيب",5500);
+    return;
+  }
+
+  // دخول سينمائي في الوضع العادي
+  const to={center:hCenter,zoom:17.3,pitch:62,bearing:-28};
+  if(reduce)map.jumpTo(to);else setTimeout(()=>map.flyTo({...to,duration:3200,essential:false}),400);
+});
+
+// ===== وضع الرسم (?pick=1) =====
+if(IS_PICK){
+  let curPts=[],picked=[],satOn=true;
+  const rnd=n=>Number(n.toFixed(6));
+  const refreshPick=()=>{
+    $("pickStat").textContent="النقاط: "+curPts.length+" · المحفوظ: "+picked.length;
+    if(!map.getSource("pk-pts"))return;
+    map.getSource("pk-pts").setData({type:"FeatureCollection",features:curPts.map(c=>({type:"Feature",geometry:{type:"Point",coordinates:c}}))});
+    const cf=[];
+    if(curPts.length>=2)cf.push({type:"Feature",geometry:{type:"LineString",coordinates:curPts.length>=3?[...curPts,curPts[0]]:curPts}});
+    if(curPts.length>=3)cf.push({type:"Feature",geometry:{type:"Polygon",coordinates:[[...curPts,curPts[0]]]}});
+    map.getSource("pk-cur").setData({type:"FeatureCollection",features:cf});
+    map.getSource("pk-saved").setData(mkFc(picked));
+    if(map.getSource("places"))map.getSource("places").setData(mkFc(picked.length?picked:PLACES));
+  };
+  map.on("click",e=>{
+    if(!satOn)return;
+    curPts.push([rnd(e.lngLat.lng),rnd(e.lngLat.lat)]);
+    refreshPick();
+  });
+  $("pkUndo").onclick=()=>{if(curPts.length){curPts.pop();refreshPick()}};
+  $("pkSave").onclick=()=>{
+    if(curPts.length<3){toast("اضغط 3 زوايا على الأقل لتشكيل المبنى");return}
+    const avgLng=rnd(curPts.reduce((s,c)=>s+c[0],0)/curPts.length);
+    const avgLat=rnd(curPts.reduce((s,c)=>s+c[1],0)/curPts.length);
+    const nm=$("pkName").value.trim()||("مبنى "+(picked.length+1));
+    const fl=Math.max(1,Number($("pkFloors").value)||2);
+    const pin=$("pkPin").checked;
+    const shades=["#dcc59e","#d4bc92","#e4d1ae","#cbb288"];
+    picked.push({
+      id:"b-"+(picked.length+1),ar:nm,en:"",cat:"مستشفى",
+      lat:avgLat,lng:avgLng,floors:fl,pin,color:shades[picked.length%shades.length],
+      poly:[...curPts],desc:""
+    });
+    curPts=[];$("pkName").value="";$("pkPin").checked=false;
+    refreshPick();
+    toast("تم حفظ («"+nm+"»). الآن ارسم المبنى اللي جنبه أو اضغط معاينة 3D");
+  };
+  $("pkDelLast").onclick=()=>{if(picked.length){picked.pop();refreshPick();toast("تم حذف آخر مبنى محفوظ")}};
+  $("pkPreview").onclick=()=>{
+    satOn=!satOn;
+    const vSat=satOn?"visible":"none",v3d=satOn?"none":"visible";
+    if(map.getLayer("sat-layer"))map.setLayoutProperty("sat-layer","visibility",vSat);
+    ["pk-saved-fill","pk-saved-line","pk-cur-fill","pk-cur-line","pk-pts-c"].forEach(id=>map.getLayer(id)&&map.setLayoutProperty(id,"visibility",vSat));
+    ["places-base","places-3d","places-line"].forEach(id=>map.getLayer(id)&&map.setLayoutProperty(id,"visibility",v3d));
+    $("pkPreview").textContent=satOn?"معاينة 3D":"عودة للرسم";
+    map.easeTo({pitch:satOn?0:62,bearing:satOn?0:-28,zoom:satOn?18.3:17.5,duration:800});
+  };
+  const buildCode=()=>JSON.stringify(picked,null,2);
+  $("pkCopy").onclick=async()=>{
+    if(!picked.length){toast("احفظ مبنى واحد على الأقل أولاً");return}
+    const txt=buildCode();
+    $("codeOut").value=txt;
+    $("codeDlg").showModal();
+    try{await navigator.clipboard.writeText(txt);toast("تم نسخ كود "+picked.length+" مباني ✓")}catch(_){}
+  };
+  $("codeCopyBtn").onclick=async()=>{
+    $("codeOut").select();
+    try{await navigator.clipboard.writeText($("codeOut").value);toast("تم النسخ ✓")}catch(_){document.execCommand("copy");toast("تم النسخ ✓")}
+  };
+  $("codeClose").onclick=()=>$("codeDlg").close();
+}
+
+// ===== الوضع العادي (للطلاب) =====
+if(!IS_PICK){
+  PLACES.filter(p=>p.pin!==false).forEach(p=>{
+    const b=mk("button",null,"pin");b.setAttribute("aria-label",p.ar);
+    b.append(mk("span","✚","dot"),mk("b",p.ar));b.onclick=()=>openPlace(p);
+    new maplibregl.Marker({element:b,anchor:"bottom",offset:[0,-4]}).setLngLat([p.lng,p.lat]).addTo(map);
+  });
+
+  map.on("click","places-3d",e=>{
+    const id=e.features&&e.features[0]&&e.features[0].properties.id;
+    const p=PLACES.find(x=>x.id===id);
+    if(p){const target=p.parentId?(PLACES.find(x=>x.id===p.parentId)||p):p;openPlace(target)}
+  });
+  map.on("mouseenter","places-3d",()=>map.getCanvas().style.cursor="pointer");
+  map.on("mouseleave","places-3d",()=>map.getCanvas().style.cursor="");
+
+  function dirUrl(lat,lng){return "https://www.google.com/maps/dir/?api=1&destination="+lat+","+lng}
+  function card(p){
+    const c=$("card");c.textContent="";c.classList.remove("hid");
+    c.append(mk("h2",p.ar));if(p.en)c.append(mk("div",p.en,"en"));
+    if(p.cat)c.append(mk("span",p.cat,"tag"));if(p.floors)c.append(mk("span",p.floors+" طوابق","tag"));
+    if(p.desc)c.append(mk("p",p.desc));
+    const r=mk("div",null,"row"),a=mk("a","اتجاهات","pb");a.href=dirUrl(p.lat,p.lng);a.target="_blank";a.rel="noopener";
+    const x=mk("button","إغلاق","pb gh");x.onclick=()=>c.classList.add("hid");r.append(a,x);c.append(r);
+  }
+  function openPlacep;map.flyTo({center:[p.lng,p.lat],zoom:Math.max(map.getZoom(),17.4),pitch:Math.max(map.getPitch(),55),duration:reduce?0:1600})}
+
+  const q=$("q"),res=$("res");
+  function poiHits(t){
+    if(!vsrc)return[];const seen=new Set(),out=[];
+    try{for(const f of map.querySourceFeatures(vsrc,{sourceLayer:"poi"})){
+      const n=f.properties["name:ar"]||f.properties.name;if(!n||seen.has(n)||f.geometry.type!=="Point")continue;
+      if(norm(n+" "+(f.properties.name||"")).includes(t)){seen.add(n);out.push({id:"poi-"+n,ar:n,en:f.properties["name:latin"]||"",cat:"معلم",lng:f.geometry.coordinates[0],lat:f.geometry.coordinates[1]})}
+      if(out.length>=5)break}}catch(_){}
+    return out;
+  }
+  function search(){
+    const t=norm(q.value.trim());res.textContent="";if(!t){res.classList.add("hid");return}
+    const hits=PLACES.filter(p=>p.pin!==false&&norm(p.ar+" "+p.en+" "+(p.cat||"")).includes(t)).concat(poiHits(t));
+    if(!hits.length){const li=mk("li");li.append(mk("button","لا توجد نتائج"));res.append(li);res.classList.remove("hid");return}
+    hits.forEach(p=>{const li=mk("li"),b=mk("button",p.ar);b.append(mk("small",p.cat||""));b.onclick=()=>{res.classList.add("hid");q.value=p.ar;openPlace(p)};li.append(b);res.append(li)});
+    res.classList.remove("hid");
+  }
+  q.oninput=search;q.onkeydown=e=>{if(e.key==="Escape")res.classList.add("hid")};
+  document.addEventListener("click",e=>{if(!e.target.closest(".sb"))res.classList.add("hid")});
+
+  $("bh").onclick=()=>openPlace(H);
+  $("b3").onclick=()=>{const flat=map.getPitch()<10;map.easeTo({pitch:flat?62:0,bearing:flat?-28:0,duration:reduce?0:900});$("b3").textContent=flat?"2D":"3D"};
+  map.on("pitchend",()=>{$("b3").textContent=map.getPitch()<10?"3D":"2D"});
+
+  let watch=null,meMk=null;
+  $("bm").onclick=()=>{
+    if(watch!==null){navigator.geolocation.clearWatch(watch);watch=null;if(meMk){meMk.remove();meMk=null}$("bm").classList.remove("on");toast("تم إيقاف تتبع الموقع");return}
+    if(!navigator.geolocation){toast("جهازك لا يدعم تحديد الموقع");return}
+    toast("جاري تحديد موقعك...",8000);let first=true;
+    watch=navigator.geolocation.watchPosition(pos=>{
+      const pt=[pos.coords.longitude,pos.coords.latitude];
+      if(!meMk)meMk=new maplibregl.Marker({element:mk("div",null,"me")}).setLngLat(pt).addTo(map);else meMk.setLngLat(pt);
+      $("bm").classList.add("on");
+      if(first){first=false;
+        const d=km(pt,hCenter);
+        if(d>8){toast("موقعك بعيد عن الحرم ("+d.toFixed(1)+" كم)");map.flyTo({center:pt,zoom:15,duration:reduce?0:1500});return}
+        map.flyTo({center:pt,zoom:18,pitch:55,duration:reduce?0:1500});
+        let msg="أنت داخل حرم الجامعة";
+        const here=PLACES.find(p=>inside(pt,ring(p)));
+        if(here)msg="أنت الآن عند: "+here.ar;
+        else{let best=null;PLACES.forEach(p=>{const m=km(pt,[p.lng,p.lat])*1000;if(!best||m<best.m)best={p,m}});if(best&&best.m<400)msg="أقرب معلم: "+best.p.ar+" (حوالي "+Math.round(best.m)+" متر)"}
+        toast(msg,6000);
+      }
+    },err=>{watch=null;$("bm").classList.remove("on");toast(err.code===1?"فعّل صلاحية الموقع للمتصفح من الإعدادات":"تعذّر تحديد موقعك. جرّب مكاناً مفتوحاً")},{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+  };
+  map.on("click",e=>{if(!e.originalEvent.target.closest(".pin")&&!map.queryRenderedFeatures(e.point,{layers:["places-3d"]}).length)$("card").classList.add("hid")});
+}
+}
+</script>
+</body>
+</html>
