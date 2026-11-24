@@ -943,5 +943,289 @@
         });
       }
     </script>
+    
+<!-- احتفالية الـ 1,000 مستخدم (تظهر مرة كل 24 ساعة لمدة أسبوع) -->
+<style>
+  .vc1k-ov {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(6, 13, 26, 0.84);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: grid; place-items: center; padding: 20px;
+    opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+  .vc1k-ov.show { opacity: 1; visibility: visible; }
+  .vc1k-cv { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+  .vc1k-card {
+    position: relative; z-index: 2; width: min(500px, 100%); max-height: 92dvh; overflow-y: auto;
+    background: radial-gradient(circle at 50% 0%, rgba(209, 170, 92, 0.2), transparent 58%),
+                linear-gradient(155deg, #0d1b33 0%, #13284b 58%, #0a1528 100%);
+    border: 1.5px solid rgba(209, 170, 92, 0.45);
+    border-radius: 28px; padding: 34px 26px 28px; text-align: center; color: #fff;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transform: scale(0.92) translateY(14px); transition: transform 0.4s cubic-bezier(.2,.9,.2,1);
+    overflow-x: hidden;
+  }
+  .vc1k-ov.show .vc1k-card { transform: scale(1) translateY(0); }
+
+  .vc1k-x {
+    position: absolute; top: 14px; left: 14px; width: 34px; height: 34px;
+    border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06); color: #cbd5e1;
+    font-size: 18px; line-height: 1; display: grid; place-items: center; transition: 0.2s;
+  }
+  .vc1k-x:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
+
+  /* 1) سطر الوميض */
+  .vc1k-s1 {
+    display: inline-block; font-size: 13.5px; font-weight: 700; letter-spacing: 0.02em;
+    padding: 6px 16px; border-radius: 999px;
+    border: 1px solid rgba(209, 170, 92, 0.35);
+    background: rgba(209, 170, 92, 0.1);
+    opacity: 0; transform: translateY(-8px);
+  }
+  .vc1k-s1 span {
+    background: linear-gradient(90deg, #c99f4c 0%, #fff7db 48%, #d1aa5c 56%, #c99f4c 100%);
+    background-size: 230% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .vc1k-card.st1 .vc1k-s1 {
+    animation: vc1kFlashIn 0.85s ease forwards;
+  }
+  .vc1k-card.st1 .vc1k-s1 span {
+    animation: vc1kShimmer 2.1s linear infinite;
+  }
+  @keyframes vc1kFlashIn {
+    0% { opacity: 0; transform: translateY(-10px) scale(0.95); box-shadow: 0 0 0 rgba(209,170,92,0); }
+    45% { opacity: 1; box-shadow: 0 0 28px rgba(232, 205, 150, 0.65); }
+    100% { opacity: 1; transform: none; box-shadow: 0 0 12px rgba(209, 170, 92, 0.18); }
+  }
+  @keyframes vc1kShimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -30% center; }
+  }
+
+  /* 2) السطر الثاني بوووم */
+  .vc1k-s2-wrap { position: relative; margin: 18px 0 22px; }
+  .vc1k-s2-wrap::before {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 110px; height: 110px; border-radius: 50%;
+    border: 2px solid rgba(209, 170, 92, 0.7);
+    transform: translate(-50%, -50%) scale(0.2); opacity: 0; pointer-events: none;
+  }
+  .vc1k-card.st2 .vc1k-s2-wrap::before { animation: vc1kShock 0.75s cubic-bezier(.15,.85,.3,1) forwards; }
+  @keyframes vc1kShock {
+    0% { transform: translate(-50%, -50%) scale(0.25); opacity: 0.9; }
+    100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; }
+  }
+  .vc1k-s2 {
+    margin: 0; font-size: clamp(24px, 6vw, 33px); font-weight: 800; line-height: 1.35;
+    opacity: 0; transform: scale(1.42); filter: blur(6px);
+  }
+  .vc1k-s2 span { color: #e8cd96; font-family: Manrope, sans-serif; }
+  .vc1k-card.st2 .vc1k-s2 { animation: vc1kBoom 0.62s cubic-bezier(.18,.89,.32,1.22) forwards; }
+  @keyframes vc1kBoom {
+    0% { opacity: 0; transform: scale(1.42); filter: blur(6px); }
+    60% { opacity: 1; transform: scale(0.95); filter: blur(0); }
+    82% { transform: scale(1.03); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+  }
+
+  /* 3) الأرقام */
+  .vc1k-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
+  .vc1k-stat {
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px; padding: 14px 8px;
+    opacity: 0; transform: translateY(18px) scale(0.88);
+  }
+  .vc1k-stat.hi { background: rgba(209, 170, 92, 0.14); border-color: rgba(209, 170, 92, 0.45); }
+  .vc1k-stat b {
+    display: block; font: 800 clamp(20px, 5vw, 26px) Manrope, sans-serif;
+    color: #e8cd96; direction: ltr; line-height: 1.2; margin-bottom: 4px;
+  }
+  .vc1k-stat small { display: block; font-size: 11.5px; color: #c7d4eb; font-weight: 600; }
+  .vc1k-card.st3 .vc1k-stat { animation: vc1kPop 0.5s cubic-bezier(.2,.9,.25,1.15) forwards; }
+  .vc1k-card.st3 .vc1k-stat:nth-child(2) { animation-delay: 0.12s; }
+  .vc1k-card.st3 .vc1k-stat:nth-child(3) { animation-delay: 0.24s; }
+  @keyframes vc1kPop {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* 4) السطر الاحتفالي والزر */
+  .vc1k-s4 { opacity: 0; transform: translateY(14px); }
+  .vc1k-card.st4 .vc1k-s4 { animation: vc1kFadeUp 0.6s ease forwards; }
+  @keyframes vc1kFadeUp { to { opacity: 1; transform: none; } }
+
+  .vc1k-msg {
+    margin: 0 0 22px; font-size: 14px; line-height: 1.85; color: #d5e0f2;
+    padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .vc1k-btn {
+    border: 0; width: 100%; padding: 13px 22px; border-radius: 14px;
+    background: linear-gradient(135deg, #e5c16e, #c5983e); color: #0d1b33;
+    font-size: 14.5px; font-weight: 800; transition: 0.2s;
+    box-shadow: 0 10px 26px rgba(209, 170, 92, 0.3);
+  }
+  .vc1k-btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+
+  @media (max-width: 440px) {
+    .vc1k-card { padding: 30px 18px 22px; border-radius: 24px; }
+    .vc1k-stats { gap: 8px; }
+    .vc1k-stat { padding: 12px 5px; }
+    .vc1k-stat small { font-size: 10.5px; }
+    .vc1k-msg { font-size: 13px; }
+  }
+</style>
+
+<div class="vc1k-ov" id="vc1kOv" role="dialog" aria-modal="true" aria-labelledby="vc1kTitle">
+  <canvas class="vc1k-cv" id="vc1kCv"></canvas>
+  <div class="vc1k-card" id="vc1kCard">
+    <button class="vc1k-x" id="vc1kX" type="button" aria-label="إغلاق">×</button>
+
+    <!-- 1: سطر الوميض -->
+    <div class="vc1k-s1"><span>✦ خلال أقل من شهر على الانطلاقة ✦</span></div>
+
+    <!-- 2: السطر الثاني بوووم -->
+    <div class="vc1k-s2-wrap">
+      <h2 class="vc1k-s2" id="vc1kTitle">كسرنا حاجز الـ <span>1,000</span> مستخدم!</h2>
+    </div>
+
+    <!-- 3: الأرقام -->
+    <div class="vc1k-stats">
+      <div class="vc1k-stat hi">
+        <b class="vc1k-num" data-to="1000" data-fmt="int">+0</b>
+        <small>مستخدم نشط</small>
+      </div>
+      <div class="vc1k-stat">
+        <b class="vc1k-num" data-to="3.4" data-fmt="k1">+0</b>
+        <small>زيارة للمنصة</small>
+      </div>
+      <div class="vc1k-stat">
+        <b class="vc1k-num" data-to="13" data-fmt="k0">+0</b>
+        <small>تفاعل ومشاركة</small>
+      </div>
+    </div>
+
+    <!-- 4: السطر الاحتفالي والزر -->
+    <div class="vc1k-s4">
+      <p class="vc1k-msg">ثقتكم هي الدافع الأكبر لنستمر بتطوير المنصة وتقديم الأفضل لطلبة كلية الطب البيطري.. بكم نكبر، والقادم أجمل بإذن الله 🩺✨</p>
+      <button class="vc1k-btn" id="vc1kGo" type="button">إلى المنصة 🩺</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const KEY = "vet_1k_last_shown";
+    const DAY = 24 * 60 * 60 * 1000;
+    const END = new Date("2026-12-02T23:59:59+03:00").getTime(); // تنتهي تلقائياً بعد أسبوع
+    const force = new URLSearchParams(location.search).get("celebrate") === "1";
+
+    const now = Date.now();
+    if (!force) {
+      if (now > END) return;
+      const last = Number(localStorage.getItem(KEY) || 0);
+      if (last && now - last < DAY) return;
+    }
+
+    const ov = document.getElementById("vc1kOv");
+    const card = document.getElementById("vc1kCard");
+    const cv = document.getElementById("vc1kCv");
+    if (!ov || !card) return;
+
+    let rafId = null, timers = [];
+
+    function countUp() {
+      card.querySelectorAll(".vc1k-num").forEach((el) => {
+        const to = parseFloat(el.dataset.to);
+        const fmt = el.dataset.fmt;
+        const t0 = performance.now(), dur = 1100;
+        const step = (t) => {
+          const p = Math.min((t - t0) / dur, 1);
+          const v = to * (1 - Math.pow(1 - p, 3));
+          if (fmt === "int") el.textContent = "+" + Math.round(v).toLocaleString("en-US");
+          else if (fmt === "k1") el.textContent = "+" + v.toFixed(1) + "K";
+          else el.textContent = "+" + Math.round(v) + "K";
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }
+
+    function burstConfetti() {
+      const ctx = cv.getContext("2d");
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const W = (cv.width = window.innerWidth * dpr);
+      const H = (cv.height = window.innerHeight * dpr);
+      ctx.scale(dpr, dpr);
+      const w = window.innerWidth, h = window.innerHeight;
+      const colors = ["#d1aa5c", "#f3dea7", "#ffffff", "#3b82f6", "#e8cd96"];
+      const ps = Array.from({ length: 85 }, () => {
+        const ang = -Math.PI / 2 + (Math.random() - 0.5) * 1.45;
+        const spd = 6 + Math.random() * 9;
+        return {
+          x: w / 2 + (Math.random() - 0.5) * 90,
+          y: h * 0.45,
+          vx: Math.cos(ang) * spd,
+          vy: Math.sin(ang) * spd - 2,
+          sz: 5 + Math.random() * 5,
+          rot: Math.random() * 360,
+          vr: (Math.random() - 0.5) * 12,
+          c: colors[Math.floor(Math.random() * colors.length)],
+          a: 1
+        };
+      });
+      const start = performance.now();
+      const draw = (t) => {
+        ctx.clearRect(0, 0, w, h);
+        let alive = false;
+        const fade = t - start > 2400 ? Math.max(0, 1 - (t - start - 2400) / 900) : 1;
+        for (const p of ps) {
+          p.x += p.vx; p.y += p.vy; p.vy += 0.24; p.vx *= 0.99; p.rot += p.vr;
+          p.a = fade;
+          if (p.y < h + 20 && p.a > 0.01) {
+            alive = true;
+            ctx.save();
+            ctx.globalAlpha = p.a;
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rot * Math.PI) / 180);
+            ctx.fillStyle = p.c;
+            ctx.fillRect(-p.sz / 2, -p.sz / 4, p.sz, p.sz * 0.55);
+            ctx.restore();
+          }
+        }
+        if (alive) rafId = requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, w, h);
+      };
+      rafId = requestAnimationFrame(draw);
+    }
+
+    function close() {
+      timers.forEach(clearTimeout);
+      if (rafId) cancelAnimationFrame(rafId);
+      ov.classList.remove("show");
+      document.body.style.overflow = "";
+      if (!force) { try { localStorage.setItem(KEY, String(Date.now())); } catch {} }
+    }
+
+    document.getElementById("vc1kX").onclick = close;
+    document.getElementById("vc1kGo").onclick = close;
+    ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && ov.classList.contains("show")) close(); });
+
+    // تشغيل التسلسل بعد ثانية خفيفة من فتح الصفحة
+    timers.push(setTimeout(() => {
+      document.body.style.overflow = "hidden";
+      ov.classList.add("show");
+      if (!force) { try { localStorage.setItem(KEY, String(Date.now())); } catch {} }
+      timers.push(setTimeout(() => card.classList.add("st1"), 220));
+      timers.push(setTimeout(() => card.classList.add("st2"), 1050));
+      timers.push(setTimeout(() => { card.classList.add("st3"); countUp(); burstConfetti(); }, 1850));
+      timers.push(setTimeout(() => card.classList.add("st4"), 2650));
+    }, 350));
+  })();
+</script>
+
+
   </body>
 </html>
