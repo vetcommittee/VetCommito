@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d1b33">
+<title>خريطة حرم التكنو 3D | VetCommitto</title>
+<link rel="icon" href="logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0d1b33;--navy-2:#173461;--ink:#142033;--slate:#5c6b82;
+  --line:#dfe5ef;--gold:#d1aa5c;--gold-hi:#f4dca4;--card:rgba(255,255,255,.94);
+  --card-solid:#ffffff;--card-2:#f4f7fb;--btn:#eef2f8;--nav:rgba(251,252,254,.92);
+  --h:62px;--sheet-peek:56px;--shadow:0 12px 34px rgba(13,27,51,.16);
+}
+[data-theme=dark]{
+  --navy:#e8edf5;--navy-2:#9bb7de;--ink:#e8edf5;--slate:#95a4bc;
+  --line:#28374e;--card:rgba(16,27,46,.92);--card-solid:#121f35;--card-2:#0d1729;
+  --btn:#1e2f4a;--nav:rgba(11,20,36,.92);--shadow:0 14px 38px rgba(0,0,0,.46);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;padding:0;overflow:hidden;touch-action:none}
+body{background:#c5e1f5;color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif}
+[data-theme=dark] body{background:#0b1526}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.hid{display:none!important}
+
+.top{
+  position:fixed;top:0;inset-inline:0;height:var(--h);z-index:25;
+  background:var(--nav);border-bottom:1px solid var(--line);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:10px;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#0d1b33;flex:none}
+.brand b{display:block;font-size:13.5px;color:var(--navy);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;font-size:10px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;align-items:center;gap:6px;flex:none}
+.ib{
+  height:36px;min-width:36px;padding:0 11px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--navy);font-size:12px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:.15s;
+}
+.ib:hover{border-color:var(--gold)}
+.ib.vet-pill{background:#0d1b33;color:var(--gold-hi);border-color:var(--gold)}
+
+#sceneWrap{position:fixed;top:var(--h);left:0;right:0;bottom:0;overflow:hidden}
+#c3d{display:block;width:100%;height:100%;outline:none}
+#labelsLayer{position:fixed;top:var(--h);left:0;right:0;bottom:0;pointer-events:none;z-index:6;overflow:hidden}
+
+.lbl3d{
+  position:absolute;top:0;left:0;pointer-events:auto;
+  display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 5px;
+  border-radius:999px;border:1.5px solid rgba(255,255,255,.94);
+  background:rgba(255,255,255,.94);color:#0d1b33;
+  box-shadow:0 6px 18px rgba(13,27,51,.22);
+  font:700 10.5px/1.2 "IBM Plex Sans Arabic",sans-serif;white-space:nowrap;
+  transform:translate(-50%,-100%);transition:opacity .2s;will-change:transform;
+}
+[data-theme=dark] .lbl3d{
+  background:rgba(15,27,48,.92);color:#f1f5f9;border-color:rgba(209,170,92,.45);
+}
+.lbl3d .lc{
+  padding:2px 6px;border-radius:999px;background:var(--pc,#0d1b33);color:#fff;
+  font:800 9.5px/1 Manrope,sans-serif;direction:ltr;
+}
+.lbl3d.vet{
+  background:#0d1b33;color:#fff;border:2px solid var(--gold);padding:4px 10px 4px 6px;
+  font-size:11.5px;box-shadow:0 8px 24px rgba(13,27,51,.4);z-index:8;
+}
+.lbl3d.vet .lc{background:var(--gold);color:#0b1526}
+.lbl3d.sel{border-color:var(--gold);z-index:12;box-shadow:0 10px 26px rgba(209,170,92,.45)}
+
+.hud-top{
+  position:fixed;z-index:15;top:calc(var(--h) + 10px);inset-inline:12px;
+  display:flex;flex-direction:column;gap:7px;pointer-events:none;max-width:680px;
+}
+.hud-top>*{pointer-events:auto}
+.sb{position:relative;width:100%;max-width:410px}
+.sb input{
+  width:100%;height:42px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:14px;padding:0 38px 0 14px;font-size:13px;box-shadow:var(--shadow);
+}
+.sb input:focus{outline:2.5px solid var(--gold);outline-offset:1px}
+.sb-ico{position:absolute;inset-inline-start:12px;top:50%;transform:translateY(-50%);color:var(--slate);pointer-events:none;display:grid;place-items:center}
+.res{
+  position:absolute;top:48px;inset-inline:0;background:var(--card-solid);border:1px solid var(--line);
+  border-radius:14px;box-shadow:0 18px 42px rgba(13,27,51,.24);overflow:auto;max-height:48vh;
+  list-style:none;margin:0;padding:4px;z-index:35;
+}
+.res li button{
+  display:flex;width:100%;gap:9px;align-items:center;border:0;background:transparent;color:var(--ink);
+  padding:8px 10px;border-radius:10px;text-align:start;font-size:12.5px;
+}
+.res li button:hover{background:var(--btn)}
+.res .rc{
+  min-width:42px;padding:3px 6px;border-radius:7px;color:#fff;
+  font:800 10.5px Manrope,sans-serif;text-align:center;direction:ltr;flex:none;
+}
+.res .rm{display:flex;flex-direction:column;min-width:0;flex:1}
+.res .rm b{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res .rm span{font-size:10.5px;color:var(--slate)}
+
+.cat-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.cat-bar::-webkit-scrollbar{display:none}
+.cat-pill{
+  flex:none;display:inline-flex;align-items:center;gap:5px;height:33px;padding:0 11px;
+  border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font-size:11.5px;font-weight:700;box-shadow:0 5px 15px rgba(13,27,51,.12);transition:.15s;
+}
+.cat-pill .cd{width:8px;height:8px;border-radius:50%;flex:none}
+.cat-pill small{font:700 10px Manrope,sans-serif;opacity:.65}
+.cat-pill.on{background:#0d1b33;color:#fff;border-color:var(--gold)}
+.cat-pill.on small{color:var(--gold-hi);opacity:1}
+
+.ctrl-stack{
+  position:fixed;z-index:15;left:12px;top:50%;transform:translateY(-44%);
+  display:flex;flex-direction:column;gap:6px;
+}
+.ctrl-btn{
+  width:42px;height:42px;border-radius:13px;border:1px solid var(--line);
+  background:var(--card);color:var(--navy);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:grid;place-items:center;font-size:13px;font-weight:800;
+  box-shadow:var(--shadow);transition:.15s;
+}
+.ctrl-btn:hover{border-color:var(--gold);transform:scale(1.04)}
+.ctrl-btn.on{background:#0d1b33;color:var(--gold-hi);border-color:var(--gold)}
+.ctrl-btn svg{transition:transform .2s}
+
+.info-card{
+  position:fixed;z-index:20;inset-inline:12px;
+  bottom:calc(var(--sheet-peek) + 12px + env(safe-area-inset-bottom,0px));
+  max-width:400px;background:var(--card-solid);border:1.5px solid var(--gold);
+  border-radius:22px;padding:16px;box-shadow:0 24px 60px rgba(13,27,51,.34);
+  animation:cardIn .22s ease;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ic-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ic-badges{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.ic-code{padding:3px 9px;border-radius:8px;color:#fff;font:800 12px Manrope,sans-serif;direction:ltr}
+.ic-cat{padding:3px 9px;border-radius:8px;background:var(--btn);color:var(--navy);font-size:11px;font-weight:700}
+.ic-close{
+  width:32px;height:32px;border-radius:10px;border:1px solid var(--line);
+  background:var(--btn);color:var(--navy);display:grid;place-items:center;font-size:16px;flex:none;
+}
+.info-card h2{margin:0;font-size:17px;color:var(--navy);line-height:1.3}
+.info-card .en{font:600 11.5px Manrope,sans-serif;color:var(--slate);direction:ltr;text-align:start;margin-top:2px}
+.ic-sec{margin-top:11px;padding:10px 12px;border-radius:14px;background:var(--card-2);border:1px solid var(--line)}
+.ic-sec h4{margin:0 0 6px;font-size:11.5px;color:var(--slate);font-weight:700}
+.ic-sec ul{margin:0;padding:0 16px 0 0;font-size:12.5px;line-height:1.7;color:var(--ink)}
+.ic-actions{display:flex;gap:8px;margin-top:12px}
+.pb{
+  flex:1;border:0;border-radius:12px;padding:10px 12px;font-size:12.5px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+.pb.navy{background:#0d1b33;color:#fff}
+.pb.gold{background:var(--gold);color:#0b1526}
+
+.sheet{
+  position:fixed;z-index:18;inset-inline:0;bottom:0;
+  background:var(--card-solid);border-top:1.5px solid var(--line);border-radius:22px 22px 0 0;
+  box-shadow:0 -12px 38px rgba(13,27,51,.18);
+  height:calc(var(--sheet-peek) + env(safe-area-inset-bottom,0px));
+  transition:height .28s cubic-bezier(.22,.85,.28,1);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sheet.open{height:min(66vh,540px)}
+.sheet-head{
+  flex:none;padding:7px 16px 9px;display:flex;flex-direction:column;align-items:center;
+  gap:5px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;
+}
+.sheet.open .sheet-head{border-bottom-color:var(--line)}
+.sheet-handle{width:38px;height:4px;border-radius:999px;background:var(--line)}
+.sheet-title-row{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sheet-title-row b{font-size:13px;color:var(--navy)}
+.sheet-title-row span{font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--btn);color:var(--navy)}
+.sheet-areas{
+  flex:none;display:flex;gap:6px;padding:8px 14px;border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none;background:var(--card-2);
+}
+.sheet-areas::-webkit-scrollbar{display:none}
+.area-tab{
+  flex:none;padding:5px 11px;border-radius:9px;border:1px solid var(--line);
+  background:var(--card-solid);color:var(--slate);font-size:11.5px;font-weight:700;
+}
+.area-tab.on{background:#0d1b33;color:var(--gold-hi);border-color:#0d1b33}
+.sheet-body{flex:1;overflow-y:auto;padding:10px 14px calc(18px + env(safe-area-inset-bottom,0px));touch-action:pan-y}
+.dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:8px}
+.dir-item{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:start;
+  padding:9px 11px;border-radius:14px;border:1px solid var(--line);background:var(--card-2);
+  color:var(--ink);transition:.15s;
+}
+.dir-item:hover{border-color:var(--gold);transform:translateY(-1px)}
+.dir-code{
+  min-width:44px;height:32px;padding:0 6px;border-radius:10px;color:#fff;
+  display:grid;place-items:center;font:800 11px Manrope,sans-serif;direction:ltr;flex:none;
+}
+.dir-info{min-width:0;flex:1}
+.dir-info b{display:block;font-size:12.5px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dir-info small{display:block;font-size:10.5px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dir-src{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:11px;color:var(--slate);text-align:center}
+
+.loader{
+  position:fixed;inset:0;z-index:50;background:#0d1b33;color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  transition:opacity .45s ease;
+}
+.loader.done{opacity:0;pointer-events:none}
+.loader-spin{
+  width:42px;height:42px;border-radius:50%;border:3px solid rgba(209,170,92,.25);
+  border-top-color:var(--gold);animation:sp .85s linear infinite;
+}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loader b{font-size:15px;color:var(--gold-hi)}
+.loader small{font-size:12px;color:#9eb3cf}
+
+.toast{
+  position:fixed;z-index:45;top:calc(var(--h) + 12px);left:50%;transform:translateX(-50%);
+  background:#0d1b33;color:#fff;border:1px solid rgba(209,170,92,.5);padding:8px 16px;
+  border-radius:12px;font-size:12.5px;box-shadow:0 12px 30px rgba(0,0,0,.3);pointer-events:none;
+}
+
+@media(min-width:780px){
+  .info-card{inset-inline-start:16px;inset-inline-end:auto;width:360px}
+  .sheet{max-width:760px;margin-inline:auto;border-inline:1px solid var(--line)}
+}
+@media(max-width:520px){
+  .brand small{display:none}
+  .ib.hide-xs{display:none}
+  .ctrl-stack{left:8px;gap:5px}
+  .ctrl-btn{width:38px;height:38px;border-radius:11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+  <div class="loader-spin"></div>
+  <b>جاري بناء مجسّم حرم التكنو 3D...</b>
+  <small>النسخة المطابقة للتصوير الجوي والواقع · VetCommitto</small>
+</div>
+
+<header class="top">
+  <a class="brand" href="index.html">
+    <img src="logo.jpeg" alt="شعار VetCommitto" onerror="this.style.display='none'">
+    <span><b>خريطة حرم التكنو 3D</b><small>جامعة العلوم والتكنولوجيا الأردنية · VetCommitto</small></span>
+  </a>
+  <div class="tools">
+    <button class="ib vet-pill" id="jumpG1" type="button" title="كلية الطب البيطري">G1 البيطري</button>
+    <button class="ib vet-pill" id="jumpVH" type="button" title="المستشفى البيطري">V.H المستشفى</button>
+    <a class="ib hide-xs" href="index.html">المنصة</a>
+    <button class="ib" id="thBtn" type="button" aria-label="تبديل المظهر">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="sceneWrap"><canvas id="c3d"></canvas></div>
+<div id="labelsLayer" aria-hidden="true"></div>
+<div id="errBox" class="hid" style="position:fixed;top:74px;left:12px;right:12px;z-index:99;background:#7f1d1d;color:#fff;padding:12px 14px;border-radius:12px;font:12px/1.6 monospace;direction:ltr;white-space:pre-wrap"></div>
+
+<div class="hud-top">
+  <div class="sb">
+    <span class="sb-ico" aria-hidden="true">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </span>
+    <input id="q" type="search" placeholder="ابحث عن كلية، مدرج، أو كود (G1، V.H، 410، المسجد)..." autocomplete="off" aria-label="بحث">
+    <ul class="res hid" id="res"></ul>
+  </div>
+  <div class="cat-bar" id="catBar" role="tablist"></div>
+</div>
+
+<div class="ctrl-stack" aria-label="أدوات الخريطة">
+  <button class="ctrl-btn" id="btnZoomIn" type="button" title="تكبير">+</button>
+  <button class="ctrl-btn" id="btnZoomOut" type="button" title="تصغير">−</button>
+  <button class="ctrl-btn" id="btnCompass" type="button" title="توجيه للشمال">
+    <svg id="compassNeedle" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="12 2 15 12 12 10 9 12 12 2" fill="#dc2626" stroke="none"/>
+      <polygon points="12 22 9 12 12 14 15 12 12 22" fill="currentColor" stroke="none" opacity="0.45"/>
+      <circle cx="12" cy="12" r="9" opacity="0.35"/>
+    </svg>
+  </button>
+  <button class="ctrl-btn" id="btn2D" type="button" title="عرض علوي 2D / ثلاثي الأبعاد 3D">2D</button>
+  <button class="ctrl-btn on" id="btnLbl" type="button" title="إظهار / تخفيف الأسماء">أ</button>
+  <button class="ctrl-btn" id="btnReset" type="button" title="نظرة شاملة للحرم">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+  </button>
+  <button class="ctrl-btn" id="btnFull" type="button" title="ملء الشاشة">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+  </button>
+</div>
+
+<section class="info-card hid" id="infoCard" aria-live="polite"></section>
+
+<aside class="sheet" id="dirSheet" aria-label="دليل مباني الجامعة">
+  <div class="sheet-head" id="sheetToggle">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title-row">
+      <b>دليل مباني ومعالم التكنو</b>
+      <span id="dirCount">43 معلم</span>
+    </div>
+  </div>
+  <div class="sheet-areas" id="areaTabs"></div>
+  <div class="sheet-body">
+    <div class="dir-grid" id="dirGrid"></div>
+    <div class="dir-src">مجسّم معماري ثلاثي الأبعاد لحرم جامعة العلوم والتكنولوجيا الأردنية · VetCommitto</div>
+  </div>
+</aside>
+
+<div class="toast hid" id="toast" role="status"></div>
+
+<script>
+window.__showErr = function (m) {
+  var b = document.getElementById("errBox");
+  if (!b) return;
+  b.classList.remove("hid");
+  b.textContent = (b.textContent ? b.textContent + "\n" : "") + m;
+  var l = document.getElementById("loader");
+  if (l) l.classList.add("done");
+};
+window.onerror = function (msg, src, line) {
+  window.__showErr("ERR: " + msg + " (L" + line + ")");
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js" onerror="window.__showErr('تعذّر تحميل محرك Three.js من الإنترنت.')"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js" onerror="window.__showErr('تعذّر تحميل أداة التحكم OrbitControls.')"></script>
+<script>
+(function () {
+  if (!window.THREE || !THREE.OrbitControls) {
+    window.__showErr("تعذّر تشغيل محرك العرض 3D.");
+    return;
+  }
+
+  var CATS = [
+    { id: "college", ar: "الكليات", color: "#1e40af" },
+    { id: "halls", ar: "القاعات والمدرجات", color: "#b45309" },
+    { id: "health", ar: "الصحة والمستشفيات", color: "#dc2626" },
+    { id: "admin", ar: "الإدارة", color: "#8b452f" },
+    { id: "services", ar: "خدمات الطلبة", color: "#0284c7" },
+    { id: "sport", ar: "الرياضة", color: "#15803d" },
+    { id: "facilities", ar: "مرافق ومعالم", color: "#475569" }
+  ];
+  var AREAS = {
+    all: "كل الحرم",
+    engineering: "المباني الهندسية والبيطري",
+    central: "الوسط",
+    medical: "المباني الطبية"
+  };
+
+  var PLACES = [{"id": "kauh", "code": "5A-5D", "ar": "مستشفى الملك عبدالله الجامعي", "en": "King Abdullah University Hospital", "cat": "health", "area": "medical", "color": "#dc2626", "x": -110, "z": 2, "w": 24, "d": 18, "h": 17.5, "prio": 1, "gmaps": [32.5023, 35.9922], "info": ["الأبراج السريرية الأربعة (5A–5D) والقاعدة الطبية المركزية", "المستشفى التعليمي والتحويلي الرئيسي في إقليم الشمال", "الطوارئ، العيادات الخارجية، ومهبط الطائرات (H)"]}, {"id": "radiotherapy", "code": "S.R.C", "ar": "مركز العلاج الإشعاعي السعودي", "en": "Saudi Radiotherapy Center", "cat": "health", "area": "medical", "color": "#166534", "x": -134, "z": 1, "w": 13, "d": 9, "h": 4.2, "prio": 3, "gmaps": [32.5028, 35.9918], "info": ["مركز العلاج الإشعاعي والأورام غرب مستشفى الملك عبدالله"]}, {"id": "medicine", "code": "M5", "ar": "كلية الطب", "en": "Faculty of Medicine", "cat": "college", "area": "medical", "color": "#b91c1c", "x": -90, "z": -3, "w": 14, "d": 13, "h": 5.2, "prio": 1, "gmaps": [32.4995, 35.9912], "info": ["مجمع كلية الطب البشري (M1–M6) المتصل مباشرة بالمستشفى", "مختبرات التشريح والأنسجة وقاعات التدريس"]}, {"id": "medical-halls", "code": "415", "ar": "القاعات الطبية", "en": "Medical Halls", "cat": "halls", "area": "medical", "color": "#334155", "x": -92, "z": -13.5, "w": 8, "d": 7, "h": 4.8, "prio": 2, "gmaps": [32.4989, 35.9916], "info": ["مدرج وقاعات 415 الدائرية شمال مباني كلية الطب"]}, {"id": "applied-medical", "code": "414", "ar": "كلية العلوم الطبية التطبيقية", "en": "Faculty of Applied Medical Sciences", "cat": "college", "area": "medical", "color": "#e11d48", "x": -81, "z": -13.5, "w": 8, "d": 7, "h": 4.8, "prio": 2, "gmaps": [32.4986, 35.9912], "info": ["العلوم الطبية المخبرية، العلاج الطبيعي، البصريات والأشعة"]}, {"id": "nursing", "code": "N1", "ar": "كلية التمريض", "en": "Faculty of Nursing", "cat": "college", "area": "medical", "color": "#64748b", "x": -77, "z": -3, "w": 14, "d": 13, "h": 5.2, "prio": 2, "gmaps": [32.4979, 35.9913], "info": ["مباني كلية التمريض (N1–N4) ومختبرات المحاكاة السريرية"]}, {"id": "dental-clinics", "code": "10H", "ar": "عيادات الأسنان", "en": "Dental Clinics", "cat": "health", "area": "medical", "color": "#7c3aed", "x": -73, "z": 9.5, "w": 12, "d": 9, "h": 4.4, "prio": 2, "gmaps": [32.4982, 35.9896], "info": ["العيادات التعليمية لطلبة طب الأسنان (أجنحة 10G–10H)"]}, {"id": "dentistry", "code": "D1", "ar": "كلية طب الأسنان", "en": "Faculty of Dentistry", "cat": "college", "area": "medical", "color": "#7e22ce", "x": -64, "z": -3, "w": 14, "d": 13, "h": 5.2, "prio": 2, "gmaps": [32.4974, 35.9912], "info": ["مباني كلية طب الأسنان (D1–D4) ومختبرات الفانتوم"]}, {"id": "hijazi-hall", "code": "412", "ar": "مدرج أ.د. سعد الحجازي", "en": "Prof. Sa'ad Hijazi Hall", "cat": "halls", "area": "medical", "color": "#334155", "x": -59, "z": -13.5, "w": 8, "d": 7, "h": 4.8, "prio": 2, "gmaps": [32.4972, 35.9918], "info": ["مدرج 412 الرئيسي للمؤتمرات والمحاضرات في المجمع الطبي"]}, {"id": "pharmacy", "code": "P1", "ar": "كلية الصيدلة", "en": "Faculty of Pharmacy", "cat": "college", "area": "medical", "color": "#15803d", "x": -51, "z": -3, "w": 13, "d": 13, "h": 5.2, "prio": 2, "gmaps": [32.4969, 35.9912], "info": ["مباني كلية الصيدلة (P1–P3) وتخصصي الصيدلة و PharmD"]}, {"id": "science-arts", "code": "PH1", "ar": "كلية العلوم والآداب", "en": "Faculty of Science and Arts", "cat": "college", "area": "medical", "color": "#2563eb", "x": -51, "z": 9.5, "w": 12, "d": 9, "h": 4.8, "prio": 2, "gmaps": [32.4966, 35.9908], "info": ["مباني PH1–PH4 للعلوم الأساسية والآداب واللغات"]}, {"id": "science-hall-1", "code": "411", "ar": "قاعة العلوم 1", "en": "Science Hall 1", "cat": "halls", "area": "medical", "color": "#334155", "x": -46, "z": -13.5, "w": 8, "d": 7, "h": 4.6, "prio": 3, "gmaps": [32.4964, 35.9916], "info": ["مدرج 411 الدائري لمساقات العلوم الأساسية"]}, {"id": "field-hospital", "code": "F.H", "ar": "المستشفى الميداني الشمالي", "en": "Field Hospital of the North", "cat": "health", "area": "medical", "color": "#d97706", "x": -74, "z": 25.5, "w": 32, "d": 6.5, "h": 2.8, "prio": 3, "gmaps": [32.4976, 35.9882], "info": ["مرافق صحية مساندة جنوب مواقف المجمع الطبي"]}, {"id": "disabled-parks", "code": "P", "ar": "مواقف ذوي الإعاقة", "en": "Disabled Parks", "cat": "facilities", "area": "medical", "color": "#ea580c", "x": -94, "z": 14.5, "w": 10, "d": 4.5, "h": 0.4, "prio": 3, "gmaps": [32.4992, 35.9888], "info": ["مواقف مخصصة لذوي الإعاقة قريبة من مداخل المجمع الطبي"]}, {"id": "ajlouni-halls", "code": "410", "ar": "مجمع قاعات أ.د. كامل العجلوني", "en": "Prof. Kamel Ajlouni Lecture Halls", "cat": "halls", "area": "central", "color": "#b47b38", "x": -26, "z": -1, "w": 24, "d": 18, "h": 6.4, "prio": 1, "gmaps": [32.496, 35.9906], "info": ["قوس القاعات الشمالي الزجاجي الأزرق (NG-7a) وجداره الحجري الذهبي", "القوس الجنوبي (مدرج ابن سينا والكافتيريا) مع المدرج نصف الدائري المفتوح", "بوابات حجرية ضخمة مع الفتحات الثلاث الرأسية والساحة الوسطى"]}, {"id": "mosque", "code": "12", "ar": "مسجد الجامعة", "en": "The Mosque", "cat": "services", "area": "central", "color": "#0284c7", "x": -31, "z": 28, "w": 14, "d": 11, "h": 6.2, "prio": 1, "gmaps": [32.4962, 35.9888], "info": ["مسجد الجامعة بقبته الرئيسية المضلّعة والقباب التسع المحيطة والمئذنة الرشيقة", "يضم المكتبة الإسلامية ويحيط به بستان أشجار الزيتون"]}, {"id": "presidency", "code": "U.P", "ar": "رئاسة الجامعة", "en": "University Presidency", "cat": "admin", "area": "central", "color": "#8b452f", "x": 2, "z": -27, "w": 16, "d": 7, "h": 5.6, "prio": 1, "gmaps": [32.495, 35.9935], "info": ["مبنى رئاسة جامعة العلوم والتكنولوجيا الأردنية شمال المجمع المركزي", "مكاتب الرئيس ونوابه والوحدات الإدارية العليا"]}, {"id": "library", "code": "U.L", "ar": "المكتبة المركزية", "en": "University Library", "cat": "services", "area": "central", "color": "#b07d4b", "x": 6, "z": -13, "w": 26, "d": 20, "h": 10.2, "prio": 1, "gmaps": [32.4948, 35.9914], "info": ["المجمع المركزي الحجري بأبراجه الأسطوانية المظلّلة وسط الحرم", "مكتبة الجامعة المركزية، قاعات الدراسة الهادئة، والمراجع العلمية"]}, {"id": "student-affairs", "code": "D.S.A", "ar": "عمادة شؤون الطلبة", "en": "Deanship of Students' Affairs", "cat": "admin", "area": "central", "color": "#c2410c", "x": -3, "z": -9, "w": 16, "d": 16, "h": 5.0, "prio": 2, "gmaps": [32.4953, 35.9912], "info": ["الساحة الدائرية الأيقونية ذات الحدائق الست الشعاعية والأروقة المقوّسة", "الهويات الجامعية، الأنشطة الطلابية، اللجان، والمنح والقروض"]}, {"id": "students-gate", "code": "15", "ar": "بوابة الطلبة الرئيسية", "en": "Students Gate", "cat": "facilities", "area": "central", "color": "#b07d4b", "x": 0.9, "z": 26.5, "w": 22, "d": 6, "h": 7.6, "prio": 1, "gmaps": [32.495, 35.9875], "info": ["البوابة الأيقونية بقوسها الحجري العريض وبرجيها الأسطوانيين المظلّلين", "يتفرع أمامها البوليفارد الأخضر ومواقف السيارات ومجمّع الباصات"]}, {"id": "post-bank", "code": "14", "ar": "البريد / البنك", "en": "Post Office / Bank", "cat": "services", "area": "central", "color": "#78350f", "x": 31.5, "z": 23.5, "w": 9.5, "d": 5, "h": 3.8, "prio": 2, "gmaps": [32.4934, 35.9888], "info": ["خدمات الدفع الجامعي، الصراف الآلي (ATM)، والبريد جنوب الشارع الأمامي"]}, {"id": "football", "code": "F.S", "ar": "ملعب كرة القدم", "en": "Football Stadium", "cat": "sport", "area": "central", "color": "#16a34a", "x": 44, "z": -23, "w": 25, "d": 14, "h": 3.5, "prio": 1, "gmaps": [32.4922, 35.9936], "info": ["الملعب الرئيسي لكرة القدم ومضمار ألعاب القوى بمدرّجه الخرساني القوسي"]}, {"id": "sport-hall", "code": "S.H", "ar": "الصالة الرياضية والمسبح", "en": "JUST Gym & Swimming Pool", "cat": "sport", "area": "central", "color": "#15803d", "x": 37, "z": -35, "w": 15, "d": 8, "h": 4.8, "prio": 2, "gmaps": [32.4932, 35.9948], "info": ["الصالة الرياضية المغلقة والمسبح الأولمبي شمال الملعب"]}, {"id": "intl-relations", "code": "D1", "ar": "مكتب العلاقات الدولية", "en": "International Relations Office", "cat": "admin", "area": "central", "color": "#7c3aed", "x": 27.5, "z": -5, "w": 9, "d": 8, "h": 4.8, "prio": 3, "gmaps": [32.4932, 35.9912], "info": ["مبنى D1 — العلاقات الدولية والعلاقات العامة والتبادل الطلابي"]}, {"id": "intl-students", "code": "311", "ar": "مكتب الطلبة الدوليين", "en": "International Students Office", "cat": "admin", "area": "central", "color": "#0284c7", "x": 34, "z": -13.5, "w": 8, "d": 7, "h": 4.8, "prio": 3, "gmaps": [32.4928, 35.9914], "info": ["شؤون الطلبة الدوليين والوافدين ومعاملات الإقامة"]}, {"id": "karamah", "code": "311", "ar": "مدرج الكرامة", "en": "Al Karamah Auditorium", "cat": "halls", "area": "engineering", "color": "#2563eb", "x": 33, "z": -3, "w": 8, "d": 7, "h": 4.8, "prio": 2, "gmaps": [32.4926, 35.991], "info": ["مدرج الكرامة في بداية المجمع الهندسي للندوات والمحاضرات"]}, {"id": "research-deanship", "code": "A1", "ar": "عمادة البحث العلمي", "en": "Deanship of Scientific Research", "cat": "admin", "area": "engineering", "color": "#ea580c", "x": 37, "z": -8, "w": 9, "d": 7, "h": 5.0, "prio": 3, "gmaps": [32.4924, 35.9913], "info": ["مبنى A1 — عمادة البحث العلمي ووحدة الرقابة والتدقيق"]}, {"id": "architecture", "code": "A4", "ar": "كلية العمارة والتصميم", "en": "Faculty of Architecture and Design", "cat": "college", "area": "engineering", "color": "#ca8a04", "x": 37, "z": 5, "w": 11, "d": 10, "h": 4.8, "prio": 2, "gmaps": [32.4922, 35.9899], "info": ["أجنحة A2–A4 ومراسم كلية العمارة والتصميم"]}, {"id": "vet-faculty", "code": "G1", "ar": "كلية الطب البيطري", "en": "Faculty of Veterinary Medicine", "cat": "college", "area": "engineering", "color": "#c99a3e", "x": 48, "z": -3, "w": 14, "d": 14, "h": 5.8, "prio": 1, "gmaps": [32.4914, 35.991], "info": ["كلية الطب البيطري والتمريض البيطري — أجنحة G1 إلى G4", "مختبرات التشريح، الأنسجة، الأمراض، الأحياء الدقيقة والأدوية", "قاعات التدريس ومقر لجنة الطب والجراحة البيطرية (VetCommitto)"]}, {"id": "farouq", "code": "312", "ar": "مدرج الفاروق", "en": "Al Farouq Auditorium", "cat": "halls", "area": "engineering", "color": "#0284c7", "x": 50, "z": -13.5, "w": 8, "d": 7, "h": 4.8, "prio": 2, "gmaps": [32.4911, 35.9915], "info": ["مدرج الفاروق (312) مباشرة بجانب كلية الطب البيطري G1"]}, {"id": "graduate", "code": "C1", "ar": "كلية الدراسات العليا", "en": "Faculty of Graduate Studies", "cat": "college", "area": "engineering", "color": "#0ea5e9", "x": 61, "z": -3, "w": 14, "d": 13, "h": 5.2, "prio": 2, "gmaps": [32.4908, 35.9911], "info": ["أجنحة C1–C6 للدراسات العليا ومركز الحاسوب وقاعات 332"]}, {"id": "cafeteria", "code": "313", "ar": "الكافتيريا", "en": "Cafeteria", "cat": "services", "area": "engineering", "color": "#d97706", "x": 63, "z": -13.5, "w": 9, "d": 7, "h": 4.6, "prio": 2, "gmaps": [32.4902, 35.9896], "info": ["المطعم والكافتيريا المركزية في المجمع الهندسي (313)"]}, {"id": "agriculture", "code": "M1", "ar": "كلية الزراعة", "en": "Faculty of Agriculture", "cat": "college", "area": "engineering", "color": "#166534", "x": 74, "z": -3, "w": 14, "d": 13, "h": 5.2, "prio": 2, "gmaps": [32.4899, 35.9912], "info": ["أجنحة M1–M8 لكلية الزراعة والإنتاج الحيواني والنباتي"]}, {"id": "salah-eldeen", "code": "314", "ar": "مدرج صلاح الدين", "en": "Salah Eldeen Auditorium", "cat": "halls", "area": "engineering", "color": "#2563eb", "x": 77, "z": -13.5, "w": 8, "d": 7, "h": 4.8, "prio": 2, "gmaps": [32.4894, 35.9914], "info": ["مدرج صلاح الدين (314) للندوات والمؤتمرات والفعاليات"]}, {"id": "engineering", "code": "E1", "ar": "كلية الهندسة", "en": "Faculty of Engineering", "cat": "college", "area": "engineering", "color": "#ca8a04", "x": 87, "z": -3, "w": 14, "d": 13, "h": 5.2, "prio": 1, "gmaps": [32.489, 35.9908], "info": ["أجنحة كلية الهندسة (E1–E4) والعمادة والمختبرات الهندسية"]}, {"id": "cit", "code": "N2", "ar": "كلية الحاسوب وتكنولوجيا المعلومات", "en": "Faculty of Computer and Information Technology", "cat": "college", "area": "engineering", "color": "#0284c7", "x": 96, "z": -3, "w": 11, "d": 10, "h": 4.8, "prio": 2, "gmaps": [32.4886, 35.9913], "info": ["أجنحة N1–N2 و CH1–CH2 ومختبرات الحاسوب وتكنولوجيا المعلومات"]}, {"id": "excellence-center", "code": "315", "ar": "مركز التميّز للمشاريع الابتكارية", "en": "Center of Excellence for Innovative Projects", "cat": "admin", "area": "engineering", "color": "#ea580c", "x": 92, "z": -13.5, "w": 8.5, "d": 7, "h": 4.8, "prio": 3, "gmaps": [32.4882, 35.9912], "info": ["مركز التميز والابتكار (315) في الطرف الشرقي للمجمع الهندسي"]}, {"id": "nano", "code": "334", "ar": "معهد تكنولوجيا النانو", "en": "Nanotechnology Institute", "cat": "college", "area": "central", "color": "#1d4ed8", "x": 103, "z": 5, "w": 9, "d": 7, "h": 4.4, "prio": 2, "gmaps": [32.4876, 35.9902], "info": ["مباني 334–336 ومعهد تكنولوجيا النانو بين الهندسة والبحيرة"]}, {"id": "student-entrance", "code": "S.E", "ar": "مدخل الطلبة الشرقي", "en": "Student Entrance", "cat": "facilities", "area": "engineering", "color": "#7c3aed", "x": 48, "z": 23.5, "w": 7.5, "d": 4.5, "h": 3.2, "prio": 3, "gmaps": [32.4914, 35.9888], "info": ["المدخل الجنوبي للمجمع الهندسي وكلية الطب البيطري"]}, {"id": "cottages", "code": "C.U", "ar": "الكوتجات", "en": "Cottages", "cat": "facilities", "area": "engineering", "color": "#b45309", "x": 62, "z": 26.5, "w": 9.5, "d": 7.5, "h": 2.6, "prio": 2, "gmaps": [32.4915, 35.9878], "info": ["مجموعة الـ 12 بيتاً قرميدياً جنوب المجمع الهندسي"]}, {"id": "female-housing", "code": "F.S.H", "ar": "سكن الطالبات", "en": "Female Students' Housing", "cat": "facilities", "area": "engineering", "color": "#db2777", "x": 92, "z": -43, "w": 30, "d": 14, "h": 4.8, "prio": 2, "gmaps": [32.4892, 35.996], "info": ["مجمع السكن الداخلي للطالبات حول الساحة الدائرية شمال الحقول"]}, {"id": "lake", "code": "U.L", "ar": "بحيرة الجامعة", "en": "The University Lake", "cat": "facilities", "area": "engineering", "color": "#0284c7", "x": 127, "z": 4, "w": 30, "d": 22, "h": 0.6, "prio": 1, "gmaps": [32.4865, 35.9902], "info": ["بحيرة التكنو الفيروزية الشهيرة أقصى شرق الحرم بشواطئها الحجرية والرصيف", "مكان مميز للاستراحة والمشي بين المحاضرات"]}, {"id": "vet-hospital", "code": "V.H", "ar": "المستشفى البيطري التعليمي", "en": "Veterinary Teaching Hospital", "cat": "health", "area": "engineering", "color": "#7c3aed", "x": 143, "z": -22, "w": 28, "d": 20, "h": 5.4, "prio": 1, "gmaps": [32.485842, 35.9864621], "info": ["المبنى الرئيسي المثمّن (شكل U مشطوف) حول الفناء المركزي + جناح العيادات والحظائر", "مواقف مظلّلة بألواح الطاقة الشمسية ودوار مدخل محاط بغابة الصنوبر", "مركز التدريب السريري والروتيشنات لطلبة الطب البيطري"]}];
+
+  function $(id) { return document.getElementById(id); }
+  function mk(t, x, c) {
+    var e = document.createElement(t);
+    if (x != null) e.textContent = x;
+    if (c) e.className = c;
+    return e;
+  }
+  function catObj(id) {
+    for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i];
+    return { id: id, ar: id, color: "#0d1b33" };
+  }
+  function norm(s) {
+    return String(s || "").toLowerCase()
+      .replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي")
+      .replace(/[\u064B-\u0652]/g, "");
+  }
+
+  var toastTm = null;
+  function toast(txt, ms) {
+    var el = $("toast");
+    el.textContent = txt;
+    el.classList.remove("hid");
+    clearTimeout(toastTm);
+    toastTm = setTimeout(function () { el.classList.add("hid"); }, ms || 2800);
+  }
+
+  /* =====================================================
+     1. إعداد المشهد والإضاءة والسماء
+     ===================================================== */
+  var canvas = $("c3d");
+  var wrap = $("sceneWrap");
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, powerPreference: "high-performance" });
+  } catch (e) {
+    window.__showErr("المتصفح لا يدعم WebGL.");
+    return;
+  }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.04;
+
+  function makeSkyTex(dark) {
+    var c = document.createElement("canvas"); c.width = 4; c.height = 256;
+    var g = c.getContext("2d");
+    var grd = g.createLinearGradient(0, 0, 0, 256);
+    if (dark) {
+      grd.addColorStop(0, "#081224"); grd.addColorStop(0.55, "#11223d"); grd.addColorStop(1, "#182d4d");
+    } else {
+      grd.addColorStop(0, "#7ebee6"); grd.addColorStop(0.45, "#c2e0f4"); grd.addColorStop(0.78, "#e6ece7"); grd.addColorStop(1, "#e5dac5");
+    }
+    g.fillStyle = grd; g.fillRect(0, 0, 4, 256);
+    var t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+  }
+
+  var skyDay = makeSkyTex(false), skyNight = makeSkyTex(true);
+  var scene = new THREE.Scene();
+  scene.background = skyDay;
+  scene.fog = new THREE.FogExp2(0xe3e4dc, 0.00085);
+
+  var camera = new THREE.PerspectiveCamera(35, wrap.clientWidth / wrap.clientHeight, 1, 950);
+  var DEFAULT_POS = new THREE.Vector3(6, 138, 198);
+  var DEFAULT_TGT = new THREE.Vector3(6, 0, -2);
+  camera.position.copy(DEFAULT_POS);
+
+  var controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.target.copy(DEFAULT_TGT);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.075;
+  controls.maxPolarAngle = Math.PI * 0.455;
+  controls.minPolarAngle = 0.08;
+  controls.minDistance = 14;
+  controls.maxDistance = 430;
+  controls.rotateSpeed = 0.72;
+  controls.panSpeed = 0.9;
+  controls.zoomSpeed = 0.92;
+  controls.update();
+
+  var hemiLight = new THREE.HemisphereLight(0xf6fbff, 0xc8b28e, 0.9);
+  scene.add(hemiLight);
+
+  var sunLight = new THREE.DirectionalLight(0xfff4de, 1.32);
+  sunLight.position.set(82, 180, 120);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 2048;
+  sunLight.shadow.mapSize.height = 2048;
+  sunLight.shadow.camera.near = 25;
+  sunLight.shadow.camera.far = 580;
+  var sc = 215;
+  sunLight.shadow.camera.left = -sc; sunLight.shadow.camera.right = sc;
+  sunLight.shadow.camera.top = sc * 0.65; sunLight.shadow.camera.bottom = -sc * 0.65;
+  sunLight.shadow.bias = -0.00045;
+  scene.add(sunLight);
+
+  var fillLight = new THREE.DirectionalLight(0xc2dfff, 0.35);
+  fillLight.position.set(-115, 65, -85);
+  scene.add(fillLight);
+
+  /* =====================================================
+     2. الخامات الواقعية (من التصوير الجوي وصور الأرض الحقيقية)
+     ===================================================== */
+  var seed = 2026;
+  function rand() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  function mixHex(a, b, t) { return new THREE.Color(a).lerp(new THREE.Color(b), t).getHex(); }
+
+  function ctex(w, h, fn, rx, ry) {
+    var c = document.createElement("canvas"); c.width = w; c.height = h;
+    fn(c.getContext("2d"), w, h);
+    var t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+    if (rx) t.repeat.set(rx, ry || rx);
+    return t;
+  }
+
+  function makeRibbonFacade(wallHex, bandHex, winHex, floors, cols) {
+    return ctex(256, 256, function (g) {
+      g.fillStyle = wallHex; g.fillRect(0, 0, 256, 256);
+      var fh = 256 / floors;
+      for (var r = 0; r < floors; r++) {
+        g.fillStyle = bandHex; g.fillRect(0, r * fh, 256, fh * 0.36);
+        g.fillStyle = "rgba(0,0,0,0.16)"; g.fillRect(0, r * fh + fh * 0.36, 256, fh * 0.08);
+        g.fillStyle = winHex; g.fillRect(0, r * fh + fh * 0.44, 256, fh * 0.44);
+        var cw = 256 / cols;
+        for (var k = 0; k < cols; k++) {
+          g.fillStyle = wallHex; g.fillRect(k * cw, r * fh + fh * 0.36, cw * 0.22, fh * 0.56);
+          g.fillStyle = "rgba(255,255,255,0.12)"; g.fillRect(k * cw + cw * 0.28, r * fh + fh * 0.48, cw * 0.28, fh * 0.32);
+        }
+      }
+    });
+  }
+
+  var texJordanStone = ctex(256, 256, function (g) {
+    g.fillStyle = "#c89e66"; g.fillRect(0, 0, 256, 256);
+    var rows = 16, rh = 256 / rows;
+    for (var r = 0; r < rows; r++) {
+      var off = (r % 2) * 24;
+      for (var x = -32; x < 288; x += 48) {
+        var sh = 0.88 + rand() * 0.22;
+        g.fillStyle = "rgb(" + Math.min(255, Math.round(202 * sh)) + "," + Math.min(255, Math.round(160 * sh)) + "," + Math.min(255, Math.round(104 * sh)) + ")";
+        g.fillRect(x + off, r * rh + 1, 46, rh - 2);
+      }
+    }
+  }, 1.5, 1.5);
+
+  var texCitadelArch = ctex(256, 256, function (g) {
+    g.fillStyle = "#d2be9e"; g.fillRect(0, 0, 256, 256);
+    for (var y = 0; y < 256; y += 16) { g.fillStyle = "rgba(90,65,35,0.08)"; g.fillRect(0, y, 256, 2); }
+    for (var k = 0; k < 4; k++) {
+      var x = 10 + k * 62;
+      g.fillStyle = "#3f3225"; g.fillRect(x, 86, 40, 154);
+      g.beginPath(); g.arc(x + 20, 86, 20, Math.PI, 0); g.fill();
+      g.fillStyle = "#1b3147"; g.fillRect(x + 5, 102, 30, 138);
+      g.fillStyle = "rgba(180,220,255,0.16)"; g.fillRect(x + 8, 106, 9, 128);
+    }
+  });
+
+  var texBlueCurtain = ctex(256, 256, function (g) {
+    var grd = g.createLinearGradient(0, 0, 256, 256);
+    grd.addColorStop(0, "#102e47"); grd.addColorStop(0.45, "#1b5578");
+    grd.addColorStop(0.55, "#2f78a1"); grd.addColorStop(1, "#0b2236");
+    g.fillStyle = grd; g.fillRect(0, 0, 256, 256);
+    g.fillStyle = "#0a1724";
+    for (var y = 0; y < 256; y += 32) g.fillRect(0, y, 256, 4);
+    for (var x = 0; x < 256; x += 24) g.fillRect(x, 0, 3, 256);
+    g.fillStyle = "rgba(210,240,255,0.13)";
+    g.beginPath(); g.moveTo(0, 0); g.lineTo(140, 0); g.lineTo(40, 256); g.lineTo(0, 256); g.fill();
+  }, 2, 1);
+
+  var texKauhGlass = ctex(256, 256, function (g) {
+    g.fillStyle = "#62788d"; g.fillRect(0, 0, 256, 256);
+    var floors = 14, fh = 256 / floors;
+    for (var r = 0; r < floors; r++) {
+      g.fillStyle = "#b5ac98"; g.fillRect(0, r * fh, 256, fh * 0.34);
+      g.fillStyle = "#264059"; g.fillRect(0, r * fh + fh * 0.34, 256, fh * 0.66);
+      for (var x = 0; x < 256; x += 18) {
+        g.fillStyle = "rgba(255,255,255,0.14)"; g.fillRect(x + 3, r * fh + fh * 0.4, 5, fh * 0.5);
+        g.fillStyle = "#8a8272"; g.fillRect(x, r * fh + fh * 0.34, 2, fh * 0.66);
+      }
+    }
+  });
+
+  var texSolar = ctex(128, 128, function (g) {
+    g.fillStyle = "#173056"; g.fillRect(0, 0, 128, 128);
+    g.strokeStyle = "#5382c9"; g.lineWidth = 2;
+    for (var i = 0; i <= 128; i += 16) {
+      g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 128); g.stroke();
+      g.beginPath(); g.moveTo(0, i); g.lineTo(128, i); g.stroke();
+    }
+  }, 2, 1);
+
+  var texSpine = makeRibbonFacade("#bfb49d", "#d1c7b2", "#2a3846", 4, 8);
+  var texVetSpine = makeRibbonFacade("#efe7d4", "#dfc999", "#172d50", 4, 8);
+  var texWhiteStone = makeRibbonFacade("#ece6d9", "#dad3c2", "#34495e", 3, 8);
+
+  var texEarth = ctex(256, 256, function (g, w, h) {
+    g.fillStyle = "#c8a783"; g.fillRect(0, 0, w, h);
+    for (var i = 0; i < 1600; i++) {
+      g.fillStyle = i % 2 ? "rgba(176,128,88,0.35)" : "rgba(222,196,158,0.38)";
+      g.fillRect(rand() * w, rand() * h, 3, 2);
+    }
+  }, 0.04, 0.04);
+
+  var texGrass = ctex(128, 128, function (g, w, h) {
+    g.fillStyle = "#4c8f43"; g.fillRect(0, 0, w, h);
+    for (var i = 0; i < 500; i++) {
+      g.fillStyle = i % 2 ? "rgba(104,174,84,0.42)" : "rgba(44,108,46,0.38)";
+      g.fillRect(rand() * w, rand() * h, 2, 3);
+    }
+  }, 0.16, 0.16);
+
+  var texWater = ctex(256, 256, function (g) {
+    var grd = g.createLinearGradient(0, 0, 256, 256);
+    grd.addColorStop(0, "#0b5c63"); grd.addColorStop(0.45, "#19a98b");
+    grd.addColorStop(0.75, "#36d19c"); grd.addColorStop(1, "#22b899");
+    g.fillStyle = grd; g.fillRect(0, 0, 256, 256);
+    g.strokeStyle = "rgba(255,255,255,0.18)"; g.lineWidth = 2;
+    for (var y = 14; y < 256; y += 20) {
+      g.beginPath();
+      for (var x = 0; x <= 256; x += 28) { g.moveTo(x + (y % 40 ? 0 : 12), y); g.lineTo(x + (y % 40 ? 15 : 27), y); }
+      g.stroke();
+    }
+  }, 0.05, 0.06);
+
+  var texStad = ctex(512, 300, function (g) {
+    g.fillStyle = "#c9c4b6"; g.fillRect(0, 0, 512, 300);
+    g.fillStyle = "#7e3b32"; g.beginPath(); g.ellipse(256, 150, 246, 138, 0, 0, Math.PI * 2); g.fill();
+    g.strokeStyle = "rgba(255,255,255,0.4)"; g.lineWidth = 2;
+    g.beginPath(); g.ellipse(256, 150, 232, 125, 0, 0, Math.PI * 2); g.stroke();
+    for (var s = 0; s < 10; s++) { g.fillStyle = s % 2 ? "#398849" : "#317a40"; g.fillRect(72 + s * 36.8, 48, 36.8, 204); }
+    g.strokeStyle = "#ffffff"; g.lineWidth = 3; g.strokeRect(82, 56, 348, 188);
+    g.beginPath(); g.moveTo(256, 56); g.lineTo(256, 244); g.stroke();
+    g.beginPath(); g.arc(256, 150, 28, 0, Math.PI * 2); g.stroke();
+    g.strokeRect(82, 102, 46, 96); g.strokeRect(384, 102, 46, 96);
+  });
+
+  var texHeli = ctex(128, 128, function (g) {
+    g.fillStyle = "#dcd9cf"; g.fillRect(0, 0, 128, 128);
+    g.strokeStyle = "#52606d"; g.lineWidth = 5;
+    g.beginPath(); g.ellipse(64, 64, 52, 38, 0, 0, Math.PI * 2); g.stroke();
+    g.fillStyle = "#334155";
+    g.fillRect(46, 40, 8, 48); g.fillRect(74, 40, 8, 48); g.fillRect(46, 60, 36, 8);
+  });
+
+  function M(c, r, m) { return new THREE.MeshStandardMaterial({ color: c, roughness: r != null ? r : 0.88, metalness: m || 0 }); }
+  var matGround = M(0xd9d2c1, 0.96);
+  var matPlaza = M(0xe3ddd0, 0.93);
+  var matRoad = M(0x525861, 0.9);
+  var matCurb = M(0xd8d2c3, 0.92);
+  var matMedian = M(0x417d3e, 0.92);
+  var matLawn = M(0xffffff, 0.94); matLawn.map = texGrass;
+  var matEarth = M(0xffffff, 0.96); matEarth.map = texEarth;
+  var matAsph = M(0x666d78, 0.9);
+  var matRoof = M(0xc8beaa, 0.88);
+  var matCap = M(0xa99e89, 0.86);
+  var matTrim = M(0x968b76, 0.86);
+  var matStone = new THREE.MeshStandardMaterial({ map: texJordanStone, roughness: 0.8 });
+  var matStoneDark = M(0x9e7849, 0.84);
+  var matStoneLight = M(0xe7dec9, 0.82);
+  var matBlueGlass = new THREE.MeshStandardMaterial({ map: texBlueCurtain, roughness: 0.16, metalness: 0.55 });
+  var matCitadel = new THREE.MeshStandardMaterial({ map: texCitadelArch, roughness: 0.82 });
+  var matSolar = new THREE.MeshStandardMaterial({ map: texSolar, roughness: 0.24, metalness: 0.4 });
+  var matGold = M(0xd6ae58, 0.28, 0.52);
+  var matNavy = M(0x0d1b33, 0.52, 0.15);
+  var matCreamStone = M(0xece6d8, 0.8);
+  var matMosqueDome = M(0x9ea88e, 0.62, 0.12); // قبة مسجد التكنو الحقيقية بلونها الحجري-الزيتوني الفاتح (video_1 01:36 & 01:52)
+  var matSpire = M(0x2e4654, 0.45, 0.25);      // رأس المئذنة الداكن الحقيقي (video_1 01:48)
+  var matPool = M(0x2eb2d4, 0.16, 0.25);
+  var matDarkDoor = M(0x523624, 0.85);
+  var matConcrete = M(0xc5c0b4, 0.84);
+  var matHvac = M(0xa5aeb8, 0.7);
+
+  var accCache = {};
+  function accMat(c) { if (!accCache[c]) accCache[c] = M(mixHex(c, 0xbfb49d, 0.4), 0.6); return accCache[c]; }
+  var facCache = {};
+  function facadeMat(tex, len, key, hh) {
+    var rx = Math.max(1, Math.round(len / 8)), ry = hh ? Math.max(1, Math.round(hh / 12)) : 1, k = key + rx + "_" + ry;
+    if (!facCache[k]) {
+      var t = tex.clone(); t.needsUpdate = true; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); t.encoding = THREE.sRGBEncoding;
+      facCache[k] = new THREE.MeshStandardMaterial({ map: t, roughness: 0.84 });
+    }
+    return facCache[k];
+  }
+
+  /* =====================================================
+     3. دوال البناء النظيفة (بدون أي تداخل أو Z-fighting!)
+     ===================================================== */
+  var env = new THREE.Group(); scene.add(env);
+  var clickableMeshes = [], waterMesh = null, placePos = {};
+
+  function tag(mesh, pid) {
+    mesh.castShadow = true; mesh.receiveShadow = true;
+    if (pid) { mesh.userData.placeId = pid; clickableMeshes.push(mesh); }
+    return mesh;
+  }
+  function slab(w, d, x, z, mat, y, h) {
+    h = h || 0.1;
+    var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+    m.position.set(x, (y || 0) + h / 2, z); m.receiveShadow = true; env.add(m); return m;
+  }
+  function roadSeg(x1, z1, x2, z2, w, hasMedian) {
+    var dx = x2 - x1, dz = z2 - z1, len = Math.sqrt(dx * dx + dz * dz);
+    var cx = (x1 + x2) / 2, cz = (z1 + z2) / 2, ang = -Math.atan2(dz, dx);
+    // رصيف جانبي فاتح + إسفلت داكن نظيف
+    var curb = new THREE.Mesh(new THREE.BoxGeometry(len + 0.4, 0.1, w + 0.9), matCurb);
+    curb.position.set(cx, 0.05, cz); curb.rotation.y = ang; curb.receiveShadow = true; env.add(curb);
+    var asp = new THREE.Mesh(new THREE.BoxGeometry(len, 0.13, w), matRoad);
+    asp.position.set(cx, 0.065, cz); asp.rotation.y = ang; asp.receiveShadow = true; env.add(asp);
+    if (hasMedian) {
+      var med = new THREE.Mesh(new THREE.BoxGeometry(len - 2, 0.18, 0.9), matMedian);
+      med.position.set(cx, 0.09, cz); med.rotation.y = ang; env.add(med);
+    }
+  }
+  function shapeOf(pts) {
+    var sh = new THREE.Shape();
+    pts.forEach(function (p, i) { if (i === 0) sh.moveTo(p[0], -p[1]); else sh.lineTo(p[0], -p[1]); });
+    return sh;
+  }
+  function polyFlat(pts, mat, y) {
+    var g = new THREE.ShapeGeometry(shapeOf(pts)); g.rotateX(-Math.PI / 2);
+    var m = new THREE.Mesh(g, mat); m.position.y = y; m.receiveShadow = true; env.add(m); return m;
+  }
+  function polyExtrude(pts, h, mats, y, pid, parent) {
+    var g = new THREE.ExtrudeGeometry(shapeOf(pts), { depth: h, bevelEnabled: false, curveSegments: 10 }); g.rotateX(-Math.PI / 2);
+    var m = tag(new THREE.Mesh(g, mats), pid); m.position.y = y || 0; (parent || env).add(m); return m;
+  }
+
+  // مبنى فناء معماري مترابط ونظيف (مربع أو مستطيل متصل بدون زوايا ناتئة — مطابق لـ video_1 00:08 و 00:44!)
+  function buildCourtyardBlock(parent, cx, cz, W, D, wallT, H, rotY, pid, opts) {
+    opts = opts || {};
+    var g = new THREE.Group();
+    g.position.set(cx, 0, cz);
+    g.rotation.y = rotY || 0;
+
+    var vet = pid === "vet-faculty";
+    var tex = vet ? texVetSpine : (opts.tex || texSpine);
+    var key = vet ? "v" : "s";
+    var roofM = vet ? matStoneLight : matRoof;
+    var capM = vet ? matNavy : matCap;
+
+    // الفناء الداخلي النظيف (أخضر + ممرات متقاطعة + نافورة وسطية)
+    var inW = W - wallT * 2, inD = D - wallT * 2;
+    if (inW > 2 && inD > 2) {
+      var court = new THREE.Mesh(new THREE.BoxGeometry(inW + 0.4, 0.16, inD + 0.4), matPlaza);
+      court.position.y = 0.12; court.receiveShadow = true; g.add(court);
+      var gr = new THREE.Mesh(new THREE.BoxGeometry(inW * 0.72, 0.2, inD * 0.72), matLawn);
+      gr.position.y = 0.14; gr.receiveShadow = true; g.add(gr);
+      var w1 = new THREE.Mesh(new THREE.BoxGeometry(inW * 0.76, 0.23, 0.9), matPlaza); w1.position.y = 0.15; g.add(w1);
+      var w2 = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.23, inD * 0.76), matPlaza); w2.position.y = 0.15; g.add(w2);
+      if (opts.pool) {
+        var rim = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.2, 0.3, 8), matStoneLight); rim.position.y = 0.22; g.add(rim);
+        var pl = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.34, 8), matPool); pl.position.y = 0.24; g.add(pl);
+      }
+    }
+
+    // الأجنحة الأربعة مقصوصة الطول بدقة لتلتحم بالزوايا بدون أي تداخل أو Z-fighting!
+    var sides = [
+      { x: 0, z: -D / 2 + wallT / 2, w: W, d: wallT, h: H },
+      { x: 0, z:  D / 2 - wallT / 2, w: W, d: wallT, h: H - 0.15 },
+      { x: -W / 2 + wallT / 2, z: 0, w: wallT, d: inD, h: H - 0.08 },
+      { x:  W / 2 - wallT / 2, z: 0, w: wallT, d: inD, h: H - 0.08 }
+    ];
+    sides.forEach(function (s, idx) {
+      if (opts.openSouth && idx === 1) return;
+      if (opts.openNorth && idx === 0) return;
+      var wm = facadeMat(tex, Math.max(s.w, s.d), key);
+      var b = tag(new THREE.Mesh(new THREE.BoxGeometry(s.w, s.h, s.d), [wm, wm, roofM, matTrim, wm, wm]), pid);
+      b.position.set(s.x, s.h / 2, s.z); g.add(b);
+
+      // حافة سطح أنيقة + تفاصيل HVAC دقيقة
+      var cp = new THREE.Mesh(new THREE.BoxGeometry(s.w + 0.12, 0.24, s.d + 0.12), capM);
+      cp.position.set(s.x, s.h + 0.12, s.z); g.add(cp);
+      if (vet) {
+        var gt = new THREE.Mesh(new THREE.BoxGeometry(s.w * 0.72, 0.22, s.d * 0.45), matGold);
+        gt.position.set(s.x, s.h + 0.32, s.z); g.add(gt);
+      } else if (idx % 2 === 0) {
+        var hv = new THREE.Mesh(new THREE.BoxGeometry(s.w * 0.22, 0.45, s.d * 0.42), matHvac);
+        hv.position.set(s.x, s.h + 0.32, s.z); g.add(hv);
+      }
+    });
+
+    // أبراج/مفاصل زوايا نظيفة عند الزوايا الأربع
+    [[-W / 2 + wallT / 2, -D / 2 + wallT / 2], [W / 2 - wallT / 2, -D / 2 + wallT / 2],
+     [-W / 2 + wallT / 2,  D / 2 - wallT / 2], [W / 2 - wallT / 2,  D / 2 - wallT / 2]].forEach(function (c) {
+      var cr = tag(new THREE.Mesh(new THREE.CylinderGeometry(wallT * 0.56, wallT * 0.58, H + 0.55, 8), vet ? matStoneLight : matTrim), pid);
+      cr.position.set(c[0], (H + 0.55) / 2, c[1]); g.add(cr);
+      var crc = new THREE.Mesh(new THREE.CylinderGeometry(wallT * 0.62, wallT * 0.62, 0.25, 8), vet ? matGold : capM);
+      crc.position.set(c[0], H + 0.65, c[1]); g.add(crc);
+    });
+
+    parent.add(g);
+    return g;
+  }
+
+  // جسر رابط بين مجمّعين متجاورين
+  function addBridge(parent, x, z, w, d, h, pid) {
+    var b = tag(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), facadeMat(texSpine, Math.max(w, d), "s")), pid);
+    b.position.set(x, h / 2, z); parent.add(b);
+    var c = new THREE.Mesh(new THREE.BoxGeometry(w + 0.15, 0.24, d + 0.15), matCap);
+    c.position.set(x, h + 0.12, z); parent.add(c);
+  }
+
+  // برج أسطواني حجري بمظلة علوية مفتوحة على 8 أعمدة (التوقيع المعماري الحقيقي لبوابة التكنو والمكتبة!)
+  function addJustTower(parent, x, z, r, h, pid) {
+    var body = tag(new THREE.Mesh(new THREE.CylinderGeometry(r, r * 1.05, h, 20), matStone), pid);
+    body.position.set(x, h / 2, z); parent.add(body);
+    var ring = new THREE.Mesh(new THREE.CylinderGeometry(r * 1.1, r * 1.04, 0.32, 20), matStoneDark);
+    ring.position.set(x, h - 0.14, z); parent.add(ring);
+    var pH = 0.72;
+    for (var i = 0; i < 8; i++) {
+      var a = (i / 8) * Math.PI * 2;
+      var col = new THREE.Mesh(new THREE.BoxGeometry(0.2, pH, 0.2), matStoneDark);
+      col.position.set(x + Math.cos(a) * (r * 0.84), h + pH / 2, z + Math.sin(a) * (r * 0.84));
+      parent.add(col);
+    }
+    var cap = tag(new THREE.Mesh(new THREE.CylinderGeometry(r * 1.24, r * 1.18, 0.4, 20), matStoneLight), pid);
+    cap.position.set(x, h + pH + 0.2, z); parent.add(cap);
+  }
+
+  // مدرج دائري-مروحي على الحافة الشمالية للمجمعين (مطابق لـ video_1 00:08 و 00:12!)
+  function addCircularAuditorium(parent, x, z, pid) {
+    var g = new THREE.Group(); g.position.set(x, 0, z);
+    var cyl = tag(new THREE.Mesh(new THREE.CylinderGeometry(3.5, 3.7, 4.4, 20), facadeMat(texSpine, 10, "s")), pid);
+    cyl.position.y = 2.2; g.add(cyl);
+    var top = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 3.6, 0.65, 20), matCap);
+    top.position.y = 4.7; g.add(top);
+    var ringWalk = new THREE.Mesh(new THREE.RingGeometry(3.8, 4.7, 24), matPlaza);
+    ringWalk.rotation.x = -Math.PI / 2; ringWalk.position.y = 0.14; g.add(ringWalk);
+    parent.add(g);
+  }
+
+  /* =====================================================
+     4. الأرضية، التربة الأردنية، الطرق الإسفلتية والمواقف
+     ===================================================== */
+  slab(380, 154, 8, 0, matGround, -1.2, 1.2);
+  slab(420, 90, 8, -108, M(0xe3d9c3, 0.98), -1.2, 1.2);
+  slab(420, 80, 8, 105, M(0xd8c8ae, 0.98), -1.2, 1.2);
+
+  // أراضي التربة الحمراء-الذهبية (حول المسجد وبساتين الزيتون والسهول الشمالية كما في video_1!)
+  slab(98, 22, -78, -26, matEarth, 0, 0.08);
+  slab(78, 22, 102, -26, matEarth, 0, 0.08);
+  slab(46, 20, -32, 30, matEarth, 0, 0.07);
+  slab(64, 24, 140, -24, matEarth, 0, 0.07);
+
+  // ساحات المشاة الحجرية النظيفة تحت المجمعات
+  slab(104, 34, -82, -1, matPlaza, 0, 0.09);
+  slab(88, 34, 64, -1, matPlaza, 0, 0.09);
+  slab(44, 36, 0, -10, matPlaza, 0, 0.09);
+
+  // الشبكة الطرقية الإسفلتية الدقيقة (مثل video_1!)
+  roadSeg(-152, -34, 166, -34, 4.0, true);
+  roadSeg(-152, 18.8, 162, 18.8, 4.8, false);
+  // الجزيرة الوسطية الخضراء أمام البوابة بين الدوارين
+  slab(24, 2.2, 1, 18.8, matMedian, 0.11, 0.09);
+  [-12.5, 14.5].forEach(function (rx) {
+    var ro = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.4, 0.15, 24), matRoad); ro.position.set(rx, 0.08, 18.8); env.add(ro);
+    var ri = new THREE.Mesh(new THREE.CylinderGeometry(1.9, 1.9, 0.25, 20), matMedian); ri.position.set(rx, 0.13, 18.8); env.add(ri);
+  });
+
+  roadSeg(0.9, 19, 0.9, 54, 9.2, false);
+  roadSeg(-152, 54, 166, 54, 7.6, false);
+  roadSeg(-152, -34, -152, 54, 3.6, false);
+  roadSeg(164, -34, 164, 54, 3.6, false);
+  roadSeg(126, -34, 162, -14, 3.2, false); // طريق المستشفى البيطري المائل (video_1 01:08!)
+
+  // الجزيرة الدمعية الخضراء أمام البوابة الرئيسية
+  var dropShape = new THREE.Shape();
+  dropShape.moveTo(0, -3.5);
+  dropShape.bezierCurveTo(2.4, -3.5, 2.2, 2.0, 0, 6.2);
+  dropShape.bezierCurveTo(-2.2, 2.0, -2.4, -3.5, 0, -3.5);
+  var dropGeo = new THREE.ExtrudeGeometry(dropShape, { depth: 0.26, bevelEnabled: false }); dropGeo.rotateX(-Math.PI / 2);
+  var dropMesh = new THREE.Mesh(dropGeo, matLawn); dropMesh.position.set(0.9, 0.1, 35.5); env.add(dropMesh);
+
+  // المواقف الإسفلتية + مظلات الطاقة الشمسية على المواقف الرئيسية
+  function addParkingLot(x, z, w, d, solarCanopies) {
+    slab(w, d, x, z, matAsph, 0, 0.11);
+    if (solarCanopies) {
+      for (var px = x - w * 0.36; px <= x + w * 0.36; px += 5.2) {
+        var pan = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.12, d * 0.72), matSolar);
+        pan.position.set(px, 1.45, z); pan.rotation.z = 0.12; pan.castShadow = true; env.add(pan);
+      }
+    }
+  }
+  addParkingLot(-15, 36.5, 20, 8, false);
+  addParkingLot(17, 36.5, 22, 8, false);
+  addParkingLot(-86, 15.5, 28, 6.5, true);
+  addParkingLot(-56, 15.5, 22, 6.5, false);
+  addParkingLot(-11, -26, 8, 4.5, false);
+  addParkingLot(13, -26, 8, 4.5, false);
+
+  // الساحات الخضراء الأيقونية أمام القلعة الوسطى + الملاعب السداسية بين الوسط والهندسي (video_1 00:40!)
+  slab(27, 15, 0, 7.8, M(0xd6d7cb, 0.94), 0, 0.11);
+  slab(13, 15, 20, 7.8, matLawn, 0, 0.12);
+  // ملعب السداسي وملعب السلة بين الوسط والهندسي (video_1 00:40)
+  slab(9.5, 5.2, 20.5, -15.5, M(0x41914e, 0.85), 0.08, 0.12);
+  slab(5.2, 5.2, 20.5, -9.2, M(0x3a6f8f, 0.85), 0.08, 0.12);
+
+  /* =====================================================
+     5. المجمع الطبي (مترابط بدون تداخل + KAUH + مهبط H)
+     ===================================================== */
+  var medGroup = new THREE.Group(); scene.add(medGroup);
+  (function buildMedicalReal() {
+    var cols = [
+      { x: -90, id: "medicine" },
+      { x: -77, id: "nursing" },
+      { x: -64, id: "dentistry" },
+      { x: -51, id: "pharmacy" }
+    ];
+    cols.forEach(function (c, i) {
+      // مجمّع فناء رئيسي بزاوية 45° مطابقة لـ video_1 00:04–00:12 (جدران نظيفة ملتحمة بدون بروز!)
+      buildCourtyardBlock(medGroup, c.x, -3.0, 10.6, 10.6, 2.5, 5.0, Math.PI / 4, c.id, { pool: true });
+      if (i > 0) addBridge(medGroup, c.x - 6.5, -3.0, 4.2, 2.6, 4.2, c.id);
+    });
+
+    // الصف الجنوبي (10D-10E، عيادات الأسنان 10G-10H، كلية العلوم PH3-PH4)
+    buildCourtyardBlock(medGroup, -83.5, 7.5, 8.6, 8.6, 2.2, 4.3, Math.PI / 4, "medicine", { openSouth: true });
+    buildCourtyardBlock(medGroup, -70.5, 7.5, 8.8, 8.8, 2.3, 4.4, Math.PI / 4, "dental-clinics", { pool: false });
+    buildCourtyardBlock(medGroup, -51.0, 7.8, 8.8, 8.8, 2.3, 4.5, Math.PI / 4, "science-arts", { pool: false });
+
+    // المدرجات الدائرية الخمسة شمال المجمع الطبي (415, 414, 413, 412, 411)
+    [
+      { x: -92, id: "medical-halls" },
+      { x: -81, id: "applied-medical" },
+      { x: -70, id: "nursing" },
+      { x: -59, id: "hijazi-hall" },
+      { x: -46, id: "science-hall-1" }
+    ].forEach(function (a) { addCircularAuditorium(medGroup, a.x, -13.5, a.id); });
+
+    placePos["medicine"] = [-90, -3.0, 14, 14, 5.4];
+    placePos["medical-halls"] = [-92, -13.5, 8, 7, 5.0];
+    placePos["applied-medical"] = [-81, -13.5, 8, 7, 5.0];
+    placePos["nursing"] = [-77, -3.0, 14, 14, 5.4];
+    placePos["dentistry"] = [-64, -3.0, 14, 14, 5.4];
+    placePos["hijazi-hall"] = [-59, -13.5, 8, 7, 5.0];
+    placePos["pharmacy"] = [-51, -3.0, 14, 14, 5.4];
+    placePos["science-arts"] = [-51, 7.8, 12, 11, 4.8];
+    placePos["science-hall-1"] = [-46, -13.5, 8, 7, 4.8];
+    placePos["dental-clinics"] = [-70.5, 7.5, 12, 10, 4.6];
+  })();
+
+  // مستشفى الملك عبدالله الجامعي (5A–5D) — مطابق لـ video_1 00:00 (قاعدة داكنة + 4 أجنحة واضحة بدون تداخل!)
+  (function buildKAUHReal() {
+    var kg = new THREE.Group(); kg.position.set(-110, 0, 2.5);
+    // قاعدة المستشفى (طابقان + سقف داكن مثل video_1 00:00)
+    var pod = tag(new THREE.Mesh(new THREE.BoxGeometry(20, 3.2, 13), [facadeMat(texSpine, 20, "s"), facadeMat(texSpine, 20, "s"), M(0x3f4752, 0.85), matTrim, facadeMat(texSpine, 20, "s"), facadeMat(texSpine, 20, "s")]), "kauh");
+    pod.position.y = 1.6; kg.add(pod);
+
+    // النواة الوسطى المرتفعة التي تتفرع منها الأجنحة الـ 4 بنظافة تامة
+    var coreC = tag(new THREE.Mesh(new THREE.BoxGeometry(5.8, 17.8, 5.8), matCreamStone), "kauh");
+    coreC.position.set(0, 8.9, 0); kg.add(coreC);
+    var coreTop = new THREE.Mesh(new THREE.BoxGeometry(6.1, 0.45, 6.1), matCap);
+    coreTop.position.set(0, 17.9, 0); kg.add(coreTop);
+
+    var kauhMat = new THREE.MeshStandardMaterial({ map: texKauhGlass, roughness: 0.25, metalness: 0.42 });
+    // الأجنحة الأربعة تخرج من النواة للخارج بدون أن تخترق بعضها أبداً
+    [
+      { angle:  0.55, len: 9.2, H: 15.2 }, // 5B
+      { angle:  2.55, len: 9.2, H: 16.2 }, // 5A
+      { angle: -0.55, len: 9.4, H: 16.5 }, // 5C
+      { angle: -2.55, len: 9.6, H: 17.2 }  // 5D
+    ].forEach(function (w) {
+      var wg = new THREE.Group(); wg.rotation.y = w.angle;
+      var body = tag(new THREE.Mesh(new THREE.BoxGeometry(w.len, w.H, 3.3), [kauhMat, kauhMat, matRoof, matTrim, kauhMat, kauhMat]), "kauh");
+      body.position.set(2.4 + w.len / 2, w.H / 2, 0); wg.add(body);
+      var endPier = new THREE.Mesh(new THREE.BoxGeometry(0.75, w.H + 0.3, 3.55), matCreamStone);
+      endPier.position.set(2.4 + w.len, (w.H + 0.3) / 2, 0); wg.add(endPier);
+      var cap = new THREE.Mesh(new THREE.BoxGeometry(w.len + 0.3, 0.36, 3.6), matCap);
+      cap.position.set(2.4 + w.len / 2, w.H + 0.18, 0); wg.add(cap);
+      kg.add(wg);
+    });
+    scene.add(kg);
+    placePos["kauh"] = [-110, 2.5, 24, 18, 18.0];
+
+    // S.R.C + 10A/10B + مهبط الهليكوبتر (H)
+    buildCourtyardBlock(medGroup, -133, 1.0, 9.5, 7.2, 2.4, 3.8, 0.1, "radiotherapy", { openSouth: true });
+    placePos["radiotherapy"] = [-133, 1.0, 12, 8, 4.0];
+
+    var hLawn = new THREE.Mesh(new THREE.CylinderGeometry(6.8, 6.8, 0.2, 24), matLawn); hLawn.position.set(-134, 0.1, 10.5); env.add(hLawn);
+    var hPad = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 3.8, 0.28, 24), new THREE.MeshStandardMaterial({ map: texHeli, roughness: 0.75 }));
+    hPad.position.set(-134, 0.16, 10.5); env.add(hPad);
+
+    // المستشفى الميداني (F.H) ومواقف ذوي الإعاقة
+    var fg = new THREE.Group(); fg.position.set(-74, 0, 25.5);
+    var mf = M(0xd6d9dc, 0.72);
+    var base = tag(new THREE.Mesh(new THREE.BoxGeometry(30, 1.0, 6.0), mf), "field-hospital"); base.position.y = 0.5; fg.add(base);
+    var tri = new THREE.Shape(); tri.moveTo(0, 0); tri.lineTo(2.4, 0); tri.lineTo(2.4, 1.5); tri.lineTo(0, 0);
+    for (var i = 0; i < 12; i++) {
+      var tm = tag(new THREE.Mesh(new THREE.ExtrudeGeometry(tri, { depth: 5.6, bevelEnabled: false }), mf), "field-hospital");
+      tm.position.set(-14.4 + i * 2.4, 1.0, -2.8); fg.add(tm);
+    }
+    scene.add(fg);
+    placePos["field-hospital"] = [-74, 25.5, 30, 6, 2.8];
+
+    var dp = tag(new THREE.Mesh(new THREE.BoxGeometry(9.5, 0.22, 3.8), M(0x3b82f6, 0.85)), "disabled-parks");
+    dp.position.set(-94, 0.15, 14.5); dp.castShadow = false; scene.add(dp);
+    placePos["disabled-parks"] = [-94, 14.5, 9.5, 4, 0.4];
+  })();
+
+  /* =====================================================
+     6. مجمع قاعات كامل العجلوني (410) — مطابق تماماً لـ video_1 00:16–00:24 والصور الحقيقية!
+        قوسان متوازيان ناعمان (الشمالي زجاج أزرق وجدار حجري ذهبي + الجنوبي مدرج ابن سينا والمدرج نصف الدائري)
+     ===================================================== */
+  function smoothArcRibbon(ctrl, width, height, capMat, sideMat, pid, yBase) {
+    var curve = new THREE.CatmullRomCurve3(ctrl.map(function (p) { return new THREE.Vector3(p[0], 0, p[1]); }));
+    var N = 40, L = [], R = [];
+    for (var i = 0; i <= N; i++) {
+      var t = i / N, p = curve.getPoint(t), tg = curve.getTangent(t), nx = -tg.z, nz = tg.x;
+      var hw = width / 2;
+      L.push([p.x + nx * hw, p.z + nz * hw]); R.push([p.x - nx * hw, p.z - nz * hw]);
+    }
+    return polyExtrude(L.concat(R.reverse()), height, [capMat, sideMat], yBase || 0, pid);
+  }
+
+  function addAjlouniPortal(parent, x, z, rotY, h) {
+    var pg = new THREE.Group(); pg.position.set(x, 0, z); pg.rotation.y = rotY;
+    var W = 5.0, T = 1.0, openW = 2.0, openH = h * 0.56, sideW = (W - openW) / 2;
+    var lP = tag(new THREE.Mesh(new THREE.BoxGeometry(sideW, h, T), matStone), "ajlouni-halls"); lP.position.set(-W / 2 + sideW / 2, h / 2, 0); pg.add(lP);
+    var rP = tag(new THREE.Mesh(new THREE.BoxGeometry(sideW, h, T), matStone), "ajlouni-halls"); rP.position.set(W / 2 - sideW / 2, h / 2, 0); pg.add(rP);
+    var topH = h - openH;
+    var lin = tag(new THREE.Mesh(new THREE.BoxGeometry(openW, topH, T), matStone), "ajlouni-halls"); lin.position.set(0, openH + topH / 2, 0); pg.add(lin);
+    for (var s = -1; s <= 1; s++) {
+      var sl = new THREE.Mesh(new THREE.BoxGeometry(0.24, topH * 0.52, T + 0.08), matDarkDoor);
+      sl.position.set(s * 0.48, openH + topH * 0.54, 0); pg.add(sl);
+    }
+    parent.add(pg);
+  }
+
+  (function buildAjlouniReal() {
+    var ag = new THREE.Group(); scene.add(ag);
+    // ساحة العجلوني المبلّطة النظيفة
+    polyFlat([[-39, -11], [-15, -11], [-12, 11], [-37, 11]], matPlaza, 0.11);
+
+    // 1) القوس الشمالي الطويل الأملس (NG-7a): واجهة زجاج أزرق داكن + جدار الحجر الذهبي على حافته الجنوبية (video_1 00:20!)
+    var northGlass = [[-37.5, -8.5], [-31.0, -5.0], [-24.5, -0.5], [-18.5, 4.8], [-14.2, 9.2]];
+    var northStone = [[-36.2, -9.6], [-29.8, -6.1], [-23.4, -1.6], [-17.4, 3.6], [-13.2, 8.0]];
+    smoothArcRibbon(northGlass, 3.4, 5.2, M(0x13263b, 0.35, 0.3), matBlueGlass, "ajlouni-halls", 0);
+    smoothArcRibbon(northStone, 1.15, 6.1, matStoneDark, matStone, "ajlouni-halls", 0);
+    addAjlouniPortal(ag, -37.2, -8.8, -0.78, 6.7);
+    addAjlouniPortal(ag, -13.8, 8.6, -0.78, 6.7);
+
+    // 2) القوس الجنوبي الموازي (مدرج ابن سينا + الكافتيريا — video_1 00:20 & 00:24!)
+    var southArc = [[-36.5, 0.5], [-31.8, 3.2], [-27.2, 6.8], [-23.2, 10.6]];
+    smoothArcRibbon(southArc, 3.0, 4.3, matCreamStone, matBlueGlass, "ajlouni-halls", 0);
+    // جسر الربط بين القوسين
+    var br = tag(new THREE.Mesh(new THREE.BoxGeometry(5.5, 3.2, 2.4), matBlueGlass), "ajlouni-halls");
+    br.position.set(-29.2, 1.6, -0.2); br.rotation.y = 0.7; ag.add(br);
+
+    // 3) المدرّج نصف الدائري المفتوح أمام مدرج ابن سينا (ظاهر بوضوح تام في video_1 00:24!)
+    [5.4, 4.3, 3.2, 2.1].forEach(function (rr, idx) {
+      var amp = tag(new THREE.Mesh(
+        new THREE.CylinderGeometry(rr, rr, 0.25 + idx * 0.22, 22, 1, false, 0.2, Math.PI - 0.4),
+        idx % 2 === 0 ? matStoneLight : matConcrete
+      ), "ajlouni-halls");
+      amp.position.set(-30.5, 0.2 + idx * 0.11, 7.6);
+      amp.rotation.y = -0.65;
+      ag.add(amp);
+    });
+
+    placePos["ajlouni-halls"] = [-26.0, -0.5, 24, 18, 6.7];
+  })();
+
+  /* =====================================================
+     7. القلعة الوسطى الأيقونية (الحلقة الدائرية الكبيرة بحدائقها الـ 6 + المكتبة + شؤون الطلبة + الرئاسة)
+        مطابقة 100% للقطات video_1 00:28–00:36!
+     ===================================================== */
+  (function buildCentralReal() {
+    var cg = new THREE.Group(); cg.position.set(0, 0, -10.5);
+
+    // 1) البوديوم الدائري والساحة المركزية (video_1 00:32!)
+    var pod = new THREE.Mesh(new THREE.BoxGeometry(30, 0.4, 24), matPlaza); pod.position.y = 0.2; pod.receiveShadow = true; cg.add(pod);
+
+    // الحلقة الدائرية الكبيرة الشهيرة لجامعة العلوم والتكنولوجيا (نصف قطر 8.8!)
+    var R_OUT = 9.2, R_IN = 6.4;
+    var ringShape = new THREE.Shape();
+    ringShape.absarc(0, 0, R_OUT, 0, Math.PI * 2, false);
+    var hole = new THREE.Path();
+    hole.absarc(0, 0, R_IN, 0, Math.PI * 2, true);
+    ringShape.holes.push(hole);
+
+    var ringGeo = new THREE.ExtrudeGeometry(ringShape, { depth: 4.8, bevelEnabled: false, curveSegments: 42 });
+    ringGeo.rotateX(-Math.PI / 2);
+    var ringMesh = tag(new THREE.Mesh(ringGeo, [matRoof, matCitadel]), "student-affairs");
+    ringMesh.position.set(-1.5, 0.4, 0.5); cg.add(ringMesh);
+
+    var rimOut = new THREE.Mesh(new THREE.TorusGeometry(R_OUT, 0.28, 8, 44), matStoneDark);
+    rimOut.rotation.x = Math.PI / 2; rimOut.position.set(-1.5, 5.25, 0.5); cg.add(rimOut);
+    var rimIn = new THREE.Mesh(new THREE.TorusGeometry(R_IN, 0.26, 8, 44), matStoneDark);
+    rimIn.rotation.x = Math.PI / 2; rimIn.position.set(-1.5, 5.25, 0.5); cg.add(rimIn);
+
+    // أرضية الساحة الدائرية + الـ 6 أحواض الخضراء الشعاعية المطابقة تماماً لـ video_1 00:32!
+    var cFloor = tag(new THREE.Mesh(new THREE.CylinderGeometry(R_IN - 0.1, R_IN - 0.1, 0.22, 36), matStoneLight), "student-affairs");
+    cFloor.position.set(-1.5, 0.5, 0.5); cg.add(cFloor);
+    for (var w = 0; w < 6; w++) {
+      var a1 = (w / 6) * Math.PI * 2 + 0.14, a2 = ((w + 1) / 6) * Math.PI * 2 - 0.14;
+      var ws = new THREE.Shape();
+      ws.absarc(0, 0, R_IN - 0.7, a1, a2, false);
+      ws.absarc(0, 0, 2.7, a2, a1, true);
+      var wg = new THREE.ShapeGeometry(ws, 10); wg.rotateX(-Math.PI / 2);
+      var wm = new THREE.Mesh(wg, matLawn); wm.position.set(-1.5, 0.65, 0.5); cg.add(wm);
+    }
+
+    // 2) مبنى المكتبة المركزية (JUST Library) ملتصق مباشرة بالجهة الجنوبية الشرقية للحلقة (video_1 00:36!)
+    var libMain = tag(new THREE.Mesh(new THREE.BoxGeometry(11.5, 6.6, 8.8), [matCitadel, matCitadel, matRoof, matTrim, matCitadel, matCitadel]), "library");
+    libMain.position.set(8.2, 3.7, -3.5); libMain.rotation.y = 0.35; cg.add(libMain);
+    var libCap = new THREE.Mesh(new THREE.BoxGeometry(11.9, 0.35, 9.2), matStoneDark);
+    libCap.position.set(8.2, 7.1, -3.5); libCap.rotation.y = 0.35; cg.add(libCap);
+
+    // 3) جناح عمادة شؤون الطلبة (شمال غرب الحلقة — video_1 00:28!)
+    var dsaWing = tag(new THREE.Mesh(new THREE.BoxGeometry(10.5, 5.6, 7.2), [matCitadel, matCitadel, matRoof, matTrim, matCitadel, matCitadel]), "student-affairs");
+    dsaWing.position.set(-9.5, 3.2, -5.8); dsaWing.rotation.y = -0.35; cg.add(dsaWing);
+
+    // 4) الأبراج الأسطوانية الستة المظلّلة حول الحلقة والأجنحة
+    [[-10.2, -2.5, 9.8], [-11.5, 4.5, 9.2], [7.8, 4.5, 9.8], [10.5, -8.5, 9.6], [-4.5, -9.2, 9.0], [2.5, -9.2, 9.0]].forEach(function (t) {
+      addJustTower(cg, t[0], t[1], 1.35, t[2], "library");
+    });
+
+    scene.add(cg);
+    placePos["library"] = [7.5, -13.5, 24, 20, 10.4];
+    placePos["student-affairs"] = [-2.5, -9.8, 17, 17, 5.4];
+
+    // رئاسة الجامعة (U.P) شمال الحلقة
+    var pg = new THREE.Group(); pg.position.set(1.5, 0, -27.5);
+    [[-5.2, 4.8, 5.2], [5.2, 4.8, 5.2], [0, 6.2, 4.2]].forEach(function (b) {
+      var m = tag(new THREE.Mesh(new THREE.BoxGeometry(b[1], b[2], 5.0), facadeMat(texWhiteStone, b[1], "ws")), "presidency");
+      m.position.set(b[0], b[2] / 2, 0); pg.add(m);
+      var c = new THREE.Mesh(new THREE.BoxGeometry(b[1] + 0.3, 0.3, 5.3), matStoneDark);
+      c.position.set(b[0], b[2] + 0.14, 0); pg.add(c);
+    });
+    scene.add(pg);
+    placePos["presidency"] = [1.5, -27.5, 16, 7, 5.6];
+  })();
+
+  /* =====================================================
+     8. بوابة الطلبة الرئيسية (15) — قوس حجري حقيقي + برجان أسطوانيان بمظلات مفتوحة + كشك أمن
+     ===================================================== */
+  (function buildRealMainGate() {
+    var gg = new THREE.Group(); gg.position.set(0.9, 0, 26.2);
+    [-6.6, 6.6].forEach(function (gx) {
+      var base = tag(new THREE.Mesh(new THREE.BoxGeometry(4.4, 3.6, 3.6), matStoneLight), "students-gate"); base.position.set(gx, 1.8, 0); gg.add(base);
+      var cor = new THREE.Mesh(new THREE.BoxGeometry(4.7, 0.34, 3.9), matStoneDark); cor.position.set(gx, 3.7, 0); gg.add(cor);
+      var door = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.9, 3.72), matDarkDoor); door.position.set(gx, 0.95, 0); gg.add(door);
+      var plaque = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.55, 3.72), matNavy); plaque.position.set(gx, 2.75, 0); gg.add(plaque);
+      var tw = new THREE.Group(); tw.position.set(gx, 3.8, 0); addJustTower(tw, 0, 0, 1.55, 2.8, "students-gate"); gg.add(tw);
+    });
+
+    var archShape = new THREE.Shape();
+    archShape.moveTo(-4.5, 0); archShape.lineTo(-4.5, 4.4); archShape.lineTo(4.5, 4.4);
+    archShape.lineTo(4.5, 0); archShape.lineTo(3.9, 0);
+    archShape.absellipse(0, 0, 3.9, 2.75, 0, Math.PI, false, 0); archShape.lineTo(-4.5, 0);
+    var archGeo = new THREE.ExtrudeGeometry(archShape, { depth: 2.3, bevelEnabled: false, curveSegments: 24 });
+    archGeo.translate(0, 0, -1.15);
+    gg.add(tag(new THREE.Mesh(archGeo, matStone), "students-gate"));
+
+    var archTop = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.3, 2.55), matStoneDark); archTop.position.set(0, 4.5, 0); gg.add(archTop);
+    [-11.5, 11.5].forEach(function (wx) {
+      var w = tag(new THREE.Mesh(new THREE.BoxGeometry(5.6, 2.0, 2.0), matStone), "students-gate"); w.position.set(wx, 1.0, 0); gg.add(w);
+    });
+    var kiosk = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.8, 2.6), matCreamStone); kiosk.position.set(0, 0.9, 0); gg.add(kiosk);
+    var kRoof = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.25, 3.0), matNavy); kRoof.position.set(0, 1.9, 0); gg.add(kRoof);
+
+    scene.add(gg);
+    placePos["students-gate"] = [0.9, 26.2, 22, 6, 7.6];
+  })();
+
+  /* =====================================================
+     9. مسجد الجامعة الحقيقي (12) — مطابق تماماً لـ video_1 01:32–01:52!
+        قبة رئيسية كبيرة بلون حجري-زيتوني فاتح + شبكة قباب صغيرة حولها + مئذنة برأس داكن + المكتبة الإسلامية
+     ===================================================== */
+  (function buildMosqueReal() {
+    var mg = new THREE.Group(); mg.position.set(-31.5, 0, 28.0);
+    var pod = tag(new THREE.Mesh(new THREE.BoxGeometry(15.5, 0.5, 11.5), matStoneLight), "mosque"); pod.position.y = 0.25; mg.add(pod);
+
+    // قاعة الصلاة الرئيسية (حجر كريمي فاتح)
+    var hall = tag(new THREE.Mesh(new THREE.BoxGeometry(9.2, 3.6, 8.6), matCreamStone), "mosque"); hall.position.set(1.2, 2.3, 0); mg.add(hall);
+    // جناح المكتبة الإسلامية الملتصق غرب المسجد (video_1 01:36!)
+    var ilib = tag(new THREE.Mesh(new THREE.BoxGeometry(4.8, 2.8, 5.2), matCreamStone), "mosque"); ilib.position.set(-5.2, 1.9, 1.2); mg.add(ilib);
+
+    // القبة الرئيسية الكبيرة المضلّعة (لونها الحقيقي حجري-زيتوني فاتح كما في video_1 01:36 و 01:52!)
+    var drum = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.75, 0.85, 16), matCreamStone); drum.position.set(1.2, 4.5, 0); mg.add(drum);
+    var dome = tag(new THREE.Mesh(new THREE.SphereGeometry(2.55, 18, 12, 0, Math.PI * 2, 0, Math.PI * 0.56), matMosqueDome), "mosque");
+    dome.position.set(1.2, 4.9, 0); mg.add(dome);
+    var fin = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.1, 1.2, 8), matGold); fin.position.set(1.2, 7.9, 0); mg.add(fin);
+
+    // القباب الصغيرة المحيطة بالصحن (تظهر واضحة جداً في video_1 01:36!)
+    [[-2.4, -2.8], [1.2, -2.8], [4.6, -2.8], [-2.4, 2.8], [1.2, 2.8], [4.6, 2.8]].forEach(function (dp) {
+      var sd = new THREE.Mesh(new THREE.SphereGeometry(0.95, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.55), matMosqueDome);
+      sd.position.set(dp[0], 4.1, dp[1]); mg.add(sd);
+    });
+
+    // المئذنة الحقيقية (عمود حجري كريمي طويل + شرفة + مخروط داكن أزرق-رمادي كما في video_1 01:48!)
+    var mBase = tag(new THREE.Mesh(new THREE.BoxGeometry(1.7, 3.6, 1.7), matCreamStone), "mosque"); mBase.position.set(5.4, 2.3, -3.8); mg.add(mBase);
+    var mShaft = tag(new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.66, 7.6, 12), matCreamStone), "mosque"); mShaft.position.set(5.4, 7.6, -3.8); mg.add(mShaft);
+    var mBalc = new THREE.Mesh(new THREE.CylinderGeometry(0.88, 0.65, 0.5, 12), matStoneDark); mBalc.position.set(5.4, 10.6, -3.8); mg.add(mBalc);
+    var mTop = new THREE.Mesh(new THREE.ConeGeometry(0.55, 2.8, 12), matSpire); mTop.position.set(5.4, 12.8, -3.8); mg.add(mTop);
+
+    scene.add(mg);
+    placePos["mosque"] = [-31.5, 28.0, 15, 11, 7.2];
+
+    // البريد/البنك (14) + المدخل الشرقي (S.E)
+    var pb = tag(new THREE.Mesh(new THREE.BoxGeometry(9.2, 3.4, 4.8), matStone), "post-bank"); pb.position.set(31.5, 1.7, 23.5); scene.add(pb);
+    var pbc = new THREE.Mesh(new THREE.BoxGeometry(9.6, 0.3, 5.2), matStoneDark); pbc.position.set(31.5, 3.55, 23.5); scene.add(pbc);
+    addParkingLot(31.5, 28.8, 9.5, 4.2, false);
+    placePos["post-bank"] = [31.5, 23.5, 9.5, 5, 3.8];
+
+    var se = tag(new THREE.Mesh(new THREE.BoxGeometry(7.2, 3.0, 4.0), facadeMat(texSpine, 7, "s")), "student-entrance"); se.position.set(48, 1.5, 23.5); scene.add(se);
+    placePos["student-entrance"] = [48, 23.5, 7.5, 4.5, 3.2];
+  })();
+
+  /* =====================================================
+     10. الملعب (F.S) والصالة الرياضية والمسبح (S.H) — مطابق لـ video_1 01:20!
+     ===================================================== */
+  (function buildSportsReal() {
+    var fg = new THREE.Group(); fg.position.set(44, 0, -23); fg.rotation.y = 0.14;
+    var pitch = tag(new THREE.Mesh(new THREE.BoxGeometry(24, 0.35, 13.4), new THREE.MeshStandardMaterial({ map: texStad, roughness: 0.86 })), "football");
+    pitch.position.y = 0.2; pitch.castShadow = false; fg.add(pitch);
+    // المدرّج الخرساني المقوّس على الجانب الغربي/الجنوبي للملعب
+    var stand = tag(new THREE.Mesh(new THREE.CylinderGeometry(12.2, 12.8, 3.4, 24, 1, false, -0.58, 1.16), matConcrete), "football");
+    stand.scale.set(1.05, 1, 0.56); stand.rotation.y = Math.PI / 2; stand.position.set(0, 1.7, 1.2); fg.add(stand);
+    scene.add(fg);
+    placePos["football"] = [44, -23, 25, 14, 3.5];
+
+    // الصالة الرياضية والمسبح الأولمبي (video_1 01:20: صالتان حديثتان متجاورتان!)
+    var sg = new THREE.Group(); sg.position.set(37, 0, -36);
+    var gym = tag(new THREE.Mesh(new THREE.BoxGeometry(10, 4.6, 6.2), matCreamStone), "sport-hall"); gym.position.set(-3.2, 2.3, 0); sg.add(gym);
+    var poolH = tag(new THREE.Mesh(new THREE.BoxGeometry(8.5, 4.0, 5.6), matCreamStone), "sport-hall"); poolH.position.set(6.5, 2.0, 0.6); sg.add(poolH);
+    var grf = new THREE.Mesh(new THREE.BoxGeometry(10.4, 0.35, 6.6), matConcrete); grf.position.set(-3.2, 4.7, 0); sg.add(grf);
+    var prf = new THREE.Mesh(new THREE.BoxGeometry(8.9, 0.35, 6.0), M(0x7d98b2, 0.6)); prf.position.set(6.5, 4.1, 0.6); sg.add(prf);
+    scene.add(sg);
+    placePos["sport-hall"] = [37, -36, 16, 8, 4.8];
+  })();
+
+  /* =====================================================
+     11. المجمع الهندسي وكلية الطب البيطري (G1) — أفنية مترابطة نظيفة 100% (video_1 00:40–00:52!)
+     ===================================================== */
+  var engGroup = new THREE.Group(); scene.add(engGroup);
+  (function buildEngineeringReal() {
+    var cols = [
+      { x: 35, id: "architecture" },
+      { x: 48, id: "vet-faculty" },
+      { x: 61, id: "graduate" },
+      { x: 74, id: "agriculture" },
+      { x: 87, id: "engineering" }
+    ];
+    cols.forEach(function (c, i) {
+      buildCourtyardBlock(engGroup, c.x, -3.0, 10.6, 10.6, 2.5, c.id === "vet-faculty" ? 5.5 : 5.0, Math.PI / 4, c.id, { pool: true });
+      if (i > 0) addBridge(engGroup, c.x - 6.5, -3.0, 4.2, 2.6, 4.2, c.id);
+    });
+
+    // D1 في أقصى الغرب + CH1/N2 في أقصى الشرق
+    buildCourtyardBlock(engGroup, 26.5, -5.5, 6.8, 6.8, 2.0, 4.6, Math.PI / 4, "intl-relations", { openSouth: true });
+    buildCourtyardBlock(engGroup, 97.5, -3.0, 8.2, 8.2, 2.2, 4.7, Math.PI / 4, "cit", { openSouth: true });
+
+    // الصف الجنوبي المتصل (A4، G4، 332، M4-M8، E4)
+    buildCourtyardBlock(engGroup, 41.5, 7.5, 8.6, 8.6, 2.2, 4.6, Math.PI / 4, "vet-faculty", { pool: false });
+    buildCourtyardBlock(engGroup, 54.5, 7.5, 8.6, 8.6, 2.2, 4.4, Math.PI / 4, "graduate", { pool: false });
+    buildCourtyardBlock(engGroup, 67.5, 7.5, 8.6, 8.6, 2.2, 4.4, Math.PI / 4, "agriculture", { pool: false });
+    buildCourtyardBlock(engGroup, 80.5, 7.5, 8.6, 8.6, 2.2, 4.4, Math.PI / 4, "engineering", { pool: false });
+
+    // مباني القاعات الجنوبية الثلاثة (342، 341، 344)
+    [54.5, 68.5, 82.5].forEach(function (hx) {
+      var hb = tag(new THREE.Mesh(new THREE.BoxGeometry(7.6, 3.8, 4.8), facadeMat(texSpine, 8, "s")), null); hb.position.set(hx, 1.9, 14.2); engGroup.add(hb);
+      var hc = new THREE.Mesh(new THREE.BoxGeometry(8.0, 0.28, 5.2), matCap); hc.position.set(hx, 3.9, 14.2); engGroup.add(hc);
+    });
+
+    // المدرجات الدائرية الخمسة على الحافة الشمالية للمجمع الهندسي (311، 312، 313، 314، 315)
+    [
+      { x: 34, id: "intl-students" },
+      { x: 50, id: "farouq" },
+      { x: 63, id: "cafeteria" },
+      { x: 77, id: "salah-eldeen" },
+      { x: 92, id: "excellence-center" }
+    ].forEach(function (a) { addCircularAuditorium(engGroup, a.x, -13.5, a.id); });
+
+    placePos["intl-relations"] = [26.5, -5.5, 8, 7, 4.8];
+    placePos["intl-students"] = [34, -13.5, 8, 7, 5.0];
+    placePos["karamah"] = [32, -3.0, 8, 7, 5.0];
+    placePos["research-deanship"] = [36, -8.5, 9, 7, 5.0];
+    placePos["architecture"] = [35, 3.5, 11, 10, 5.0];
+    placePos["vet-faculty"] = [48, -3.0, 15, 15, 6.0];
+    placePos["farouq"] = [50, -13.5, 8, 7, 5.0];
+    placePos["graduate"] = [61, -3.0, 14, 13, 5.4];
+    placePos["cafeteria"] = [63, -13.5, 9, 7, 5.0];
+    placePos["agriculture"] = [74, -3.0, 14, 13, 5.4];
+    placePos["salah-eldeen"] = [77, -13.5, 8, 7, 5.0];
+    placePos["engineering"] = [87, -3.0, 14, 13, 5.4];
+    placePos["cit"] = [97.5, -3.0, 11, 10, 5.0];
+    placePos["excellence-center"] = [92, -13.5, 8.5, 7, 5.0];
+  })();
+
+  // معهد النانو (334–336) + الكوتجات (C.U) + سكن الطالبات الدائري (F.S.H — video_1 01:12!)
+  (function buildEastAndHousing() {
+    [
+      { x: 103, z: 5.0, w: 7.4, d: 5.2, h: 4.4, r: 0.72 },
+      { x: 108, z: 9.5, w: 6.4, d: 4.4, h: 3.6, r: 0.72 },
+      { x: 114, z: -1.5, w: 6.0, d: 4.2, h: 3.4, r: 0.72 }
+    ].forEach(function (b) {
+      var m = tag(new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), facadeMat(texSpine, b.w, "s")), "nano");
+      m.position.set(b.x, b.h / 2, b.z); m.rotation.y = b.r; scene.add(m);
+      var c = new THREE.Mesh(new THREE.BoxGeometry(b.w + 0.3, 0.28, b.d + 0.3), matCap);
+      c.position.set(b.x, b.h + 0.14, b.z); c.rotation.y = b.r; scene.add(c);
+    });
+    placePos["nano"] = [103, 5.0, 9, 7, 4.6];
+
+    var cg = new THREE.Group(); cg.position.set(62, 0, 26.5);
+    var rm = M(0xb23a28, 0.72), wm = M(0xeae2cf, 0.85);
+    for (var r = 0; r < 4; r++) for (var c = 0; c < 3; c++) {
+      var x = (c - 1) * 2.6, z = (r - 1.5) * 1.8;
+      var w = tag(new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.1, 1.4), wm), "cottages"); w.position.set(x, 0.55, z); cg.add(w);
+      var rf = tag(new THREE.Mesh(new THREE.ConeGeometry(1.4, 0.9, 4), rm), "cottages"); rf.rotation.y = Math.PI / 4; rf.position.set(x, 1.55, z); cg.add(rf);
+    }
+    scene.add(cg);
+    placePos["cottages"] = [62, 26.5, 9.5, 7.5, 2.6];
+
+    // سكن الطالبات الحقيقي حول دوّار مشاة دائري (video_1 01:12!)
+    var hg = new THREE.Group(); hg.position.set(92, 0, -43);
+    var hPlaza = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.2, 0.18, 24), matPlaza); hPlaza.position.y = 0.09; hg.add(hPlaza);
+    var hDot = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, 0.25, 20), matLawn); hDot.position.y = 0.13; hg.add(hDot);
+    [[-10,-4,6.5,3.4,4.2],[0,-7,7.0,3.4,4.4],[10,-4,6.5,3.4,4.2],[-11,3.5,6.2,3.4,4.0],[11,3.5,6.2,3.4,4.0],[-3,7.2,6.4,3.2,3.8],[5,7.2,6.4,3.2,3.8]].forEach(function (b) {
+      var m = tag(new THREE.Mesh(new THREE.BoxGeometry(b[2], b[4], b[3]), facadeMat(texWhiteStone, b[2], "ws")), "female-housing");
+      m.position.set(b[0], b[4] / 2, b[1]); m.rotation.y = Math.atan2(-b[1], b[0]) * 0.18; hg.add(m);
+      var rf = new THREE.Mesh(new THREE.BoxGeometry(b[2] + 0.2, 0.26, b[3] + 0.2), matCap);
+      rf.position.set(b[0], b[4] + 0.13, b[1]); rf.rotation.y = m.rotation.y; hg.add(rf);
+    });
+    scene.add(hg);
+    placePos["female-housing"] = [92, -43, 30, 14, 4.8];
+  })();
+
+  /* =====================================================
+     12. البحيرة الزمردية (U.L) + المستشفى البيطري التعليمي الحقيقي (V.H)
+         مطابق 100% لـ video_1 00:52–01:08!
+     ===================================================== */
+  (function buildLakeAndRealVH() {
+    // البحيرة الفيروزية-الزمردية بشاطئها الحجري الفاتح ورصيفها (video_1 00:52–00:56!)
+    polyFlat([[112, -9], [146, -9], [146, 16.5], [112, 16.5]], matLawn, 0.05);
+    var bankPts = [[120,-7.5],[138,-7.5],[139,3.5],[135,5],[135,10],[142,11],[142.5,15.5],[111,15.5],[116,7.5],[119,1.5]];
+    polyFlat(bankPts, M(0xd8d0bd, 0.92), 0.09);
+
+    var lakePts = [[121.2,-6.5],[136.8,-6.5],[137.8,3],[134,4.6],[134,10.4],[140.8,11.4],[141,14.5],[113,14.5],[117.2,7.5],[120.2,1.5]];
+    var lg = new THREE.ExtrudeGeometry(shapeOf(lakePts), { depth: 0.34, bevelEnabled: false, curveSegments: 8 }); lg.rotateX(-Math.PI / 2);
+    var lakeMat = new THREE.MeshStandardMaterial({ map: texWater, color: 0xffffff, roughness: 0.14, metalness: 0.22, emissive: 0x064c45, emissiveIntensity: 0.14 });
+    var lm = tag(new THREE.Mesh(lg, lakeMat), "lake"); lm.position.y = 0.12; lm.castShadow = false; scene.add(lm); waterMesh = lm;
+    slab(6.8, 5.2, 138, 7.2, matPlaza, 0.12, 0.3);
+    placePos["lake"] = [127, 4.0, 30, 22, 0.8];
+
+    // ⭐ المستشفى البيطري التعليمي (V.H) — تصميم مطابق 100% للقطات video_1 01:00 و 01:04!!
+    // المبنى الرئيسي المثمّن (U مشطوف الزوايا حول الفناء المركزي) + جناح العيادات الشمالي الشرقي + المبنى الصغير الجنوبي الشرقي + الدوّار + مظلات الطاقة الشمسية!
+    var vg = new THREE.Group(); vg.position.set(143, 0, -22);
+
+    // ساحة وممرات ودوار مدخل المستشفى البيطري
+    slab(32, 22, 143, -22, matPlaza, 0.04, 0.12);
+    var vhDrive = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.2, 0.16, 22), matAsph); vhDrive.position.set(7.2, 0.14, 1.2); vg.add(vhDrive);
+    var vhDot = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.1, 0.24, 18), matEarth); vhDot.position.set(7.2, 0.18, 1.2); vg.add(vhDot);
+
+    // 1) المبنى الرئيسي المثمّن (شكل C/U مشطوف الزوايا يفتح باتجاه الدوار — مطابق تماماً لـ video_1 01:00!)
+    var uOuter = [
+      [-10.5, -5.5], [-6.5, -9.2], [3.5, -9.2], [3.5, -5.8],
+      [-5.2, -5.8], [-7.0, -4.0], [-7.0, 3.8], [-5.2, 5.6],
+      [3.5, 5.6], [3.5, 9.0], [-6.5, 9.0], [-10.5, 5.2]
+    ];
+    var vhWallM = facadeMat(texVetSpine, 16, "v");
+    polyExtrude(uOuter, 5.0, [matCreamStone, vhWallM], 0.15, "vet-hospital", vg);
+    // شريط بنفسجي-ذهبي راقي على حافة السطح
+    polyExtrude(uOuter, 0.34, [matNavy, M(0x7c3aed, 0.45)], 5.15, "vet-hospital", vg);
+
+    // الأجنحة الداخلية والقباب/التكييف على السطح كما في video_1 01:04
+    var innerBlock = tag(new THREE.Mesh(new THREE.BoxGeometry(6.2, 4.2, 6.8), [vhWallM, vhWallM, matCreamStone, matTrim, vhWallM, vhWallM]), "vet-hospital");
+    innerBlock.position.set(-2.4, 2.25, -0.2); vg.add(innerBlock);
+    var hvac1 = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.7, 2.2), matHvac); hvac1.position.set(-8.6, 5.6, 0); vg.add(hvac1);
+    var hvac2 = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.7, 1.8), matHvac); hvac2.position.set(-2.0, 5.6, -7.4); vg.add(hvac2);
+
+    // 2) الجناح الشمالي الشرقي المستطيل الطويل (الحظائر/عيادات الحيوانات الكبيرة في video_1 01:04!)
+    var neWing = tag(new THREE.Mesh(new THREE.BoxGeometry(11.5, 3.8, 4.2), facadeMat(texWhiteStone, 11, "ws")), "vet-hospital");
+    neWing.position.set(10.5, 2.05, -6.5); neWing.rotation.y = 0.12; vg.add(neWing);
+    var neCap = new THREE.Mesh(new THREE.BoxGeometry(11.8, 0.3, 4.5), matGold);
+    neCap.position.set(10.5, 4.05, -6.5); neCap.rotation.y = 0.12; vg.add(neCap);
+
+    // 3) المبنى الصغير المربع جنوب شرق الدوّار (يظهر بوضوح في video_1 01:04!)
+    var seBox = tag(new THREE.Mesh(new THREE.BoxGeometry(4.4, 3.2, 4.2), facadeMat(texWhiteStone, 4, "ws")), "vet-hospital");
+    seBox.position.set(8.2, 1.75, 8.8); vg.add(seBox);
+
+    // 4) صف مظلات الطاقة الشمسية على مواقف المستشفى البيطري (أسفل يمين video_1 01:04!)
+    for (var s = 0; s < 5; s++) {
+      var sp = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.12, 2.2), matSolar);
+      sp.position.set(13.5 + s * 0.9, 1.4, 6.5 + s * 2.1); sp.rotation.y = 0.55; sp.rotation.z = 0.15; sp.castShadow = true; vg.add(sp);
+    }
+
+    scene.add(vg);
+    placePos["vet-hospital"] = [143, -22, 28, 20, 5.6];
+  })();
+
+  /* =====================================================
+     13. ثلاث فصائل أشجار واقعية (سرو + بساتين زيتون أردنية + شجر حدائق)
+     ===================================================== */
+  var pineCoords = [], oliveCoords = [], leafCoords = [];
+  function pRow(x0, x1, z, st) { for (var x = x0; x <= x1; x += st) pineCoords.push([x + (rand() - 0.5) * 0.9, z + (rand() - 0.5) * 0.9]); }
+  function pCl(cx, cz, n, r) { for (var i = 0; i < n; i++) pineCoords.push([cx + (rand() - 0.5) * 2 * r, cz + (rand() - 0.5) * r]); }
+  function lRow(x0, x1, z, st) { for (var x = x0; x <= x1; x += st) leafCoords.push([x, z]); }
+
+  // 1) غابات السرو الكثيفة (خلف البوابة، خلف المجمعين، وغابة الصنوبر الكثيفة غرب المستشفى البيطري في video_1 01:00!)
+  pRow(-98, -44, -18.0, 3.2);
+  pRow(56, 98, -18.0, 3.4);
+  pRow(-11, 12, 22.0, 2.3);
+  pCl(126, -24, 24, 9); // غابة الصنوبر الداكنة غرب المستشفى البيطري (video_1 01:00 & 01:08!)
+  pCl(72, -43, 8, 5); pCl(112, -42, 9, 5);
+
+  // 2) بساتين الزيتون الأردنية المنتظمة (حول المسجد، شمال شرق المجمع الطبي، وشمال البوابة — video_1 01:32 & 01:48!)
+  for (var oz = 24; oz <= 38; oz += 3.8) {
+    for (var ox = -46; ox <= -22; ox += 4.2) {
+      if (Math.abs(ox + 31.5) > 8.5 || Math.abs(oz - 28) > 6.5) oliveCoords.push([ox, oz]);
+    }
+  }
+  for (var oz2 = 2.5; oz2 <= 13.5; oz2 += 3.5) {
+    for (var ox2 = -11; ox2 <= 11; ox2 += 3.3) oliveCoords.push([ox2, oz2]);
+  }
+  for (var oz3 = 2.0; oz3 <= 14.0; oz3 += 3.3) {
+    for (var ox3 = 16; ox3 <= 24; ox3 += 3.4) oliveCoords.push([ox3, oz3]);
+  }
+
+  // 3) أشجار الحدائق والشارع الأمامي والبحيرة
+  lRow(-44, -18, 21.5, 4.8);
+  lRow(18, 42, 21.5, 4.8);
+  lRow(70, 142, 16.5, 4.5);
+  for (var k = 0; k < 9; k++) leafCoords.push([108 + k * 1.4, 13.5 - k * 2.2]);
+  for (var w = 0; w < 12; w++) leafCoords.push([-125 + (rand() - 0.5) * 14, -7 + (rand() - 0.5) * 8]);
+
+  var trunkMat = M(0x5c422c, 0.92);
+  var dummy = new THREE.Object3D(), colTmp = new THREE.Color();
+
+  // السرو
+  var pineTrunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.14, 0.22, 1.2, 5), trunkMat, pineCoords.length);
+  var pineCones = new THREE.InstancedMesh(new THREE.ConeGeometry(0.95, 4.9, 7), M(0x26582a, 0.88), pineCoords.length);
+  pineCones.castShadow = true;
+  for (var i = 0; i < pineCoords.length; i++) {
+    var sP = 0.8 + rand() * 0.45;
+    dummy.position.set(pineCoords[i][0], 0.6 * sP, pineCoords[i][1]); dummy.scale.set(sP, sP, sP); dummy.rotation.set(0, rand() * 3, 0); dummy.updateMatrix(); pineTrunks.setMatrixAt(i, dummy.matrix);
+    dummy.position.set(pineCoords[i][0], 3.05 * sP, pineCoords[i][1]); dummy.updateMatrix(); pineCones.setMatrixAt(i, dummy.matrix);
+    colTmp.setHex(i % 2 ? 0x225126 : 0x306732); pineCones.setColorAt(i, colTmp);
+  }
+  scene.add(pineTrunks, pineCones);
+
+  // الزيتون
+  var olTrunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.14, 0.2, 1.2, 5), trunkMat, oliveCoords.length);
+  var olCrowns = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1.15, 1), M(0x526b42, 0.88), oliveCoords.length);
+  olCrowns.castShadow = true;
+  for (var oi = 0; oi < oliveCoords.length; oi++) {
+    var sO = 0.78 + rand() * 0.32;
+    dummy.position.set(oliveCoords[oi][0], 0.6 * sO, oliveCoords[oi][1]); dummy.scale.set(sO, sO, sO); dummy.rotation.set(0, rand() * 3, 0); dummy.updateMatrix(); olTrunks.setMatrixAt(oi, dummy.matrix);
+    dummy.position.set(oliveCoords[oi][0], 1.9 * sO, oliveCoords[oi][1]); dummy.scale.set(sO * 1.15, sO * 0.85, sO * 1.15); dummy.updateMatrix(); olCrowns.setMatrixAt(oi, dummy.matrix);
+    colTmp.setHex(oi % 2 ? 0x4b633c : 0x5c774a); olCrowns.setColorAt(oi, colTmp);
+  }
+  scene.add(olTrunks, olCrowns);
+
+  // الشجر المورق
+  var leafTrunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.16, 0.24, 1.5, 6), trunkMat, leafCoords.length);
+  var leafCrowns = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1.3, 1), M(0x3f823a, 0.85), leafCoords.length);
+  leafCrowns.castShadow = true;
+  var leafCols = [0x357633, 0x44893d, 0x4e9444, 0x2f6a2e];
+  for (var li = 0; li < leafCoords.length; li++) {
+    var sL = 0.8 + rand() * 0.35;
+    dummy.position.set(leafCoords[li][0], 0.75 * sL, leafCoords[li][1]); dummy.scale.set(sL, sL, sL); dummy.rotation.set(0, rand() * 3, 0); dummy.updateMatrix(); leafTrunks.setMatrixAt(li, dummy.matrix);
+    dummy.position.set(leafCoords[li][0], 2.25 * sL, leafCoords[li][1]); dummy.scale.set(sL * 1.08, sL * 0.92, sL * 1.08); dummy.updateMatrix(); leafCrowns.setMatrixAt(li, dummy.matrix);
+    colTmp.setHex(leafCols[li % 4]); leafCrowns.setColorAt(li, colTmp);
+  }
+  scene.add(leafTrunks, leafCrowns);
+
+  /* ---- مزامنة إحداثيات الليبلات مع المجسمات ---- */
+  var LH = { "intl-relations": 7.2, "intl-students": 10.5, "research-deanship": 7.5, "farouq": 10.5, "graduate": 7.5, "library": 13.0, "student-affairs": 6.8, "vet-faculty": 11.2, "dentistry": 7.2, "hijazi-hall": 10.5, "science-arts": 7.0, "pharmacy": 10.5, "science-hall-1": 7.2, "medicine": 8.0 };
+  PLACES.forEach(function (p) {
+    var q = placePos[p.id];
+    if (!q) return;
+    p.x = q[0]; p.z = q[1]; p.w = q[2]; p.d = q[3]; p.h = q[4];
+    if (LH[p.id]) p.lh = LH[p.id];
+  });
+
+  var selRing = new THREE.Mesh(
+    new THREE.RingGeometry(1, 1.15, 44),
+    new THREE.MeshBasicMaterial({ color: 0xf2d079, side: THREE.DoubleSide, transparent: true, opacity: 0.92 })
+  );
+  selRing.rotation.x = -Math.PI / 2; selRing.position.y = 0.52; selRing.visible = false;
+  scene.add(selRing);
+
+  /* =====================================================
+     14. الليبلات العائمة + البطاقة + البحث + الفلاتر + التحكم
+     ===================================================== */
+  var labelsLayer = $("labelsLayer");
+  var labelNodes = {};
+  var labelMode = 1, activeCat = "all", activeArea = "all", selectedId = null;
+
+  PLACES.forEach(function (p) {
+    var isVet = p.id === "vet-faculty" || p.id === "vet-hospital";
+    var btn = mk("button", null, "lbl3d" + (isVet ? " vet" : ""));
+    btn.type = "button";
+    var codeSpan = mk("span", p.code, "lc");
+    codeSpan.style.setProperty("--pc", p.color);
+    btn.append(codeSpan, mk("span", p.ar));
+    btn.onclick = function (e) { e.stopPropagation(); selectPlace(p.id, true); };
+    labelsLayer.append(btn);
+    labelNodes[p.id] = { el: btn, place: p };
+  });
+
+  var projVec = new THREE.Vector3();
+  function updateLabels() {
+    var w = wrap.clientWidth, h = wrap.clientHeight;
+    var camDist = camera.position.distanceTo(controls.target);
+    var placed = [];
+
+    var ordered = PLACES.slice().sort(function (a, b) {
+      var sa = (a.id === selectedId ? 0 : (a.id === "vet-faculty" || a.id === "vet-hospital" ? 1 : a.prio + 1));
+      var sb = (b.id === selectedId ? 0 : (b.id === "vet-faculty" || b.id === "vet-hospital" ? 1 : b.prio + 1));
+      return sa - sb;
+    });
+
+    for (var i = 0; i < ordered.length; i++) {
+      var p = ordered[i], el = labelNodes[p.id].el;
+      var matchesCat = activeCat === "all" || p.cat === activeCat;
+
+      if ((labelMode === 0 || !matchesCat) && p.id !== selectedId) { el.style.display = "none"; continue; }
+      if (labelMode === 1 && activeCat === "all" && p.id !== selectedId) {
+        if (p.prio === 3 && camDist > 105) { el.style.display = "none"; continue; }
+        if (p.prio === 2 && camDist > 158) { el.style.display = "none"; continue; }
+      }
+
+      projVec.set(p.x, (p.lh || Math.max(p.h, 2)) + 2.4, p.z);
+      projVec.project(camera);
+      if (projVec.z > 1) { el.style.display = "none"; continue; }
+
+      var sx = (projVec.x * 0.5 + 0.5) * w, sy = (-projVec.y * 0.5 + 0.5) * h;
+      if (sx < -40 || sx > w + 40 || sy < 15 || sy > h - 58) { el.style.display = "none"; continue; }
+
+      var collide = false;
+      if (p.id !== selectedId && p.id !== "vet-faculty" && p.id !== "vet-hospital") {
+        for (var b = 0; b < placed.length; b++) {
+          if (Math.abs(sx - placed[b][0]) < 108 && Math.abs(sy - placed[b][1]) < 26) { collide = true; break; }
+        }
+      }
+      if (collide) { el.style.display = "none"; continue; }
+
+      placed.push([sx, sy]);
+      el.style.display = "inline-flex";
+      el.style.transform = "translate(" + sx.toFixed(1) + "px," + sy.toFixed(1) + "px) translate(-50%,-100%)" + (p.id === selectedId ? " scale(1.08)" : "");
+      el.classList.toggle("sel", p.id === selectedId);
+    }
+  }
+
+  var camAnim = null;
+  function flyTo(targetPos, targetLook, dur) {
+    camAnim = {
+      t0: performance.now(), dur: dur || 820,
+      p0: camera.position.clone(), p1: targetPos.clone(),
+      l0: controls.target.clone(), l1: targetLook.clone()
+    };
+  }
+  controls.addEventListener("start", function () { camAnim = null; });
+
+  function findPlace(id) {
+    for (var i = 0; i < PLACES.length; i++) if (PLACES[i].id === id) return PLACES[i];
+    return null;
+  }
+
+  function showInfoCard(p) {
+    var card = $("infoCard"); card.textContent = ""; card.classList.remove("hid");
+    var head = mk("div", null, "ic-head");
+    var left = mk("div"), badges = mk("div", null, "ic-badges");
+    var bc = mk("span", p.code, "ic-code"); bc.style.background = p.color;
+    badges.append(bc, mk("span", catObj(p.cat).ar, "ic-cat"), mk("span", AREAS[p.area] || "", "ic-cat"));
+    left.append(badges, mk("h2", p.ar), mk("div", p.en, "en"));
+    var closeBtn = mk("button", "×", "ic-close"); closeBtn.type = "button"; closeBtn.onclick = clearSelection;
+    head.append(left, closeBtn); card.append(head);
+
+    if (p.info && p.info.length) {
+      var sec = mk("div", null, "ic-sec"); sec.append(mk("h4", "ماذا تجد هنا"));
+      var ul = mk("ul"); p.info.forEach(function (line) { ul.append(mk("li", line)); });
+      sec.append(ul); card.append(sec);
+    }
+    var acts = mk("div", null, "ic-actions");
+    var centerBtn = mk("button", "توسيط وتقريب 3D", "pb navy"); centerBtn.type = "button";
+    centerBtn.onclick = function () { focusPlace(p, true); }; acts.append(centerBtn);
+    if (p.gmaps && p.gmaps.length === 2) {
+      var dirA = mk("a", "اتجاهات Google Maps", "pb gold");
+      dirA.href = "https://www.google.com/maps/dir/?api=1&destination=" + p.gmaps[0] + "," + p.gmaps[1];
+      dirA.target = "_blank"; dirA.rel = "noopener"; acts.append(dirA);
+    }
+    card.append(acts);
+  }
+
+  var is2D = false;
+  function focusPlace(p, closer) {
+    var rad = Math.max(p.w, p.d);
+    var dist = closer ? Math.max(22, rad * 1.4) : Math.max(32, rad * 1.95);
+    var h = is2D ? dist * 1.38 : dist * 0.65;
+    var offZ = is2D ? 2 : dist * 0.88;
+    var offX = is2D ? 0 : dist * 0.3;
+    flyTo(new THREE.Vector3(p.x + offX, h, p.z + offZ), new THREE.Vector3(p.x, Math.min(p.h * 0.35, 3), p.z), 820);
+  }
+
+  function selectPlace(id, doFly) {
+    var p = findPlace(id); if (!p) return;
+    selectedId = id; $("dirSheet").classList.remove("open"); showInfoCard(p);
+    var r = Math.max(p.w, p.d) * 0.56 + 1.8;
+    selRing.position.set(p.x, 0.52, p.z); selRing.scale.set(r, r, 1); selRing.visible = true;
+    if (doFly) focusPlace(p, false);
+  }
+
+  function clearSelection() { selectedId = null; selRing.visible = false; $("infoCard").classList.add("hid"); }
+
+  var raycaster = new THREE.Raycaster(), ptrDown = null;
+  canvas.addEventListener("pointerdown", function (e) { ptrDown = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  canvas.addEventListener("pointerup", function (e) {
+    if (!ptrDown) return;
+    var dx = e.clientX - ptrDown.x, dy = e.clientY - ptrDown.y, dt = performance.now() - ptrDown.t; ptrDown = null;
+    if (dx * dx + dy * dy > 64 || dt > 450) return;
+    var rect = canvas.getBoundingClientRect();
+    var mouse = new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+    raycaster.setFromCamera(mouse, camera);
+    var hits = raycaster.intersectObjects(clickableMeshes, false);
+    if (hits.length && hits[0].object.userData.placeId) selectPlace(hits[0].object.userData.placeId, true);
+    else clearSelection();
+  });
+
+  function renderCats() {
+    var bar = $("catBar"); bar.textContent = "";
+    var allBtn = mk("button", null, "cat-pill" + (activeCat === "all" ? " on" : "")); allBtn.type = "button";
+    allBtn.append(mk("span", "الكل"), mk("small", String(PLACES.length)));
+    allBtn.onclick = function () { activeCat = "all"; updateUI(); }; bar.append(allBtn);
+    CATS.forEach(function (c) {
+      var cnt = PLACES.filter(function (p) { return p.cat === c.id; }).length;
+      var b = mk("button", null, "cat-pill" + (activeCat === c.id ? " on" : "")); b.type = "button";
+      var d = mk("span", null, "cd"); d.style.background = c.color;
+      b.append(d, mk("span", c.ar), mk("small", String(cnt)));
+      b.onclick = function () {
+        activeCat = c.id; updateUI();
+        var list = PLACES.filter(function (p) { return p.cat === c.id; });
+        if (list.length) {
+          var sx = 0, sz = 0; list.forEach(function (p) { sx += p.x; sz += p.z; });
+          flyTo(new THREE.Vector3(sx / list.length + 8, 86, sz / list.length + 104), new THREE.Vector3(sx / list.length, 0, sz / list.length), 800);
+        }
+      };
+      bar.append(b);
+    });
+  }
+
+  function renderAreas() {
+    var tabs = $("areaTabs"); tabs.textContent = "";
+    ["all", "engineering", "central", "medical"].forEach(function (k) {
+      var b = mk("button", AREAS[k], "area-tab" + (activeArea === k ? " on" : "")); b.type = "button";
+      b.onclick = function () { activeArea = k; renderDirectory(); renderAreas(); }; tabs.append(b);
+    });
+  }
+
+  function renderDirectory() {
+    var grid = $("dirGrid"); grid.textContent = "";
+    var list = PLACES.filter(function (p) {
+      if (activeCat !== "all" && p.cat !== activeCat) return false;
+      if (activeArea !== "all" && p.area !== activeArea) return false;
+      return true;
+    });
+    list.sort(function (a, b) {
+      var av = (a.id === "vet-faculty" || a.id === "vet-hospital") ? 0 : a.prio;
+      var bv = (b.id === "vet-faculty" || b.id === "vet-hospital") ? 0 : b.prio;
+      return av - bv;
+    });
+    $("dirCount").textContent = list.length + " معلم";
+    list.forEach(function (p) {
+      var b = mk("button", null, "dir-item"); b.type = "button";
+      var code = mk("span", p.code, "dir-code"); code.style.background = p.color;
+      var info = mk("div", null, "dir-info");
+      info.append(mk("b", p.ar), mk("small", (AREAS[p.area] || "") + " · " + catObj(p.cat).ar));
+      b.append(code, info); b.onclick = function () { selectPlace(p.id, true); }; grid.append(b);
+    });
+  }
+
+  function updateUI() { renderCats(); renderDirectory(); }
+  $("sheetToggle").onclick = function () { $("dirSheet").classList.toggle("open"); };
+  renderAreas(); updateUI();
+
+  var q = $("q"), res = $("res");
+  q.oninput = function () {
+    var t = norm(q.value.trim()); res.textContent = "";
+    if (!t) { res.classList.add("hid"); return; }
+    var hits = PLACES.filter(function (p) {
+      return norm(p.code + " " + p.ar + " " + p.en + " " + catObj(p.cat).ar + " " + (AREAS[p.area] || "")).indexOf(t) !== -1;
+    });
+    if (!hits.length) {
+      var li0 = mk("li"); li0.append(mk("button", "لا توجد نتائج مطابقة")); res.append(li0);
+      res.classList.remove("hid"); return;
+    }
+    hits.slice(0, 12).forEach(function (p) {
+      var li = mk("li"), b = mk("button"); b.type = "button";
+      var rc = mk("span", p.code, "rc"); rc.style.background = p.color;
+      var rm = mk("span", null, "rm");
+      rm.append(mk("b", p.ar), mk("span", (AREAS[p.area] || "") + " · " + catObj(p.cat).ar));
+      b.append(rc, rm);
+      b.onclick = function () { res.classList.add("hid"); q.value = p.ar; selectPlace(p.id, true); };
+      li.append(b); res.append(li);
+    });
+    res.classList.remove("hid");
+  };
+  document.addEventListener("click", function (e) { if (!e.target.closest(".sb")) res.classList.add("hid"); });
+
+  $("jumpG1").onclick = function () { selectPlace("vet-faculty", true); };
+  $("jumpVH").onclick = function () { selectPlace("vet-hospital", true); };
+
+  $("btnZoomIn").onclick = function () {
+    var dir = camera.position.clone().sub(controls.target).multiplyScalar(0.75);
+    if (dir.length() < controls.minDistance) dir.setLength(controls.minDistance);
+    flyTo(controls.target.clone().add(dir), controls.target.clone(), 400);
+  };
+  $("btnZoomOut").onclick = function () {
+    var dir = camera.position.clone().sub(controls.target).multiplyScalar(1.32);
+    if (dir.length() > controls.maxDistance) dir.setLength(controls.maxDistance);
+    flyTo(controls.target.clone().add(dir), controls.target.clone(), 400);
+  };
+  $("btnCompass").onclick = function () {
+    var dist = camera.position.distanceTo(controls.target);
+    flyTo(new THREE.Vector3(controls.target.x, is2D ? dist : dist * 0.58, controls.target.z + (is2D ? 2 : dist * 0.82)), controls.target.clone(), 650);
+  };
+  $("btn2D").onclick = function () {
+    is2D = !is2D; $("btn2D").textContent = is2D ? "3D" : "2D"; $("btn2D").classList.toggle("on", is2D);
+    var dist = Math.max(58, camera.position.distanceTo(controls.target));
+    if (is2D) flyTo(new THREE.Vector3(controls.target.x, dist * 1.18, controls.target.z + 2), controls.target.clone(), 750);
+    else flyTo(new THREE.Vector3(controls.target.x + 8, dist * 0.58, controls.target.z + dist * 0.82), controls.target.clone(), 750);
+  };
+  $("btnLbl").onclick = function () {
+    labelMode = (labelMode + 1) % 3; $("btnLbl").classList.toggle("on", labelMode !== 0);
+    toast(labelMode === 1 ? "عرض الأسماء: ذكي (أهم المعالم)" : (labelMode === 2 ? "عرض الأسماء: كل المباني" : "إخفاء الأسماء"));
+  };
+  $("btnReset").onclick = function () {
+    is2D = false; $("btn2D").textContent = "2D"; $("btn2D").classList.remove("on");
+    clearSelection(); flyTo(DEFAULT_POS, DEFAULT_TGT, 850);
+  };
+  $("btnFull").onclick = function () {
+    if (!document.fullscreenElement && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function () {});
+    else if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function () {});
+  };
+
+  function applyTheme(dark) {
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    if (dark) {
+      scene.background = skyNight; scene.fog.color.setHex(0x10203a);
+      sunLight.intensity = 0.72; sunLight.color.setHex(0xb8d2f8); hemiLight.intensity = 0.55;
+    } else {
+      scene.background = skyDay; scene.fog.color.setHex(0xe3e4dc);
+      sunLight.intensity = 1.32; sunLight.color.setHex(0xfff4de); hemiLight.intensity = 0.9;
+    }
+  }
+  applyTheme(localStorage.getItem("vet_theme") === "dark");
+  $("thBtn").onclick = function () {
+    var nextDark = document.documentElement.dataset.theme !== "dark";
+    localStorage.setItem("vet_theme", nextDark ? "dark" : "light"); applyTheme(nextDark);
+  };
+
+  window.addEventListener("resize", function () {
+    var w = wrap.clientWidth, h = wrap.clientHeight;
+    camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
+  });
+
+  var compassNeedle = $("compassNeedle");
+  function animate(now) {
+    requestAnimationFrame(animate);
+    var t = now * 0.001;
+    if (camAnim) {
+      var p = Math.min((now - camAnim.t0) / camAnim.dur, 1);
+      var ease = 1 - Math.pow(1 - p, 3);
+      camera.position.lerpVectors(camAnim.p0, camAnim.p1, ease);
+      controls.target.lerpVectors(camAnim.l0, camAnim.l1, ease);
+      if (p >= 1) camAnim = null;
+    }
+    controls.update();
+
+    var az = controls.getAzimuthalAngle ? controls.getAzimuthalAngle() : 0;
+    compassNeedle.style.transform = "rotate(" + (az * 180 / Math.PI).toFixed(1) + "deg)";
+    if (selRing.visible) selRing.material.opacity = 0.62 + Math.sin(t * 4) * 0.28;
+    if (waterMesh) waterMesh.material.emissiveIntensity = 0.13 + Math.sin(t * 1.8) * 0.05;
+
+    renderer.render(scene, camera);
+    updateLabels();
+  }
+
+  requestAnimationFrame(animate);
+  setTimeout(function () {
+    $("loader").classList.add("done");
+    toast("حرم التكنو 3D محدّث من التصوير الجوي — جرّب V.H والمكتبة والعجلوني والمسجد!", 4200);
+  }, 350);
+})();
+</script>
+</body>
+</html>
